@@ -1,0 +1,133 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="Astro v6.4.4"><title>Redirects in SEO: Why They Matter During CMS Migrations | Matteo Arellano</title><meta name="description" content="A practical guide to redirects, 404 errors, CMS migrations, and how broken URLs affect visibility, traffic, and conversions."><link rel="canonical" href="https://matteoarellano.com/blog/technical-seo/redirects-seo-cms-migration/"><link rel="icon" type="image/png" sizes="48x48" href="/images/favicon-48x48.png"><link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png"><meta name="theme-color" content="#0f4c81"><meta property="og:type" content="website"><meta property="og:title" content="Redirects in SEO: Why They Matter During CMS Migrations | Matteo Arellano"><meta property="og:description" content="A practical guide to redirects, 404 errors, CMS migrations, and how broken URLs affect visibility, traffic, and conversions."><meta property="og:url" content="https://matteoarellano.com/blog/technical-seo/redirects-seo-cms-migration/"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Redirects in SEO: Why They Matter During CMS Migrations | Matteo Arellano"><meta name="twitter:description" content="A practical guide to redirects, 404 errors, CMS migrations, and how broken URLs affect visibility, traffic, and conversions."><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://matteoarellano.com/#person","name":"Matteo Arellano","jobTitle":"Technical SEO and AI Visibility Consultant","description":"Technical SEO and AI visibility consultant with a background in analytics, data engineering, automation, finance, and conversion optimization.","email":"mailto:matteo.visibility@gmail.com","url":"https://matteoarellano.com/","image":"https://matteoarellano.com/images/matteo-arellano-headshot.webp","sameAs":["https://www.linkedin.com/in/matteoaurelioarellano","https://credentials.cfainstitute.org/7fc77ff8-8d42-4028-8c24-ce908fea0340#acc.VfhCeAIa"],"knowsAbout":["Technical SEO","AI visibility","Answer Engine Optimization","Generative Engine Optimization","Core Web Vitals","Google Analytics 4","BigQuery","Screaming Frog","Python automation","JavaScript SEO","Analytics Engineering","Conversion Rate Optimization"]},{"@type":"Organization","@id":"https://matteoarellano.com/#organization","name":"Matteo Arellano Technical SEO Consulting","url":"https://matteoarellano.com/","logo":"https://matteoarellano.com/images/icon-512x512.webp","founder":{"@id":"https://matteoarellano.com/#person"},"contactPoint":{"@type":"ContactPoint","contactType":"client inquiries","email":"matteo.visibility@gmail.com","availableLanguage":[{"@type":"Language","name":"English"},{"@type":"Language","name":"Spanish"},{"@type":"Language","name":"Catalan"},{"@type":"Language","name":"Dutch"}]}},{"@type":"Service","@id":"https://matteoarellano.com/#technical-seo-audit","name":"Technical SEO Audit","serviceType":"Technical SEO Audit","provider":{"@id":"https://matteoarellano.com/#person"},"areaServed":["United States","Canada","Global"],"description":"Technical SEO audit covering crawlability, indexation, site architecture, internal linking, structured data, Core Web Vitals, JavaScript rendering, metadata, and page experience."},{"@type":"Service","@id":"https://matteoarellano.com/#ai-visibility-audit","name":"AI Visibility Audit","serviceType":"AI Visibility Audit","provider":{"@id":"https://matteoarellano.com/#person"},"areaServed":["United States","Canada","Global"],"description":"AI visibility audit for improving how websites are discovered, understood, summarized, and cited across AI-powered search experiences, AEO, and GEO."},{"@type":"Service","@id":"https://matteoarellano.com/#seo-analytics-audit","name":"SEO Analytics and Conversion Audit","serviceType":"SEO Analytics Audit","provider":{"@id":"https://matteoarellano.com/#person"},"areaServed":["United States","Canada","Global"],"description":"SEO analytics audit using tools such as Google Analytics 4, Google Search Console, BigQuery, Amplitude, and Hotjar to connect organic visibility with user behavior and conversion outcomes."},{"@type":"WebSite","@id":"https://matteoarellano.com/#website","url":"https://matteoarellano.com/","name":"Matteo Arellano | Technical SEO & AI Visibility Consultant","description":"Technical SEO and AI visibility consulting for websites that need to improve crawlability, indexation, page speed, content clarity, analytics, and search performance.","inLanguage":"en","publisher":{"@id":"https://matteoarellano.com/#person"}}]}</script><link rel="stylesheet" href="/_astro/Header.CejJ4LNg.css"></head> <body>  <header class="site-header"> <div class="header-inner"> <a class="brand" href="/" aria-label="Matteo Arellano homepage"> <span class="brand-mark">MA</span> <span class="brand-copy"> <strong>Matteo Arellano</strong> <small>Technical SEO & AI Visibility</small> </span> </a> <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation menu"> <span></span> <span></span> <span></span> </button> <nav class="site-nav" id="site-nav" aria-label="Primary navigation"> <a href="/about/">About</a><a href="/#services">Services</a><a href="/#process">Process</a><a href="/#tools">Tools</a><a href="/#faq">FAQ</a><a href="/blog/">Blog</a> <a class="nav-audit" href="/free-visibility-check/#calendar">
+Book free SEO check
+</a> </nav> </div> </header> <script>
+  const toggle = document.querySelector('.nav-toggle');
+  const nav = document.querySelector('#site-nav');
+
+  if (toggle && nav) {
+    toggle.addEventListener('click', () => {
+      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      nav.classList.toggle('is-open', !isOpen);
+      document.body.classList.toggle('nav-open', !isOpen);
+    });
+
+    nav.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        toggle.setAttribute('aria-expanded', 'false');
+        nav.classList.remove('is-open');
+        document.body.classList.remove('nav-open');
+      });
+    });
+  }
+</script>  <main class="article-page"> <article class="article-shell"> <a class="blog-back-link" href="/blog/technical-seo/">
+← Back to Technical SEO articles
+</a> <header class="article-header"> <div class="article-kicker">Technical SEO</div> <h1>Redirects in SEO: why they matter during CMS migrations</h1> <p class="article-intro">
+Redirects help users and search engines reach the right page when a URL changes.
+          When they are handled badly, traffic can drop, indexed pages can turn into 404s,
+          and valuable landing pages can quietly disappear from search results.
+</p> <div class="article-meta"> <span>June 2026</span> <span>8 min read</span> </div> </header> <figure class="article-figure"> <img src="/images/blog/redirect.jpg" alt="Road sign with an arrow representing website redirects and migration paths" loading="eager"> <figcaption>
+Redirects act like route signs for users and search engines when URLs change.
+</figcaption> </figure> <section class="article-content"> <h2>What is a redirect?</h2> <p>
+A redirect tells the browser and search engines that a page has moved from one URL
+          to another. Instead of showing the old page, the server sends visitors to the new one.
+</p> <p>
+In business terms, a redirect is like forwarding mail from an old office to a new one.
+          If the forwarding is configured correctly, customers still find you. If not, deliveries
+          get lost.
+</p> <h2>Why business owners should care</h2> <p>
+Redirects are not just a technical detail. They affect revenue, lead generation, user trust,
+          and how much of your existing SEO value survives site changes.
+</p> <div class="impact-grid"> <div class="impact-card"> <h3>Traffic protection</h3> <p>
+If old URLs still receive organic visits and they start returning 404 errors,
+              you can lose qualified traffic that was already working for the business.
+</p> </div> <div class="impact-card"> <h3>Lead and sales continuity</h3> <p>
+Product pages, service pages, and landing pages often keep generating demand
+              long after they were first published. Broken redirects can interrupt that flow.
+</p> </div> <div class="impact-card"> <h3>Preserving authority</h3> <p>
+Backlinks, internal links, and historical signals often point to old URLs.
+              Redirects help transfer users and search engines to the correct new destination.
+</p> </div> <div class="impact-card"> <h3>Operational clarity</h3> <p>
+A migration without URL mapping creates confusion across teams: SEO, content,
+              product, paid media, and customer support all feel the consequences.
+</p> </div> </div> <h2>Main types of redirects</h2> <h3>301 redirect: permanent</h3> <p>
+A 301 redirect tells search engines that a page has permanently moved. This is usually
+          the right choice when a page has a clear replacement and you want the old URL to be
+          replaced by the new one over time.
+</p> <h3>302 redirect: temporary</h3> <p>
+A 302 means the move is temporary. It can be appropriate for short-term testing, limited
+          promotions, or temporary replacement pages. It is usually not the right default choice
+          during a full CMS migration.
+</p> <h3>404: page not found</h3> <p>
+A 404 means the requested page does not exist. That is not always wrong. Sometimes a page
+          should disappear. But if important pages become 404 by accident, it can damage organic
+          performance and create a poor user experience.
+</p> <h3>410: intentionally gone</h3> <p>
+A 410 is stronger than a 404. It tells search engines that the page is intentionally gone
+          and not coming back. This can be useful when a page has no relevant replacement and should
+          leave the index.
+</p> <h2>What often happens during a CMS migration</h2> <p>
+During a CMS migration, page templates change, URLs are rewritten, categories are renamed,
+          and old structures disappear. The new site may look clean on the surface, while underneath,
+          old URLs that Google still knows about stop working.
+</p> <p>
+This is a common pattern:
+</p> <ul> <li>Old URLs are indexed in Google</li> <li>Internal teams launch the new CMS</li> <li>Some old URLs are no longer mapped</li> <li>Those pages return 404 instead of redirecting</li> <li>Traffic drops quietly on affected landing pages</li> </ul> <h2>A practical example: postal delivery company</h2> <p>
+Imagine a delivery and parcel company migrating to a new CMS. The business keeps the same
+          services, but the URL structure changes.
+</p> <p>
+On the old website, service pages and location pages had built up visibility over time.
+          After migration, some of those pages no longer existed under the same path. Search engines
+          and users were still trying to access the old URLs, but several of them returned 404.
+</p> <div class="audit-example"> <h3>Example redirect audit table</h3> <table> <thead> <tr> <th>Old URL</th> <th>What happened after migration</th> <th>Recommended destination</th> <th>Recommended action</th> <th>Why it matters</th> </tr> </thead> <tbody> <tr> <td>/express-shipping</td> <td>404</td> <td>/services/express-delivery</td> <td>301 redirect</td> <td>Old service page may still receive branded and non-branded search traffic</td> </tr> <tr> <td>/same-day-delivery-madrid</td> <td>404</td> <td>/locations/madrid/same-day-delivery</td> <td>301 redirect</td> <td>Users searching local services should land on the equivalent page, not an error</td> </tr> <tr> <td>/track-your-package</td> <td>Redirected to homepage</td> <td>/tracking</td> <td>Replace weak redirect with direct 301</td> <td>Sending users to the homepage creates friction and wastes intent</td> </tr> <tr> <td>/pricing-2023</td> <td>404</td> <td>No true replacement</td> <td>Keep 404 or return 410</td> <td>If the page is outdated and irrelevant, it may be better to remove it cleanly</td> </tr> <tr> <td>/business-shipping-solutions</td> <td>Still live but linked internally to old URLs</td> <td>/solutions/business-shipping</td> <td>Update internal links + 301 redirect</td> <td>Redirects help, but internal links should also point directly to the final destination</td> </tr> </tbody> </table> </div> <h2>What this means in plain business language</h2> <p>
+If a service page that used to rank in Google suddenly becomes a 404, you may lose the
+          visitors who were already discovering you through search. If the page had strong intent,
+          you may also lose enquiries or sales from users who were close to converting.
+</p> <p>
+If a page is redirected to the homepage instead of the correct equivalent page, users may
+          not find what they wanted. Search engines also get a weaker signal because the redirect
+          is less relevant.
+</p> <p>
+And if your internal links, sitemap, and navigation still point to old URLs, search engines
+          waste time crawling outdated paths instead of focusing on the pages that matter now.
+</p> <h2>When a 404 is acceptable</h2> <p>
+Not every missing page should be redirected. If a page is outdated, has no useful replacement,
+          and is no longer part of the business, a 404 or 410 can be the correct choice.
+</p> <p>
+The important question is this: <strong>does the old page still have value?</strong> </p> <ul> <li>If the page has a clear equivalent, redirect it</li> <li>If the page still gets traffic, review it carefully</li> <li>If the page has backlinks, avoid wasting that value</li> <li>If the page has no useful replacement, it may be fine to let it go</li> </ul> <h2>What to check in a redirect audit</h2> <p>
+A proper redirect audit usually goes beyond “do redirects exist?”. It checks whether the
+          redirect logic actually protects business value.
+</p> <div class="audit-checklist"> <div class="audit-check"> <h3>1. Indexed URLs</h3> <p>
+Check whether URLs already known by Google are still live, redirected correctly,
+              or returning 404.
+</p> </div> <div class="audit-check"> <h3>2. High-value pages</h3> <p>
+Review service pages, product pages, location pages, and lead-generation pages
+              first, because these are the ones most likely to affect revenue.
+</p> </div> <div class="audit-check"> <h3>3. Internal links</h3> <p>
+Even with redirects in place, internal links should point directly to the final
+              destination whenever possible.
+</p> </div> <div class="audit-check"> <h3>4. Redirect chains</h3> <p>
+Avoid sequences like old URL → temporary URL → final URL. These slow down the path
+              and create unnecessary complexity.
+</p> </div> <div class="audit-check"> <h3>5. Sitemaps and canonical signals</h3> <p>
+Make sure XML sitemaps and canonical tags reflect the new live URLs, not outdated ones.
+</p> </div> <div class="audit-check"> <h3>6. Real destination relevance</h3> <p>
+A redirect should send users to the closest relevant page, not just “somewhere on the site”.
+</p> </div> </div> <h2>My view in practice</h2> <p>
+Redirect work is often underestimated because the issue is not always visible in the design.
+          A new site can look better while performing worse underneath. That is why redirect audits
+          matter most around redesigns, CMS migrations, content consolidation, and changes in site
+          structure.
+</p> <p>
+The goal is not to redirect everything blindly. The goal is to preserve the pages that matter,
+          remove what no longer serves the business, and make sure users and search engines always reach
+          the most relevant destination.
+</p> <div class="article-cta"> <h2>Need help reviewing redirects or migration risks?</h2> <p>
+If you have changed CMS, redesigned key sections, or suspect that valuable pages are now
+            broken or misrouted, I can help review the situation and identify the highest-priority issues.
+</p> <p class="cta-note">
+This is not a promise to fix every issue instantly. It is a practical first review to understand
+            what is happening, what is at risk, and what should be prioritized.
+</p> <div class="article-cta-actions"> <a class="article-cta-button" href="/free-visibility-check/">
+Request a technical visibility check
+</a> </div> </div> </section> </article> </main>  <footer class="site-footer"> <div class="container footer-inner"> <p>© 2026 Matteo Arellano. Technical SEO & AI visibility consulting.</p> <div class="footer-links"> <a href="/">Home</a> <a href="/about/">About</a> <a href="mailto:matteo.visibility@gmail.com">Email</a> <a href="https://www.linkedin.com/in/matteoaurelioarellano" target="_blank" rel="noreferrer">LinkedIn</a> </div> </div> </footer>  </body></html>
