@@ -1,0 +1,53 @@
+---
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': 'https://matteoarellano.com/#person',
+      name: 'Matteo Arellano',
+      jobTitle: 'Technical SEO and AI Visibility Consultant',
+      email: 'mailto:matteo.arellano@hotmail.com',
+      url: 'https://matteoarellano.com/',
+      sameAs: ['https://www.linkedin.com/in/matteoaurelioarellano'],
+      knowsAbout: [
+        'Technical SEO',
+        'AI visibility',
+        'Answer Engine Optimization',
+        'Generative Engine Optimization',
+        'Core Web Vitals',
+        'Google Analytics 4',
+        'BigQuery',
+        'Screaming Frog',
+        'Python automation',
+        'JavaScript SEO'
+      ]
+    },
+    {
+      '@type': 'ProfessionalService',
+      '@id': 'https://matteoarellano.com/#service',
+      name: 'Matteo Arellano Technical SEO Consulting',
+      url: 'https://matteoarellano.com/',
+      provider: { '@id': 'https://matteoarellano.com/#person' },
+      areaServed: ['United States', 'Canada', 'Global'],
+      serviceType: [
+        'Technical SEO Audit',
+        'AI Visibility Audit',
+        'AEO and GEO Audit',
+        'Core Web Vitals Audit',
+        'On-page SEO Audit',
+        'SEO Analytics Audit'
+      ],
+      availableLanguage: ['English', 'Spanish', 'Catalan', 'Dutch']
+    },
+    {
+      '@type': 'WebSite',
+      '@id': 'https://matteoarellano.com/#website',
+      url: 'https://matteoarellano.com/',
+      name: 'Matteo Arellano | Technical SEO & AI Visibility Consultant',
+      publisher: { '@id': 'https://matteoarellano.com/#person' }
+    }
+  ]
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

@@ -1,0 +1,301 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const title = 'Technical SEO & AI Visibility Consultant | Matteo Arellano';
+const description = 'Technical SEO audits, AI visibility audits, Core Web Vitals analysis, on-page SEO, analytics, and automation for data-driven websites in the US, Canada, and globally.';
+
+const problems = [
+  'Important pages are not indexable or easy to discover',
+  'Internal links are weak, missing, or disconnected from key pages',
+  'Pages load slowly because of render-blocking CSS, JavaScript, images, or third-party scripts',
+  'Duplicate titles, missing metadata, or unclear heading structures reduce relevance',
+  'JavaScript-rendered content creates crawl and rendering uncertainty',
+  'Structured data is missing, invalid, or disconnected from visible content',
+  'Content does not answer buyer questions clearly enough for AI-powered search',
+  'Analytics gaps make it difficult to understand what users do after landing'
+];
+
+const services = [
+  {
+    tag: 'Core offer',
+    title: 'Technical SEO Audit',
+    copy: 'A full review of crawlability, indexation, robots.txt, XML sitemaps, canonicals, redirects, duplicate content, internal linking, JavaScript rendering, structured data, and site architecture.'
+  },
+  {
+    tag: 'AI search',
+    title: 'AI Visibility, AEO & GEO Audit',
+    copy: 'A readiness review for AI-powered search, focused on content clarity, question-answer coverage, entity structure, topical clusters, trust signals, schema, and AI crawler access.'
+  },
+  {
+    tag: 'Performance',
+    title: 'Core Web Vitals & Page Speed Audit',
+    copy: 'A performance-focused audit covering LCP, INP, CLS, render-blocking assets, image optimization, font loading, third-party scripts, and template-level speed issues.'
+  },
+  {
+    tag: 'Content structure',
+    title: 'On-Page SEO Audit',
+    copy: 'A practical review of titles, meta descriptions, headings, search intent, FAQs, topical relevance, image relevance, internal links, and calls to action.'
+  },
+  {
+    tag: 'Analytics',
+    title: 'SEO Analytics & Conversion Audit',
+    copy: 'A data-driven review of GA4, Google Search Console, BigQuery, Amplitude, Hotjar, funnels, search behavior, click patterns, and drop-off points where available.'
+  },
+  {
+    tag: 'Automation',
+    title: 'Custom SEO Diagnostics',
+    copy: 'Custom checks using Python, JavaScript, APIs, and browser-based workflows when standard SEO tools are not enough for recurring or technical diagnostics.'
+  }
+];
+
+const deliverables = [
+  'Technical SEO audit report',
+  'Prioritized issue list by business impact',
+  'Crawl analysis and indexation review',
+  'Core Web Vitals and page speed findings',
+  'Internal linking and site architecture recommendations',
+  'Metadata, heading, and content structure recommendations',
+  'Structured data and schema recommendations',
+  'AI visibility and AEO/GEO readiness findings',
+  'Analytics and conversion insights',
+  'Developer-ready implementation notes'
+];
+
+const steps = [
+  ['Discovery', 'We define goals, priority pages, target markets, analytics access, known issues, and what success should look like.'],
+  ['Crawl & collect', 'I review the site using SEO crawlers, browser inspection, performance tools, analytics platforms, and manual checks.'],
+  ['Diagnose', 'I separate surface-level warnings from the issues that actually affect visibility, UX, and conversions.'],
+  ['Prioritize', 'You receive a clear roadmap showing what to fix first, what can wait, and what needs developer support.'],
+  ['Support', 'I can support implementation, QA, follow-up checks, and ongoing SEO monitoring.']
+];
+
+const tools = ['Screaming Frog', 'Google Search Console', 'GA4', 'BigQuery', 'Amplitude', 'Hotjar', 'PageSpeed Insights', 'Chrome DevTools', 'Python', 'JavaScript', 'SQL', 'Custom diagnostics'];
+
+const faqs = [
+  ['What is included in a technical SEO audit?', 'A technical SEO audit reviews whether your website can be crawled, rendered, indexed, understood, and used effectively by search engines. It can include site architecture, internal linking, page speed, Core Web Vitals, metadata, structured data, canonicals, redirects, JavaScript rendering, and duplicate content.'],
+  ['What is AI visibility?', 'AI visibility is the ability of your brand, content, and website to appear, be cited, or be summarized in AI-powered search experiences, including answer engines, conversational search, Google AI features, and AI assistants that use web search.'],
+  ['Is AEO/GEO different from traditional SEO?', 'Yes and no. The technical foundation is similar: your content still needs to be crawlable, indexable, trustworthy, and useful. The difference is that AI-powered search often works through conversational questions, summaries, citations, and multi-step user journeys.'],
+  ['Do you implement fixes or only provide audits?', 'I can provide audits, implementation guidance, QA, and ongoing support. For development-heavy changes, I can work with your developer or team and provide clear technical recommendations.'],
+  ['Can you work with clients in the US and Canada?', 'Yes. I work remotely with clients in the US, Canada, and globally. También hablo español.']
+];
+---
+<BaseLayout title={title} description={description}>
+  <Header />
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="reveal">
+          <span class="kicker">Technical SEO audits for data-driven websites</span>
+          <h1>Make your website easier to find, crawl, understand, and trust.</h1>
+          <p class="lede">
+            I help websites improve visibility across Google Search, AI-powered search, and conversion journeys through technical SEO audits, on-page optimization, analytics, and AI visibility strategy.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="mailto:matteo.arellano@hotmail.com?subject=Technical%20SEO%20Audit%20Request">Request a technical SEO audit</a>
+            <a class="button button-secondary" href="#services">Explore services</a>
+          </div>
+          <div class="trust-row" aria-label="Positioning highlights">
+            <span class="trust-pill">US / Canada focused</span>
+            <span class="trust-pill">Technical SEO + analytics</span>
+            <span class="trust-pill">AI visibility readiness</span>
+            <span class="trust-pill">También hablo español</span>
+          </div>
+        </div>
+
+        <aside class="hero-card reveal" aria-label="SEO audit summary card">
+          <div class="audit-panel">
+            <div class="panel-header">
+              <div class="panel-title">Audit focus</div>
+              <div class="status"><span></span>Visibility ready</div>
+            </div>
+            <div class="metric-grid">
+              <div class="metric"><strong>7+</strong><span>years across data, finance & growth</span></div>
+              <div class="metric"><strong>100+</strong><span>pages analyzed across analytics workflows</span></div>
+              <div class="metric"><strong>42%</strong><span>conversion lift through behavioral analysis</span></div>
+              <div class="metric"><strong>90%</strong><span>cloud cost reduction from automation work</span></div>
+            </div>
+            <ul class="checklist">
+              <li>Crawlability, indexation, and site architecture</li>
+              <li>Core Web Vitals, page speed, and rendering</li>
+              <li>Structured data, internal links, and content clarity</li>
+              <li>GA4, BigQuery, Amplitude, and Hotjar insights</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section soft" id="positioning">
+      <div class="container split">
+        <div>
+          <div class="eyebrow">Positioning</div>
+          <h2>A technical SEO consultant with a data and analytics background.</h2>
+        </div>
+        <div class="feature-box">
+          <p>
+            I started in finance and accounting, then moved into process automation, data engineering, analytics, and growth. That background shapes the way I approach SEO: I do not only look at keywords. I look at systems, data flows, user behavior, technical constraints, and business outcomes.
+          </p>
+          <p>
+            My SEO work combines technical audits, HTML/CSS/JavaScript analysis, analytics review, content structure, page experience, and AI visibility strategy.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="problems">
+      <div class="container problem-grid">
+        <div class="problem-callout">
+          <div class="eyebrow">Visibility blockers</div>
+          <h2>Your content may be good, but still technically invisible.</h2>
+          <p>
+            Many websites underperform because search engines and AI systems cannot clearly crawl, understand, connect, or trust the content. I find the gaps and turn them into a prioritized roadmap.
+          </p>
+        </div>
+        <div class="problem-list">
+          {problems.map((problem) => <div class="problem-item">{problem}</div>)}
+        </div>
+      </div>
+    </section>
+
+    <section class="section soft" id="services">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <div class="eyebrow">Services</div>
+            <h2>Focused audit services for serious visibility work.</h2>
+          </div>
+          <p>
+            These offers are intentionally specialized: technical SEO, AI visibility, page experience, on-page structure, analytics, and automation.
+          </p>
+        </div>
+        <div class="card-grid">
+          {services.map((service) => (
+            <article class="card">
+              <span class="tag">{service.tag}</span>
+              <h3>{service.title}</h3>
+              <p>{service.copy}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="deliverables">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <div class="eyebrow">Deliverables</div>
+            <h2>Clear findings your team can actually implement.</h2>
+          </div>
+          <p>
+            Every audit is designed to be practical, not theoretical. The goal is to give developers, marketers, and business owners a clear path forward.
+          </p>
+        </div>
+        <div class="deliverables">
+          {deliverables.map((item) => <div class="deliverable">{item}</div>)}
+        </div>
+      </div>
+    </section>
+
+    <section class="section soft" id="process">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <div class="eyebrow">Process</div>
+            <h2>A rigorous audit process, from discovery to implementation support.</h2>
+          </div>
+          <p>
+            The process is structured so you understand what matters, why it matters, and what to do next.
+          </p>
+        </div>
+        <div class="process-grid">
+          {steps.map(([name, copy], index) => (
+            <article class="step" data-step={String(index + 1).padStart(2, '0')}>
+              <strong>{index + 1}</strong>
+              <h3>{name}</h3>
+              <p>{copy}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="tools">
+      <div class="container split">
+        <div>
+          <div class="eyebrow">Tools & methods</div>
+          <h2>The tool is not the strategy. The interpretation is.</h2>
+          <p class="lede">
+            I use crawlers, analytics platforms, browser inspection, performance testing, and custom scripts to understand both the website and the behavior behind it.
+          </p>
+        </div>
+        <div class="tool-cloud" aria-label="SEO and analytics tools">
+          {tools.map((tool) => <span class="tool">{tool}</span>)}
+        </div>
+      </div>
+    </section>
+
+    <section class="section soft" id="ai-visibility">
+      <div class="container split">
+        <div class="feature-box">
+          <div class="eyebrow">AI visibility</div>
+          <h2>AI visibility starts with technical clarity.</h2>
+          <p>
+            AI search does not remove the need for SEO. It increases the need for clean structure, useful content, clear entities, trustworthy signals, and technically accessible pages.
+          </p>
+          <p>
+            For a website to appear in AI-powered search experiences, it needs to be easy to crawl, easy to understand, and easy to summarize. My audits focus on whether your website can be discovered, interpreted, cited, and connected across a full search journey.
+          </p>
+        </div>
+        <div class="card-grid" style="grid-template-columns: 1fr;">
+          <article class="card">
+            <span class="tag">Entity clarity</span>
+            <h3>Make the business and offer easy to understand.</h3>
+            <p>Clarify who you are, what you offer, who you help, what proof exists, and how your pages connect into a full topic cluster.</p>
+          </article>
+          <article class="card">
+            <span class="tag">Answer readiness</span>
+            <h3>Answer the questions buyers actually ask.</h3>
+            <p>Structure content so users, search engines, and AI systems can extract direct answers without guessing.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <div class="eyebrow">FAQ</div>
+            <h2>Common questions about technical SEO and AI visibility.</h2>
+          </div>
+        </div>
+        <div class="faq">
+          {faqs.map(([question, answer]) => (
+            <article class="faq-item">
+              <h3>{question}</h3>
+              <p>{answer}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="container cta-band" id="contact">
+      <div class="eyebrow">Request an audit</div>
+      <h2>Ready to find what is blocking your visibility?</h2>
+      <p>
+        If your website is not ranking, not converting, or not appearing where your customers search, the first step is a clear technical and AI visibility audit.
+      </p>
+      <div class="hero-actions">
+        <a class="button button-secondary" href="mailto:matteo.arellano@hotmail.com?subject=Technical%20SEO%20Audit%20Request&body=Hi%20Matteo,%0A%0AI'd%20like%20to%20request%20a%20technical%20SEO%20audit.%20My%20website%20is:%20">Email Matteo</a>
+        <a class="button button-secondary" href="https://www.linkedin.com/in/matteoaurelioarellano" target="_blank" rel="noreferrer">Connect on LinkedIn</a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
