@@ -1,0 +1,75 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import { blogTopics, blogPosts, getPostsByTopic } from "../../data/blog";
+
+const title = "SEO, Analytics & AI Visibility Blog | Matteo Arellano";
+const description =
+  "Practical articles about technical SEO, analytics measurement, data layers, AI visibility, redirects, migrations, and website audits.";
+---
+
+<BaseLayout title={title} description={description} canonical="https://matteoarellano.com/blog/">
+  <Header />
+
+  <main class="blog-page">
+    <section class="blog-hero">
+      <span class="eyebrow">Practical SEO learning</span>
+      <h1>SEO, analytics, and AI visibility explained with real audit thinking.</h1>
+      <p>
+        Clear guides for teams that want their websites to be easier to crawl,
+        understand, measure, and improve. No ranking guarantees, no vague
+        shortcuts — just practical technical work that supports better decisions.
+      </p>
+    </section>
+
+    <section class="blog-topics" aria-labelledby="topics-title">
+      <div class="section-heading">
+        <h2 id="topics-title">Browse by topic</h2>
+        <p>
+          Each topic groups practical articles around a specific part of website
+          visibility, measurement, or technical auditing.
+        </p>
+      </div>
+
+      <div class="topic-grid">
+        {blogTopics.map((topic) => {
+          const count = getPostsByTopic(topic.slug).length;
+
+          return (
+            <a class="topic-card" href={`/blog/${topic.slug}/`}>
+              <span class="topic-icon" aria-hidden="true">{topic.icon}</span>
+              <h3>{topic.name}</h3>
+              <p>{topic.description}</p>
+              <span class="topic-count">{count} article{count === 1 ? "" : "s"}</span>
+            </a>
+          );
+        })}
+      </div>
+    </section>
+
+    <section class="latest-posts" aria-labelledby="latest-title">
+      <div class="section-heading">
+        <h2 id="latest-title">Latest articles</h2>
+        <p>
+          Recent posts written from a practical audit perspective.
+        </p>
+      </div>
+
+      <div class="post-grid">
+        {blogPosts.map((post) => {
+          const topic = blogTopics.find((item) => item.slug === post.topic);
+
+          return (
+            <a class="post-card" href={`/blog/${post.topic}/${post.slug}/`}>
+                <span class="post-icon" aria-hidden="true">{post.icon}</span>
+                <span class="post-topic">{topic?.name}</span>
+                <h3>{post.title}</h3>
+                <p>{post.description}</p>
+                <span class="post-meta">{post.date} · {post.readingTime}</span>
+            </a>
+          );
+        })}
+      </div>
+    </section>
+  </main>
+</BaseLayout>

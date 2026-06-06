@@ -4,7 +4,8 @@ const navLinks = [
   { href: '/#services', label: 'Services' },
   { href: '/#process', label: 'Process' },
   { href: '/#tools', label: 'Tools' },
-  { href: '/#faq', label: 'FAQ' }
+  { href: '/#faq', label: 'FAQ' },
+  { href: '/blog/', label: 'Blog' }
 ];
 ---
 
@@ -34,7 +35,7 @@ const navLinks = [
       {navLinks.map((link) => (
         <a href={link.href}>{link.label}</a>
       ))}
-      <a class="nav-audit" href="/free-visibility-check/">
+      <a class="nav-audit" href="/free-visibility-check/#calendar">
       Book free SEO check
       </a>
     </nav>

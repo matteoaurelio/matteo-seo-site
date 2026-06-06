@@ -1,0 +1,75 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import { blogTopics, getTopicBySlug, getPostsByTopic } from "../../data/blog";
+
+export function getStaticPaths() {
+  return blogTopics.map((topic) => ({
+    params: { topic: topic.slug }
+  }));
+}
+
+const { topic } = Astro.params;
+const currentTopic = getTopicBySlug(topic);
+
+if (!currentTopic) {
+  throw new Error(`Topic not found: ${topic}`);
+}
+
+const posts = getPostsByTopic(currentTopic.slug);
+
+const title = `${currentTopic.name} Articles | Matteo Arellano`;
+const description = currentTopic.description;
+const canonical = `https://matteoarellano.com/blog/${currentTopic.slug}/`;
+---
+
+<BaseLayout title={title} description={description} canonical={canonical}>
+  <Header />
+
+  <main class="blog-page">
+    <section class="blog-hero compact">
+      <a class="back-link" href="/blog/">← All blog topics</a>
+      <span class="eyebrow">{currentTopic.icon} {currentTopic.name}</span>
+      <h1>{currentTopic.name}</h1>
+      <p>{currentTopic.description}</p>
+    </section>
+
+    <section class="latest-posts" aria-labelledby="topic-posts-title">
+      <div class="section-heading">
+        <h2 id="topic-posts-title">Articles in this topic</h2>
+        <p>
+          Practical posts organized so you can understand the issue, why it matters,
+          and how to audit it.
+        </p>
+      </div>
+
+      {posts.length > 0 ? (
+        <div class="post-grid">
+            {posts.map((post) => (
+            <a class="post-card" href={`/blog/${currentTopic.slug}/${post.slug}/`}>
+                {post.image && (
+                <img class="post-card-image" src={post.image} alt={post.imageAlt || post.title} loading="lazy" />
+                )}
+
+                <span class="post-icon" aria-hidden="true">{post.icon}</span>
+                <span class="post-topic">{currentTopic.name}</span>
+                <h3>{post.title}</h3>
+                <p>{post.description}</p>
+                <span class="post-meta">{post.date} · {post.readingTime}</span>
+            </a>
+            ))}
+        </div>
+        ) : (
+        <div class="empty-topic">
+            <h3>Articles coming soon</h3>
+            <p>
+            This section will cover practical organic growth topics such as FAQs,
+            customer feedback, reviews, trust signals, and content ideas that come
+            directly from real customer questions.
+            </p>
+        </div>
+        )}
+      </div>
+    </section>
+  </main>
+</BaseLayout>
