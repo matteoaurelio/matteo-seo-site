@@ -13,7 +13,8 @@ const jsonLd = {
       url: 'https://matteoarellano.com/',
       image: 'https://matteoarellano.com/images/matteo-arellano-headshot.webp',
       sameAs: [
-        'https://www.linkedin.com/in/matteoaurelioarellano'
+        'https://www.linkedin.com/in/matteoaurelioarellano',
+        'https://credentials.cfainstitute.org/7fc77ff8-8d42-4028-8c24-ce908fea0340#acc.VfhCeAIa'
       ],
       knowsAbout: [
         'Technical SEO',
@@ -31,23 +32,65 @@ const jsonLd = {
       ]
     },
     {
-      '@type': 'ProfessionalService',
-      '@id': 'https://matteoarellano.com/#service',
+      '@type': 'Organization',
+      '@id': 'https://matteoarellano.com/#organization',
       name: 'Matteo Arellano Technical SEO Consulting',
-      description:
-        'Technical SEO audits, AI visibility audits, Core Web Vitals analysis, on-page SEO audits, and SEO analytics consulting for websites in the United States, Canada, and globally.',
       url: 'https://matteoarellano.com/',
+      logo: 'https://matteoarellano.com/favicon.svg',
+      founder: { '@id': 'https://matteoarellano.com/#person' },
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'client inquiries',
+        email: 'matteo.arellano@hotmail.com',
+        availableLanguage: [
+          {
+            '@type': 'Language',
+            name: 'English'
+          },
+          {
+            '@type': 'Language',
+            name: 'Spanish'
+          },
+          {
+            '@type': 'Language',
+            name: 'Catalan'
+          },
+          {
+            '@type': 'Language',
+            name: 'Dutch'
+          }
+        ]
+      }
+    },
+    {
+      '@type': 'Service',
+      '@id': 'https://matteoarellano.com/#technical-seo-audit',
+      name: 'Technical SEO Audit',
+      serviceType: 'Technical SEO Audit',
       provider: { '@id': 'https://matteoarellano.com/#person' },
       areaServed: ['United States', 'Canada', 'Global'],
-      serviceType: [
-        'Technical SEO Audit',
-        'AI Visibility Audit',
-        'AEO and GEO Audit',
-        'Core Web Vitals Audit',
-        'On-page SEO Audit',
-        'SEO Analytics Audit'
-      ],
-      availableLanguage: ['English', 'Spanish', 'Catalan', 'Dutch']
+      description:
+        'Technical SEO audit covering crawlability, indexation, site architecture, internal linking, structured data, Core Web Vitals, JavaScript rendering, metadata, and page experience.'
+    },
+    {
+      '@type': 'Service',
+      '@id': 'https://matteoarellano.com/#ai-visibility-audit',
+      name: 'AI Visibility Audit',
+      serviceType: 'AI Visibility Audit',
+      provider: { '@id': 'https://matteoarellano.com/#person' },
+      areaServed: ['United States', 'Canada', 'Global'],
+      description:
+        'AI visibility audit for improving how websites are discovered, understood, summarized, and cited across AI-powered search experiences, AEO, and GEO.'
+    },
+    {
+      '@type': 'Service',
+      '@id': 'https://matteoarellano.com/#seo-analytics-audit',
+      name: 'SEO Analytics and Conversion Audit',
+      serviceType: 'SEO Analytics Audit',
+      provider: { '@id': 'https://matteoarellano.com/#person' },
+      areaServed: ['United States', 'Canada', 'Global'],
+      description:
+        'SEO analytics audit using tools such as Google Analytics 4, Google Search Console, BigQuery, Amplitude, and Hotjar to connect organic visibility with user behavior and conversion outcomes.'
     },
     {
       '@type': 'WebSite',

@@ -1,23 +1,64 @@
 ---
-const isHome = Astro.url.pathname === '/';
-const link = (hash: string) => isHome ? hash : `/${hash}`;
+const navLinks = [
+  { href: '/about/', label: 'About' },
+  { href: '/#services', label: 'Services' },
+  { href: '/#process', label: 'Process' },
+  { href: '/#tools', label: 'Tools' },
+  { href: '/#faq', label: 'FAQ' }
+];
 ---
+
 <header class="site-header">
-  <div class="container nav">
-    <a class="logo" href="/" aria-label="Matteo Arellano homepage">
-      <span class="logo-mark">MA</span>
-      <span>
-        Matteo Arellano
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="Matteo Arellano homepage">
+      <span class="brand-mark">MA</span>
+      <span class="brand-copy">
+        <strong>Matteo Arellano</strong>
         <small>Technical SEO & AI Visibility</small>
       </span>
     </a>
-    <nav class="nav-links" aria-label="Primary navigation">
-      <a href="/about/">About</a>
-      <a href={link('#services')}>Services</a>
-      <a href={link('#process')}>Process</a>
-      <a href={link('#tools')}>Tools</a>
-      <a href={link('#faq')}>FAQ</a>
+
+    <button
+      class="nav-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="site-nav"
+      aria-label="Open navigation menu"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+      {navLinks.map((link) => (
+        <a href={link.href}>{link.label}</a>
+      ))}
+      <a class="nav-audit" href="mailto:matteo.arellano@hotmail.com?subject=Technical%20SEO%20Audit%20Request">
+        Request audit
+      </a>
     </nav>
-    <a class="button button-primary" href="mailto:matteo.arellano@hotmail.com?subject=Technical%20SEO%20Audit%20Request">Request audit</a>
   </div>
 </header>
+
+<script is:inline>
+  const toggle = document.querySelector('.nav-toggle');
+  const nav = document.querySelector('#site-nav');
+
+  if (toggle && nav) {
+    toggle.addEventListener('click', () => {
+      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      nav.classList.toggle('is-open', !isOpen);
+      document.body.classList.toggle('nav-open', !isOpen);
+    });
+
+    nav.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        toggle.setAttribute('aria-expanded', 'false');
+        nav.classList.remove('is-open');
+        document.body.classList.remove('nav-open');
+      });
+    });
+  }
+</script>
