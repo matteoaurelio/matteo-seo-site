@@ -1,0 +1,82 @@
+<div class="cal-embed-shell">
+  <div class="cal-embed-header">
+    <span>Limited free diagnostic slots</span>
+    <strong>Book your 20-minute website visibility check</strong>
+  </div>
+
+  <div
+    id="cal-inline-free-visibility-check"
+    class="cal-inline"
+  ></div>
+</div>
+
+<script is:inline>
+  (function (C, A, L) {
+    let p = function (a, ar) {
+      a.q.push(ar);
+    };
+
+    let d = C.document;
+
+    C.Cal =
+      C.Cal ||
+      function () {
+        let cal = C.Cal;
+        let ar = arguments;
+
+        if (!cal.loaded) {
+          cal.ns = {};
+          cal.q = cal.q || [];
+          const script = d.createElement("script");
+          script.src = A;
+          script.async = true;
+          d.head.appendChild(script);
+          cal.loaded = true;
+        }
+
+        if (ar[0] === L) {
+          const api = function () {
+            p(api, arguments);
+          };
+
+          const namespace = ar[1];
+          api.q = api.q || [];
+
+          if (typeof namespace === "string") {
+            cal.ns[namespace] = cal.ns[namespace] || api;
+            p(cal.ns[namespace], ar);
+            p(cal, ["initNamespace", namespace]);
+          } else {
+            p(cal, ar);
+          }
+
+          return;
+        }
+
+        p(cal, ar);
+      };
+  })(window, "https://app.cal.com/embed/embed.js", "init");
+
+  Cal("init", "free-visibility-check", {
+    origin: "https://cal.com"
+  });
+
+  Cal.ns["free-visibility-check"]("inline", {
+    elementOrSelector: "#cal-inline-free-visibility-check",
+    calLink: "matteo-arellano-seo-visibility/20min",
+    config: {
+      layout: "month_view"
+    }
+  });
+
+  Cal.ns["free-visibility-check"]("ui", {
+    theme: "light",
+    styles: {
+      branding: {
+        brandColor: "#0b5cad"
+      }
+    },
+    hideEventTypeDetails: false,
+    layout: "month_view"
+  });
+</script>
