@@ -394,6 +394,10 @@ h3 {
   font-size: 0.78rem;
 }
 
+.cta-band .eyebrow {
+  color: rgba(255, 255, 255, 0.86);
+}
+
 .card-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -609,7 +613,7 @@ h3 {
 }
 
 .cta-band {
-  margin: 20px 0 96px;
+  margin-block: 20px 96px;
   padding: 58px;
   border-radius: 34px;
   color: white;
