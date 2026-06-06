@@ -1,6 +1,10 @@
+---
+const isHome = Astro.url.pathname === '/';
+const link = (hash: string) => isHome ? hash : `/${hash}`;
+---
 <header class="site-header">
   <div class="container nav">
-    <a class="logo" href="#top" aria-label="Matteo Arellano homepage">
+    <a class="logo" href="/" aria-label="Matteo Arellano homepage">
       <span class="logo-mark">MA</span>
       <span>
         Matteo Arellano
@@ -8,10 +12,11 @@
       </span>
     </a>
     <nav class="nav-links" aria-label="Primary navigation">
-      <a href="#services">Services</a>
-      <a href="#process">Process</a>
-      <a href="#tools">Tools</a>
-      <a href="#faq">FAQ</a>
+      <a href="/about/">About</a>
+      <a href={link('#services')}>Services</a>
+      <a href={link('#process')}>Process</a>
+      <a href={link('#tools')}>Tools</a>
+      <a href={link('#faq')}>FAQ</a>
     </nav>
     <a class="button button-primary" href="mailto:matteo.arellano@hotmail.com?subject=Technical%20SEO%20Audit%20Request">Request audit</a>
   </div>

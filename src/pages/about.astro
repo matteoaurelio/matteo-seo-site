@@ -1,0 +1,251 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const title = 'About Matteo Arellano | Technical SEO, Analytics & AI Visibility Consultant';
+const description = 'Learn how Matteo Arellano combines technical SEO, analytics, automation, finance, and data engineering to help websites improve crawlability, AI visibility, and conversion performance.';
+
+const proofPoints = [
+  ['42%', 'conversion improvement through behavioral analytics, payment funnel analysis, and growth strategy'],
+  ['7+', 'years across analytics, finance, data engineering, automation, and growth'],
+  ['100+', 'pages reviewed across analytics, SEO, UX, and conversion workflows'],
+  ['5', 'working languages including English, Spanish, Dutch, Catalan']
+];
+
+const valuePillars = [
+  {
+    title: 'Technical diagnosis',
+    copy: 'I inspect how pages are built, rendered, linked, indexed, and measured, so recommendations are based on evidence rather than generic SEO checklists.'
+  },
+  {
+    title: 'Analytics-led prioritization',
+    copy: 'I connect SEO issues to user behavior, funnel drop-offs, conversion paths, and business impact, helping teams focus on the fixes that matter first.'
+  },
+  {
+    title: 'AI visibility readiness',
+    copy: 'I help structure pages so search engines and AI-powered systems can understand the topic, entity, intent, and useful answers behind the content.'
+  }
+];
+
+const capabilities = [
+  'Technical SEO audits',
+  'AI visibility, AEO & GEO strategy',
+  'Core Web Vitals and page speed analysis',
+  'On-page SEO and content structure',
+  'Google Analytics 4, Amplitude, Hotjar and BigQuery analysis',
+  'HTML, CSS, JavaScript, Python and SQL-based diagnostics',
+  'Conversion and user journey analysis',
+  'SEO automation and custom reporting workflows'
+];
+
+const achievements = [
+  'Improved conversion performance by 42% through behavioral analytics, payment funnel analysis, and growth strategy.',
+  'Built analytics and reporting systems used by finance and accounting teams for decision-making, reconciliations, and operational visibility.',
+  'Reduced cloud processing costs by approximately 90% using efficient data processing technologies and backend optimization.',
+  'Built financial APIs, ETL pipelines, dashboards, and automated reporting workflows that saved hundreds of hours of manual work.',
+  'Supported machine learning anomaly detection workflows for financial transactions, data quality, and fraud-prevention use cases.',
+  'Analyzed website behavior, content quality, payment flows, booking errors, and user journeys to identify opportunities affecting conversion and customer experience.'
+];
+
+const testimonials = [
+  {
+    quote: 'Matteo has outstanding skills in data and analytics, with expertise in Python. He has strong problem-solving skills, which he applies to tackle complex business challenges.',
+    name: 'Shalini Kanojia',
+    role: 'Senior Finance and Data Analytics Engineer'
+  },
+  {
+    quote: 'Matteo always endeavors to drive new innovations and get into the why of a question. I have worked with him on multiple deployments, and it is always a learning experience with him.',
+    name: 'Abhishek Agarwal',
+    role: 'Finance Strategy & Risk Management Professional'
+  },
+  {
+    quote: 'His skills go beyond technical capabilities in Python and data analysis. He is an excellent problem solver, proactive, a good communicator, a change leader, and a technology evangelist.',
+    name: 'Jose Laguna',
+    role: 'Process Deployment Specialist, Reporting and Analytics'
+  },
+  {
+    quote: 'His expertise spans both data-related topics and corporate finance, making him a well-rounded professional. He is a quick learner and an excellent teacher.',
+    name: 'Lucas Zarpellon',
+    role: 'Data Science & Advanced Analytics Professional'
+  },
+  {
+    quote: 'His ability to translate complex requirements into efficient solutions is truly commendable.',
+    name: 'Sagar Makhija',
+    role: 'Data Scientist'
+  }
+];
+---
+<BaseLayout title={title} description={description} canonical="https://matteoarellano.com/about/">
+  <Header />
+
+  <main id="top">
+    <section class="about-hero">
+      <div class="container about-hero-grid">
+        <div class="reveal">
+          <span class="kicker">About Matteo Arellano</span>
+          <h1>Technical SEO backed by analytics, automation, and business thinking.</h1>
+          <p class="lede">
+            I help websites become easier to crawl, understand, measure, and improve. My work connects technical SEO, AI visibility, analytics, and conversion insight into practical recommendations that teams can actually implement.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="mailto:matteo.arellano@hotmail.com?subject=Technical%20SEO%20Audit%20Request">Request an audit</a>
+            <a class="button button-secondary" href="/#services">See services</a>
+          </div>
+        </div>
+
+        <aside class="profile-card reveal" aria-label="Matteo Arellano profile summary">
+          <div class="portrait-wrap">
+            <div class="about-headshot-card">
+                  <img
+                    src="/images/matteo-arellano-headshot.webp"
+                    alt="Matteo Arellano, technical SEO and AI visibility consultant"
+                    class="about-headshot"
+                  />
+            </div>
+          </div>
+          <div class="profile-summary">
+            <h2>Matteo Arellano</h2>
+            <p>Technical SEO & AI Visibility Consultant</p>
+            <div class="language-row" aria-label="Working languages">
+              <span>English</span>
+              <span>Spanish</span>
+              <span>Dutch</span>
+              <span>Catalan</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section compact-section">
+      <div class="container proof-strip">
+        {proofPoints.map(([number, label]) => (
+          <div class="proof-item">
+            <strong>{number}</strong>
+            <span>{label}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="section soft about-story-section">
+      <div class="container about-story-grid">
+        <div>
+          <div class="eyebrow">Positioning</div>
+          <h2>Why my background creates stronger SEO audits.</h2>
+        </div>
+        <div class="story-copy">
+          <p>
+            My background is not traditional SEO. I started in finance and accounting, then moved into process automation, data engineering, analytics, and growth. That path shaped the way I approach technical SEO: I look at websites as systems.
+          </p>
+          <p>
+            A page may have good copy but still fail because it loads slowly, is poorly linked, has weak metadata, renders important content through JavaScript, lacks structured data, or does not clearly answer the questions users and AI systems need answered.
+          </p>
+          <p>
+            This is where my analytical background becomes useful. I can inspect HTML and JavaScript, review analytics events, analyze funnels, identify page experience problems, and turn technical findings into clear recommendations for business teams, marketers, and developers.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <div class="eyebrow">Customer value</div>
+            <h2>Focused on the issues that block visibility and revenue.</h2>
+          </div>
+          <p>
+            The goal is not to produce a long report. The goal is to identify what blocks search visibility, AI discoverability, page experience, and conversion performance — then prioritize what to fix first.
+          </p>
+        </div>
+        <div class="card-grid value-grid">
+          {valuePillars.map((pillar) => (
+            <article class="card focus-card">
+              <span class="tag">Audit principle</span>
+              <h3>{pillar.title}</h3>
+              <p>{pillar.copy}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section soft">
+      <div class="container split-section">
+        <div>
+          <div class="eyebrow">Areas of expertise</div>
+          <h2>Technical SEO, analytics, and AI visibility in one workflow.</h2>
+          <p class="section-lede">
+            I combine technical inspection, user behavior analysis, and structured content thinking so SEO recommendations are grounded in how websites actually work and how users actually behave.
+          </p>
+        </div>
+        <div class="capability-list">
+          {capabilities.map((item) => <div class="capability-item">{item}</div>)}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container split-section reverse-mobile">
+        <div class="achievement-panel">
+          <div class="eyebrow">Selected achievements</div>
+          <h2>Evidence of analytical execution.</h2>
+          <p>
+            These achievements are included because they support the way I work as an SEO consultant: diagnose the system, measure behavior, automate where possible, and connect the work to business outcomes.
+          </p>
+          <a class="credential-link" href="https://credentials.cfainstitute.org/7fc77ff8-8d42-4028-8c24-ce908fea0340#acc.VfhCeAIa" target="_blank" rel="noopener noreferrer">View CFA credential</a>
+        </div>
+        <div class="timeline-list">
+          {achievements.map((achievement) => (
+            <div class="timeline-item">
+              <span></span>
+              <p>{achievement}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section soft testimonials-section">
+      <div class="container">
+        <div class="section-header centered-header">
+          <div>
+            <div class="eyebrow">Peer recommendations</div>
+            <h2>Trusted for problem solving, analytics, and execution.</h2>
+          </div>
+          <p>
+            I use short excerpts here to keep the page focused on client value. The full recommendations are available on LinkedIn.
+          </p>
+        </div>
+        <div class="testimonial-grid">
+          {testimonials.map((testimonial) => (
+            <figure class="testimonial-card">
+              <blockquote>“{testimonial.quote}”</blockquote>
+              <figcaption>
+                <strong>{testimonial.name}</strong>
+                <span>{testimonial.role}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section final-cta-section">
+      <div class="container final-cta">
+        <div>
+          <div class="eyebrow">Work with me</div>
+          <h2>Need a sharper view of what is blocking your website?</h2>
+          <p>
+            I can help you understand what is working, what is broken, and what to fix first across technical SEO, AI visibility, analytics, and conversion journeys.
+          </p>
+        </div>
+        <a class="button button-primary" href="mailto:matteo.arellano@hotmail.com?subject=Technical%20SEO%20Audit%20Request">Request a technical SEO audit</a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
