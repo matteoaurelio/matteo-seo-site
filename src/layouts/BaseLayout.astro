@@ -8,10 +8,13 @@ interface Props {
   canonical?: string;
 }
 
+const site = 'https://matteoarellano.com';
+const currentUrl = new URL(Astro.url.pathname, site).toString();
+
 const {
   title,
   description,
-  canonical = 'https://matteoarellano.com/'
+  canonical = currentUrl
 } = Astro.props;
 ---
 <!doctype html>
@@ -23,16 +26,20 @@ const {
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <link rel="icon" type="image/png" sizes="48x48" href="/images/favicon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
     <meta name="theme-color" content="#0f4c81" />
+
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta name="twitter:card" content="summary_large_image" />
-    <link rel="icon" type="image/png" sizes="48x48" href="/images/favicon-48x48.png" />
-    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
     <JsonLd />
   </head>
   <body>
