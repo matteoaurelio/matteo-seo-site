@@ -69,6 +69,16 @@ export const blogPosts: BlogPost[] = [
   date: "2026-06-07",
   readingTime: "11 min read",
   icon: "🤖"
+},
+{
+  slug: "product-graph-related-products-services-seo",
+  topic: "organic-growth",
+  title: "The Product Graph: How Related Products and Services Help Businesses Get Found",
+  description:
+    "How related products, service pages, recommendations, internal links, and offer architecture help businesses improve organic discovery and conversion.",
+  date: "2026-06-07",
+  readingTime: "12 min read",
+  icon: "🕸️"
 }
 ];
 
