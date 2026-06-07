@@ -2156,3 +2156,135 @@ h3 {
   color: #55708d;
   line-height: 1.7;
 }
+
+.personal-note {
+  margin-bottom: 34px;
+  padding: 22px;
+  border-radius: 22px;
+  background: #f3f9ff;
+  border: 1px solid rgba(15, 76, 129, 0.12);
+}
+
+.personal-note p {
+  margin: 0;
+}
+
+.personal-note a,
+.source-list a {
+  color: var(--primary-2);
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.ai-mode-card-grid,
+.ai-mode-use-grid,
+.risk-card-grid,
+.mitigation-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 30px 0;
+}
+
+.ai-mode-card,
+.risk-card,
+.mitigation-card,
+.ai-mode-use-grid > div {
+  padding: 22px;
+  border-radius: 22px;
+  background: #f7fbff;
+  border: 1px solid rgba(15, 76, 129, 0.1);
+  box-shadow: 0 12px 34px rgba(12, 45, 80, 0.05);
+}
+
+.ai-mode-card span,
+.mitigation-card span {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  margin-bottom: 16px;
+  border-radius: 14px;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  font-weight: 900;
+}
+
+.ai-mode-card h3,
+.ai-mode-use-grid h3,
+.risk-card h3,
+.mitigation-card h3 {
+  margin-top: 0;
+}
+
+.comparison-table {
+  margin: 32px 0;
+  overflow-x: auto;
+  border-radius: 24px;
+  border: 1px solid rgba(15, 76, 129, 0.12);
+  background: #ffffff;
+  box-shadow: 0 18px 50px rgba(12, 45, 80, 0.06);
+}
+
+.comparison-table table {
+  width: 100%;
+  min-width: 820px;
+  border-collapse: collapse;
+}
+
+.comparison-table th,
+.comparison-table td {
+  padding: 16px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid rgba(15, 76, 129, 0.1);
+}
+
+.comparison-table th {
+  color: #061527;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.comparison-table td {
+  color: #425a74;
+  font-size: 0.98rem;
+  line-height: 1.65;
+}
+
+.benefit-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin: 30px 0;
+}
+
+.benefit-grid > div {
+  padding: 24px;
+  border-radius: 24px;
+  background: #ffffff;
+  border: 1px solid rgba(15, 76, 129, 0.12);
+  box-shadow: 0 18px 50px rgba(12, 45, 80, 0.06);
+}
+
+.benefit-grid h3 {
+  margin-top: 0;
+}
+
+.source-list {
+  display: grid;
+  gap: 10px;
+  padding-left: 22px;
+}
+
+@media (max-width: 900px) {
+  .ai-mode-card-grid,
+  .ai-mode-use-grid,
+  .risk-card-grid,
+  .mitigation-grid,
+  .benefit-grid {
+    grid-template-columns: 1fr;
+  }
+}

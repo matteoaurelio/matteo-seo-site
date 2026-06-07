@@ -59,6 +59,16 @@ export const blogPosts: BlogPost[] = [
   icon: "🔁",
   image: "/images/blog/redirect.jpg",
   imageAlt: "Road sign with an arrow, representing URL redirects and SEO migration paths"
+},
+{
+  slug: "google-ai-mode-search-business-impact",
+  topic: "ai-visibility",
+  title: "What Is Google AI Mode and What Does It Mean for Businesses in 2026?",
+  description:
+    "A practical guide to Google AI Mode, AI search behavior, user trust, click impact, limitations, and what businesses can do to protect qualified organic demand.",
+  date: "2026-06-07",
+  readingTime: "11 min read",
+  icon: "🤖"
 }
 ];
 
