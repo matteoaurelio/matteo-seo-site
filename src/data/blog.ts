@@ -91,6 +91,16 @@ export const blogPosts: BlogPost[] = [
   icon: "⚡",
   image: "/images/blog/aicm-pagespeed-cover-core-web-vitals.png",
   imageAlt: "Mobile PageSpeed Insights report showing Core Web Vitals diagnostics"
+},
+{
+  slug: "utm-ab-test-traffic-split-food-delivery",
+  topic: "analytics-measurement",
+  title: "How to Run a Simple A/B Test with UTM Parameters and Traffic Splitting",
+  description:
+    "A practical analytics example showing how a food delivery business could split one campaign URL between two menu pages, tag traffic with UTMs, and measure conversions.",
+  date: "2026-06-07",
+  readingTime: "13 min read",
+  icon: "🧪"
 }
 ];
 
