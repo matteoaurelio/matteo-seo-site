@@ -1,0 +1,426 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+
+const title =
+  "Large-Scale Data Analysis with Python, Polars & Cloud | Matteo Arellano";
+
+const description =
+  "I help businesses analyze large datasets with Python, Polars, Apache Arrow, Parquet and cloud workflows to find patterns, improve reporting, and support better decisions.";
+
+const canonical =
+  "https://matteoarellano.com/services/large-scale-data-analysis/";
+
+const helpCards = [
+  {
+    title: "Large dataset analysis",
+    copy:
+      "Analyze large CSV, Parquet, JSON, analytics, SEO, product, customer, operational, or transaction datasets without forcing everything into slow spreadsheet workflows."
+  },
+  {
+    title: "Cloud-based data workflows",
+    copy:
+      "Work with datasets stored in AWS S3, object storage, partitioned folders, Parquet files, and analytical workflows that need faster reading and easier reuse."
+  },
+  {
+    title: "Messy data cleaning",
+    copy:
+      "Clean inconsistent columns, duplicated records, broken types, missing values, date issues, category mismatches, and exports that are hard to trust."
+  },
+  {
+    title: "Business insight and reporting",
+    copy:
+      "Turn technical analysis into useful findings: what is growing, what is underperforming, where data quality is weak, and what should be prioritized."
+  }
+];
+
+const valueCards = [
+  {
+    title: "Performance thinking",
+    copy:
+      "Large datasets require better decisions around lazy execution, column selection, filtering, partitioning, and file formats. The goal is to avoid loading more data than needed."
+  },
+  {
+    title: "Cloud and storage awareness",
+    copy:
+      "Working with cloud storage is not the same as working with a local spreadsheet. Naming, folder structure, partitioning, file size, and read patterns affect cost and speed."
+  },
+  {
+    title: "Data quality judgment",
+    copy:
+      "A script can run and still produce misleading results. Good analysis checks types, duplicates, missing values, outliers, and business logic before trusting the output."
+  },
+  {
+    title: "Business translation",
+    copy:
+      "The final output should not be only a notebook. It should explain what changed, what matters, what is risky, and what the business should do next."
+  }
+];
+
+const stackItems = [
+  {
+    title: "Python",
+    copy:
+      "Analysis scripts, automation, data cleaning, reusable utilities, APIs, reporting workflows, and custom logic."
+  },
+  {
+    title: "Polars",
+    copy:
+      "Fast DataFrame workflows, lazy queries, large file processing, transformations, aggregations, joins, and performance-focused analysis."
+  },
+  {
+    title: "Apache Arrow",
+    copy:
+      "Columnar memory format, interoperability, efficient data exchange, and analytical workflows across tools."
+  },
+  {
+    title: "Parquet",
+    copy:
+      "Columnar storage for analytical datasets, especially when data needs to be read, filtered, compressed, partitioned, and reused."
+  },
+  {
+    title: "Cloud storage",
+    copy:
+      "Cloud object storage for data lakes, exports, partitioned datasets, and scalable analytical workflows across AWS and similar cloud environments."
+  },
+  {
+    title: "Data visualization",
+    copy:
+      "Clear charts, summaries, dashboards, and stories that make the analysis easier to understand and act on."
+  }
+];
+
+const processSteps = [
+  {
+    title: "Understand the question",
+    copy:
+      "What decision does the business need to make? What problem are we trying to solve? What would a useful answer look like?"
+  },
+  {
+    title: "Inspect the data",
+    copy:
+      "Review size, schema, missing values, types, duplicates, file formats, time ranges, identifiers, and quality issues."
+  },
+  {
+    title: "Build the analysis",
+    copy:
+      "Use the right workflow for the data size and storage setup: local files, Parquet, partitioned datasets, cloud storage, lazy queries, or reusable scripts."
+  },
+  {
+    title: "Explain the result",
+    copy:
+      "Deliver findings, charts, tables, recommendations, limitations, and next steps in language the business can use."
+  }
+];
+
+const proofLinks = [
+  {
+    title: "Polars, Apache Arrow & AWS S3",
+    href:
+      "https://medium.com/@matteo.arellano/polars-apache-arrow-aws-s3-spanish-version-3a6816d4f9a3",
+    copy:
+      "How Polars, Arrow and AWS S3 can work together for large-scale analytical workflows."
+  },
+  {
+    title: "Utility Python functions for AWS projects",
+    href:
+      "https://medium.com/@matteo.arellano/utility-python-functions-for-your-aws-based-projects-660354aaef9b",
+    copy:
+      "Practical Python utility functions for AWS-based projects and reusable workflows."
+  },
+  {
+    title: "Partitioning Polars DataFrames on S3",
+    href:
+      "https://medium.com/@matteo.arellano/partitioning-polars-dataframe-on-s3-with-apache-arrow-1fa6518d23f1",
+    copy:
+      "A technical article about partitioning data on S3 using Polars and Apache Arrow."
+  },
+  {
+    title: "Managing Excel Files and SharePoint Automations with Python",
+    href:
+      "https://medium.com/@matteo.arellano/moving-data-across-sharepoint-folders-with-python-f783f8cd1cb1",
+    copy:
+      "A technical article about connecting to SharePoint and building automated internal reporting."
+  }
+
+
+
+];
+
+const useCases = [
+  {
+    title: "SEO and Search Console exports",
+    copy:
+      "Analyze large query, page, country, device, and date exports to find patterns that are hard to see in the interface."
+  },
+  {
+    title: "Product or marketplace data",
+    copy:
+      "Analyze product performance, categories, routes, destinations, suppliers, availability, pricing, demand, or long-tail patterns."
+  },
+  {
+    title: "Campaign and lead analysis",
+    copy:
+      "Clean and connect campaign data, landing pages, leads, conversion events, costs, and revenue signals."
+  },
+  {
+    title: "Data quality audits",
+    copy:
+      "Find duplicates, broken identifiers, missing data, inconsistent categories, schema drift, and reporting risks."
+  },
+  {
+    title: "Large CSV to Parquet workflows",
+    copy:
+      "Convert slow, heavy exports into cleaner analytical datasets that are easier to read, filter, store, and reuse."
+  },
+  {
+    title: "Executive reporting",
+    copy:
+      "Translate technical analysis into charts, summaries, decision notes, and business recommendations."
+  }
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical}>
+  <Header />
+
+  <main class="commercial-page data-service-page">
+    <section class="commercial-hero">
+      <div class="commercial-container commercial-hero-grid">
+        <div class="commercial-copy">
+          <span class="commercial-kicker">
+            Python · Polars · Cloud · Large datasets
+          </span>
+
+          <h1>
+            I help businesses analyze large datasets faster, cleaner, and with clearer business impact.
+          </h1>
+
+          <p>
+            I work with Python, Polars, Apache Arrow, Parquet and cloud-based workflows
+            to help businesses process large datasets, clean messy exports, structure
+            analytical data, and turn raw information into decisions.
+          </p>
+
+          <div class="commercial-actions">
+            <a class="commercial-primary" href="/free-visibility-check/#calendar">
+              Book a data analysis review
+            </a>
+
+            <a class="commercial-secondary" href="#technical-writing">
+              See technical proof
+            </a>
+          </div>
+        </div>
+
+        <aside class="commercial-profile-card" aria-label="Large-scale data analysis service summary">
+          <div class="data-terminal-card">
+            <span class="terminal-dot-row" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+
+            <pre><code>import polars as pl
+
+df = (
+    pl.scan_parquet("s3://bucket/data/*.parquet")
+      .filter(pl.col("country") == "NL")
+      .group_by("channel")
+      .agg([
+          pl.col("revenue").sum(),
+          pl.col("customer_id").n_unique()
+      ])
+      .collect()
+)</code></pre>
+          </div>
+
+          <div class="commercial-profile-copy">
+            <strong>Large-scale analysis</strong>
+            <span>Python, Polars, Arrow, Parquet & cloud</span>
+            <p>
+              For teams with large CSVs, cloud data, analytics exports, SEO datasets,
+              operational data, or reporting problems that need performance and clarity.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="commercial-section">
+      <div class="commercial-container commercial-split">
+        <div>
+          <span class="commercial-eyebrow">What I help with</span>
+          <h2>
+            When spreadsheets, dashboards, or slow scripts are no longer enough.
+          </h2>
+        </div>
+
+        <div class="commercial-card-grid">
+          {helpCards.map((card) => (
+            <div class="commercial-card">
+              <h3>{card.title}</h3>
+              <p>{card.copy}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="commercial-section commercial-soft">
+      <div class="commercial-container">
+        <div class="commercial-section-header">
+          <span class="commercial-eyebrow">Why this matters</span>
+          <h2>
+            AI can write code, but businesses still need someone who understands the data problem.
+          </h2>
+          <p>
+            AI can help generate scripts, but large-scale data work is not only about writing
+            code. The real value is knowing how to structure the data, avoid memory problems,
+            choose the right file format, validate the results, and explain what the analysis
+            means for the business.
+          </p>
+        </div>
+
+        <div class="commercial-services data-service-grid">
+          {valueCards.map((card) => (
+            <article>
+              <h3>{card.title}</h3>
+              <p>{card.copy}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="commercial-section">
+      <div class="commercial-container">
+        <div class="commercial-section-header">
+          <span class="commercial-eyebrow">Technical stack</span>
+          <h2>
+            Tools I enjoy using for high-value data analysis work.
+          </h2>
+          <p>
+            The stack depends on the problem, but these are the tools and concepts I naturally
+            connect with this service.
+          </p>
+        </div>
+
+        <div class="data-stack-grid">
+          {stackItems.map((item, index) => (
+            <div>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <h3>{item.title}</h3>
+              <p>{item.copy}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="commercial-section commercial-soft">
+      <div class="commercial-container">
+        <div class="commercial-section-header">
+          <span class="commercial-eyebrow">How I work</span>
+          <h2>
+            From messy data to useful decisions.
+          </h2>
+          <p>
+            The process is designed to avoid “analysis for the sake of analysis.”
+            The goal is to understand the business question, inspect the data, build
+            the right workflow, and deliver clear findings.
+          </p>
+        </div>
+
+        <div class="commercial-process">
+          {processSteps.map((step, index) => (
+            <div>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <h3>{step.title}</h3>
+              <p>{step.copy}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="commercial-section" id="technical-writing">
+      <div class="commercial-container commercial-why-grid">
+        <div class="commercial-proof">
+          <span class="commercial-eyebrow">Technical writing</span>
+
+          <h2>
+            I have written about Python, Polars, Apache Arrow and AWS before offering this as a service.
+          </h2>
+
+          <p>
+            These articles show the type of technical problems I enjoy: processing larger datasets,
+            working with cloud storage, using efficient file formats, and creating reusable Python
+            workflows. They are useful proof that this service is connected to real hands-on interest,
+            not just a generic consulting offer.
+          </p>
+
+          <p>
+            Over time, I may bring expanded versions of these articles into this website. For now,
+            they are useful external proof of my technical thinking.
+          </p>
+        </div>
+
+        <div class="commercial-values data-proof-links">
+          {proofLinks.map((link) => (
+            <a href={link.href} target="_blank" rel="noreferrer">
+              <h3>{link.title}</h3>
+              <p>{link.copy}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="commercial-section commercial-soft">
+      <div class="commercial-container">
+        <div class="commercial-section-header">
+          <span class="commercial-eyebrow">Use cases</span>
+          <h2>
+            Examples of projects where this service fits.
+          </h2>
+        </div>
+
+        <div class="commercial-services">
+          {useCases.map((useCase) => (
+            <article>
+              <h3>{useCase.title}</h3>
+              <p>{useCase.copy}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="commercial-container commercial-cta">
+      <span class="commercial-eyebrow">Data analysis support</span>
+
+      <h2>
+        Have a large dataset, messy export, or cloud-based analysis problem?
+      </h2>
+
+      <p>
+        I can help review the data, understand the business question, design the analysis
+        workflow, and turn the findings into clear recommendations.
+      </p>
+
+      <div class="commercial-actions">
+        <a class="commercial-primary" href="/free-visibility-check/#calendar">
+          Book a first review
+        </a>
+
+        <a class="commercial-secondary" href="mailto:matteo.arellano@hotmail.com">
+          Send me an email
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

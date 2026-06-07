@@ -44,6 +44,12 @@ const services = [
     copy: 'A data-driven review of GA4, Google Search Console, BigQuery, Amplitude, Hotjar, funnels, search behavior, click patterns, and drop-off points where available.'
   },
   {
+    tag: 'Data analysis',
+    title: 'Large-Scale Data Analysis',
+    copy: 'Python, Polars, AWS, Apache Arrow, and Parquet workflows for large datasets, messy exports, cloud data, reporting problems, and business insight.',
+    href: '/services/large-scale-data-analysis/'
+  },
+  {
     tag: 'Automation',
     title: 'Custom SEO Diagnostics',
     copy: 'Custom checks using Python, JavaScript, APIs, and browser-based workflows when standard SEO tools are not enough for recurring or technical diagnostics.'
@@ -177,6 +183,12 @@ const faqs = [
               <span class="tag">{service.tag}</span>
               <h3>{service.title}</h3>
               <p>{service.copy}</p>
+
+              {service.href && (
+                <a class="card-link" href={service.href}>
+                  Learn more
+                </a>
+              )}
             </article>
           ))}
         </div>
