@@ -79,6 +79,18 @@ export const blogPosts: BlogPost[] = [
   date: "2026-06-07",
   readingTime: "12 min read",
   icon: "🕸️"
+},
+{
+  slug: "core-web-vitals-pagespeed-audit",
+  topic: "technical-seo",
+  title: "Core Web Vitals Audit: How to Read a Real PageSpeed Insights Report",
+  description:
+    "A practical Core Web Vitals audit using a real PageSpeed Insights example, explaining LCP, INP, CLS, render-blocking resources, lazy loading, image optimization, and developer priorities.",
+  date: "2026-06-07",
+  readingTime: "14 min read",
+  icon: "⚡",
+  image: "/images/blog/aicm-pagespeed-cover-core-web-vitals.png",
+  imageAlt: "Mobile PageSpeed Insights report showing Core Web Vitals diagnostics"
 }
 ];
 

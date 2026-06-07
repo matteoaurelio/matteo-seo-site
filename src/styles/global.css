@@ -347,7 +347,7 @@ h3 {
 }
 
 .checklist li::before {
-  content: "âœ“";
+  content: "\2713";
   display: grid;
   place-items: center;
   flex: 0 0 21px;
@@ -1972,6 +1972,31 @@ h3 {
   font-size: 0.95em;
 }
 
+.article-content a {
+  color: var(--primary-2);
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.article-content a:hover {
+  color: var(--primary);
+}
+
+
+.article-content .article-cta-button {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.article-content .article-cta-button:hover {
+  color: #ffffff;
+  background: #155fc0;
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 20px 42px rgba(31, 110, 212, 0.28);
+}
+
 .impact-grid,
 .audit-checklist {
   display: grid;
@@ -2287,4 +2312,23 @@ h3 {
   .benefit-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.article-content pre {
+  overflow-x: auto;
+  margin: 24px 0;
+  padding: 18px;
+  border-radius: 18px;
+  background: #071424;
+  color: #f8fbff;
+  border: 1px solid rgba(15, 76, 129, 0.12);
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.article-content pre code {
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  white-space: pre;
 }

@@ -1,0 +1,450 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="Astro v6.4.4"><title>Core Web Vitals Audit: How to Read a Real PageSpeed Insights Report | Matteo Arellano</title><meta name="description" content="A practical Core Web Vitals audit using a real PageSpeed Insights example, explaining LCP, INP, CLS, render-blocking resources, lazy loading, image optimization, and developer priorities."><link rel="canonical" href="https://matteoarellano.com/blog/technical-seo/core-web-vitals-pagespeed-audit/"><link rel="icon" type="image/png" sizes="48x48" href="/images/favicon-48x48.png"><link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png"><meta name="theme-color" content="#0f4c81"><meta property="og:type" content="website"><meta property="og:title" content="Core Web Vitals Audit: How to Read a Real PageSpeed Insights Report | Matteo Arellano"><meta property="og:description" content="A practical Core Web Vitals audit using a real PageSpeed Insights example, explaining LCP, INP, CLS, render-blocking resources, lazy loading, image optimization, and developer priorities."><meta property="og:url" content="https://matteoarellano.com/blog/technical-seo/core-web-vitals-pagespeed-audit/"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Core Web Vitals Audit: How to Read a Real PageSpeed Insights Report | Matteo Arellano"><meta name="twitter:description" content="A practical Core Web Vitals audit using a real PageSpeed Insights example, explaining LCP, INP, CLS, render-blocking resources, lazy loading, image optimization, and developer priorities."><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://matteoarellano.com/#person","name":"Matteo Arellano","jobTitle":"Technical SEO and AI Visibility Consultant","description":"Technical SEO and AI visibility consultant with a background in analytics, data engineering, automation, finance, and conversion optimization.","email":"mailto:matteo.visibility@gmail.com","url":"https://matteoarellano.com/","image":"https://matteoarellano.com/images/matteo-arellano-headshot.webp","sameAs":["https://www.linkedin.com/in/matteoarellano","https://credentials.cfainstitute.org/7fc77ff8-8d42-4028-8c24-ce908fea0340#acc.VfhCeAIa"],"knowsAbout":["Technical SEO","AI visibility","Answer Engine Optimization","Generative Engine Optimization","Core Web Vitals","Google Analytics 4","BigQuery","Screaming Frog","Python automation","JavaScript SEO","Analytics Engineering","Conversion Rate Optimization"]},{"@type":"Organization","@id":"https://matteoarellano.com/#organization","name":"Matteo Arellano Technical SEO Consulting","url":"https://matteoarellano.com/","logo":"https://matteoarellano.com/images/icon-512x512.webp","founder":{"@id":"https://matteoarellano.com/#person"},"contactPoint":{"@type":"ContactPoint","contactType":"client inquiries","email":"matteo.visibility@gmail.com","availableLanguage":[{"@type":"Language","name":"English"},{"@type":"Language","name":"Spanish"},{"@type":"Language","name":"Catalan"},{"@type":"Language","name":"Dutch"}]}},{"@type":"Service","@id":"https://matteoarellano.com/#technical-seo-audit","name":"Technical SEO Audit","serviceType":"Technical SEO Audit","provider":{"@id":"https://matteoarellano.com/#person"},"areaServed":["United States","Canada","Global"],"description":"Technical SEO audit covering crawlability, indexation, site architecture, internal linking, structured data, Core Web Vitals, JavaScript rendering, metadata, and page experience."},{"@type":"Service","@id":"https://matteoarellano.com/#ai-visibility-audit","name":"AI Visibility Audit","serviceType":"AI Visibility Audit","provider":{"@id":"https://matteoarellano.com/#person"},"areaServed":["United States","Canada","Global"],"description":"AI visibility audit for improving how websites are discovered, understood, summarized, and cited across AI-powered search experiences, AEO, and GEO."},{"@type":"Service","@id":"https://matteoarellano.com/#seo-analytics-audit","name":"SEO Analytics and Conversion Audit","serviceType":"SEO Analytics Audit","provider":{"@id":"https://matteoarellano.com/#person"},"areaServed":["United States","Canada","Global"],"description":"SEO analytics audit using tools such as Google Analytics 4, Google Search Console, BigQuery, Amplitude, and Hotjar to connect organic visibility with user behavior and conversion outcomes."},{"@type":"WebSite","@id":"https://matteoarellano.com/#website","url":"https://matteoarellano.com/","name":"Matteo Arellano | Technical SEO & AI Visibility Consultant","description":"Technical SEO and AI visibility consulting for websites that need to improve crawlability, indexation, page speed, content clarity, analytics, and search performance.","inLanguage":"en","publisher":{"@id":"https://matteoarellano.com/#person"}}]}</script><link rel="stylesheet" href="/_astro/Header.DhzafEc4.css"></head> <body>  <header class="site-header"> <div class="header-inner"> <a class="brand" href="/" aria-label="Matteo Arellano homepage"> <span class="brand-mark">MA</span> <span class="brand-copy"> <strong>Matteo Arellano</strong> <small>Technical SEO & AI Visibility</small> </span> </a> <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation menu"> <span></span> <span></span> <span></span> </button> <nav class="site-nav" id="site-nav" aria-label="Primary navigation"> <a href="/about/">About</a><a href="/#services">Services</a><a href="/#process">Process</a><a href="/#tools">Tools</a><a href="/#faq">FAQ</a><a href="/blog/">Blog</a> <a class="nav-audit" href="/free-visibility-check/#calendar">
+Book free SEO check
+</a> </nav> </div> </header> <script>
+  const toggle = document.querySelector('.nav-toggle');
+  const nav = document.querySelector('#site-nav');
+
+  if (toggle && nav) {
+    toggle.addEventListener('click', () => {
+      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      nav.classList.toggle('is-open', !isOpen);
+      document.body.classList.toggle('nav-open', !isOpen);
+    });
+
+    nav.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        toggle.setAttribute('aria-expanded', 'false');
+        nav.classList.remove('is-open');
+        document.body.classList.remove('nav-open');
+      });
+    });
+  }
+</script>  <main class="article-page"> <article class="article-shell"> <a class="blog-back-link" href="/blog/technical-seo/">
+← Back to Technical SEO articles
+</a> <header class="article-header"> <span class="article-kicker">Technical SEO</span> <h1>Core Web Vitals audit: how to read a real PageSpeed Insights report</h1> <p class="article-intro">
+A low PageSpeed Insights score is not just a technical warning. It can reveal
+          whether mobile users are waiting too long, whether important content appears too
+          late, and whether the page experience is weaker than it should be.
+</p> <div class="article-meta"> <span>Published June 2026</span> <span>14 min read</span> </div> </header> <figure class="article-figure"> <img src="/images/blog/aicm-pagespeed-core-web-vitals.png" alt="Mobile PageSpeed Insights report showing a performance score of 55 and Core Web Vitals diagnostics" loading="lazy"> <figcaption>
+A real public PageSpeed Insights example showing how a page can have good basic SEO
+          checks while still struggling with mobile performance.
+</figcaption> </figure> <section class="article-content"> <p>
+When people see a low PageSpeed Insights score, they often ask the wrong
+          question first.
+</p> <p>
+They ask: “Is this bad for SEO?”
+</p> <p>
+That question matters, but it is not the best starting point.
+</p> <p>
+The better question is: “What is the user actually experiencing?”
+</p> <p>
+Core Web Vitals are not just technical numbers. They are Google’s way of
+          measuring whether a page loads quickly, responds smoothly, and stays visually
+          stable for real users.
+</p> <div class="personal-note"> <p>
+I’m
+<a href="https://www.linkedin.com/in/matteoarellano/" target="_blank" rel="noreferrer">
+Matteo Arellano
+</a>,
+            and I work on technical SEO, analytics, and organic growth systems. For me,
+            Core Web Vitals are interesting because they sit between SEO, engineering,
+            user experience, and business performance. They force us to ask whether a
+            page is not only indexable, but actually usable.
+</p> </div> <h2>The case: a public PageSpeed Insights test</h2> <p>
+For this example, I reviewed
+<a href="https://pagespeed.web.dev/analysis/https-www-aicm-com-mx/fdenwbwpwv?form_factor=mobile" target="_blank" rel="noreferrer">
+a public mobile PageSpeed Insights report for the
+          Mexico City Airport website
+</a>
+and I found specific items where it could be improved. In this article, I'll share a
+          a practical technical SEO case study showing how I would read a performance
+          report, explain the issues, and turn the data into developer-ready priorities.
+</p> <p>
+The mobile PageSpeed report shows a performance score of 55. At the same time,
+          the page scores well in other areas: accessibility, best practices, and basic
+          SEO checks are all above 90.
+</p> <p>
+This distinction matters. A page can pass many basic SEO checks and still offer
+          a weak mobile loading experience.
+</p> <div class="comparison-table"> <table> <thead> <tr> <th>Area</th> <th>Reported score</th> <th>What it means</th> </tr> </thead> <tbody> <tr> <td>Performance</td> <td>55</td> <td>The page is slow in the lab test and needs technical performance work.</td> </tr> <tr> <td>Accessibility</td> <td>91</td> <td>The page performs relatively well on automated accessibility checks.</td> </tr> <tr> <td>Best practices</td> <td>92</td> <td>The page passes many general browser and security checks.</td> </tr> <tr> <td>SEO</td> <td>92</td> <td>The page passes basic crawlability and HTML SEO checks, but this does not mean performance is good.</td> </tr> </tbody> </table> </div> <h2>What are Core Web Vitals?</h2> <p>
+Core Web Vitals are three Google metrics focused on user experience.
+</p> <div class="impact-grid"> <div class="impact-card"> <h3>LCP</h3> <p>
+Largest Contentful Paint measures how long it takes for the largest visible
+              content element to appear. This is usually the main image, hero section,
+              heading block, or large visible content area.
+</p> </div> <div class="impact-card"> <h3>INP</h3> <p>
+Interaction to Next Paint measures responsiveness. In simple terms, after
+              a user taps, clicks, or types, how long does the page take to respond visually?
+</p> </div> <div class="impact-card"> <h3>CLS</h3> <p>
+Cumulative Layout Shift measures visual stability. It checks whether content
+              unexpectedly jumps around while the page loads.
+</p> </div> </div> <p>
+Google’s recommended thresholds are LCP under 2.5 seconds, INP under 200
+          milliseconds, and CLS under 0.1.
+</p> <p>
+In simple terms:
+</p> <ul> <li>LCP asks: “Did the main content appear quickly?”</li> <li>INP asks: “Did the page respond quickly when the user interacted?”</li> <li>CLS asks: “Did the page stay visually stable?”</li> </ul> <h2>Field data vs lab data</h2> <p>
+PageSpeed Insights has two types of data, and they should not be confused.
+</p> <p>
+Field data comes from real users. It tells us how people actually experienced
+          the page in Chrome over the last 28 days, when enough data is available.
+</p> <p>
+Lab data comes from a controlled Lighthouse test. It simulates a page load on a
+          specific device and network setup. Lab data is useful for debugging because you
+          can run it immediately, but it may not match every real user experience.
+</p> <p>
+For an audit, I use both. Field data tells me whether users are affected. Lab
+          data helps me find the likely technical causes.
+</p> <h2>What the report shows</h2> <p>
+The real-user data shows that the page does not pass the Core Web Vitals assessment.
+          The main issue is LCP.
+</p> <div class="comparison-table"> <table> <thead> <tr> <th>Metric</th> <th>Observed value</th> <th>Good threshold</th> <th>Diagnosis</th> </tr> </thead> <tbody> <tr> <td>LCP</td> <td>5.7 seconds</td> <td>Under 2.5 seconds</td> <td>Main visible content appears too late for many mobile users.</td> </tr> <tr> <td>INP</td> <td>92 milliseconds</td> <td>Under 200 milliseconds</td> <td>Responsiveness looks good in field data.</td> </tr> <tr> <td>CLS</td> <td>0</td> <td>Under 0.1</td> <td>Visual stability looks good in field data.</td> </tr> </tbody> </table> </div> <p>
+The lab test confirms the same pattern. The page is not mainly failing because
+          of interaction or layout shift. The bigger issue is loading performance.
+</p> <ul> <li>First Contentful Paint: 6.6 seconds</li> <li>Largest Contentful Paint: 12.2 seconds</li> <li>Total Blocking Time: 110 milliseconds</li> <li>Cumulative Layout Shift: 0.008</li> <li>Speed Index: 22.9 seconds</li> </ul> <p>
+So the diagnosis is not: “This page is broken everywhere.”
+</p> <p>
+The diagnosis is more specific: “The mobile page takes too long to show
+          meaningful visible content.”
+</p> <h2>What does above the fold and below the fold mean?</h2> <p>
+“Above the fold” means the part of the page a user sees immediately before
+          scrolling.
+</p> <p>
+On mobile, this is the first screen. It usually includes the header, hero area,
+          main image, headline, navigation, search box, or first call-to-action.
+</p> <p>
+“Below the fold” means the part of the page the user only sees after scrolling.
+          This can include lower images, additional sections, FAQs, footer content,
+          related links, testimonials, or secondary content blocks.
+</p> <p>
+This distinction matters for performance because above-the-fold content should
+          load quickly. Below-the-fold content can often be delayed because the user may
+          not need it immediately.
+</p> <h2>What is the hero area?</h2> <p>
+The hero area is the first large section users see when they open a page.
+</p> <p>
+On many websites, it includes:
+</p> <ul> <li>The main headline</li> <li>A large banner image</li> <li>A carousel or slider</li> <li>A booking or search form</li> <li>A call-to-action button</li> <li>A background video or visual block</li> </ul> <p>
+The hero area matters because it is often above the fold. If the hero area is
+          slow, the whole page feels slow.
+</p> <p>
+In this PageSpeed example, the LCP element is a large carousel image. That means
+          the largest visible content is part of the hero area, and it is taking too long
+          to appear.
+</p> <h2>What is lazy loading?</h2> <p>
+Lazy loading means delaying the loading of a resource until it is needed.
+</p> <p>
+For images, this usually means the browser does not download the image until it
+          is close to entering the user’s screen.
+</p> <p>
+Lazy loading is usually useful for below-the-fold images because the user may
+          never scroll far enough to see them. For example, footer images, gallery images,
+          and lower-page illustrations can often be lazy-loaded.
+</p> <p>
+But the main above-the-fold image should usually not be lazy-loaded.
+</p> <p>
+Why? Because if the largest visible element is the hero image, and that image is
+          lazy-loaded, the browser may delay downloading the exact image that defines the
+          LCP score.
+</p> <p>
+In simple terms:
+</p> <ul> <li>Lazy loading below-the-fold images is usually good.</li> <li>Lazy loading the main above-the-fold image can hurt LCP.</li> <li>The LCP image should be discovered early and loaded with high priority.</li> </ul> <h2>What does “compressed properly” mean?</h2> <p>
+Compression can mean two different things in a performance audit.
+</p> <h3>Image compression</h3> <p>
+Image compression means reducing the file size of an image while keeping acceptable
+          visual quality.
+</p> <p>
+A properly compressed image is not just “smaller.” It should be the right size,
+          format, and quality level for where it appears.
+</p> <p>
+For example, if a mobile screen displays an image at around 390 pixels wide, the
+          browser should not need to download a huge desktop image that is 2000 pixels wide,
+          unless there is a clear reason.
+</p> <p>
+A properly compressed image should usually be:
+</p> <ul> <li>Resized to the dimensions actually needed.</li> <li>Exported at a reasonable quality level.</li> <li>Served in a modern format when possible.</li> <li>Delivered with responsive image markup such as srcset and sizes.</li> <li>Not heavier than necessary for the visual role it plays.</li> </ul> <h3>Text compression</h3> <p>
+Text compression applies to files such as HTML, CSS, and JavaScript.
+</p> <p>
+These files should usually be compressed with Brotli or Gzip before they are sent
+          from the server to the browser.
+</p> <p>
+If a report says text compression is missing, that usually means the server or CDN
+          is sending larger text files than necessary.
+</p> <h2>Why are WebP and AVIF useful?</h2> <p>
+WebP and AVIF are modern image formats.
+</p> <p>
+They are useful because they can often deliver similar visual quality with smaller
+          file sizes than older formats like JPEG or PNG.
+</p> <p>
+Smaller image files help users because there is less data to download, especially
+          on mobile networks.
+</p> <p>
+This does not mean every image should blindly become AVIF. A practical setup is:
+</p> <ul> <li>Use AVIF where supported and where it produces a good result.</li> <li>Use WebP as a strong fallback.</li> <li>Use JPEG or PNG only when needed.</li> <li>Use responsive images so mobile users do not download desktop-sized assets.</li> </ul> <p>
+In this case, the LCP image appears as a large PNG. A developer should test whether
+          converting it to WebP or AVIF, resizing it for mobile, and loading it earlier would
+          reduce the LCP delay.
+</p> <h2>The first technical problem: render-blocking requests</h2> <p>
+The report flags render-blocking requests with an estimated saving of 6,700ms.
+</p> <p>
+In simple terms, render-blocking resources are files that delay the browser from
+          showing the page.
+</p> <p>
+These are often CSS and JavaScript files.
+</p> <p>
+The problem is not that CSS and JavaScript are bad. The problem is when too many
+          non-critical files are loaded before the browser can show the important first screen.
+</p> <h2>How does a browser load a page?</h2> <p>
+To understand render-blocking and parser-blocking scripts, we need to understand how
+          a browser loads a page.
+</p> <ol> <li>The browser requests the HTML document.</li> <li>The browser starts reading the HTML from top to bottom.</li> <li>As it reads, it builds the DOM, which is the structure of the page.</li> <li>When it finds CSS, it downloads and processes it because CSS affects how the page looks.</li> <li>When it finds a normal JavaScript file without async or defer, it may pause HTML parsing, download the script, execute it, and only then continue reading the HTML.</li> <li>The browser combines the page structure and CSS to render pixels on the screen.</li> <li>Images, fonts, scripts, and other resources continue loading.</li> <li>JavaScript may continue changing the page after the first render.</li> </ol> <p>
+A parser-blocking script is a script that stops the browser from continuing to read
+          the HTML until the script has been downloaded and executed.
+</p> <p>
+In simple terms, the browser is trying to read the page. A parser-blocking script
+          interrupts it and says: “Stop reading. Download me. Run me. Then continue.”
+</p> <p>
+That can delay rendering, delay discovery of important resources, and make the page
+          feel slower.
+</p> <h2>How can developers identify parser-blocking scripts?</h2> <p>
+Developers can start with PageSpeed Insights. If it reports render-blocking requests,
+          review that list first.
+</p> <p>
+Then open Chrome DevTools, go to the Network tab, reload the page, and inspect the
+          request waterfall.
+</p> <p>
+Look for:
+</p> <ul> <li>JavaScript files loaded early in the document.</li> <li>Scripts without async or defer.</li> <li>Long chains where one request delays another.</li> <li>CSS files that block rendering.</li> <li>Third-party scripts that start before the main content appears.</li> </ul> <p>
+A classic parser-blocking script looks like this:
+</p> <pre><code>&lt;script src="/example.js"&gt;&lt;/script&gt;</code></pre> <p>
+A less blocking version may look like this:
+</p> <pre><code>&lt;script src="/example.js" defer&gt;&lt;/script&gt;</code></pre> <p>
+Or, for independent scripts where execution order is not important:
+</p> <pre><code>&lt;script src="/example.js" async&gt;&lt;/script&gt;</code></pre> <p>
+This should not be changed blindly. Some scripts depend on order. Some plugins expect
+          another library to exist first. Some scripts control visible components. Developers
+          should test the page after changing script loading behavior.
+</p> <h2>A simple console script to inspect JavaScript size</h2> <p>
+There are ways to see the size of loaded scripts with a simple JavaScript snippet in
+          the browser console.
+</p> <p>
+Open Chrome DevTools, go to Console, and run:
+</p> <pre><code>console.table(
+  performance
+    .getEntriesByType(&quot;resource&quot;)
+    .filter((resource) =&gt; resource.initiatorType === &quot;script&quot;)
+    .map((resource) =&gt; ({
+      url: resource.name,
+      origin: new URL(resource.name).origin,
+      thirdParty: new URL(resource.name).origin !== location.origin,
+      transferKB: Math.round(resource.transferSize / 1024),
+      encodedKB: Math.round(resource.encodedBodySize / 1024),
+      durationMS: Math.round(resource.duration),
+    }))
+    .sort((a, b) =&gt; b.transferKB - a.transferKB)
+);</code></pre> <p>
+This helps identify which scripts are largest, which take longest, and which come from
+          third-party origins.
+</p> <p>
+You can do a similar check for CSS files:
+</p> <pre><code>console.table(
+  performance
+    .getEntriesByType(&quot;resource&quot;)
+    .filter((resource) =&gt; resource.initiatorType === &quot;link&quot;)
+    .map((resource) =&gt; ({
+      url: resource.name,
+      origin: new URL(resource.name).origin,
+      thirdParty: new URL(resource.name).origin !== location.origin,
+      transferKB: Math.round(resource.transferSize / 1024),
+      encodedKB: Math.round(resource.encodedBodySize / 1024),
+      durationMS: Math.round(resource.duration),
+    }))
+    .sort((a, b) =&gt; b.transferKB - a.transferKB)
+);</code></pre> <p>
+These snippets do not replace a full DevTools Performance audit. Some sizes may show as
+          0 because of caching, browser privacy rules, or missing timing headers from third-party
+          resources. But they are a useful first look.
+</p> <h2>A simple console script to identify likely blocking scripts</h2> <p>
+Developers can also inspect the script tags on the page:
+</p> <pre><code>console.table(
+  [...document.scripts].map((script, index) =&gt; ({
+    index,
+    src: script.src || &quot;inline script&quot;,
+    type: script.type || &quot;classic&quot;,
+    async: script.async,
+    defer: script.defer,
+    inHead: document.head.contains(script),
+    likelyParserBlocking:
+      document.head.contains(script) &amp;&amp;
+      !script.async &amp;&amp;
+      !script.defer &amp;&amp;
+      (!script.type ||
+        script.type === &quot;text/javascript&quot; ||
+        script.type === &quot;application/javascript&quot;),
+  }))
+);</code></pre> <p>
+This does not prove the full performance impact by itself, but it helps identify scripts
+          that deserve review.
+</p> <p>
+The most suspicious scripts are usually in the head, not async, not defer, loaded before
+          the main content, large or slow in the Network tab, and not required for the first screen.
+</p> <h2>What is a third-party resource?</h2> <p>
+A third-party resource is any file loaded from a domain that is not the website’s own domain.
+</p> <p>
+For example, if the page is on:
+</p> <pre><code>www.example.com</code></pre> <p>
+then these could be third-party resources:
+</p> <ul> <li>fonts.googleapis.com</li> <li>fonts.gstatic.com</li> <li>cdnjs.cloudflare.com</li> <li>googletagmanager.com</li> <li>google-analytics.com</li> <li>youtube.com</li> <li>maps.googleapis.com</li> <li>facebook.net</li> <li>hotjar.com</li> <li>intercom.io</li> <li>stripe.com</li> </ul> <p>
+Google Fonts is a third-party resource. A CDN library like cdnjs is also a third-party
+          resource. Analytics scripts, tag managers, chat widgets, ad pixels, embedded videos,
+          map embeds, review widgets, and payment widgets can also be third-party resources.
+</p> <p>
+Third-party resources are not automatically bad. Many are useful and sometimes necessary.
+          The risk is that they add extra DNS lookups, network connections, JavaScript execution,
+          dependency chains, and code that the site owner does not fully control.
+</p> <p>
+The performance question is not: “Can we remove every third-party script?”
+</p> <p>
+The better question is: “Which third-party resources are essential, which can be delayed,
+          and which are loading too early?”
+</p> <h2>What does reducing theme and plugin bloat mean?</h2> <p>
+“Theme and plugin bloat” sounds vague, so it needs to be translated into specific work.
+</p> <p>
+On CMS websites, especially WordPress, themes and plugins often load CSS and JavaScript
+          globally. That means files may load on every page even when the page does not actually
+          use that feature.
+</p> <p>
+For example:
+</p> <ul> <li>A table plugin may load CSS and JavaScript on the homepage even if there is no table.</li> <li>A video plugin may load styles on pages without videos.</li> <li>A slider plugin may load multiple scripts for a single carousel.</li> <li>A form plugin may load assets sitewide even when no form appears above the fold.</li> <li>A theme may load a large stylesheet even if only a small part is needed for the first screen.</li> <li>Legacy libraries may load even if the site no longer needs them.</li> </ul> <p>
+Reducing bloat means auditing what is loaded and asking:
+</p> <blockquote> <p>
+Is this file needed on this page, at this moment, before the first screen renders?
+</p> </blockquote> <p>
+In practice, this can mean deactivating unused plugins, loading plugin assets only on
+          pages where they are needed, removing duplicate CSS files, replacing heavy slider libraries,
+          deferring non-critical JavaScript, splitting CSS by template, and removing unused theme features.
+</p> <p>
+The goal is not to remove functionality. The goal is to stop making every visitor download
+          code that is not needed for their current task.
+</p> <h2>The second technical problem: the LCP image</h2> <p>
+The report identifies the LCP element as a carousel image.
+</p> <p>
+When the LCP element is an image, developers should check:
+</p> <ul> <li>Is the image larger than needed for mobile?</li> <li>Is it served in WebP or AVIF?</li> <li>Is the image compressed properly?</li> <li>Is it lazy-loaded even though it is above the fold?</li> <li>Is the browser discovering the image early enough?</li> <li>Does it have explicit width and height?</li> <li>Should it use fetchpriority="high"?</li> </ul> <p>
+A practical fix could be to serve a smaller mobile-specific version of the image,
+          convert it to WebP or AVIF, make it directly discoverable in the HTML, avoid
+          lazy-loading it, and consider fetchpriority="high" if it is the main above-the-fold image.
+</p> <p>
+If the carousel plugin delays the image, the team should consider whether the mobile hero
+          really needs a carousel. A simpler static hero image may perform better.
+</p> <h2>The third technical problem: the network dependency chain</h2> <p>
+The report shows a long network dependency tree.
+</p> <p>
+This means the browser has to load many resources before the page becomes visually complete.
+          Long chains are especially expensive on mobile networks.
+</p> <p>
+A dependency audit should ask:
+</p> <ul> <li>Which resources are loaded in the head?</li> <li>Which scripts are parser-blocking?</li> <li>Which CSS files are critical?</li> <li>Which plugin files can be delayed?</li> <li>Which third-party resources can be deferred?</li> <li>Which files are loaded globally but only needed on specific components?</li> </ul> <h2>Why the SEO score can be high while performance is poor</h2> <p>
+A common confusion is seeing an SEO score above 90 while performance is much lower.
+</p> <p>
+The Lighthouse SEO score checks a limited set of technical basics. It does not mean the
+          page has strong organic performance, strong content, strong rankings, or good Core Web Vitals.
+</p> <p>
+In this case, the page can score well on basic SEO checks and still fail the Core Web Vitals
+          assessment because the main problem is loading performance.
+</p> <h2>Are Core Web Vitals ranking factors?</h2> <p>
+Yes, Core Web Vitals are used by Google’s ranking systems, but this should be understood
+          carefully.
+</p> <p>
+Core Web Vitals are not a magic ranking lever. A fast page with weak content will not
+          automatically outrank a slower page that answers the query better.
+</p> <p>
+The real SEO impact is more nuanced.
+</p> <p>
+Core Web Vitals matter because they contribute to page experience. If two pages are similar
+          in relevance and quality, the page with the better experience may be more competitive.
+</p> <p>
+So the risk is not: “Your rankings will instantly disappear because the performance score is 55.”
+</p> <p>
+The real risk is: “Users may abandon the page earlier, Google may see weaker page experience,
+          and the site may become less competitive when similar pages offer a faster and smoother experience.”
+</p> <h2>Real risk vs potential risk</h2> <div class="impact-grid"> <div class="impact-card"> <h3>Real user risk</h3> <p>
+If the page takes too long to show meaningful content, users may lose patience,
+              especially on mobile devices and slower connections.
+</p> </div> <div class="impact-card"> <h3>Conversion risk</h3> <p>
+Slow pages can make booking, searching, reading, or completing a task feel harder.
+              Even if rankings do not change immediately, user behavior can suffer.
+</p> </div> <div class="impact-card"> <h3>SEO competitiveness risk</h3> <p>
+Core Web Vitals are not the only ranking factor, but poor page experience can make a
+              page less competitive when other pages satisfy the same intent with a better experience.
+</p> </div> <div class="impact-card"> <h3>Operational risk</h3> <p>
+Performance issues often come from accumulated technical debt: old plugins, global CSS,
+              heavy sliders, large images, and third-party scripts loaded too early.
+</p> </div> </div> <h2>What I would fix first</h2> <p>
+If I were auditing this page, I would not begin with a generic “make the site faster”
+          recommendation. I would prioritize the largest bottlenecks.
+</p> <div class="audit-checklist"> <div class="audit-check"> <h3>1. Identify and optimize the LCP element</h3> <p>
+The report points to the carousel image as the LCP element. Compress it, resize it
+              for mobile, serve it in a modern format, and make sure it is discovered early.
+</p> </div> <div class="audit-check"> <h3>2. Reduce render-blocking CSS and JavaScript</h3> <p>
+Audit which files are critical for the first screen and which can be deferred,
+              delayed, removed, or loaded only on specific pages.
+</p> </div> <div class="audit-check"> <h3>3. Review the slider and plugin stack</h3> <p>
+If the carousel is mainly decorative, it may not justify the performance cost on mobile.
+</p> </div> <div class="audit-check"> <h3>4. Enable text compression</h3> <p>
+Check whether Brotli or Gzip is enabled for HTML, CSS, and JavaScript files.
+</p> </div> <div class="audit-check"> <h3>5. Clean the critical request chain</h3> <p>
+Make the most important resources load first, and delay resources that are not needed
+              for the first screen.
+</p> </div> <div class="audit-check"> <h3>6. Measure again after release</h3> <p>
+Test with PageSpeed Insights and Chrome DevTools after deployment, then monitor Search
+              Console because field data takes time to refresh.
+</p> </div> </div> <h2>What business owners should understand</h2> <p>
+The goal is not a perfect Lighthouse score.
+</p> <p>
+A perfect 100 is not always realistic, especially on complex websites with booking flows,
+          third-party scripts, maps, payment systems, personalization, analytics, or CMS plugins.
+</p> <p>
+The goal is to remove avoidable friction.
+</p> <p>
+If users are waiting more than five seconds for the main content to load, that is not just
+          a technical detail. It affects trust, task completion, conversion, and competitiveness.
+</p> <h2>How I can help</h2> <p>
+I help businesses turn technical performance reports into practical SEO and development
+          priorities.
+</p> <p>
+A PageSpeed Insights report can be overwhelming because it contains many warnings. The real
+          value is knowing which ones matter, which ones affect users, which ones affect Core Web
+          Vitals, and which ones developers should fix first.
+</p> <p>
+In a technical visibility audit, I can help identify:
+</p> <ul> <li>Which templates or pages are affected.</li> <li>Which Core Web Vital is the main problem.</li> <li>What the LCP element is.</li> <li>Which scripts and styles are blocking rendering.</li> <li>Whether images, fonts, sliders, or plugins are delaying the page.</li> <li>Which third-party resources are essential and which can be delayed.</li> <li>Which fixes are likely to have the highest impact.</li> <li>How to translate PageSpeed findings into a developer-ready roadmap.</li> </ul> <p>
+This is not about chasing a perfect score. It is about making the page easier to load,
+          easier to use, easier to measure, and easier to compete with in search.
+</p> <div class="article-cta"> <h2>Need help prioritizing Core Web Vitals fixes?</h2> <p>
+I can review your PageSpeed Insights and Search Console data, identify the highest-priority
+            performance issues, and turn the findings into clear technical actions for your website or
+            development team.
+</p> <a class="article-cta-button" href="/free-visibility-check/#calendar">
+Request a technical visibility check
+</a> <p class="cta-note">
+This is not about promising perfect scores. It is about finding the performance issues that
+            matter most for users, search visibility, and conversion.
+</p> </div> <h2>Sources and further reading</h2> <ul class="source-list"> <li> <a href="https://developers.google.com/search/docs/appearance/core-web-vitals" target="_blank" rel="noreferrer">
+Google Search Central: Understanding Core Web Vitals and Google Search results
+</a> </li> <li> <a href="https://developers.google.com/speed/docs/insights/v5/about" target="_blank" rel="noreferrer">
+Google Developers: About PageSpeed Insights
+</a> </li> <li> <a href="https://web.dev/articles/vitals" target="_blank" rel="noreferrer">
+web.dev: Web Vitals
+</a> </li> <li> <a href="https://web.dev/learn/performance/understanding-the-critical-path" target="_blank" rel="noreferrer">
+web.dev: Understanding the critical path
+</a> </li> <li> <a href="https://web.dev/articles/fetch-priority" target="_blank" rel="noreferrer">
+web.dev: Optimize resource loading with the Fetch Priority API
+</a> </li> <li> <a href="https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/Lazy_loading" target="_blank" rel="noreferrer">
+MDN: Lazy loading
+</a> </li> <li> <a href="https://developer.chrome.com/docs/lighthouse/performance/uses-webp-images" target="_blank" rel="noreferrer">
+Chrome Developers: Serve images in next-gen formats
+</a> </li> <li> <a href="https://developer.chrome.com/docs/devtools/coverage" target="_blank" rel="noreferrer">
+Chrome DevTools: Find unused JavaScript and CSS with the Coverage tool
+</a> </li> </ul> </section> </article> </main>  <footer class="site-footer"> <div class="container footer-inner"> <p>© 2026 Matteo Arellano. Technical SEO & AI visibility consulting.</p> <div class="footer-links"> <a href="/">Home</a> <a href="/about/">About</a> <a href="mailto:matteo.visibility@gmail.com">Email</a> <a href="https://www.linkedin.com/in/matteoarellano" target="_blank" rel="noreferrer">LinkedIn</a> </div> </div> </footer>  </body></html>
