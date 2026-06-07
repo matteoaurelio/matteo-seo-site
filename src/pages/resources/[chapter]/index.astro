@@ -1,0 +1,96 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+import {
+  cookbookChapters,
+  getChapterBySlug,
+  getRecipesByChapter
+} from "../../../data/cookbook";
+
+export function getStaticPaths() {
+  return cookbookChapters.map((chapter) => ({
+    params: { chapter: chapter.slug },
+  }));
+}
+
+const chapterSlug = Astro.params.chapter;
+const chapter = getChapterBySlug(chapterSlug || "");
+const recipes = getRecipesByChapter(chapterSlug || "");
+
+if (!chapter) {
+  throw new Error(`Cookbook chapter not found: ${chapterSlug}`);
+}
+
+const title = `${chapter.title} | Technical Growth Cookbook | Matteo Arellano`;
+const description = chapter.description;
+const canonical = `https://matteoarellano.com/resources/${chapter.slug}/`;
+---
+
+<BaseLayout title={title} description={description} canonical={canonical}>
+  <Header />
+
+  <main class="cookbook-page">
+    <section class="cookbook-hero cookbook-topic-hero">
+      <a class="recipe-back-link" href="/resources/">
+        ← Back to cookbook
+      </a>
+
+      <span class="cookbook-kicker">Chapter {chapter.number}</span>
+
+      <h1>{chapter.title}</h1>
+
+      <p>{chapter.description}</p>
+
+      <div class="chapter-tags">
+        {chapter.tags.map((tag) => (
+          <span>{tag}</span>
+        ))}
+      </div>
+    </section>
+
+    <section class="cookbook-section">
+      <div class="cookbook-section-header">
+        <span class="cookbook-kicker">Recipes</span>
+        <h2>
+          {recipes.length > 0 ? "Available recipes" : "Recipes coming soon"}
+        </h2>
+
+        <p>
+          Recipes in this chapter are added over time. Each one includes the business
+          problem, code pattern, explanation, measurement logic, and mistakes to avoid.
+        </p>
+      </div>
+
+      {recipes.length > 0 ? (
+        <div class="cookbook-recipe-grid">
+          {recipes.map((recipe) => (
+            <a class="cookbook-recipe-card" href={recipe.href}>
+              <span class="recipe-number">Recipe {recipe.number}</span>
+              <h3>{recipe.title}</h3>
+              <p>{recipe.description}</p>
+
+              <div class="chapter-tags">
+                <span>{recipe.language}</span>
+                <span>{recipe.difficulty}</span>
+                {recipe.tags.map((tag) => (
+                  <span>{tag}</span>
+                ))}
+              </div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div class="cookbook-empty-card">
+          <h3>This chapter is planned.</h3>
+          <p>
+            This topic is part of the cookbook structure, but the first public recipe
+            has not been published yet.
+          </p>
+        </div>
+      )}
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

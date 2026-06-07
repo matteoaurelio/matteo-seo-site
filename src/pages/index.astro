@@ -236,19 +236,38 @@ const faqs = [
     </section>
 
     <section class="section" id="tools">
-      <div class="container split">
-        <div>
-          <div class="eyebrow">Tools & methods</div>
-          <h2>The tool is not the strategy. The interpretation is.</h2>
-          <p class="lede">
-            I use crawlers, analytics platforms, browser inspection, performance testing, and custom scripts to understand both the website and the behavior behind it.
-          </p>
-        </div>
-        <div class="tool-cloud" aria-label="SEO and analytics tools">
-          {tools.map((tool) => <span class="tool">{tool}</span>)}
-        </div>
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="eyebrow">Tools, methods & resources</div>
+        <h2>The tool is not the strategy. The interpretation is.</h2>
       </div>
-    </section>
+      <p>
+        I use crawlers, analytics platforms, browser inspection, performance testing,
+        and custom scripts to understand both the website and the behavior behind it.
+      </p>
+    </div>
+
+    <div class="tool-cloud compact-tool-cloud" aria-label="SEO and analytics tools">
+      {tools.map((tool) => <span class="tool">{tool}</span>)}
+    </div>
+
+    <article class="cookbook-feature-card">
+      <div>
+        <span class="tag">Resource library</span>
+        <h3>Technical Growth Cookbook</h3>
+        <p>
+          A growing collection of reusable code recipes for SEO, analytics, campaign tracking,
+          browser diagnostics, Core Web Vitals, Search Console exports, and large-scale data analysis.
+        </p>
+      </div>
+
+      <a class="button button-primary" href="/resources/">
+        Open the cookbook
+      </a>
+    </article>
+  </div>
+</section>
 
     <section class="section soft" id="ai-visibility">
       <div class="container split">

@@ -1,0 +1,139 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import Header from "../../../../components/Header.astro";
+import Footer from "../../../../components/Footer.astro";
+
+const title =
+  "Recipe 001: Split Campaign Traffic and Track Variants with UTMs | Matteo Arellano";
+
+const description =
+  "A practical technical growth recipe showing how to split one campaign URL between two landing pages and track each variant with UTM parameters.";
+
+const canonical =
+  "https://matteoarellano.com/resources/campaign-tracking/split-campaign-traffic-utm/";
+
+const workerSnippet = `export default {
+  async fetch(request) {
+    const menuA = "https://example-food.co/menu/family-combos";
+    const menuB = "https://example-food.co/menu/quick-lunch";
+
+    const variant =
+      Math.random() < 0.5 ? "menu_a_family_combos" : "menu_b_quick_lunch";
+
+    const target = variant === "menu_a_family_combos" ? menuA : menuB;
+
+    const url = new URL(target);
+
+    url.searchParams.set("utm_source", "restaurant_qr");
+    url.searchParams.set("utm_medium", "qr");
+    url.searchParams.set("utm_campaign", "menu_ab_test_june");
+    url.searchParams.set("utm_content", variant);
+
+    return Response.redirect(url.toString(), 302);
+  }
+};`;
+---
+<BaseLayout title={title} description={description} canonical={canonical}>
+  <Header />
+
+  <main class="recipe-page">
+    <article class="recipe-shell">
+      <a class="recipe-back-link" href="/resources/campaign-tracking/">
+        ← Back to Campaign Tracking & UTM Systems
+      </a>
+
+      <header class="recipe-hero">
+        <span class="recipe-kicker">Technical Growth Cookbook · Recipe 001</span>
+
+        <h1>Split one campaign URL between two landing pages and track the variant with UTMs</h1>
+
+        <p>
+          A practical JavaScript recipe for campaign testing: one public URL, two possible
+          destinations, a 50/50 split, and clean UTM labels so the results can be analyzed later.
+        </p>
+
+        <div class="recipe-tags">
+          <span>JavaScript</span>
+          <span>UTM tracking</span>
+          <span>A/B testing</span>
+          <span>Analytics</span>
+        </div>
+      </header>
+
+      <section class="recipe-card">
+        <h2>The business problem</h2>
+
+        <p>
+          Let’s say a food delivery business wants to promote one QR code, but it is not sure
+          which landing page will sell more.
+        </p>
+
+        <p>
+          Menu A promotes family combo meals. Menu B promotes quick lunch options. Instead of
+          printing two different QR codes, the business uses one campaign URL and splits visitors
+          between both menu pages.
+        </p>
+
+        <p>
+          The important part is not only the redirect. The important part is that each visitor
+          is labelled correctly with UTM parameters, so the business can later compare conversions,
+          checkout starts, order value, and revenue per visitor.
+        </p>
+      </section>
+
+      <section class="recipe-card">
+        <h2>The recipe</h2>
+
+        <p>
+          This example uses fictional food delivery URLs. The method is reusable, but real
+          client URLs, IDs, prices, and private business parameters should not be published.
+        </p>
+
+        <pre><code>{workerSnippet}</code></pre>
+      </section>
+
+      <section class="recipe-card">
+        <h2>How it works</h2>
+
+        <ol>
+          <li>Create one public campaign URL.</li>
+          <li>Define two destination pages.</li>
+          <li>Randomly assign the visitor to Menu A or Menu B.</li>
+          <li>Add UTM parameters to label the campaign and variant.</li>
+          <li>Use a temporary redirect because this is an experiment.</li>
+        </ol>
+      </section>
+
+      <section class="recipe-card">
+        <h2>What to measure</h2>
+
+        <ul>
+          <li>Users by variant</li>
+          <li>Menu views</li>
+          <li>Checkout starts</li>
+          <li>Orders or leads</li>
+          <li>Conversion rate</li>
+          <li>Average order value</li>
+          <li>Revenue per visitor</li>
+        </ul>
+      </section>
+
+      <section class="recipe-related">
+        <div>
+          <span class="recipe-kicker">Related article</span>
+          <h2>Want the full explanation?</h2>
+          <p>
+            I wrote a full Analytics & Measurement article explaining UTM parameters,
+            traffic splitting, 302 redirects, and conversion analysis.
+          </p>
+        </div>
+
+        <a class="recipe-button" href="/blog/analytics-measurement/utm-ab-test-traffic-split-food-delivery/">
+          Read the full article
+        </a>
+      </section>
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
