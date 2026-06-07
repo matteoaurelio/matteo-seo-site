@@ -7,6 +7,20 @@ const navLinks = [
   { href: '/#faq', label: 'FAQ' },
   { href: '/blog/', label: 'Blog' }
 ];
+
+const currentPath = Astro.url.pathname;
+
+const currentLanguage = currentPath.startsWith('/es/')
+  ? 'ES'
+  : currentPath.startsWith('/nl/')
+    ? 'NL'
+    : 'EN';
+
+const languageLinks = [
+  { href: '/', label: 'EN', name: 'English' },
+  { href: '/es/', label: 'ES', name: 'Español' },
+  { href: '/nl/', label: 'NL', name: 'Nederlands' }
+];
 ---
 
 <header class="site-header">
@@ -19,11 +33,41 @@ const navLinks = [
       </span>
     </a>
 
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      {navLinks.map((link) => (
+        <a href={link.href}>{link.label}</a>
+      ))}
+    </nav>
+
+    <div class="desktop-language language-switcher" aria-label="Language selector">
+      <span class="language-label">Language</span>
+
+      <div class="language-options">
+        {languageLinks.map((language) => (
+          <a
+            href={language.href}
+            class:list={[
+              'language-link',
+              currentLanguage === language.label && 'is-active'
+            ]}
+            aria-label={`View site in ${language.name}`}
+            aria-current={currentLanguage === language.label ? 'page' : undefined}
+          >
+            {language.label}
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <a class="nav-audit header-cta" href="/free-visibility-check/#calendar">
+      Book free SEO check
+    </a>
+
     <button
       class="nav-toggle"
       type="button"
       aria-expanded="false"
-      aria-controls="site-nav"
+      aria-controls="nav-panel"
       aria-label="Open navigation menu"
     >
       <span></span>
@@ -31,33 +75,57 @@ const navLinks = [
       <span></span>
     </button>
 
-    <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
-      {navLinks.map((link) => (
-        <a href={link.href}>{link.label}</a>
-      ))}
-      <a class="nav-audit" href="/free-visibility-check/#calendar">
-      Book free SEO check
+    <div class="nav-panel" id="nav-panel">
+      <nav class="panel-nav" aria-label="Collapsed navigation">
+        {navLinks.map((link) => (
+          <a href={link.href}>{link.label}</a>
+        ))}
+      </nav>
+
+      <div class="panel-language language-switcher" aria-label="Language selector">
+        <span class="language-label">Language</span>
+
+        <div class="language-options">
+          {languageLinks.map((language) => (
+            <a
+              href={language.href}
+              class:list={[
+                'language-link',
+                currentLanguage === language.label && 'is-active'
+              ]}
+              aria-label={`View site in ${language.name}`}
+              aria-current={currentLanguage === language.label ? 'page' : undefined}
+            >
+              {language.label}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <a class="nav-audit panel-audit" href="/free-visibility-check/#calendar">
+        Book free SEO check
       </a>
-    </nav>
+    </div>
   </div>
 </header>
 
 <script is:inline>
   const toggle = document.querySelector('.nav-toggle');
-  const nav = document.querySelector('#site-nav');
+  const panel = document.querySelector('#nav-panel');
 
-  if (toggle && nav) {
+  if (toggle && panel) {
     toggle.addEventListener('click', () => {
       const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+
       toggle.setAttribute('aria-expanded', String(!isOpen));
-      nav.classList.toggle('is-open', !isOpen);
+      panel.classList.toggle('is-open', !isOpen);
       document.body.classList.toggle('nav-open', !isOpen);
     });
 
-    nav.querySelectorAll('a').forEach((link) => {
+    panel.querySelectorAll('a').forEach((link) => {
       link.addEventListener('click', () => {
         toggle.setAttribute('aria-expanded', 'false');
-        nav.classList.remove('is-open');
+        panel.classList.remove('is-open');
         document.body.classList.remove('nav-open');
       });
     });
