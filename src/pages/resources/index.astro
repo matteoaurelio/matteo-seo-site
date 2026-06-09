@@ -20,31 +20,30 @@ const canonical = "https://matteoarellano.com/resources/";
     <section class="cookbook-hero">
       <span class="cookbook-kicker">Technical Growth Cookbook</span>
 
-      <h1>Reusable code recipes for SEO, analytics, tracking, and data analysis.</h1>
+      <h1>
+        Reusable code recipes for SEO, analytics, tracking, and data analysis.
+      </h1>
 
       <p>
-        A practical cookbook of technical recipes explained through real business problems:
-        campaign tracking, technical SEO audits, JavaScript diagnostics, Core Web Vitals,
-        Search Console analysis, internal linking, Polars workflows, and reporting.
+        A practical cookbook of technical recipes explained through real
+        business problems: campaign tracking, technical SEO audits, JavaScript
+        diagnostics, Core Web Vitals, Search Console analysis, internal linking,
+        Polars workflows, and reporting.
       </p>
 
       <div class="cookbook-hero-actions">
-        <a class="cookbook-button" href="#chapters">
-          Explore chapters
-        </a>
+        <a class="cookbook-button" href="#chapters"> Explore chapters </a>
 
         <a
-            class="cookbook-secondary-button"
-            href="https://github.com/matteoaurelio/technical-growth-cookbook"
-            target="_blank"
-            rel="noreferrer"
-            >
-            View on GitHub
+          class="cookbook-secondary-button"
+          href="https://github.com/matteoaurelio/technical-growth-cookbook"
+          target="_blank"
+          rel="noreferrer"
+        >
+          View on GitHub
         </a>
 
-        <a class="cookbook-secondary-button" href="/blog/">
-          Read the blog
-        </a>
+        <a class="cookbook-secondary-button" href="/blog/"> Read the blog </a>
       </div>
     </section>
 
@@ -52,9 +51,9 @@ const canonical = "https://matteoarellano.com/resources/";
       <div>
         <h2>How the cookbook works</h2>
         <p>
-          Each recipe starts from a practical business problem, then shows the code,
-          explains the logic, lists mistakes to avoid, and connects the solution to
-          measurement, visibility, or business decisions.
+          Each recipe starts from a practical business problem, then shows the
+          code, explains the logic, lists mistakes to avoid, and connects the
+          solution to measurement, visibility, or business decisions.
         </p>
       </div>
 
@@ -71,38 +70,41 @@ const canonical = "https://matteoarellano.com/resources/";
         <span class="cookbook-kicker">10 chapters</span>
         <h2>Choose a topic.</h2>
         <p>
-          Each chapter contains focused recipes. The structure will grow over time as
-          new LinkedIn posts, website recipes, and GitHub cookbook entries are published.
+          Each chapter contains focused recipes. The structure will grow over
+          time as new LinkedIn posts, website recipes, and GitHub cookbook
+          entries are published.
         </p>
       </div>
 
       <div class="cookbook-chapter-grid">
-        {cookbookChapters.map((chapter) => {
-          const recipes = getRecipesByChapter(chapter.slug);
+        {
+          cookbookChapters.map((chapter) => {
+            const recipes = getRecipesByChapter(chapter.slug);
 
-          return (
-            <a
-              class="cookbook-chapter-card"
-              href={`/resources/${chapter.slug}/`}
-            >
-              <span class="chapter-number">{chapter.number}</span>
-              <h3>{chapter.title}</h3>
-              <p>{chapter.description}</p>
+            return (
+              <a
+                class="cookbook-chapter-card"
+                href={`/resources/${chapter.slug}/`}
+              >
+                <span class="chapter-number">{chapter.number}</span>
+                <h3>{chapter.title}</h3>
+                <p>{chapter.description}</p>
 
-              <div class="chapter-tags">
-                {chapter.tags.map((tag) => (
-                  <span>{tag}</span>
-                ))}
-              </div>
+                <div class="chapter-tags">
+                  {chapter.tags.map((tag) => (
+                    <span>{tag}</span>
+                  ))}
+                </div>
 
-              <strong>
-                {recipes.length === 1
-                  ? "1 recipe available"
-                  : `${recipes.length} recipes available`}
-              </strong>
-            </a>
-          );
-        })}
+                <strong>
+                  {recipes.length === 1
+                    ? "1 recipe available"
+                    : `${recipes.length} recipes available`}
+                </strong>
+              </a>
+            );
+          })
+        }
       </div>
     </section>
 
@@ -112,8 +114,9 @@ const canonical = "https://matteoarellano.com/resources/";
       <h2>This cookbook will grow recipe by recipe.</h2>
 
       <p>
-        Each recipe can become a website page, a LinkedIn post, and a GitHub cookbook
-        entry. Over time, this becomes a public library of practical technical growth patterns.
+        Each recipe can become a website page, a LinkedIn post, and a GitHub
+        cookbook entry. Over time, this becomes a public library of practical
+        technical growth patterns.
       </p>
 
       <a

@@ -1,0 +1,776 @@
+---
+import BlogLayout from "../../../layouts/BlogLayout.astro";
+
+const title =
+  "How to Get More Website Traffic with Keyword Research That Solves Real Customer Problems | Matteo Arellano";
+
+const description =
+  "A practical keyword research methodology for business owners and marketing teams who want more qualified traffic, not just more keywords.";
+
+const canonical =
+  "https://matteoarellano.com/blog/organic-growth/how-to-get-more-website-traffic-keyword-research/";
+
+const intentTypes = [
+  {
+    title: "Transactional queries",
+    definition:
+      "Searches where the user is close to taking action: booking, buying, requesting, comparing prices, or checking availability.",
+    hotelExample:
+      "book boutique hotel Lisbon, hotel available tonight Lisbon, boutique hotel with breakfast",
+    whyItMatters:
+      "These queries are usually closer to revenue. They deserve strong commercial pages, booking paths, and clear calls to action.",
+  },
+  {
+    title: "Informational queries",
+    definition:
+      "Searches where the user wants to understand something before choosing: areas, travel logistics, amenities, safety, timing, or planning.",
+    hotelExample:
+      "best area to stay in Lisbon without a car, where to stay for first trip to Lisbon",
+    whyItMatters:
+      "These queries can introduce your brand before the user is ready to book. They work best when they internally link to relevant commercial pages.",
+  },
+  {
+    title: "Educational queries",
+    definition:
+      "Searches where the user is learning how to make a better decision, often with guides, comparisons, checklists, and explanations.",
+    hotelExample:
+      "hotel vs apartment rental for short city break, boutique hotel vs chain hotel",
+    whyItMatters:
+      "These queries help you shape the decision criteria. They are useful when the business can explain trade-offs honestly.",
+  },
+  {
+    title: "Brand discovery queries",
+    definition:
+      "Searches where the user is not yet searching for your brand, but is discovering businesses like yours through needs, locations, or experiences.",
+    hotelExample:
+      "small design hotel near Alfama, romantic boutique hotel near restaurants Lisbon",
+    whyItMatters:
+      "These are important for newer businesses because people cannot search for a brand they do not know yet.",
+  },
+  {
+    title: "Branded queries",
+    definition:
+      "Searches that include your brand name, property name, product name, or branded service.",
+    hotelExample:
+      "Casa Aurora Lisbon reviews, Casa Aurora boutique hotel breakfast",
+    whyItMatters:
+      "These reveal reputation, direct demand, and whether competitors or booking platforms are capturing attention around your own name.",
+  },
+  {
+    title: "Substitute and competitor queries",
+    definition:
+      "Searches where the user is considering another type of solution, another platform, or another competitor.",
+    hotelExample:
+      "Airbnb alternative Lisbon, hotel instead of apartment rental Lisbon, boutique hotel near [competitor hotel]",
+    whyItMatters:
+      "These can be powerful, but they need careful handling. You can compare categories and alternatives, but you should avoid misleading pages or weak competitor attacks.",
+  },
+];
+
+const spreadsheetFields = [
+  {
+    field: "Keyword",
+    meaning: "The exact search phrase or query pattern you want to evaluate.",
+    hotelExample: "quiet boutique hotel Lisbon",
+    use: "Keep it close to how a real customer would search, not only how the business describes itself.",
+  },
+  {
+    field: "Monthly Search Volume (MSV)",
+    meaning:
+      "The estimated average number of monthly searches, often calculated over the previous 12 months.",
+    hotelExample:
+      "A keyword with 70 searches per month may still be valuable if it is highly relevant.",
+    use: "Use MSV as a demand signal, not as the only decision factor.",
+  },
+  {
+    field: "Priority",
+    meaning:
+      "How strongly the keyword supports business objectives, marketing initiatives, or sales targets.",
+    hotelExample: "High priority if the hotel wants direct weekend bookings.",
+    use: "A low-volume keyword can be high priority if it reaches the right buyer.",
+  },
+  {
+    field: "Relevance",
+    meaning:
+      "How closely the keyword matches the current or planned page content.",
+    hotelExample:
+      "A page about quiet rooms should not target party nightlife queries.",
+    use: "High relevance usually creates better content alignment and better conversion potential.",
+  },
+  {
+    field: "Difficulty",
+    meaning:
+      "The estimated level of competition in search results or paid auctions.",
+    hotelExample:
+      "hotel Lisbon city center is harder than quiet boutique hotel near Alfama.",
+    use: "Difficulty helps decide whether to compete now, build supporting pages first, or target long-tail demand.",
+  },
+  {
+    field: "Rank",
+    meaning:
+      "The current organic position your page has for that query, if it already ranks.",
+    hotelExample:
+      "Position 12 may be a strong improvement opportunity because the page is close to page one.",
+    use: "Use rank together with impressions, CTR, and page quality. Rank alone is not enough.",
+  },
+  {
+    field: "CPC",
+    meaning: "Estimated cost per click in paid search.",
+    hotelExample:
+      "A high CPC can indicate commercial value, but it can also indicate expensive competition.",
+    use: "Use CPC as a commercial-intent signal, especially when deciding which organic pages may support paid campaigns.",
+  },
+  {
+    field: "Superset",
+    meaning:
+      "A broad grouping for high-cardinality topics, such as destination, product type, route, city, event, or brand family.",
+    hotelExample:
+      "Lisbon neighborhoods, remote-work stays, romantic weekends, airport arrivals.",
+    use: "Supersets prevent keyword lists from becoming impossible to manage.",
+  },
+  {
+    field: "Topic",
+    meaning: "A more refined cluster inside the larger superset.",
+    hotelExample:
+      "Where to stay without a car, late arrival, breakfast included, quiet rooms.",
+    use: "Topics help decide which page or content hub should own the keyword.",
+  },
+  {
+    field: "Persona",
+    meaning: "The customer type or audience segment behind the query.",
+    hotelExample:
+      "First-time traveler, remote worker, couple, conference attendee, family visitor.",
+    use: "Personas make content more specific and prevent generic pages.",
+  },
+  {
+    field: "URL",
+    meaning:
+      "The page currently ranking for the keyword or the page you plan to create.",
+    hotelExample: "/guides/where-to-stay-lisbon-without-car/",
+    use: "Every important keyword should have a clear page owner.",
+  },
+  {
+    field: "Brand or unbranded",
+    meaning:
+      "Whether the query includes your brand, a competitor brand, a platform brand, or no brand at all.",
+    hotelExample:
+      "Casa Aurora Lisbon is branded. Airbnb alternative Lisbon is substitute/platform intent.",
+    use: "This helps detect brand demand, competitor pressure, and discovery opportunities.",
+  },
+];
+
+const methodology = [
+  {
+    step: "01",
+    title: "Define the business outcome",
+    copy: "Start with the result the business wants: direct bookings, qualified leads, product sales, demo requests, local visits, or reduced dependency on intermediaries.",
+  },
+  {
+    step: "02",
+    title: "Map the obvious purchase terms",
+    copy: "List the direct transactional terms first. For a boutique hotel, this includes hotel in city, boutique hotel near area, hotel with breakfast, and book hotel tonight.",
+  },
+  {
+    step: "03",
+    title: "Find customer problems",
+    copy: "Ask what situation creates demand. A hotel can solve late arrivals, first-time city visits, remote-work stays, romantic weekends, event travel, and neighborhood uncertainty.",
+  },
+  {
+    step: "04",
+    title: "Map substitutes and alternatives",
+    copy: "Identify what the customer may choose instead: apartment rentals, large hotel chains, hostels, resorts, serviced apartments, or named competitors.",
+  },
+  {
+    step: "05",
+    title: "Build intent clusters",
+    copy: "Group keywords by intent, not by random similarity. Use clusters like availability, location, comparison, amenities, events, urgency, and brand discovery.",
+  },
+  {
+    step: "06",
+    title: "Assign a page owner",
+    copy: "Every valuable keyword or cluster should map to a specific URL: an existing page to improve or a new page to create.",
+  },
+  {
+    step: "07",
+    title: "Score and prioritize",
+    copy: "Balance MSV, relevance, difficulty, CPC, current rank, business priority, and conversion potential. Do not chase volume without business fit.",
+  },
+  {
+    step: "08",
+    title: "Review and refresh",
+    copy: "Update the research when rankings change, demand shifts, competitors enter, seasonality approaches, or business priorities change.",
+  },
+];
+
+const hotelClusters = [
+  {
+    title: "Direct booking demand",
+    examples:
+      "boutique hotel Lisbon, book boutique hotel Lisbon, hotel with breakfast Lisbon",
+    pageType: "Commercial room or booking page",
+  },
+  {
+    title: "Location and neighborhood uncertainty",
+    examples:
+      "best area to stay in Lisbon without a car, where to stay for first weekend in Lisbon",
+    pageType: "Neighborhood guide with links to relevant rooms",
+  },
+  {
+    title: "Substitute demand",
+    examples:
+      "Airbnb alternative Lisbon, boutique hotel vs apartment rental, hotel instead of vacation rental",
+    pageType: "Comparison guide",
+  },
+  {
+    title: "Competitor and platform demand",
+    examples:
+      "hotel near [competitor], alternative to large hotel chain Lisbon, book direct hotel Lisbon",
+    pageType: "Careful comparison or direct-booking value page",
+  },
+  {
+    title: "Urgency and availability",
+    examples:
+      "hotel available tonight Lisbon, last-minute boutique hotel, late check-in hotel Lisbon",
+    pageType: "Availability or last-minute booking page",
+  },
+  {
+    title: "Seasonal and event demand",
+    examples:
+      "where to stay during Web Summit Lisbon, hotel for Christmas market Lisbon, summer weekend Lisbon hotel",
+    pageType: "Event or seasonal landing page",
+  },
+  {
+    title: "Amenities and constraints",
+    examples:
+      "quiet hotel Lisbon, hotel with workspace Lisbon, hotel with luggage storage Lisbon",
+    pageType: "Amenity-led landing page",
+  },
+  {
+    title: "Brand discovery",
+    examples:
+      "small design hotel Lisbon, romantic boutique hotel near restaurants Lisbon",
+    pageType: "Experience-led discovery page",
+  },
+];
+
+const goodKeywordSignals = [
+  "The query matches a real customer problem.",
+  "The business can answer better than generic competitors.",
+  "The user has a clear next action after reading the page.",
+  "The page can naturally link to a commercial offer.",
+  "The keyword has enough demand, or strong enough conversion value, to justify the work.",
+  "The SERP shows pages similar to the page you can realistically create.",
+  "The keyword supports a topic cluster, not a one-off isolated page.",
+];
+
+const rankingChangeReasons = [
+  "Competitors publish better or fresher content.",
+  "Google reinterprets the intent behind the query.",
+  "Seasonality changes what users expect to see.",
+  "Search results become more local, visual, commercial, or informational.",
+  "Your page becomes outdated or less complete.",
+  "Technical issues affect crawling, indexing, rendering, or page experience.",
+  "Internal links change and Google receives weaker signals about the page.",
+];
+
+const updateCadence = [
+  {
+    cadence: "Monthly",
+    use: "Review Search Console queries, pages gaining impressions, pages losing clicks, and keywords close to page-one positions.",
+  },
+  {
+    cadence: "Quarterly",
+    use: "Refresh the keyword map, reprioritize clusters, update pages, and compare rankings against business goals.",
+  },
+  {
+    cadence: "Seasonally",
+    use: "Update event, travel, holiday, retail, tourism, and campaign-led pages before demand peaks.",
+  },
+  {
+    cadence: "When the market changes",
+    use: "Revisit the research after new competitors, new services, pricing changes, product launches, or changes in customer behavior.",
+  },
+];
+
+const kpis = [
+  "Search Console impressions by topic cluster",
+  "Clicks from problem-led and long-tail queries",
+  "Rank movement for priority keywords",
+  "CTR changes after title and meta description improvements",
+  "Internal clicks from guide pages to commercial pages",
+  "Organic conversion rate by landing page",
+  "Assisted conversions from informational content",
+  "Bookings, leads, sales, or qualified inquiries from organic sessions",
+];
+
+const sources = [
+  {
+    label: "Google Search: How ranking results work",
+    href: "https://www.google.com/intl/en_us/search/howsearchworks/how-search-works/ranking-results",
+  },
+  {
+    label: "Google Search Central: Guide to Google Search ranking systems",
+    href: "https://developers.google.com/search/docs/appearance/ranking-systems-guide",
+  },
+  {
+    label:
+      "Google Search Central: Creating helpful, reliable, people-first content",
+    href: "https://developers.google.com/search/docs/fundamentals/creating-helpful-content",
+  },
+  {
+    label: "Google Ads Help: Use Keyword Planner",
+    href: "https://support.google.com/google-ads/answer/7337243",
+  },
+  {
+    label: "Google Trends Help: Compare Trends search terms",
+    href: "https://support.google.com/trends/answer/4359550",
+  },
+];
+---
+
+<BlogLayout title={title} description={description} canonical={canonical}>
+  <main class="article-page">
+    <article class="article-shell">
+      <a class="blog-back-link" href="/blog/organic-growth/">
+        ← Back to Organic Growth articles
+      </a>
+
+      <header class="article-header">
+        <span class="article-kicker">Organic Growth</span>
+
+        <h1>
+          How to get more website traffic with keyword research that solves real
+          customer problems
+        </h1>
+
+        <p class="article-intro">
+          A practical methodology for business owners and marketing teams who
+          want more qualified traffic, not just a longer keyword spreadsheet.
+        </p>
+
+        <div class="article-meta">
+          <span>Published June 2026</span>
+          <span>16 min read</span>
+        </div>
+      </header>
+
+      <section class="article-content">
+        <p>Many businesses ask the same question:</p>
+
+        <p>
+          <strong>How can we get more traffic to our website?</strong>
+        </p>
+
+        <p>
+          The common answer is “do keyword research.” But keyword research is
+          often treated too narrowly. People open a tool, export a list, sort by
+          monthly search volume, and start writing articles. That is not enough.
+        </p>
+
+        <p>
+          Keyword research is not only about finding words. It is about
+          understanding demand: what people want, what they are comparing, what
+          problem they are trying to solve, and which page on your website
+          should help them take the next step.
+        </p>
+
+        <div class="personal-note">
+          <p>
+            I’m
+            <a
+              href="https://www.linkedin.com/in/matteoarellano/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Matteo Arellano
+            </a>. I work across technical SEO, analytics, AI visibility, and
+            data analysis. One pattern I keep seeing is that businesses often
+            compete for the same obvious keywords, while ignoring the searches
+            that reveal real customer pain. There is real tangential demand and
+            out-of-the-box keyword demand that can boost your sales. Here, I’ll
+            share a methodology that has worked for me and my clients.
+          </p>
+        </div>
+
+        <h2>
+          The real goal is not “more keywords.” It is more qualified demand.
+        </h2>
+
+        <p>
+          Google explains that ranking systems use many factors and try to
+          understand the meaning, relevance, quality, usability, and context of
+          results. That means a page should not exist only because a keyword has
+          search volume. It should exist because it helps a user solve a real
+          problem and gives search systems a clear reason to understand, rank,
+          and serve it.
+        </p>
+
+        <p>
+          For a business, the practical goal is to build pages that connect
+          three things:
+        </p>
+
+        <ul>
+          <li>What people search for.</li>
+          <li>What problem or decision sits behind the search.</li>
+          <li>What the business can genuinely help them do next.</li>
+        </ul>
+
+        <h2>A fictional example: a new boutique hotel that needs visibility</h2>
+
+        <p>
+          Let’s say a boutique hotel recently opened in Lisbon. It has a
+          beautiful property, a strong local experience, breakfast, quiet rooms,
+          and a good location. But nobody knows the brand yet.
+        </p>
+
+        <p>The obvious keywords are easy:</p>
+
+        <ul>
+          <li>boutique hotel Lisbon</li>
+          <li>hotel in Lisbon city center</li>
+          <li>book hotel Lisbon</li>
+          <li>hotel near old town Lisbon</li>
+        </ul>
+
+        <p>
+          These keywords matter. But they are also where large booking
+          platforms, hotel chains, travel publishers, and comparison sites are
+          already competing.
+        </p>
+
+        <p>A stronger strategy asks:</p>
+
+        <blockquote>
+          What other searches happen before someone realizes this boutique hotel
+          is the right solution?
+        </blockquote>
+
+        <h2>First, define the type of search intent</h2>
+
+        <p>
+          A serious keyword strategy needs definitions. Without them, every
+          keyword looks the same. I separate keywords by the user’s intent and
+          decision stage.
+        </p>
+
+        <div class="keyword-intent-grid">
+          {
+            intentTypes.map((intent) => (
+              <article class="keyword-card">
+                <h3>{intent.title}</h3>
+                <p>{intent.definition}</p>
+                <p>
+                  <strong>Hotel example:</strong> {intent.hotelExample}
+                </p>
+                <p>
+                  <strong>Why it matters:</strong> {intent.whyItMatters}
+                </p>
+              </article>
+            ))
+          }
+        </div>
+
+        <h2>The keyword research spreadsheet should be a decision system</h2>
+
+        <p>
+          A keyword spreadsheet should not be a dumping ground. It should help
+          you decide what to build, improve, merge, redirect, measure, or
+          ignore.
+        </p>
+
+        <p>
+          These are the fields I recommend for a serious keyword research
+          workflow.
+        </p>
+
+        <div class="comparison-table keyword-field-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>What it means</th>
+                <th>Boutique hotel example</th>
+                <th>How to use it</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                spreadsheetFields.map((field) => (
+                  <tr>
+                    <td>
+                      <strong>{field.field}</strong>
+                    </td>
+                    <td>{field.meaning}</td>
+                    <td>{field.hotelExample}</td>
+                    <td>{field.use}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <h2>A rigorous methodology for keyword research</h2>
+
+        <p>
+          The process should be practical, business-led, and measurable. This is
+          the workflow I would use for a boutique hotel, a service company, an
+          ecommerce store, or a local business.
+        </p>
+
+        <div class="keyword-methodology-grid">
+          {
+            methodology.map((item) => (
+              <article class="keyword-step-card">
+                <span>{item.step}</span>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+              </article>
+            ))
+          }
+        </div>
+
+        <h2>Think beyond the obvious keyword</h2>
+
+        <p>
+          The most innovative part of keyword research is not finding another
+          variation of “boutique hotel Lisbon.” It is finding the adjacent
+          moments where your offer becomes the solution.
+        </p>
+
+        <p>
+          This is where substitutes, complementary needs, urgency, seasonality,
+          competitor demand, and brand discovery become useful.
+        </p>
+
+        <div class="impact-grid">
+          {
+            hotelClusters.map((cluster) => (
+              <div class="impact-card">
+                <h3>{cluster.title}</h3>
+                <p>
+                  <strong>Example queries:</strong> {cluster.examples}
+                </p>
+                <p>
+                  <strong>Best page type:</strong> {cluster.pageType}
+                </p>
+              </div>
+            ))
+          }
+        </div>
+
+        <h2>Substitute and competitor keywords need care</h2>
+
+        <p>
+          Substitute demand can be very valuable. A boutique hotel may attract
+          people searching for an Airbnb alternative, a quieter option than a
+          hostel, a more personal alternative to a large chain hotel, or a
+          direct-booking option instead of a third-party platform.
+        </p>
+
+        <p>
+          Competitor and substitute keywords can also be risky if handled badly.
+          The goal is not to create misleading pages or attack competitors. The
+          goal is to understand what the user is comparing and create honest,
+          useful pages.
+        </p>
+
+        <p>Good substitute content might explain:</p>
+
+        <ul>
+          <li>when a boutique hotel is better than an apartment rental,</li>
+          <li>when a serviced apartment may still be better,</li>
+          <li>
+            what travelers gain from direct support, breakfast, luggage storage,
+            and local guidance,
+          </li>
+          <li>
+            what trade-offs exist around price, space, flexibility, and service.
+          </li>
+        </ul>
+
+        <p>
+          This is how substitute demand becomes useful without becoming spammy.
+        </p>
+
+        <h2>How do you know if a keyword is good?</h2>
+
+        <p>
+          A good keyword is not just a keyword with high search volume. A good
+          keyword has a strong relationship with the business, the customer, and
+          a realistic page strategy.
+        </p>
+
+        <ul>
+          {goodKeywordSignals.map((signal) => <li>{signal}</li>)}
+        </ul>
+
+        <p>
+          Google Keyword Planner can help estimate monthly searches and costs
+          for paid campaigns, and those signals can support SEO prioritization.
+          But a keyword with low volume can still be valuable if it is highly
+          relevant, close to conversion, and underserved by competitors.
+        </p>
+
+        <h2>Why keyword rankings change</h2>
+
+        <p>
+          Rankings move because search is dynamic. Google’s systems evaluate
+          many signals across many pages, and the web changes constantly. New
+          competitors publish content, user intent shifts, freshness matters for
+          some queries, and your own technical or content quality can change
+          over time.
+        </p>
+
+        <p>Common reasons rankings change include:</p>
+
+        <ul>
+          {rankingChangeReasons.map((reason) => <li>{reason}</li>)}
+        </ul>
+
+        <p>
+          That is why keyword research should not be a one-time project. It
+          should become part of an ongoing organic growth system.
+        </p>
+
+        <h2>How often should keyword research be updated?</h2>
+
+        <p>
+          The answer depends on the business model and the volatility of demand.
+          A legal service page may not need weekly keyword updates. A travel,
+          retail, event, or seasonal business may need more frequent reviews.
+        </p>
+
+        <div class="keyword-update-grid">
+          {
+            updateCadence.map((item) => (
+              <article class="keyword-card">
+                <h3>{item.cadence}</h3>
+                <p>{item.use}</p>
+              </article>
+            ))
+          }
+        </div>
+
+        <h2>When seasonality matters</h2>
+
+        <p>
+          Seasonality matters when search demand changes by month, event,
+          weather, holiday, conference, school calendar, or buying cycle.
+        </p>
+
+        <p>
+          For the boutique hotel, seasonal demand could include summer weekends,
+          Christmas markets, major conferences, local festivals, long weekends,
+          or last-minute travel spikes. For other businesses, seasonality could
+          come from tax deadlines, school terms, wedding seasons, Black Friday,
+          tourism peaks, or product replacement cycles.
+        </p>
+
+        <p>
+          Google Trends can help compare search interest over time and across
+          regions. This is useful when deciding when to update a page, when to
+          publish seasonal content, and whether a topic is growing or declining.
+        </p>
+
+        <h2>What to measure after publishing</h2>
+
+        <p>
+          Keyword research should become measurable. Google Search Console
+          impressions are an early signal that Google is testing or surfacing
+          your page. Clicks, CTR, rankings, and conversions show whether the
+          page is attracting useful demand.
+        </p>
+
+        <ul>
+          {kpis.map((kpi) => <li>{kpi}</li>)}
+        </ul>
+
+        <p>
+          For a new website, early impressions are encouraging. They mean the
+          site is starting to appear in search. But the real goal is to learn
+          which pages attract qualified users and which topics move people
+          closer to a booking, lead, sale, or inquiry.
+        </p>
+
+        <h2>My practical view</h2>
+
+        <p>
+          Businesses that treat keyword research as a list of words usually
+          create generic content. Businesses that treat keyword research as
+          customer research build stronger websites.
+        </p>
+
+        <p>
+          The strongest opportunities often sit outside the obvious keyword.
+          They appear in problem-led searches, comparison searches, urgency
+          searches, substitute searches, competitor-adjacent searches, seasonal
+          searches, and questions that happen just before the customer decides.
+        </p>
+
+        <p>
+          A winning website does not only answer “what do we sell?” It answers
+          “what situations make someone need us?”
+        </p>
+
+        <div class="article-cta">
+          <h2>
+            Need help finding the traffic opportunities your competitors are
+            missing?
+          </h2>
+
+          <p>
+            I can help map your search demand, organize keyword clusters,
+            identify pages worth building, and connect SEO work to traffic,
+            leads, bookings, sales, and measurable outcomes.
+          </p>
+
+          <a class="article-cta-button" href="/free-visibility-check/#calendar">
+            Request a technical visibility check
+          </a>
+
+          <p class="cta-note">
+            The goal is not to create content for the sake of content. The goal
+            is to build useful pages that help customers find, understand, and
+            choose your business.
+          </p>
+        </div>
+
+        <h2>Related resources</h2>
+
+        <ul class="source-list">
+          <li>
+            <a href="/resources/"> Technical Growth Cookbook </a>
+          </li>
+          <li>
+            <a
+              href="/blog/organic-growth/product-graph-related-products-services-seo/"
+            >
+              Product graphs, related services, and organic growth
+            </a>
+          </li>
+          <li>
+            <a href="/services/large-scale-data-analysis/">
+              Large-scale data analysis services
+            </a>
+          </li>
+        </ul>
+
+        <h2>Sources and further reading</h2>
+
+        <ul class="source-list">
+          {
+            sources.map((source) => (
+              <li>
+                <a href={source.href} target="_blank" rel="noreferrer">
+                  {source.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </article>
+  </main>
+</BlogLayout>

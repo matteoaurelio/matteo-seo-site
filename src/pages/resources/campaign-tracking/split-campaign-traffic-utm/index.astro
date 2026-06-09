@@ -33,6 +33,7 @@ const workerSnippet = `export default {
   }
 };`;
 ---
+
 <BaseLayout title={title} description={description} canonical={canonical}>
   <Header />
 
@@ -43,13 +44,18 @@ const workerSnippet = `export default {
       </a>
 
       <header class="recipe-hero">
-        <span class="recipe-kicker">Technical Growth Cookbook · Recipe 001</span>
+        <span class="recipe-kicker">Technical Growth Cookbook · Recipe 001</span
+        >
 
-        <h1>Split one campaign URL between two landing pages and track the variant with UTMs</h1>
+        <h1>
+          Split one campaign URL between two landing pages and track the variant
+          with UTMs
+        </h1>
 
         <p>
-          A practical JavaScript recipe for campaign testing: one public URL, two possible
-          destinations, a 50/50 split, and clean UTM labels so the results can be analyzed later.
+          A practical JavaScript recipe for campaign testing: one public URL,
+          two possible destinations, a 50/50 split, and clean UTM labels so the
+          results can be analyzed later.
         </p>
 
         <div class="recipe-tags">
@@ -64,20 +70,21 @@ const workerSnippet = `export default {
         <h2>The business problem</h2>
 
         <p>
-          Let’s say a food delivery business wants to promote one QR code, but it is not sure
-          which landing page will sell more.
+          Let’s say a food delivery business wants to promote one QR code, but
+          it is not sure which landing page will sell more.
         </p>
 
         <p>
-          Menu A promotes family combo meals. Menu B promotes quick lunch options. Instead of
-          printing two different QR codes, the business uses one campaign URL and splits visitors
-          between both menu pages.
+          Menu A promotes family combo meals. Menu B promotes quick lunch
+          options. Instead of printing two different QR codes, the business uses
+          one campaign URL and splits visitors between both menu pages.
         </p>
 
         <p>
-          The important part is not only the redirect. The important part is that each visitor
-          is labelled correctly with UTM parameters, so the business can later compare conversions,
-          checkout starts, order value, and revenue per visitor.
+          The important part is not only the redirect. The important part is
+          that each visitor is labelled correctly with UTM parameters, so the
+          business can later compare conversions, checkout starts, order value,
+          and revenue per visitor.
         </p>
       </section>
 
@@ -85,8 +92,9 @@ const workerSnippet = `export default {
         <h2>The recipe</h2>
 
         <p>
-          This example uses fictional food delivery URLs. The method is reusable, but real
-          client URLs, IDs, prices, and private business parameters should not be published.
+          This example uses fictional food delivery URLs. The method is
+          reusable, but real client URLs, IDs, prices, and private business
+          parameters should not be published.
         </p>
 
         <pre><code>{workerSnippet}</code></pre>
@@ -123,12 +131,16 @@ const workerSnippet = `export default {
           <span class="recipe-kicker">Related article</span>
           <h2>Want the full explanation?</h2>
           <p>
-            I wrote a full Analytics & Measurement article explaining UTM parameters,
-            traffic splitting, 302 redirects, and conversion analysis.
+            I wrote a full Analytics & Measurement article explaining UTM
+            parameters, traffic splitting, 302 redirects, and conversion
+            analysis.
           </p>
         </div>
 
-        <a class="recipe-button" href="/blog/analytics-measurement/utm-ab-test-traffic-split-food-delivery/">
+        <a
+          class="recipe-button"
+          href="/blog/analytics-measurement/utm-ab-test-traffic-split-food-delivery/"
+        >
           Read the full article
         </a>
       </section>
