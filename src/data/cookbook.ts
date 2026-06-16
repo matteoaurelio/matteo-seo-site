@@ -84,7 +84,8 @@ export const cookbookChapters = [
 export const cookbookRecipes = [
   {
     number: "001",
-    title: "Split one campaign URL between two landing pages and track variants with UTMs",
+    title:
+      "Split one campaign URL between two landing pages and track variants with UTMs",
     slug: "split-campaign-traffic-utm",
     chapterSlug: "campaign-tracking",
     description:
@@ -93,6 +94,18 @@ export const cookbookRecipes = [
     difficulty: "Beginner",
     tags: ["UTMs", "A/B testing", "Cloudflare Workers"],
     href: "/resources/campaign-tracking/split-campaign-traffic-utm/",
+  },
+  {
+    number: "002",
+    title: "Analyze Canonical Tags to Avoid Search Cannibalization",
+    slug: "canonical-analyzer-part-1",
+    chapterSlug: "browser-diagnostics",
+    description:
+      "A JavaScript recipe for checking whether a page points to itself, consolidates into another URL, or sends mixed canonical signals across similar landing pages.",
+    language: "JavaScript",
+    difficulty: "Beginner",
+    tags: ["Canonical Tags", "Duplicate Pages", "Search Cannibalization"],
+    href: "/resources/browser-diagnostics/canonical-analyzer-part-1/",
   },
 ];
 
