@@ -231,6 +231,112 @@ const faqs = [
         </aside>
       </div>
     </section>
+    <section class="visibility-signup-section" id="visibility-notes">
+      <div class="container visibility-signup-card">
+        <div class="visibility-signup-copy">
+          <span class="kicker">Website visibility notes</span>
+
+          <h2>
+            Get 3 practical website and AI visibility checks you can apply
+            today.
+          </h2>
+
+          <p>
+            I've helped over +30 companies increase their online traffic and
+            sales. Sign up to receive 3 personalized technical and
+            business-focused SEO actions that will boost your AI visibility,
+            increase high-quality traffic and improve conversion.
+          </p>
+
+          <form
+            id="visibility-signup-form"
+            class="visibility-signup-form"
+            action="https://docs.google.com/forms/d/e/1FAIpQLSeH9tRoAczoBhezqq2XQcVFLDFo770BOVLDrLykqPHoj7n6oA/formResponse"
+            method="POST"
+            target="hidden-form-submit"
+          >
+            <div class="visibility-form-row">
+              <label>
+                <span>Email address</span>
+                <input
+                  name="entry.1812876085"
+                  type="email"
+                  placeholder="you@example.com"
+                  required
+                />
+              </label>
+
+              <label>
+                <span>Website URL <em>optional</em></span>
+                <input
+                  name="entry.1635188906"
+                  type="url"
+                  placeholder="https://yourwebsite.com"
+                />
+              </label>
+            </div>
+
+            <button type="submit"
+              >Yes. I want to receive my personalized AI and SEO checks</button
+            >
+
+            <p class="visibility-signup-note">
+              No spam. You can request removal at any time. Read the
+              <a href="/privacy-policy/">Privacy Policy</a>.
+            </p>
+            <p
+              id="visibility-signup-form"
+              class="visibility-signup-success"
+              aria-live="polite"
+            >
+              Sent. I received your request.
+            </p>
+          </form>
+
+          <iframe
+            name="hidden-form-submit"
+            style="display: none;"
+            title="Hidden form submission"></iframe>
+
+          <script>
+            const visibilityForm = document.getElementById(
+              "visibility-signup-form",
+            );
+
+            if (visibilityForm) {
+              const submitButton = visibilityForm.querySelector(
+                "button[type='submit']",
+              );
+              const successMessage = visibilityForm.querySelector(
+                ".visibility-signup-success",
+              );
+
+              visibilityForm.addEventListener("submit", () => {
+                if (!submitButton || !successMessage) return;
+
+                submitButton.textContent = "Sending...";
+                submitButton.disabled = true;
+
+                window.setTimeout(() => {
+                  visibilityForm.reset();
+
+                  successMessage.classList.add("is-visible");
+                  submitButton.textContent = "Sent";
+
+                  window.setTimeout(() => {
+                    submitButton.textContent = "Get my 3 visibility fixes";
+                    submitButton.disabled = false;
+                    successMessage.classList.remove("is-visible");
+                  }, 3500);
+                }, 900);
+              });
+            }
+          </script>
+        </div>
+
+        <div class="visibility-signup-image" aria-label="Matteo Arellano"></div>
+      </div>
+    </section>
 
     <section class="section soft" id="positioning">
       <div class="container split">
