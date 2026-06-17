@@ -3943,3 +3943,9 @@ h3 {
 .keyword-field-table th:first-child {
   z-index: 3;
 }
+
+.footer-social-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 15px;
+}
