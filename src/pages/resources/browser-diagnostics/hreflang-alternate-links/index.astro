@@ -1,0 +1,512 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import Header from "../../../../components/Header.astro";
+import Footer from "../../../../components/Footer.astro";
+
+const title =
+  "Recipe 003: How To Validate and Fix Hreflang Alternate Links Checker with SEO Checker Chrome Extension | Matteo Arellano";
+
+const description =
+  "A practical technical SEO recipe for checking whether multilingual pages are connected correctly with hreflang alternate links.";
+
+const canonical =
+  "https://matteoarellano.com/resources/browser-diagnostics/hreflang-alternate-links/";
+
+const hreflangSnippet = `
+const hreflangLinks = [
+  ...document.querySelectorAll('link[rel~="alternate"][hreflang]')
+];
+
+console.log("Hreflang count:", hreflangLinks.length);
+
+console.table(
+  hreflangLinks.map((link, index) => ({
+    index: index + 1,
+    hreflang: link.getAttribute("hreflang"),
+    hrefRaw: link.getAttribute("href"),
+    hrefResolved: link.href,
+    rel: link.getAttribute("rel"),
+  }))
+);
+`;
+
+const selfReferenceSnippet = `
+function normalizeUrl(url) {
+  const parsedUrl = new URL(url, window.location.href);
+
+  parsedUrl.hash = "";
+
+  if (parsedUrl.pathname.length > 1) {
+    parsedUrl.pathname = parsedUrl.pathname.replace(/\\/+$/, "");
+  }
+
+  return parsedUrl.toString();
+}
+
+const currentUrl = normalizeUrl(window.location.href);
+
+const hreflangUrls = [
+  ...document.querySelectorAll('link[rel~="alternate"][hreflang]')
+].map((link) => normalizeUrl(link.href));
+
+console.log("Current URL:", currentUrl);
+console.log("Self-reference found:", hreflangUrls.includes(currentUrl));
+`;
+
+const fullCheckerSnippet = `
+function normalizeUrl(url) {
+  const parsedUrl = new URL(url, window.location.href);
+
+  parsedUrl.hash = "";
+
+  if (parsedUrl.pathname.length > 1) {
+    parsedUrl.pathname = parsedUrl.pathname.replace(/\\/+$/, "");
+  }
+
+  return parsedUrl.toString();
+}
+
+function hreflangAnalyzer() {
+  const links = [
+    ...document.querySelectorAll('link[rel~="alternate"][hreflang]')
+  ];
+
+  const currentUrl = normalizeUrl(window.location.href);
+
+  const results = links.map((link, index) => {
+    const hreflang = link.getAttribute("hreflang");
+    const hrefRaw = link.getAttribute("href");
+    const hrefResolved = link.href;
+    const normalizedHref = normalizeUrl(hrefResolved);
+
+    const isFullyQualified =
+      hrefRaw && /^https?:\\/\\//i.test(hrefRaw);
+
+    const isSelfReference = normalizedHref === currentUrl;
+
+    return {
+      index: index + 1,
+      hreflang,
+      hrefRaw,
+      hrefResolved,
+      isFullyQualified,
+      isSelfReference,
+      rel: link.getAttribute("rel"),
+    };
+  });
+
+  const hasSelfReference = results.some((item) => item.isSelfReference);
+  const hasXDefault = results.some(
+    (item) =>
+      item.hreflang && item.hreflang.toLowerCase() === "x-default"
+  );
+
+  console.log("Current URL:", currentUrl);
+  console.log("Hreflang count:", links.length);
+  console.log("Self-reference found:", hasSelfReference);
+  console.log("x-default found:", hasXDefault);
+
+  console.table(results);
+
+  return {
+    currentUrl,
+    count: links.length,
+    hasSelfReference,
+    hasXDefault,
+    results,
+  };
+}
+
+hreflangAnalyzer();
+`;
+---
+
+<BaseLayout title={title} description={description} canonical={canonical}>
+  <Header />
+
+  <main class="recipe-page">
+    <article class="recipe-shell">
+      <a class="recipe-back-link" href="/resources/browser-diagnostics/">
+        ← Back to Rendering, JavaScript & Browser Diagnostics
+      </a>
+
+      <header class="recipe-hero">
+        <span class="recipe-kicker">
+          Technical Growth Cookbook · Recipe 003
+        </span>
+
+        <h1>
+          Hreflang alternate links: how to check if multilingual pages are
+          connected correctly
+        </h1>
+
+        <p>
+          A practical browser diagnostic for checking whether language versions
+          of the same page are connected with clear, complete, and fully
+          qualified hreflang alternate links.
+        </p>
+
+        <div class="recipe-tags">
+          <span>JavaScript</span>
+          <span>Technical SEO</span>
+          <span>Hreflang</span>
+          <span>International SEO</span>
+        </div>
+      </header>
+
+      <section class="recipe-card">
+        <h2>The business problem</h2>
+
+        <p>
+          When a website has different language or regional versions of the same
+          page, search engines need a clear signal that those pages belong
+          together. A visitor from Spain may need the Spanish page. A visitor
+          from the Netherlands may need the Dutch page. A visitor using English
+          may need the English page. The content may be similar, but the
+          intended audience is different.
+        </p>
+
+        <p>
+          That is the role of <code>hreflang</code>. Hreflang is an HTML
+          attribute used inside alternate link tags. It tells Google that a page
+          has another version for a specific language or region.
+        </p>
+
+        <pre><code>&lt;link rel="alternate" hreflang="es" href="https://matteoarellano.com/es/" /&gt;</code></pre>
+
+        <p>
+          The <code>rel="alternate"</code> part means “this is an alternate version
+          of the current page.” The <code>hreflang="es"</code> part means “this alternate
+          version is intended for Spanish-language users.” The <code>href</code> part
+          gives the actual URL of that alternate page.
+        </p>
+      </section>
+
+      <section class="recipe-card">
+        <h2>A practical example from my own website</h2>
+
+        <p>
+          My own website has three homepage language versions. The English
+          version is:
+        </p>
+
+        <pre><code>https://matteoarellano.com/</code></pre>
+
+        <p>The Spanish version is:</p>
+
+        <pre><code>https://matteoarellano.com/es/</code></pre>
+
+        <p>The Dutch version is:</p>
+
+        <pre><code>https://matteoarellano.com/nl/</code></pre>
+
+        <p>
+          If these pages are intended to act as language alternatives of each
+          other, each page should declare the full group. The English page
+          should reference the English, Spanish, and Dutch versions. The Spanish
+          page should also reference the English, Spanish, and Dutch versions.
+          The Dutch page should do the same.
+        </p>
+
+        <p>
+          That means the Dutch page should not only point to the English and
+          Spanish pages. It should also include itself:
+        </p>
+
+        <pre><code>&lt;link rel="alternate" hreflang="en" href="https://matteoarellano.com/" /&gt;
+&lt;link rel="alternate" hreflang="es" href="https://matteoarellano.com/es/" /&gt;
+&lt;link rel="alternate" hreflang="nl" href="https://matteoarellano.com/nl/" /&gt;</code></pre>
+
+        <p>
+          This self-reference matters. If the current page is the Dutch page,
+          the Dutch alternate set should include the Dutch page itself. In
+          simple terms, the page is saying: “I am the Dutch version, and these
+          are my English and Spanish siblings.”
+        </p>
+      </section>
+
+      <section class="recipe-card">
+        <h2>Why self-reference matters</h2>
+
+        <p>
+          Google’s documentation explains that each language version should list
+          itself as well as all other language versions. Google also says that
+          if two pages do not point back to each other, the annotations may be
+          ignored.
+        </p>
+
+        <p>
+          That is why hreflang is not just about adding a few tags. It is about
+          creating a consistent relationship between equivalent pages. If the
+          English page points to the Spanish page, the Spanish page should point
+          back to the English page. If the Dutch page belongs to the same
+          language cluster, it should also appear in that same group.
+        </p>
+
+        <p>
+          The business value is simple: when language versions are connected
+          clearly, search engines have a better chance of showing the right page
+          to the right audience.
+        </p>
+      </section>
+
+      <section class="recipe-card">
+        <h2>When hreflang is actually necessary</h2>
+
+        <p>
+          Hreflang is not necessary for every website. If a website has only one
+          language and no regional alternatives, missing hreflang is usually not
+          a problem.
+        </p>
+
+        <p>
+          Hreflang becomes useful when the same or similar content exists for
+          different users. This can happen when a website has English and
+          Spanish versions, Dutch and English versions, Spanish pages for Spain
+          and Mexico, or English pages for the US, UK, and Canada.
+        </p>
+
+        <p>
+          So the real question is not: “Does every page need hreflang?” The
+          better question is: “Does this page have alternate language or
+          regional versions for visitors?” If the answer is yes, hreflang helps
+          Google understand the relationship between those pages.
+        </p>
+      </section>
+
+      <section class="recipe-card">
+        <h2>What ISO language and region codes are</h2>
+
+        <p>
+          Hreflang values use standard language and region codes. A language
+          code identifies the language. For example, <code>en</code> means English,
+          <code>es</code> means Spanish, <code>nl</code> means Dutch,
+          <code>fr</code> means French, and <code>de</code> means German.
+        </p>
+
+        <p>
+          A region code identifies the country or region. For example,
+          <code>US</code> means United States, <code>GB</code> means United Kingdom,
+          <code>ES</code> means Spain, <code>MX</code> means Mexico, and <code
+            >NL</code
+          > means Netherlands.
+        </p>
+
+        <p>A hreflang value can be language-only:</p>
+
+        <pre><code>es
+nl
+en</code></pre>
+
+        <p>Or it can be language plus region:</p>
+
+        <pre><code>es-ES
+es-MX
+en-US
+en-GB
+nl-NL</code></pre>
+
+        <p>
+          The first part is the language. The second part, if present, is the
+          region. This distinction is important because a country code by itself
+          is not enough. For example, <code>GB</code> is not a valid hreflang value
+          because it is a region code, not a language code. A valid UK-focused English
+          version would be <code>en-GB</code>.
+        </p>
+
+        <p>
+          Another common mistake is using informal regional labels, such as
+          <code>es-LATAM</code>. This looks understandable to humans, but
+          <code>LATAM</code> is not an ISO 3166-1 Alpha-2 region code.
+        </p>
+      </section>
+
+      <section class="recipe-card">
+        <h2>The first DevTools snippet: list all hreflang links</h2>
+
+        <p>
+          You can quickly inspect a page’s hreflang tags in Chrome DevTools.
+          Open the page, right-click, choose Inspect, go to the Console tab, and
+          paste this:
+        </p>
+
+        <pre><code>{hreflangSnippet}</code></pre>
+
+        <p>
+          This shows each alternate link as a row. For a multilingual website,
+          this is useful because you do not only want to know whether hreflang
+          exists. You want to see the actual mapping between language and URL.
+        </p>
+
+        <pre><code>en -&gt; https://matteoarellano.com/
+es -&gt; https://matteoarellano.com/es/
+nl -&gt; https://matteoarellano.com/nl/</code></pre>
+      </section>
+
+      <section class="recipe-card">
+        <h2>The second DevTools snippet: check self-reference</h2>
+
+        <p>
+          The current page should appear inside its own hreflang set. This
+          snippet normalizes the current URL, normalizes each hreflang URL, and
+          checks whether the current page is included in the group.
+        </p>
+
+        <pre><code>{selfReferenceSnippet}</code></pre>
+
+        <p>
+          If the result is <code>Self-reference found: true</code>, the current
+          page references itself. If the result is
+          <code>Self-reference found: false</code>, then either the page has no
+          hreflang tags, or the hreflang set does not include the current page.
+        </p>
+
+        <p>
+          That distinction matters. If a page has no hreflang tags because it
+          has no language alternatives, that may simply be “not applicable.” But
+          if a page has many hreflang tags and still does not include itself,
+          that is a real implementation issue.
+        </p>
+      </section>
+
+      <section class="recipe-card">
+        <h2>
+          The full checker: count, self-reference, x-default, and URL quality
+        </h2>
+
+        <p>
+          This combined version gives you a more complete first check. It lists
+          all hreflang links, checks whether the page references itself, checks
+          whether an <code>x-default</code> fallback exists, and shows whether each
+          URL was written as a fully qualified URL.
+        </p>
+
+        <pre><code>{fullCheckerSnippet}</code></pre>
+
+        <p>
+          Fully qualified URLs matter because hreflang annotations should point
+          to clear, complete URLs such as
+          <code>https://matteoarellano.com/es/</code>, not unclear relative
+          paths such as <code>/es/</code>.
+        </p>
+      </section>
+
+      <section class="recipe-card">
+        <h2>How SEO Page Audit 1.0.4 helps</h2>
+
+        <p>
+          I added hreflang checks to <strong
+            ><a
+              class="card-link"
+              href="https://chromewebstore.google.com/detail/seo-page-audit/ehoodgoogeajolhoecncknkcgfgjnjji"
+              target="_blank"
+              rel="noopener noreferrer"><strong>SEO Page Audit 1.0.4</strong></a
+            ></strong
+          > to make this review faster. The extension checks whether hreflang tags
+          are present on the current page, counts how many alternate links were found,
+          checks whether the current page references itself, and checks whether an
+          <code>x-default</code> fallback exists.
+        </p>
+
+        <p>
+          The extension can also show the actual alternate links line by line,
+          so the user can see which language or region points to which URL. This
+          is useful because a simple count is not enough. A page may have many
+          hreflang tags, but the real question is whether those tags point to
+          the right language versions, use valid codes, include self-reference,
+          and form a consistent language cluster.
+        </p>
+
+        <p>
+          SEO Page Audit 1.0.4 also helps make invalid code checks more
+          educational. Instead of only saying that something is wrong, it can
+          show which part failed. For example, <code>es-LATAM</code> has a valid language
+          component, <code>es</code>, but an invalid region component,
+          <code>LATAM</code>.
+        </p>
+
+        <a
+          class="card-link inline-card-link"
+          href="https://chromewebstore.google.com/detail/seo-page-audit/ehoodgoogeajolhoecncknkcgfgjnjji"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View SEO Page Audit on the Chrome Web Store
+        </a>
+      </section>
+
+      <section class="recipe-card">
+        <h2>The business value</h2>
+
+        <p>
+          Hreflang is a technical SEO signal, but the business problem is
+          simple. If a company has pages for different countries or languages,
+          it wants visitors to land on the most relevant version.
+        </p>
+
+        <p>
+          A Spanish-speaking visitor should not be sent to a Dutch page. A
+          Dutch-speaking visitor should not be sent to a Spanish page. A user in
+          Mexico may need different wording, pricing, contact options, or legal
+          details than a user in Spain.
+        </p>
+
+        <p>
+          For developers, this is a quality assurance check. For marketers, it
+          is an international SEO check. For business owners, it is a visibility
+          and user experience check.
+        </p>
+
+        <p>
+          This is why browser diagnostics are valuable. A small JavaScript check
+          can reveal whether a page is giving search engines a clear
+          international targeting signal or whether the language versions are
+          disconnected.
+        </p>
+      </section>
+
+      <section class="recipe-card">
+        <h2>Quality checklist</h2>
+
+        <ul>
+          <li>The page has hreflang tags only when alternatives exist.</li>
+          <li>Each language version includes itself in the hreflang set.</li>
+          <li>Each language version lists all equivalent alternatives.</li>
+          <li>Each hreflang URL is fully qualified.</li>
+          <li>The language codes are valid ISO 639-1 codes.</li>
+          <li>The optional region codes are valid ISO 3166-1 Alpha-2 codes.</li>
+          <li>
+            The page uses <code>x-default</code> when a fallback URL is useful.
+          </li>
+          <li>
+            The canonical URL and hreflang URL do not contradict the strategy.
+          </li>
+        </ul>
+      </section>
+
+      <section class="recipe-related">
+        <div>
+          <span class="recipe-kicker">Source</span>
+          <h2>Google Search Central documentation</h2>
+          <p>
+            Google’s documentation explains how to tell Google about localized
+            versions of a page, including self-reference, return links, fully
+            qualified URLs, language codes, region codes, and
+            <code>x-default</code>.
+          </p>
+        </div>
+
+        <a
+          class="recipe-button"
+          href="https://developers.google.com/search/docs/specialty/international/localized-versions"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Read Google’s hreflang documentation
+        </a>
+      </section>
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>

@@ -107,6 +107,18 @@ export const cookbookRecipes = [
     tags: ["Canonical Tags", "Duplicate Pages", "Search Cannibalization"],
     href: "/resources/browser-diagnostics/canonical-analyzer-part-1/",
   },
+  {
+    number: "003",
+    title: "Hreflang Alternate Links: Check Multilingual Pages in the Browser",
+    slug: "hreflang-alternate-links",
+    chapterSlug: "browser-diagnostics",
+    description:
+      "A JavaScript recipe for checking hreflang alternate links, self-reference, x-default, fully qualified URLs, and language-region targeting signals.",
+    language: "JavaScript",
+    difficulty: "Beginner",
+    tags: ["Hreflang", "International SEO", "Alternate Links"],
+    href: "/resources/browser-diagnostics/hreflang-alternate-links/",
+  },
 ];
 
 export function getRecipesByChapter(chapterSlug: string) {
