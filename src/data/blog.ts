@@ -120,6 +120,16 @@ export const blogPosts: BlogPost[] = [
     readingTime: "14 min read",
     icon: "🔎",
   },
+  {
+    slug: "how-to-drive-conversion-through-ai-visibility",
+    topic: "ai-visibility",
+    title: "How Do You Boost Conversion Rates by Increasing Your AI Visibility",
+    description:
+      "A practical guide for business owners on AI visibility, AI crawlers, citations, hallucinations, outdated content risk, and how websites can turn AI discovery into real conversion.",
+    date: "2026-06-18",
+    readingTime: "18 min read",
+    icon: "🤖",
+  },
 ];
 
 export function getTopicBySlug(slug: string) {
