@@ -130,6 +130,20 @@ export const blogPosts: BlogPost[] = [
     readingTime: "18 min read",
     icon: "🤖",
   },
+  {
+    slug: "google-discover-preview-meta-tags",
+    topic: "technical-seo",
+    title:
+      "Google Discover, Large Image Previews, and the Robots Meta Tags That Can Affect Your Traffic",
+    description:
+      "A practical explanation of max-image-preview:large, max-snippet:-1, and max-video-preview:-1, and why these small robots meta tags matter for Google Discover, publishers, and blog traffic.",
+    date: "2026-06-20",
+    readingTime: "10 min read",
+    icon: "📰",
+    image: "/images/blog/google-discover-preview-meta-tags.jpeg",
+    imageAlt:
+      "Google Discover traffic and robots meta tag preview controls for SEO",
+  },
 ];
 
 export function getTopicBySlug(slug: string) {

@@ -1,0 +1,623 @@
+---
+import BlogLayout from "../../../layouts/BlogLayout.astro";
+
+const title =
+  "Google Discover, Large Image Previews, and the Robots Meta Tags Publishers Should Check | Matteo Arellano";
+const description =
+  "A practical article explaining max-image-preview:large, max-snippet:-1, max-video-preview:-1, Google Discover traffic, featured snippets, publisher risk, and how to implement the tags in Astro.";
+const canonical =
+  "https://matteoarellano.com/blog/technical-seo/google-discover-preview-meta-tags/";
+---
+
+<BlogLayout title={title} description={description} canonical={canonical}>
+  <main class="article-page">
+    <article class="article-shell">
+      <a class="blog-back-link" href="/blog/technical-seo/">
+        ← Back to Technical SEO articles
+      </a>
+
+      <header class="article-header">
+        <span class="article-kicker">Technical SEO</span>
+
+        <h1>
+          Google Discover Optimizations: What if you just needed to update a
+          couple of HTML tags to get more traffic to your site?
+        </h1>
+
+        <p class="article-intro">
+          Google Discover is an often overlooked place for generating organic
+          traffic into your site. For many publishers, it has become one of the
+          most important traffic channels from Google, and that makes HTML tag
+          settings such as <code>max-image-preview:large</code>,
+          <code>max-snippet:-1</code>, and <code>max-video-preview:-1</code>
+          worth checking properly.
+        </p>
+        <div class="article-meta">
+          <span>Published June 2026</span>
+          <span>12 min read</span>
+          <span>Author: Matteo Arellano</span>
+        </div>
+      </header>
+
+      <section class="article-content">
+        <div class="personal-note">
+          <p>
+            I’m <a
+              href="https://www.linkedin.com/in/matteoarellano/"
+              target="_blank"
+              rel="noreferrer">Matteo Arellano</a
+            >, and I work on technical SEO, analytics, and organic growth
+            systems. I like this topic because it looks small at first. It is
+            only a robots meta tag in the page head. But once you connect it
+            with Google Discover, featured snippets, AI search previews, image
+            quality, and Search Console data, it becomes a very practical
+            example of how web development decisions can influence real traffic.
+          </p>
+        </div>
+
+        <p>
+          Large publishing companies and global newspaper sites know this very
+          well. They are trying to capture mobile-native traffic into their site
+          through Google Discover. If you have an Android and swipe left on the
+          first home page unblocked screen, you'll discover a bunch of articles,
+          sites, even "Sponsored" articles and offers that are personalized by
+          Google to you based on your search behavior. That's called Google
+          Discover and it is important that you understand the positive impact
+          that few code additions into your site can do to increase visibility
+          and click through rates. Google recommends content through Discover,
+          shows answers through featured snippets, generates previews from page
+          content, and increasingly gives users enough context before they
+          decide whether a click is worth it.
+        </p>
+
+        <p>This is why the following line is more interesting than it looks:</p>
+
+        <pre><code>&lt;meta name="robots" content="max-image-preview:large, max-snippet:-1, max-video-preview:-1"&gt;</code></pre>
+
+        <p>
+          This tag helps website owners increase their page visibility through
+          Google Discover feeds. It has a very specific purpose, but combined
+          with good and targeted content, it can perform very well on sites. It
+          tells Google how much of your page it is allowed to preview when your
+          page appears across Search surfaces. For a publisher, a blog, or a
+          business writing educational content, that matters because the preview
+          is often what decides whether the user notices the article in the
+          first place.
+        </p>
+
+        <figure class="article-figure">
+          <img
+            src="/images/blog/meta-robots-google-discover-sagrada-familia.png"
+            alt="Example of Sagrada Familia's booking page with meta robots tag"
+            loading="lazy"
+          />
+
+          <figcaption>
+            Booking tickets at the Sagrada Família's page with DevTools opened
+            on the side. We can see that they use meta robots tag as part of
+            their intention to appear optimized on Google Discover.
+          </figcaption>
+        </figure>
+
+        <h2>First, what is Google Discover?</h2>
+
+        <p>
+          As aforementioned above, Google Discover is a personalized content
+          feed. Instead of waiting for the user to type a query, Google shows
+          articles, videos, and stories based on what it believes the person may
+          be interested in. A reader might open the Google app and see content
+          about energy markets, finance, football, travel, SEO, nutrition, local
+          news, or technology without having searched for that exact article.
+        </p>
+
+        <p>
+          The articles displayed on Google Discover do not only on traditional
+          keyword ranking; rather, they show up whenever Google thinks the
+          content matches the interests of the user. Therefore, clear headlines,
+          strong and visually appealing images are important.
+        </p>
+
+        <div class="impact-grid">
+          <div class="impact-card">
+            <h3>68%</h3>
+            <p>
+              of Google traffic to nearly 2,000 global news and media sites came
+              from Discover, according to Chartbeat data published by Press
+              Gazette and later summarized by industry sources.
+            </p>
+          </div>
+
+          <div class="impact-card">
+            <h3>32%</h3>
+            <p>
+              came from traditional Google Search in the same dataset, which
+              shows why Discover can no longer be treated as a small side
+              channel for publishers.
+            </p>
+          </div>
+
+          <div class="impact-card">
+            <h3>17%</h3>
+            <p>
+              of total publisher traffic in that dataset came from Discover,
+              compared with 8% from Google Search.
+            </p>
+          </div>
+        </div>
+
+        <p>
+          Those numbers are important because they show the strategic risk. If a
+          large part of your Google traffic comes from Discover, then image
+          previews, feed suitability, headline quality, and technical preview
+          permissions are not minor details. They sit directly inside the
+          traffic model of the website.
+        </p>
+      </section>
+      <br />
+      <h2>The tag that matters most for Google Discover</h2>
+
+      <p>
+        Listen, let me summarize the <strong>one thing you must remember</strong
+        >. For your pages, use <code>max-image-preview:large</code>. It tells
+        Google that a larger image preview may be shown for the page. Google
+        says this setting applies across Search surfaces such as Google web
+        search, Google Images, Discover, and Assistant, and its Discover
+        documentation specifically says that large images should be enabled by
+        setting preview images to <code>large</code> or by AMP.
+      </p>
+      <p>
+        If you look at the image below, which one are you most likely to click
+        on? The one showing a desert or the one showing a small car just below
+        it?
+      </p>
+      <figure class="article-figure article-figure-phone">
+        <img
+          src="/images/blog/google-discover-preview-meta-tags.jpeg"
+          alt="Example of Google Discover article cards"
+          loading="lazy"
+        />
+        <figcaption>
+          Why do we get the recommendations we get in Google Discover?
+        </figcaption>
+      </figure>
+
+      <p>
+        Google also gives practical image requirements for Discover: the image
+        should be at least 1200 pixels wide, have more than 300,000 total
+        pixels, and work well in a 16:9 landscape format. That means the
+        technical tag alone is not enough. If your page allows large previews
+        but the article image is small, generic, badly cropped, or unrelated to
+        the topic, you are solving only half of the problem.
+      </p>
+
+      <div class="comparison-table is-readable">
+        <table>
+          <thead>
+            <tr>
+              <th>Image requirement</th>
+              <th>Why it matters for Discover</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>At least 1200 px wide</td>
+              <td
+                >Google recommends this minimum width for large Discover-style
+                previews.</td
+              >
+            </tr>
+            <tr>
+              <td>More than 300,000 total pixels</td>
+              <td
+                >The image needs enough resolution to look sharp when used as a
+                large preview.</td
+              >
+            </tr>
+            <tr>
+              <td>16:9 landscape format</td>
+              <td
+                >Discover is a visual feed, so images need to crop well in a
+                horizontal card layout.</td
+              >
+            </tr>
+            <tr>
+              <td>Relevant <code>og:image</code> or structured data image</td>
+              <td
+                >Google says these signals can influence which image is chosen
+                as the Discover thumbnail.</td
+              >
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        This is where technical SEO and editorial judgement meet. A post about
+        electricity markets should not rely on a random light bulb image. A post
+        about featured snippets should show a real search result or a clear
+        visual of the snippet itself. A post about Google Discover should show
+        what a Discover card looks like, because the reader immediately
+        understands why the image preview matters.
+      </p>
+
+      <div class="ai-mode-card-grid">
+        <div class="ai-mode-card">
+          <span>1</span>
+          <h3>Use a real article image</h3>
+          <p>
+            The image should help explain the article, not simply decorate the
+            page with a generic stock visual.
+          </p>
+        </div>
+
+        <div class="ai-mode-card">
+          <span>2</span>
+          <h3>Control the preview source</h3>
+          <p>
+            Use a strong <code>og:image</code> and avoid letting Google pick a logo,
+            icon, or unrelated page image.
+          </p>
+        </div>
+
+        <div class="ai-mode-card">
+          <span>3</span>
+          <h3>Check the crop</h3>
+          <p>
+            A beautiful vertical image may fail in Discover if the important
+            part disappears when cropped into 16:9.
+          </p>
+        </div>
+      </div>
+
+      <h2>There is real evidence behind this tag</h2>
+
+      <p>
+        The reason I would not treat <code>max-image-preview:large</code> as a theoretical
+        detail is that Google has published case studies showing measurable changes
+        after publishers adopted large image preview settings. Kirbie’s Cravings,
+        a food blog, reported a 79% increase in click-through rate from Discover after
+        adding the tag. Istoé, a Brazilian magazine, reported a 30% increase in CTR
+        and a 332% increase in clicks over six months after adopting the large image
+        preview setting.
+      </p>
+
+      <div class="impact-grid">
+        <div class="impact-card">
+          <h3>79%</h3>
+          <p>
+            CTR increase reported by Kirbie’s Cravings after adding <code
+              >max-image-preview:large</code
+            >.
+          </p>
+        </div>
+
+        <div class="impact-card">
+          <h3>332%</h3>
+          <p>
+            click increase over six months reported by Istoé after adopting
+            large image preview settings.
+          </p>
+        </div>
+      </div>
+
+      <p>
+        I would still be careful with the interpretation. These results do not
+        mean every website will see the same lift, and they do not prove that
+        the tag alone caused every extra click. But they do show that image
+        preview settings can be commercially meaningful when the site already
+        publishes content that can perform in Discover.
+      </p>
+
+      <h2>What max-snippet:-1 means</h2>
+
+      <p>
+        The second directive is <code>max-snippet:-1</code>. A snippet is the
+        text preview Google shows below a result, and Google explains that
+        snippets are primarily created from page content, although the meta
+        description may be used when it gives users a better summary. The <code
+          >max-snippet</code
+        > directive lets you control the maximum number of characters Google can show
+        as a text preview.
+      </p>
+
+      <p>
+        The value <code>-1</code> means you are not setting a fixed character limit.
+        In plain language, you are allowing Google to choose the snippet length it
+        believes will help users understand the page and decide whether to visit it.
+        This is usually the sensible default for educational articles, technical guides,
+        and thought leadership content because the preview needs enough room to communicate
+        value.
+      </p>
+
+      <p>
+        But this is where the decision becomes more strategic. A longer snippet
+        can improve trust before the click, but it can also answer enough of the
+        user’s question directly on the results page. That is the same tension
+        publishers are feeling with featured snippets, AI Overviews, and AI
+        Mode: Google can make content more visible while also reducing the need
+        to visit the original page.
+      </p>
+
+      <p>
+        However, I want to warn about something that is happening. Featured
+        snippets are slowly being replaced by AI Overviews in Google. This is
+        not necessarily positive for websites that had really strong
+        definitions, clear language and useful answers to users. Google is just
+        "taking" those strong, high-traffic results and blending them in into
+        Google AI Overviews.
+      </p>
+
+      <p>
+        However, <code>max-snippet</code> is still relevant because it controls how
+        much text Google is allowed to use for search result snippets and AI-style
+        previews, not only old Featured Snippets. If, for your business makes more
+        sense to limit and reduce the chance of appearing in featured snippets, Google
+        says you can experiment with lower <code>max-snippet</code> values. For example,
+        this would tell Google that only 80 characters may be shown as the snippet:
+      </p>
+
+      <pre
+        class="article-code"><code>&lt;meta name="robots" content="max-snippet:80"&gt;</code></pre>
+
+      <p>
+        This is not a clean on-off switch. Google says there is no exact minimum
+        length required for a featured snippet, and a low <code
+          >max-snippet</code
+        > setting does not guarantee removal. If you need a guaranteed block, Google’s
+        stronger option is <code>nosnippet</code>, but that also removes regular
+        snippets, which can hurt how attractive the page looks in search.
+      </p>
+
+      <h2>How do you configure videos in Google Discover?</h2>
+
+      <p>
+        You can use <code>max-video-preview:-1</code> in the <code>head</code> tag
+        of your HTML to control how much of your video you want it to be previewed
+        to users. The value <code>-1</code> means there is no fixed limit from your
+        side, so Google can decide the preview length when it shows a video snippet.
+      </p>
+
+      <p>
+        For a normal written article with no video, this setting may not make
+        much difference. But for tutorials, interviews, product demos, recipes,
+        travel pages, educational videos, or embedded YouTube content, it is
+        useful to avoid accidentally limiting a preview that could make the
+        result more attractive.
+      </p>
+
+      <p>
+        I would only use a fixed number if there is a business reason, for
+        example paid video content, licensing restrictions, premium courses,
+        trailers, or content where you do not want Google showing too much
+        before the click.
+      </p>
+
+      <h2>Why this matters for publishers and blog-style websites</h2>
+
+      <p>
+        For a small blog, this is a useful technical check. For a publisher, it
+        can become a template-level issue. If the main article layout does not
+        allow large image previews, then thousands of articles may be published
+        with the same limitation. That does not mean every article would have
+        succeeded in Discover, but it means the site is adding friction before
+        the content even has a chance to compete visually.
+      </p>
+
+      <p>
+        The bigger problem is dependency. Reuters Institute’s 2026 journalism
+        trends report says publishers expect traffic from search engines to
+        decline by more than 40% over the next three years, and it describes
+        Google Discover as a critical but slightly volatile source of referral
+        traffic. That is exactly why I think this topic deserves attention.
+        Discover can bring traffic, but it is also unpredictable, and publishers
+        do not fully control the feed.
+      </p>
+
+      <div class="risk-card-grid">
+        <div class="risk-card">
+          <h3>Discover visibility</h3>
+          <p>
+            Large image previews can make an article more noticeable when Google
+            chooses to show it in the feed.
+          </p>
+        </div>
+
+        <div class="risk-card">
+          <h3>Snippet control</h3>
+          <p>
+            <code>max-snippet</code> affects how much text Google can show before
+            the user clicks.
+          </p>
+        </div>
+
+        <div class="risk-card">
+          <h3>Publisher risk</h3>
+          <p>
+            A traffic channel that can produce large spikes can also disappear
+            quickly when interests or algorithms shift.
+          </p>
+        </div>
+
+        <div class="risk-card">
+          <h3>Template scale</h3>
+          <p>
+            One robots meta setting in an Astro layout can affect every article
+            using that layout.
+          </p>
+        </div>
+      </div>
+
+      <h2>Why this matters for traffic data</h2>
+
+      <p>
+        Discover traffic behaves differently from normal search traffic. With
+        Search, you can usually connect performance to queries, rankings,
+        impressions, and click-through rate. With Discover, the user did not
+        search for your exact keyword, so the data feels more like feed
+        performance: impressions can rise suddenly, clicks can spike, and the
+        same URL can disappear from the feed without a clear keyword ranking
+        explanation.
+      </p>
+
+      <p>
+        That is why I would never analyze Discover traffic together with normal
+        organic search and call it a day. In Search Console, Discover should be
+        reviewed separately when the report is available. You want to look at
+        which pages received impressions, which images were used, whether the
+        headline matched the topic, whether the article was tied to a current
+        interest, and whether the click-through rate changed after image or
+        preview improvements.
+      </p>
+
+      <p>
+        A missing preview tag will not explain every traffic problem. Discover
+        performance can be affected by topic fit, content quality, image
+        quality, freshness, site reputation, page experience, and simple
+        volatility. But if the tag is missing, it is one of the easiest
+        technical limitations to fix, and it is worth checking before you start
+        inventing complicated explanations.
+      </p>
+
+      <h2>What to do today</h2>
+
+      <p>
+        Make sure you review what's on the <code>head</code> tag across your sites.
+      </p>
+
+      <p>
+        Whilst, adding the tags is not a growth strategy by itself, but it is
+        part of the technical foundation that lets a content strategy travel
+        through Search, Discover, images, videos, and snippets. For a blog, that
+        can mean better presentation. For a publisher, it can mean fixing a
+        setting that affects thousands of articles at once.
+      </p>
+
+      <div class="article-cta">
+        <h2>Need help checking if your site is blocking visibility?</h2>
+        <p>
+          I can review whether your important pages have the right technical
+          setup for Google Search, Google Discover, snippets, images, analytics,
+          and conversion tracking. The goal is simple: find the small technical
+          issues that may be limiting visibility and connect them with the
+          traffic data that actually matters.
+        </p>
+
+        <a class="article-cta-button" href="/free-visibility-check/#calendar">
+          Request a technical visibility check
+        </a>
+
+        <p class="cta-note">
+          The first step is a focused review of your page head, indexation,
+          preview tags, image setup, Search Console data, and obvious conversion
+          friction.
+        </p>
+      </div>
+
+      <h2>Sources and further reading</h2>
+
+      <p>
+        I used Google’s official documentation for the technical definitions and
+        publisher/media sources for the traffic context. The main point is
+        simple: do not guess these tags from SEO folklore. Check what Google
+        says, then connect it with your own Search Console data.
+      </p>
+
+      <ul class="source-list">
+        <li>
+          <a
+            href="https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Google Search Central: Robots meta tag, data-nosnippet, and
+            X-Robots-Tag specifications
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://developers.google.com/search/docs/appearance/google-discover"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Google Search Central: Get on Discover
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://developers.google.com/search/docs/appearance/featured-snippets"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Google Search Central: Featured snippets and your website
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://developers.google.com/search/docs/appearance/snippet"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Google Search Central: Control your snippets in search results
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://developers.google.com/search/docs/appearance/google-images"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Google Search Central: Image SEO best practices
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://developers.google.com/search/case-studies/large-images-case-study"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Google Search Central: Large images in Discover improved CTR and
+            increased visits to publisher sites
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://pressgazette.co.uk/comment-analysis/google-discover-traffic-news-websites-2025/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Press Gazette: Google Discover traffic and news websites in 2025
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://www.ima.press/post/google-discover-now-makes-up-two-thirds-of-search-traffic"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Independent Media Association: Google Discover now makes up
+            two-thirds of search traffic
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://reutersinstitute.politics.ox.ac.uk/journalism-media-and-technology-trends-and-predictions-2026"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Reuters Institute: Journalism, media, and technology trends and
+            predictions 2026
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://ignitevisibility.com/max-image-preview/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Ignite Visibility: Max image preview and Google Discover traffic
+          </a>
+        </li>
+      </ul>
+    </article>
+  </main>
+</BlogLayout>
