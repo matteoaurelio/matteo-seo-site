@@ -144,6 +144,16 @@ export const blogPosts: BlogPost[] = [
     imageAlt:
       "Google Discover traffic and robots meta tag preview controls for SEO",
   },
+  {
+    slug: "resource-loading-browser-priority-bounce-rate",
+    topic: "technical-seo",
+    title: "Is Your Bounce Rate Driven by Poor Website Performance?",
+    description:
+      "How resource discovery, browser prioritization, fetch priority, preload, lazy loading, and Core Web Vitals can affect user experience, bounce rate, and conversions.",
+    date: "2026-06-20",
+    readingTime: "12 min read",
+    icon: "⚡",
+  },
 ];
 
 export function getTopicBySlug(slug: string) {

@@ -1,0 +1,879 @@
+---
+import BlogLayout from "../../../layouts/BlogLayout.astro";
+
+const title =
+  "Is Your Bounce Rate Driven by Poor Website Performance? | Matteo Arellano";
+
+const description =
+  "A practical technical SEO article explaining how resource loading, browser prioritization, Core Web Vitals, preload, fetchpriority, lazy loading, and DevTools can help diagnose website performance problems.";
+
+const canonical =
+  "https://matteoarellano.com/blog/technical-seo/resource-loading-browser-priority-bounce-rate/";
+---
+
+<BlogLayout title={title} description={description} canonical={canonical}>
+  <main class="article-page">
+    <article class="article-shell">
+      <a class="blog-back-link" href="/blog/technical-seo/">
+        ← Back to Technical SEO articles
+      </a>
+
+      <header class="article-header">
+        <span class="article-kicker">Technical SEO</span>
+
+        <h1>Is your bounce rate driven by poor website performance?</h1>
+
+        <p class="article-intro">
+          Sometimes a website does not lose users because the offer is bad.
+          Sometimes it loses users because the page keeps loading, shifting,
+          delaying images, changing fonts, and making the first few seconds feel
+          unstable.
+        </p>
+
+        <div class="article-meta">
+          <span>Published June 2026</span>
+          <span>12 min read</span>
+        </div>
+      </header>
+
+      <section class="article-content">
+        <p>
+          You are trying to buy museum tickets online. The page opens, but after
+          three or four seconds, the website is still moving. A large image
+          appears late. The font changes. A button jumps down. A cookie banner
+          changes the layout. A hero image finally loads after the text is
+          already visible.
+        </p>
+
+        <p>
+          Technically, the page may have loaded. But from the user’s point of
+          view, the experience feels unfinished.
+        </p>
+
+        <p>
+          That is where website performance becomes a business problem, not only
+          a developer problem.
+        </p>
+
+        <p>
+          Bounce rate is the percentage of visits where a user leaves without
+          meaningful engagement. It is not always caused by performance. A user
+          may bounce because the content is irrelevant, the offer is wrong, the
+          price is too high, or the page does not answer the question. But if a
+          page is slow, unstable, or hard to interact with, performance becomes
+          a very serious suspect.
+        </p>
+
+        <div class="personal-note">
+          <p>
+            I’m
+            <a
+              href="https://www.linkedin.com/in/matteoarellano/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Matteo Arellano
+            </a>, and I work on technical SEO, analytics, AI visibility, and
+            browser diagnostics. One thing I keep seeing is that performance
+            problems are often hidden in plain sight. The page looks “fine”
+            after it fully loads, but the first few seconds tell a different
+            story.
+          </p>
+        </div>
+
+        <p>
+          There is enough evidence to take this seriously. Google analyzed 11
+          million mobile ad landing pages across 213 countries and found that
+          many mobile pages were too slow for user expectations. In the same
+          research, Google reported that as page load time went from one second
+          to three seconds, the probability of bounce increased by 32%. When the
+          page load time reached five seconds, the probability of bounce
+          increased by 90%. When it reached ten seconds, it increased by 123%.
+        </p>
+
+        <p>
+          Akamai also reported that a 100 millisecond delay in website load time
+          could hurt conversion rates by 7%, and that a two second delay could
+          increase bounce rates by 103%. Vodafone later ran an A/B test focused
+          on Core Web Vitals and found that a 31% improvement in Largest
+          Contentful Paint led to 8% more sales. Propellernet found that
+          faster-than-average visits were 34% more likely to convert than
+          slower-than-average visits.
+        </p>
+
+        <p>
+          The exact impact will not be the same for every website. A museum
+          ticketing page, a SaaS landing page, a travel booking flow, and an
+          ecommerce product page all have different users and different
+          expectations. But the direction is clear: slow and unstable pages
+          create friction, and friction can reduce trust, engagement, and
+          conversion.
+        </p>
+
+        <h2>The real question is not only “is the website fast?”</h2>
+
+        <p>A basic performance conversation often sounds like this:</p>
+
+        <blockquote>
+          <p>The site is slow. Make it faster.</p>
+        </blockquote>
+
+        <p>That is not specific enough.</p>
+
+        <p>A better question is:</p>
+
+        <blockquote>
+          <p>
+            Which resources are being discovered, downloaded, prioritized,
+            rendered, and executed at the wrong time?
+          </p>
+        </blockquote>
+
+        <p>
+          A website is not one thing. It is a collection of resources. HTML,
+          CSS, JavaScript, fonts, images, videos, tracking scripts, third-party
+          widgets, analytics tags, booking engines, consent banners, and API
+          calls all compete for attention.
+        </p>
+
+        <p>
+          The browser has to decide what to download first, what to delay, what
+          blocks rendering, what can wait, and what is needed for the visible
+          part of the page.
+        </p>
+
+        <p>This is why resource loading and browser prioritization matter.</p>
+
+        <h2>
+          Resource discovery: the browser cannot prioritize what it has not
+          found
+        </h2>
+
+        <p>
+          Resource discovery means the moment when the browser finds out that a
+          file exists and may need to be downloaded.
+        </p>
+
+        <p>A simple image written directly in the HTML is easy to discover:</p>
+
+        <pre><code>&lt;img src="/hero-image.jpg" alt="Sagrada Familia ticket page" /&gt;</code></pre>
+
+        <p>
+          The browser reads the HTML document and sees the image. That does not
+          mean it will always load it with the highest priority, but at least
+          the browser knows the image exists.
+        </p>
+
+        <p>A background image inside CSS is different:</p>
+
+        <pre><code>.hero &#123;
+  background-image: url("/hero-image.jpg");
+&#125;</code></pre>
+
+        <p>
+          In that case, the browser first has to discover the CSS file, download
+          it, parse it, understand which selectors apply, and only then discover
+          the image.
+        </p>
+
+        <p>
+          A JavaScript-generated image may be discovered even later because the
+          browser has to download and execute JavaScript before the image is
+          even inserted into the page.
+        </p>
+
+        <p>
+          This matters because many important website assets are discovered too
+          late. A hero image, an important font, or a critical above-the-fold
+          visual may not start loading early enough.
+        </p>
+
+        <h2>Browser priority: discovered does not mean urgent</h2>
+
+        <p>
+          After the browser discovers resources, it still has to prioritize
+          them.
+        </p>
+
+        <p>
+          HTML is normally critical because it contains the document structure.
+          CSS in the <code>&lt;head&gt;</code> is normally important because it affects
+          how the page is rendered. Fonts can matter because they affect text display.
+          JavaScript can be important, but it can also block or delay rendering if
+          handled badly.
+        </p>
+
+        <p>
+          Images are more nuanced. Many images start with a lower priority
+          because the browser does not yet know whether they are visible in the
+          viewport. The viewport is the part of the page currently visible on
+          the user’s screen without scrolling.
+        </p>
+
+        <p>
+          After layout, the browser may understand that a certain image is
+          actually visible above the fold. At that point, the browser may
+          increase the image priority. But that can be late for the most
+          important image on the page.
+        </p>
+
+        <p>
+          This is where technical SEO, frontend engineering, and user experience
+          meet. The issue is not only the image size. The issue is whether the
+          browser discovers and prioritizes the image early enough.
+        </p>
+
+        <h2>Largest Contentful Paint: the visible moment that matters</h2>
+
+        <p>
+          Largest Contentful Paint, usually called LCP, measures when the
+          largest visible image or text block in the viewport is rendered. In
+          simple terms, it asks: when does the main visible content appear?
+        </p>
+
+        <p>
+          A slow LCP often means that the user is waiting too long for the main
+          thing they came to see. That main thing could be a hero image, a
+          product image, a heading, a ticket panel, or a booking component.
+        </p>
+
+        <p>
+          For a museum ticketing page, the LCP element might be the hero image
+          or the main booking section. For an ecommerce page, it might be the
+          product image. For a consulting homepage, it might be the hero heading
+          or portrait image.
+        </p>
+
+        <p>The practical question is:</p>
+
+        <blockquote>
+          <p>
+            Is the browser giving the most important visible element enough
+            attention early in the loading process?
+          </p>
+        </blockquote>
+
+        <h2>Fetch priority: telling the browser what matters earlier</h2>
+
+        <p>
+          The <code>fetchpriority</code> attribute lets you give the browser a hint
+          about the relative priority of a resource.
+        </p>
+
+        <p>For example:</p>
+
+        <pre><code>&lt;img
+  src="/hero-image.jpg"
+  alt="Sagrada Familia ticket page"
+  fetchpriority="high"
+/&gt;</code></pre>
+
+        <p>In plain English, this tells the browser:</p>
+
+        <blockquote>
+          <p>
+            This image is important. Do not wait too long before treating it as
+            urgent.
+          </p>
+        </blockquote>
+
+        <p>
+          This can be useful when the image is already discoverable in the HTML,
+          but the browser may not assign high priority early enough.
+        </p>
+
+        <p>
+          But this does not mean every image should get
+          <code>fetchpriority="high"</code>. If everything is high priority,
+          nothing is truly high priority. The point is to identify the real LCP
+          image or the truly critical visual element.
+        </p>
+
+        <h2>Preload: helping the browser discover something earlier</h2>
+
+        <p>Preload solves a slightly different problem.</p>
+
+        <p>Fetch priority helps with priority. Preload helps with discovery.</p>
+
+        <p>
+          For example, if your hero image is hidden inside CSS, the browser may
+          not discover it early. You can help the browser discover it sooner:
+        </p>
+
+        <pre><code>&lt;link
+  rel="preload"
+  as="image"
+  href="/hero-image.jpg"
+  fetchpriority="high"
+/&gt;</code></pre>
+
+        <p>
+          This tells the browser to start fetching the image earlier than it
+          otherwise might.
+        </p>
+
+        <p>A simple way to remember the difference is:</p>
+
+        <div class="comparison-table is-readable">
+          <table>
+            <thead>
+              <tr>
+                <th>Technique</th>
+                <th>What it solves</th>
+                <th>When it helps</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>Preload</td>
+                <td>Discovery</td>
+                <td>The browser would find the important resource too late.</td>
+              </tr>
+
+              <tr>
+                <td>Fetch priority</td>
+                <td>Priority</td>
+                <td
+                  >The browser finds the resource, but may not treat it as
+                  urgent enough.</td
+                >
+              </tr>
+
+              <tr>
+                <td>Lazy loading</td>
+                <td>Bandwidth protection</td>
+                <td
+                  >The resource is below the fold and does not need to load
+                  immediately.</td
+                >
+              </tr>
+
+              <tr>
+                <td>Defer</td>
+                <td>JavaScript execution timing</td>
+                <td>The script can wait until HTML parsing is complete.</td>
+              </tr>
+
+              <tr>
+                <td>Async</td>
+                <td>Non-blocking script loading</td>
+                <td
+                  >The script can execute as soon as it downloads, without
+                  blocking HTML parsing.</td
+                >
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>The problem with lazy loading the wrong image</h2>
+
+        <p>
+          Lazy loading is useful for images that are not immediately visible. It
+          protects bandwidth and helps the browser avoid downloading unnecessary
+          assets too early.
+        </p>
+
+        <p>This is good for below-the-fold images:</p>
+
+        <pre><code>&lt;img
+  src="/gallery-image.jpg"
+  alt="Museum gallery"
+  loading="lazy"
+/&gt;</code></pre>
+
+        <p>But lazy loading the main hero image is usually a mistake:</p>
+
+        <pre><code>&lt;img
+  src="/hero-image.jpg"
+  alt="Main ticket page"
+  loading="lazy"
+/&gt;</code></pre>
+
+        <p>
+          If that image is the main visible content, delaying it can hurt LCP.
+          The resource the user needs first is being treated like something the
+          user may need later.
+        </p>
+
+        <p>That is not optimization. That is false optimization.</p>
+
+        <h2>How to think about common situations</h2>
+
+        <p>
+          Performance work becomes easier when you stop guessing and start
+          looking at situations.
+        </p>
+
+        <div class="audit-checklist">
+          <div class="audit-check">
+            <h3>
+              1. The LCP image is visible early but starts with low priority
+            </h3>
+            <p>
+              If the image appears directly in the HTML but Chrome DevTools
+              shows it starting with low or medium priority, consider adding
+              <code>fetchpriority="high"</code> to the image.
+            </p>
+          </div>
+
+          <div class="audit-check">
+            <h3>2. The LCP image is hidden inside CSS</h3>
+            <p>
+              If the hero image is a CSS background image, the browser may
+              discover it late. Consider using
+              <code>&lt;link rel="preload" as="image"&gt;</code> for that asset.
+            </p>
+          </div>
+
+          <div class="audit-check">
+            <h3>3. The LCP image has loading="lazy"</h3>
+            <p>
+              If the main above-the-fold image is lazy loaded, remove lazy
+              loading from that image. Lazy loading belongs to resources that
+              can wait.
+            </p>
+          </div>
+
+          <div class="audit-check">
+            <h3>4. Several above-the-fold images compete at the same time</h3>
+            <p>
+              Decide which visual is truly critical. Not every visible image
+              deserves the same priority. Prioritization is about choosing.
+            </p>
+          </div>
+
+          <div class="audit-check">
+            <h3>5. Many below-the-fold images load immediately</h3>
+            <p>
+              Use lazy loading for non-critical images. This protects bandwidth
+              for the content the user actually sees first.
+            </p>
+          </div>
+
+          <div class="audit-check">
+            <h3>6. Third-party scripts compete with core content</h3>
+            <p>
+              Analytics, chat widgets, booking engines, tag managers, and ad
+              scripts can affect loading. Review whether they need to load
+              before the user sees the main content.
+            </p>
+          </div>
+        </div>
+
+        <h2>Async and defer are not the same thing</h2>
+
+        <p>JavaScript loading is another common source of confusion.</p>
+
+        <p>
+          The <code>async</code> attribute lets a script download without blocking
+          HTML parsing, but the script executes as soon as it finishes downloading.
+          That can be useful, but it can also interrupt rendering if the script executes
+          at an awkward moment.
+        </p>
+
+        <p>
+          The <code>defer</code> attribute also lets the script download without blocking
+          HTML parsing, but it waits to execute until the HTML document has been parsed.
+        </p>
+
+        <p>A simple rule:</p>
+
+        <div class="impact-grid">
+          <div class="impact-card">
+            <h3>Use async carefully</h3>
+            <p>
+              Use <code>async</code> for independent scripts that do not depend on
+              the document structure or other scripts being ready.
+            </p>
+          </div>
+
+          <div class="impact-card">
+            <h3>Use defer for page scripts</h3>
+            <p>
+              Use <code>defer</code> when the script needs the HTML to be parsed but
+              does not need to block the first render.
+            </p>
+          </div>
+
+          <div class="impact-card">
+            <h3>Do not prioritize every script</h3>
+            <p>
+              A script being useful does not mean it is critical for the first
+              visible experience.
+            </p>
+          </div>
+        </div>
+
+        <h2>How I would audit a page</h2>
+
+        <p>
+          I would not start by randomly compressing everything. I would start by
+          identifying what the user sees first, what the browser loads first,
+          and where those two things disagree.
+        </p>
+
+        <p>
+          The first tool is PageSpeed Insights or Lighthouse. These tools help
+          identify Core Web Vitals issues and give you a first view of LCP,
+          Cumulative Layout Shift, and Interaction to Next Paint.
+        </p>
+
+        <p>
+          But the second tool is where the real learning happens: Chrome
+          DevTools.
+        </p>
+
+        <p>
+          Open the Network tab. Reload the page. Sort by waterfall and inspect
+          priority. Filter by images, CSS, JavaScript, and fonts. Ask basic but
+          powerful questions:
+        </p>
+
+        <ul>
+          <li>Which resources are discovered first?</li>
+          <li>Which resources are loaded before the hero content?</li>
+          <li>Which image is the actual LCP image?</li>
+          <li>
+            Is the LCP image loaded as an <code>&lt;img&gt;</code> or as a CSS background?
+          </li>
+          <li>Does the LCP image have <code>loading="lazy"</code>?</li>
+          <li>Does a non-critical resource compete with the visible page?</li>
+          <li>Are fonts delaying text rendering?</li>
+          <li>Are third-party scripts loading before the main content?</li>
+          <li>Is the page shifting after the first render?</li>
+        </ul>
+
+        <figure class="article-figure">
+          <img
+            src="/images/blog/network-request-waterfall-sagrada-familia.png"
+            alt="Network Request Tab showing resources requested sorted by waterfall"
+            loading="lazy"
+            decoding="async"
+          />
+
+          <figcaption>
+            Example of Chrome DevTools showing network requests, waterfall
+            timing, and resource loading behavior.
+          </figcaption>
+        </figure>
+
+        <h2>A practical audit table</h2>
+
+        <p>
+          This is the kind of decision table I like to use because it forces the
+          audit to connect problem, evidence, and action.
+        </p>
+
+        <div class="comparison-table is-readable">
+          <table>
+            <thead>
+              <tr>
+                <th>What you see</th>
+                <th>Likely issue</th>
+                <th>Practical action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>Main image loads late</td>
+                <td>The image may be discovered late or prioritized too low.</td
+                >
+                <td
+                  >Check whether it is in HTML, CSS, or JavaScript. Consider
+                  preload or fetch priority.</td
+                >
+              </tr>
+
+              <tr>
+                <td>Hero image has loading="lazy"</td>
+                <td>The most important image is being delayed.</td>
+                <td>Remove lazy loading from the LCP image.</td>
+              </tr>
+
+              <tr>
+                <td>Fonts appear late or swap visibly</td>
+                <td
+                  >Font loading may be affecting the perceived stability of the
+                  page.</td
+                >
+                <td
+                  >Review font loading strategy, preconnect, preload, and
+                  font-display behavior.</td
+                >
+              </tr>
+
+              <tr>
+                <td>Many scripts load before visible content</td>
+                <td
+                  >Third-party or non-critical scripts may be competing with
+                  critical resources.</td
+                >
+                <td
+                  >Review async, defer, tag manager sequencing, and whether
+                  scripts are truly needed early.</td
+                >
+              </tr>
+
+              <tr>
+                <td>Layout shifts after first render</td>
+                <td
+                  >Images, ads, banners, fonts, or embedded widgets may lack
+                  reserved space.</td
+                >
+                <td
+                  >Reserve dimensions and review CLS causes in Lighthouse or
+                  Performance panel.</td
+                >
+              </tr>
+
+              <tr>
+                <td>Network waterfall is crowded</td>
+                <td>Too many resources are competing in the first seconds.</td>
+                <td
+                  >Separate critical from non-critical resources and delay what
+                  can wait.</td
+                >
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Why this matters for SEO</h2>
+
+        <p>
+          Performance does not replace content quality, technical indexability,
+          internal linking, structured data, or search intent. But performance
+          affects whether users can actually experience the page properly.
+        </p>
+
+        <p>
+          A page can have the right title, the right content, the right schema,
+          and the right offer, but still lose users because the first experience
+          is slow, unstable, or frustrating.
+        </p>
+
+        <p>
+          For technical SEO, this means we should not treat Core Web Vitals as
+          an isolated score. We should connect them to user behavior, conversion
+          paths, and business outcomes.
+        </p>
+
+        <p>The better question is not:</p>
+
+        <blockquote>
+          <p>How do we get a perfect score?</p>
+        </blockquote>
+
+        <p>The better question is:</p>
+
+        <blockquote>
+          <p>
+            What is stopping users and crawlers from understanding, loading, and
+            trusting the page quickly?
+          </p>
+        </blockquote>
+
+        <h2>What I would not do</h2>
+
+        <p>I would not blindly preload every image.</p>
+
+        <p>
+          I would not give <code>fetchpriority="high"</code> to every visible asset.
+        </p>
+
+        <p>
+          I would not lazy load the main image just because lazy loading sounds
+          like optimization.
+        </p>
+
+        <p>I would not judge performance only from one Lighthouse run.</p>
+
+        <p>
+          And I would not assume that a low bounce rate automatically means the
+          page is technically strong, or that a high bounce rate is always
+          caused by speed.
+        </p>
+
+        <p>Good diagnostics require context.</p>
+
+        <h2>A simple framework</h2>
+
+        <p>
+          When auditing resource loading, I would organize the investigation
+          into five questions.
+        </p>
+
+        <div class="impact-grid">
+          <div class="impact-card">
+            <h3>1. What is critical?</h3>
+            <p>
+              Identify the content that matters most in the initial viewport:
+              hero image, heading, booking module, product image, or call to
+              action.
+            </p>
+          </div>
+
+          <div class="impact-card">
+            <h3>2. When is it discovered?</h3>
+            <p>
+              Check whether the browser discovers the resource in HTML, CSS,
+              JavaScript, or later through a third-party component.
+            </p>
+          </div>
+
+          <div class="impact-card">
+            <h3>3. How is it prioritized?</h3>
+            <p>
+              Use DevTools to see whether critical resources are treated as
+              high, medium, or low priority.
+            </p>
+          </div>
+
+          <div class="impact-card">
+            <h3>4. What competes with it?</h3>
+            <p>
+              Look for scripts, fonts, images, analytics tools, and widgets that
+              compete with the first visible experience.
+            </p>
+          </div>
+
+          <div class="impact-card">
+            <h3>5. What can wait?</h3>
+            <p>
+              Move non-critical images, scripts, and widgets out of the critical
+              loading path where possible.
+            </p>
+          </div>
+        </div>
+
+        <h2>How I can help</h2>
+
+        <p>
+          I help businesses review technical SEO, analytics, AI visibility, and
+          browser-level performance issues that make websites harder to find,
+          crawl, understand, and trust.
+        </p>
+
+        <p>
+          For performance audits, I look at Core Web Vitals, resource loading,
+          browser prioritization, LCP elements, image delivery, JavaScript
+          loading, third-party scripts, layout stability, and the relationship
+          between technical issues and business outcomes.
+        </p>
+
+        <p>
+          The goal is not to chase a perfect score for the sake of it. The goal
+          is to make the page easier to use, easier to understand, and easier to
+          trust during the first few seconds.
+        </p>
+
+        <div class="article-cta">
+          <h2>Need help auditing your website performance?</h2>
+
+          <p>
+            I can review how your page loads, which resources compete for
+            priority, whether your LCP element is handled correctly, and where
+            technical friction may be affecting visibility or conversions.
+          </p>
+
+          <a class="article-cta-button" href="/free-visibility-check/#calendar">
+            Request a technical visibility check
+          </a>
+
+          <p class="cta-note">
+            This is not about deleting everything. It is about knowing what must
+            load first, what can wait, and what is currently slowing down the
+            user experience.
+          </p>
+        </div>
+
+        <h2>Sources and further reading</h2>
+
+        <ul class="source-list">
+          <li>
+            <a
+              href="https://business.google.com/ca-en/think/marketing-strategies/mobile-page-speed-new-industry-benchmarks/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Think with Google: New industry benchmarks for mobile page speed
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="https://web.dev/articles/fetch-priority"
+              target="_blank"
+              rel="noreferrer"
+            >
+              web.dev: Optimize resource loading with the Fetch Priority API
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="https://web.dev/articles/optimize-lcp"
+              target="_blank"
+              rel="noreferrer"
+            >
+              web.dev: Optimize Largest Contentful Paint
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="https://web.dev/articles/browser-level-image-lazy-loading"
+              target="_blank"
+              rel="noreferrer"
+            >
+              web.dev: Browser-level image lazy loading for the web
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="https://web.dev/case-studies/vodafone"
+              target="_blank"
+              rel="noreferrer"
+            >
+              web.dev: Vodafone Core Web Vitals case study
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="https://www.akamai.com/newsroom/press-release/akamai-releases-spring-2017-state-of-online-retail-performance-report"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Akamai: Online Retail Performance Report
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="https://www.propellernet.co.uk/insights/the-impact-of-speed-on-ecommerce/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Propellernet: The impact of speed on ecommerce
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="https://medium.com/p/3a26ba97704f?postPublishedType=initial"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Original Medium version
+            </a>
+          </li>
+        </ul>
+      </section>
+    </article>
+  </main>
+</BlogLayout>
