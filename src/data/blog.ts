@@ -154,6 +154,16 @@ export const blogPosts: BlogPost[] = [
     readingTime: "12 min read",
     icon: "⚡",
   },
+  {
+    slug: "how-to-make-great-product-copy-sell-more",
+    topic: "organic-growth",
+    title: "How to Make Great Product Copy and Sell More",
+    description:
+      "A practical article on product copy, empathy, clarity, product pages, trust, and how brands like Dyson explain products in a way people actually understand.",
+    date: "2026-06-22",
+    readingTime: "10 min read",
+    icon: "🛒",
+  },
 ];
 
 export function getTopicBySlug(slug: string) {
