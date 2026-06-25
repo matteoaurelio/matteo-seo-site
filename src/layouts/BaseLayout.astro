@@ -13,6 +13,7 @@ interface Props {
   canonical?: string;
   lang?: string;
   alternateLanguages?: AlternateLanguage[];
+  image?: string;
 }
 
 const site = "https://matteoarellano.com";
@@ -24,6 +25,7 @@ const {
   canonical = currentUrl,
   lang = "en",
   alternateLanguages = [],
+  image,
 } = Astro.props;
 ---
 
@@ -70,9 +72,29 @@ const {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
 
-    <meta name="twitter:card" content="summary" />
+    <meta
+      name="twitter:card"
+      content={image ? "summary_large_image" : "summary"}
+    />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+
+    {
+      image && (
+        <>
+          <meta property="og:image" content={new URL(image, site).toString()} />
+          <meta
+            name="twitter:image"
+            content={new URL(image, site).toString()}
+          />
+        </>
+      )
+    }
+
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
     <JsonLd />
   </head>
   <body>

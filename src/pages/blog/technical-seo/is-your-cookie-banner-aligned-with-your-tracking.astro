@@ -1,0 +1,1050 @@
+---
+import BlogLayout from "../../../layouts/BlogLayout.astro";
+
+const title =
+  "Cookie Banner Tracking QA: Sagrada Família dataLayer Case Study | Matteo Arellano";
+
+const description =
+  "A browser-based technical SEO and analytics case study showing how the Sagrada Família website stores cookie consent, updates localStorage, pushes consent events to the dataLayer, and connects those signals with Google Tag Manager.";
+
+const canonical =
+  "https://matteoarellano.com/blog/technical-seo/is-your-cookie-banner-aligned-with-your-tracking/";
+
+const image = "/images/blog/sagrada-familia-cookie-banner.png";
+---
+
+<BlogLayout
+  title="{title}"
+  description="{description}"
+  canonical="{canonical}"
+  image="{image}"
+>
+  <main class="article-page">
+    <article class="article-shell">
+      <a class="blog-back-link" href="/blog/technical-seo/">
+        ← Back to Technical SEO articles
+      </a>
+
+      <header class="article-header">
+        <span class="article-kicker">Technical SEO</span>
+
+        <h1>Is your cookie banner aligned with your tracking?</h1>
+
+        <p class="article-intro">
+          A case study of the Sagrada Família website, looking at cookies,
+          localStorage, the dataLayer, Google Tag Manager, and what actually
+          changes in the browser when a visitor accepts or rejects tracking.
+        </p>
+
+        <div class="article-meta">
+          <span>Published June 2026</span>
+          <span>14 min read</span>
+        </div>
+      </header>
+
+      <section class="article-content">
+        <p>
+          Barcelona is one of the most popular cities to visit in 2026. Every
+          year, millions of people experience the monuments, streets, food,
+          culture, and architecture that Barcelona offers, including the famous
+          church designed by Gaudí: La Sagrada Família.
+        </p>
+
+        <p>
+          I grew up near Barcelona, so I know the city pretty well. As a kid, I
+          did not really understand how special Barcelona was until later, when
+          I realized how many cultural activities, museums, outdoor places,
+          beaches, and architectural sites we had around us.
+        </p>
+
+        <p>
+          As I became more exposed to marketing, analytics, and web performance,
+          I started to see Barcelona differently. I started to notice how the
+          city positioned itself as one of the most beautiful places in the
+          world, with world-class food, cultural offers, and natural
+          attractions. The beach and the mountains are both accessible in less
+          than one hour.
+        </p>
+
+        <p>
+          Today, I want to explore how websites communicate with marketing tools
+          such as Google Tag Manager, Google Analytics 4, and other platforms
+          through the famous <code>dataLayer</code>.
+        </p>
+
+        <p>
+          We are going to look at how cookies work, how they are stored, and how
+          data is shared from websites to marketing and analytics tools such as
+          GTM and GA4.
+        </p>
+
+        <p>Before starting, this is something useful to remember:</p>
+
+        <blockquote>
+          <p>
+            Cookies are the website’s memory. The <code>dataLayer</code> is the website’s
+            messenger.
+          </p>
+        </blockquote>
+
+        <p>
+          When a user makes a cookie choice, the cookie stores that choice for
+          later. The <code>dataLayer</code> tells Google Tag Manager what changed
+          right now.
+        </p>
+
+        <p>
+          This is where cookie banners and tracking overlap: the banner choice
+          must be stored in the browser and also communicated correctly to the
+          tracking tools.
+        </p>
+
+        <p>This article is for three types of readers:</p>
+
+        <ul>
+          <li>
+            If you want to understand how cookies work behind the scenes, what
+            changes in the browser when you make a choice, and how to debug that
+            yourself.
+          </li>
+          <li>
+            If you have experienced website cookies hundreds of times but want
+            to understand the technical side, including how cookies relate to
+            the
+            <code>dataLayer</code>.
+          </li>
+          <li>
+            If you have worked with <code>dataLayer</code> events but never really
+            worked with cookies, or the other way around. Maybe you want the tools
+            to understand how website events send analytics data to your marketing
+            tools.
+          </li>
+        </ul>
+
+        <div class="personal-note">
+          <p>
+            Note: this article is not meant for advanced developers who already
+            have years of experience working with <code>dataLayer</code>
+            implementations and cookie banners. Some parts may feel basic if you already
+            work with this every day.
+          </p>
+        </div>
+
+        <p>
+          With that in mind, let’s start with a real-life scenario: the Sagrada
+          Família website.
+        </p>
+
+        <h2>Part 1: What are cookies?</h2>
+
+        <p>
+          Cookies are small text files stored on your device by your web browser
+          when you visit a website. They act as the website’s memory, allowing
+          it to remember your actions, login status, and preferences, so you do
+          not have to repeat them on every visit.
+        </p>
+
+        <p>They can look something like this:</p>
+
+        <pre><code>[
+  &#123;
+    "name": "_ga",
+    "value": "GA1.1.123456789",
+    "domain": ".example.org",
+    "expires": 1780000000
+  &#125;
+]</code></pre>
+
+        <p>
+          When I opened the Sagrada Família website, before clicking anything,
+          my inspection tool showed that there were no cookies being stored in
+          my browser:
+        </p>
+
+        <pre><code>"cookies": [],
+"documentCookie": "",
+"localStorage": &#123;
+  "cookiefirst-id": "null"
+&#125;</code></pre>
+
+        <figure class="article-figure">
+          <img
+            src="/images/blog/sagrada-familia-cookie-banner.png"
+            alt="Sagrada Familia Cookie Banner"
+            loading="lazy"
+            decoding="async"
+          />
+
+          <figcaption>
+            Sagrada Familia Cookie Banner when opening the website.
+          </figcaption>
+        </figure>
+
+        <p>But the moment I clicked “Deny" everything changed:</p>
+
+        <pre><code>"storageAfterDecline": &#123;
+  "cookies": [
+    &#123;
+      "name": "cookiefirst-consent",
+      "domain": "sagradafamilia.org",
+      "value": "%7B%22necessary%22%3Atrue%2C%22performance%22%3Afalse%2C%22functional%22%3Afalse%2C%22advertising%22%3Afalse%7D",
+      "expires": 1813396915
+    &#125;
+  ],
+  "localStorage": &#123;
+    "cookiefirst-consent": "&#123;\"necessary\":true,\"performance\":false,\"functional\":false,\"advertising\":false&#125;",
+    "cookiefirst-id": "\"7d40928a-ef52-4d50-9e98-39f2cc7f1dbd\""
+  &#125;,
+  "sessionStorage": &#123;&#125;
+&#125;</code></pre>
+
+        <p>How do we interpret this result?</p>
+
+        <div class="comparison-table is-readable">
+          <table>
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>What it means</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td><code>name</code></td>
+                <td>
+                  <code>cookiefirst-consent</code> is the consent cookie created by
+                  CookieFirst. It stores the user’s cookie choice.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>domain</code></td>
+                <td>
+                  This means the cookie belongs to the Sagrada Família domain.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>value</code></td>
+                <td>
+                  This is the URL-encoded consent decision. When decoded, it
+                  becomes easier to read.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>expires</code></td>
+                <td>
+                  This is when the cookie expires. In this result, the
+                  expiration is around 360 days after the consent timestamp.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>localStorage</code></td>
+                <td>
+                  CookieFirst saved the same consent decision in
+                  <code>localStorage</code>. So the decision is stored both as a
+                  cookie and in <code>localStorage</code>.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>When decoded, the consent value looks like this:</p>
+
+        <pre><code>&#123;
+  necessary: true,
+  performance: false,
+  functional: false,
+  advertising: false,
+  timestamp: 1782292915,
+  type: "category",
+  version: "c279cd09-2ec6-45f9-8ba3-f9cce5e82b7b"
+&#125;</code></pre>
+
+        <p>
+          Local storage is different from cookies. It can store data in the
+          browser, but it is not automatically sent with every server request in
+          the same way cookies can be. That makes it useful for storing
+          preferences or consent-related information in the browser.
+        </p>
+
+        <h2>What happens if I accept all cookies?</h2>
+
+        <p>
+          When I accepted all cookies, the browser storage changed completely.
+        </p>
+
+        <p>
+          Before making a choice, there were no cookies stored and
+          <code>documentCookie</code> was empty. After accepting, the website created
+          a <code>cookiefirst-consent</code> cookie where all categories were set
+          to <code>true</code>: necessary (minimum standard for running a
+          website), performance, functional, and advertising.
+        </p>
+
+        <p>
+          It also created Google-related cookies such as <code>_gcl_au</code>,
+          <code>_ga</code>, and <code>_ga_Z9S7Q33FL5</code>.
+        </p>
+
+        <p>
+          In this case, accepting cookies allowed analytics and advertising
+          tools to start storing identifiers in the browser.
+        </p>
+
+        <p>It looked like this:</p>
+
+        <pre><code>"cookies": [
+  &#123;
+    "name": "cookiefirst-consent",
+    "domain": "sagradafamilia.org",
+    "value": "%7B%22necessary%22%3Atrue%2C%22performance%22%3Atrue%2C%22functional%22%3Atrue%2C%22advertising%22%3Atrue%7D"
+  &#125;,
+  &#123;
+    "name": "_gcl_au",
+    "domain": ".sagradafamilia.org",
+    "value": "1.1.1770990631.1782294059"
+  &#125;,
+  &#123;
+    "name": "_ga",
+    "domain": ".sagradafamilia.org",
+    "value": "GA1.1.696962384.1782294060"
+  &#125;,
+  &#123;
+    "name": "_ga_Z9S7Q33FL5",
+    "domain": ".sagradafamilia.org",
+    "value": "GS2.1.s1782294059$o1$g0$t1782294059$j60$l0$h1907544524"
+  &#125;
+]</code></pre>
+
+        <p>
+          This is already useful. We can see that the cookie banner choice is
+          not just a UI decision. It changes what is stored in the browser.
+        </p>
+
+        <p>
+          After decline, only the consent cookie and local storage values were
+          saved, with optional categories set to <code>false</code>.
+        </p>
+
+        <p>
+          After accept, the consent cookie was updated and Google-related
+          cookies appeared.
+        </p>
+
+        <p>
+          That is the kind of difference you want to verify when auditing a
+          cookie banner.
+        </p>
+
+        <h2>Part 2: Understanding the dataLayer</h2>
+
+        <p>
+          The <code>dataLayer</code> is a JavaScript object that connects website
+          events, such as clicks, scrolls, page loads, searches, purchases, or consent
+          changes, to Google Tag Manager.
+        </p>
+
+        <p>
+          It helps create a more reliable connection between what happens on the
+          website and what gets sent to analytics and marketing tools.
+        </p>
+
+        <p>
+          Google Analytics 4 gives you some standard events, such as page views
+          and scrolls. But if you want to understand specific user behavior on
+          your website, you usually need custom events.
+        </p>
+
+        <p>
+          With a <code>dataLayer</code>, you can send events such as login,
+          purchase, search, video play, form submission, ticket selection, or
+          checkout step. You can also pass extra values, such as selected date,
+          product type, ticket category, language, clicked link destination, or
+          product color.
+        </p>
+
+        <p>
+          For Sagrada Família, imagine there is a search bar for guided tours.
+          The website could send an event such as <code>search_term</code>.
+        </p>
+
+        <p>
+          If many users search for “guided tours with video included” or
+          “Sagrada Família with audio guide”, the business team might decide to
+          create or promote that offer because the website is showing a demand
+          signal.
+        </p>
+
+        <p>Another useful case is tracking ancillaries.</p>
+
+        <p>
+          What if the business could measure how many people buy the standard
+          ticket and then add a guided tour with transport included? What if
+          they could see how many people add a Barcelona T-shirt, an audio
+          guide, or a tower visit?
+        </p>
+
+        <p>
+          These are useful business questions. A correct
+          <code>dataLayer</code> setup helps website owners answer them.
+        </p>
+
+        <p>In this case, the first check we can do is simple:</p>
+
+        <blockquote>
+          <p>
+            Does the website have a <code>dataLayer</code> when the page opens? And
+            what events are already showing?
+          </p>
+        </blockquote>
+
+        <p>
+          When I visited <code>https://sagradafamilia.org/</code>, I saw some
+          interesting results.
+        </p>
+
+        <figure class="article-figure">
+          <img
+            src="/images/blog/sagrada-familia-cookie-banner.png"
+            alt="Sagrada Familia Cookie Banner"
+            loading="lazy"
+            decoding="async"
+          />
+
+          <figcaption>
+            Sagrada Familia Cookie Banner when opening the website.
+          </figcaption>
+        </figure>
+
+        <p>
+          First, there is a cookie banner. Before touching anything on that
+          banner, I wanted to see what was happening behind the scenes.
+        </p>
+
+        <p>I ran my code and got this:</p>
+
+        <pre><code>&#123;
+  "exists": true,
+  "isArray": true,
+  "length": 4,
+  "eventNames": ["gtm.js"],
+  "lastEntries": [
+    &#123;
+      "0": "consent",
+      "1": "default",
+      "2": &#123;
+        "ad_storage": "granted",
+        "analytics_storage": "granted",
+        "functionality_storage": "granted",
+        "wait_for_update": 2000
+      &#125;
+    &#125;,
+    &#123;
+      "0": "consent",
+      "1": "default",
+      "2": &#123;
+        "ad_storage": "denied",
+        "analytics_storage": "denied",
+        "functionality_storage": "denied",
+        "region": ["AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SI", "ES", "SE", "GB"],
+        "wait_for_update": 2000
+      &#125;
+    &#125;,
+    &#123;
+      "0": "set",
+      "1": &#123;
+        "developer_id.dNjAwYj": true
+      &#125;
+    &#125;,
+    &#123;
+      "gtm.start": 1782286063647,
+      "event": "gtm.js"
+    &#125;
+  ]
+&#125;</code></pre>
+
+        <p>
+          The first result, <code>"exists": true</code>, means the website has a
+          <code>dataLayer</code> available in the browser. In simple terms, the website
+          has created the object that Google Tag Manager can read from.
+        </p>
+
+        <p>
+          That is already useful information because, without a
+          <code>dataLayer</code>, there would be no central place where the
+          website can push structured events, consent signals, or business
+          information for GTM to process.
+        </p>
+
+        <p>
+          The second result, <code>"isArray": true</code>, means the
+          <code>dataLayer</code> is an array.
+        </p>
+
+        <p>
+          That might sound technical, but the idea is simple: the
+          <code>dataLayer</code> behaves like a list. Every time the website wants
+          to communicate something to GTM, it adds a new item to that list.
+        </p>
+
+        <p>
+          For example, it can add a page load, a consent setting, a purchase, a
+          search, a button click, or any other event the business wants to
+          measure.
+        </p>
+
+        <p>
+          The <code>"length": 4</code> result means that, at the moment I checked
+          the page, the <code>dataLayer</code> already had four entries inside it.
+        </p>
+
+        <p>
+          I had not clicked the cookie banner yet. I had not searched anything.
+          I had not bought a ticket. Still, the website had already pushed four
+          pieces of information into the <code>dataLayer</code>.
+        </p>
+
+        <p>
+          This is an important detail. The <code>dataLayer</code> is not only used
+          for clicks and purchases. It can also be used for setup instructions, consent
+          rules, and the initial GTM load event.
+        </p>
+
+        <p>
+          The <code>"eventNames": ["gtm.js"]</code> result means that, out of those
+          four entries, the only entry with a clear event name is
+          <code>gtm.js</code>.
+        </p>
+
+        <p>
+          <code>gtm.js</code> is the event that Google Tag Manager adds when the GTM
+          container starts loading on the page. It is basically GTM saying: “I have
+          started.”
+        </p>
+
+        <p>
+          This is not a business event like “ticket purchased” or “guided tour
+          selected.” It is more like a technical startup signal.
+        </p>
+
+        <p>
+          That is why the result only shows one event name. The other entries
+          exist in the <code>dataLayer</code>, but they are not written as
+          normal website events. They are commands.
+        </p>
+
+        <p>The first entry is:</p>
+
+        <pre><code>&#123;
+  "0": "consent",
+  "1": "default",
+  "2": &#123;
+    "ad_storage": "granted",
+    "ad_user_data": "granted",
+    "ad_personalization": "granted",
+    "analytics_storage": "granted",
+    "personalization_storage": "granted",
+    "functionality_storage": "granted",
+    "security_storage": "granted",
+    "wait_for_update": 2000
+  &#125;
+&#125;</code></pre>
+
+        <p>
+          This looks strange because it has <code>"0"</code>, <code>"1"</code>,
+          and <code>"2"</code> instead of names like <code>"event"</code> or
+          <code>"page_type"</code>.
+        </p>
+
+        <p>
+          But the logic is simple. This is a <code>gtag</code> command stored inside
+          the <code>dataLayer</code>.
+        </p>
+
+        <p>
+          The <code>gtag()</code> command is a JavaScript function used in Google’s
+          measurement and advertising setup. The consent command manages user privacy
+          choices. It sets default permissions and updates them, for example from
+          <code>denied</code> to <code>granted</code>, when a user interacts
+          with a cookie banner.
+        </p>
+
+        <p>
+          The first part, <code>"0": "consent"</code>, means the command is
+          related to consent.
+        </p>
+
+        <p>
+          The second part, <code>"1": "default"</code>, means it is setting the
+          default consent state. Before the user chooses anything on the cookie
+          banner, the website is telling Google what the default consent
+          behavior should be.
+        </p>
+
+        <p>
+          The third part contains the actual consent settings. These values say
+          that, by default, storage for ads, analytics, personalization,
+          functionality, and security is granted.
+        </p>
+
+        <p>
+          However, this is only the first consent rule. Right after that, the
+          website adds a second consent rule.
+        </p>
+
+        <pre><code>&#123;
+  "0": "consent",
+  "1": "default",
+  "2": &#123;
+    "ad_storage": "denied",
+    "ad_user_data": "denied",
+    "ad_personalization": "denied",
+    "analytics_storage": "denied",
+    "personalization_storage": "denied",
+    "functionality_storage": "denied",
+    "security_storage": "denied",
+    "wait_for_update": 2000,
+    "region": ["AT", "BE", "FR", "DE", "IT", "ES", "SE", "GB"]
+  &#125;
+&#125;</code></pre>
+
+        <p>
+          This is also a consent default command, but now there is a very
+          important extra field: <code>region</code>.
+        </p>
+
+        <p>
+          This means the rule applies only to specific countries. These are
+          country codes. For example, ES means Spain, FR means France, DE means
+          Germany, IT means Italy, and GB means Great Britain.
+        </p>
+
+        <p>
+          So when I see this region list, I know the website is applying a
+          stricter default consent behavior for visitors from those countries.
+        </p>
+
+        <p>
+          Since Spain is included as ES, this matters directly for a website
+          like Sagrada Família, where many users will visit from Barcelona,
+          Spain, or other European countries.
+        </p>
+
+        <p>
+          Inside that regional rule, almost everything is set to
+          <code>denied</code>. This means that, for users in those listed
+          regions, the default state is more restrictive before the user makes a
+          choice on the cookie banner.
+        </p>
+
+        <p>So the website is basically saying:</p>
+
+        <ul>
+          <li>For general users, use granted consent as the default.</li>
+          <li>
+            For users in these listed regions, use denied consent as the
+            default.
+          </li>
+        </ul>
+
+        <p>
+          That is how we can see that the site is treating European or
+          privacy-regulated traffic differently before the visitor accepts or
+          rejects the cookie banner.
+        </p>
+
+        <p>
+          The value <code>"wait_for_update": 2000</code> tells Google tags to wait
+          up to 2000 milliseconds, which is 2 seconds, for a consent update.
+        </p>
+
+        <p>
+          The website is giving the cookie banner a small window of time to
+          collect the user’s choice before the tags continue. This does not mean
+          the user is forced to wait exactly 2 seconds. It means Google’s
+          tagging system has a short delay available so the consent state can be
+          updated properly.
+        </p>
+
+        <p>
+          The <code>"set"</code> command with
+          <code>"developer_id.dNjAwYj": true</code> looks like an internal Google
+          or tag vendor identifier. It is not telling us that a user clicked something,
+          searched something, or bought something.
+        </p>
+
+        <p>
+          Finally, <code>"event": "gtm.js"</code> means the GTM container has started.
+          This is usually one of the first events you see when checking a website
+          with Google Tag Manager.
+        </p>
+
+        <h2>What do the consent options mean?</h2>
+
+        <p>
+          Now that we have seen how the <code>dataLayer</code> behaves, let’s look
+          at the consent options.
+        </p>
+
+        <div class="comparison-table is-readable">
+          <table>
+            <thead>
+              <tr>
+                <th>Consent field</th>
+                <th>What it means in this kind of audit</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td><code>ad_storage</code></td>
+                <td>
+                  The website can use advertising cookies. For example, this can
+                  help Google understand that a visit came from an ad and later
+                  whether that visit became a ticket purchase. In the browser,
+                  this can create cookies like <code>_gcl_au</code>.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>ad_user_data</code></td>
+                <td>
+                  The website has permission to send advertising-related user
+                  data to Google, usually for conversion measurement, depending
+                  on the implementation.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>ad_personalization</code></td>
+                <td>
+                  The website can use the visitor’s behavior for personalized
+                  ads or remarketing.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>analytics_storage</code></td>
+                <td>
+                  Analytics cookies can be used. This helps tools like GA4
+                  understand the user journey more clearly.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>personalization_storage</code></td>
+                <td>
+                  The website can remember information that improves the user
+                  experience, such as previous choices or preferences.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>functionality_storage</code></td>
+                <td>
+                  The website can remember practical settings that make the site
+                  easier to use, such as selected language, region, currency, or
+                  interface preference.
+                </td>
+              </tr>
+
+              <tr>
+                <td><code>security_storage</code></td>
+                <td>
+                  The website can use storage for security and protection, such
+                  as authentication, fraud prevention, or keeping checkout
+                  sessions safe.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>What happened after waiting a few more seconds?</h2>
+
+        <p>
+          I decided to run the script again, but with a small change: I waited 6
+          extra seconds to see if the <code>dataLayer</code> would show more items
+          on the website.
+        </p>
+
+        <p>And it did.</p>
+
+        <p>I obtained all consent events listed:</p>
+
+        <ul>
+          <li>Consent Necessary, set to <code>true</code></li>
+          <li>Consent Advertising, set to <code>false</code></li>
+          <li>Consent Performance, set to <code>false</code></li>
+          <li>Consent Functional, set to <code>false</code></li>
+          <li>After Consent Update</li>
+          <li>Init</li>
+          <li>Layer Ready</li>
+        </ul>
+
+        <pre><code>"afterSixSeconds": &#123;
+  "exists": true,
+  "isArray": true,
+  "length": 11,
+  "eventNames": [
+    "gtm.js",
+    "cf_consent_necessary",
+    "cf_consent_advertising",
+    "cf_consent_performance",
+    "cf_consent_functional",
+    "cf_after_consent_update",
+    "cf_init",
+    "cf_layer_ready"
+  ],
+  "consentEvents": [
+    &#123;
+      "event": "cf_consent_necessary",
+      "cf_necessary_enabled": true
+    &#125;,
+    &#123;
+      "event": "cf_consent_advertising",
+      "cf_advertising_enabled": false
+    &#125;,
+    &#123;
+      "event": "cf_consent_performance",
+      "cf_performance_enabled": false
+    &#125;,
+    &#123;
+      "event": "cf_consent_functional",
+      "cf_functional_enabled": false
+    &#125;
+  ]
+&#125;</code></pre>
+
+        <p>
+          That matches the banner UI: necessary is already on and cannot really
+          be disabled, while the other categories are off until the user
+          chooses.
+        </p>
+
+        <p>
+          Matching the banner UI with the actual consent state is essential for
+          privacy QA, because the interface and the tracking behavior should
+          tell the same story.
+        </p>
+
+        <figure class="article-figure">
+          <img
+            src="/images/blog/sagrada-familia-cookie-config.png"
+            alt="Sagrada Familia Cookie Banner"
+            loading="lazy"
+            decoding="async"
+          />
+
+          <figcaption>
+            Sagrada Familia Cookie Banner when opening the website.
+          </figcaption>
+        </figure>
+
+        <h2>What happens to the dataLayer after accepting all cookies?</h2>
+
+        <p>
+          Before the click, the consent events showed necessary (the minimum
+          functional cookies for the website to run) as
+          <code>true</code>, while advertising, performance, and functional were
+          <code>false</code>.
+        </p>
+
+        <p>
+          After accepting, new consent events were pushed and those same
+          optional categories became <code>true</code>.
+        </p>
+
+        <p>
+          The <code>dataLayer</code> length increased from 11 to 19, and extra GTM
+          events appeared, including <code>gtm.dom</code> and
+          <code>gtm.scrollDepth</code>.
+        </p>
+
+        <pre><code>&#123;
+  "event": "cf_consent_advertising",
+  "cf_advertising_enabled": true,
+  "gtm.uniqueEventId": 17
+&#125;,
+&#123;
+  "event": "cf_consent_performance",
+  "cf_performance_enabled": true,
+  "gtm.uniqueEventId": 18
+&#125;,
+&#123;
+  "event": "cf_consent_functional",
+  "cf_functional_enabled": true,
+  "gtm.uniqueEventId": 19
+&#125;</code></pre>
+
+        <p>
+          This snippet shows an area where many people get confused, including
+          me.
+        </p>
+
+        <p>
+          Even after accepting all cookies, the <code>dataLayer</code> still contains
+          the earlier default consent events where optional categories were <code
+            >false</code
+          >. But later entries show advertising, performance, and functional
+          changing to <code>true</code>.
+        </p>
+
+        <p>
+          This matters because the <code>dataLayer</code> keeps a timeline of what
+          happened, rather than only showing the final consent state.
+        </p>
+
+        <p>A useful rule:</p>
+
+        <p>
+          During the same page visit, the <code>dataLayer</code> is usually not refreshed.
+          It is appended to. It grows like a list of events and commands.
+        </p>
+
+        <p>
+          On a page reload, it starts again, but the new
+          <code>dataLayer</code> may be rebuilt using saved cookies and
+          <code>localStorage</code>.
+        </p>
+
+        <p>
+          If the website is a single-page app, where the page does not fully
+          reload and only the content changes, then it is usually the same
+          <code>dataLayer</code>. In that case, the list keeps growing.
+        </p>
+
+        <p>
+          If checkout opens inside an iframe or redirects to another domain,
+          then it can get more complex. The parent page has its own
+          <code>window.dataLayer</code>, and the iframe or new domain may have a
+          separate one. So the checkout may not share the same
+          <code>dataLayer</code> unless the implementation sends events between them.
+        </p>
+
+        <p>This depends on the implementation.</p>
+
+        <h2>So how are cookies and dataLayers talking to each other?</h2>
+
+        <p>
+          When cookies were accepted, the consent decision was stored in
+          <code>localStorage</code>. That is one observation.
+        </p>
+
+        <p>
+          When cookies were accepted, the <code>dataLayer</code> also received new
+          updated events such as <code>cf_consent_advertising</code>,
+          <code>cf_consent_performance</code>, and
+          <code>cf_consent_functional</code>, all equal to <code>true</code>.
+        </p>
+
+        <p>
+          You can see that these events are processed by GTM because they
+          include values like this:
+        </p>
+
+        <pre><code>"gtm.uniqueEventId": 17</code></pre>
+
+        <p>So, are cookies working as expected?</p>
+
+        <p>In this step, yes.</p>
+
+        <p>
+          But this does not automatically prove that a GA4 tag, Google Ads tag,
+          or remarketing tag fired from that event.
+        </p>
+
+        <p>
+          To prove tag firing, you would check GTM Preview or Tag Assistant. You
+          could also inspect network requests after consent is accepted, for
+          example requests to:
+        </p>
+
+        <ul>
+          <li><code>google-analytics.com/g/collect</code></li>
+          <li><code>googleadservices.com</code></li>
+          <li><code>doubleclick.net</code></li>
+        </ul>
+
+        <p>
+          Google also explains that Tag Manager processes
+          <code>dataLayer</code> messages in order, one at a time. So the sequence
+          matters: first the default consent state, then the updated consent state
+          after the user makes a choice.
+        </p>
+
+        <p>That is why auditing consent means checking three layers:</p>
+
+        <ul>
+          <li>What the banner says.</li>
+          <li>What the browser stores.</li>
+          <li>What the <code>dataLayer</code> sends to GTM.</li>
+        </ul>
+
+        <p>
+          If those three layers are aligned, the website is much easier to trust
+          and debug.
+        </p>
+
+        <p>
+          If they are not aligned, you may have a tracking problem, a consent
+          problem, or both.
+        </p>
+
+        <p>
+          Happy to answer questions about this topic at
+          <a href="https://matteoarellano.com">matteoarellano.com</a>.
+        </p>
+
+        <h2>Sources and further reading</h2>
+
+        <ul class="source-list">
+          <li>
+            <a
+              href="https://developers.google.com/tag-platform/tag-manager/datalayer"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Google Tag Platform: The data layer
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="https://developers.google.com/tag-platform/security/guides/consent"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Google Tag Platform: Set up consent mode on websites
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="https://developers.google.com/tag-platform/security/concepts/consent-mode"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Google Tag Platform: Consent mode overview
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="https://developers.google.com/tag-platform/tag-manager/templates/api"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Google Tag Manager: Custom template APIs
+            </a>
+          </li>
+        </ul>
+      </section>
+    </article>
+  </main>
+</BlogLayout>

@@ -164,6 +164,19 @@ export const blogPosts: BlogPost[] = [
     readingTime: "10 min read",
     icon: "🛒",
   },
+  {
+    slug: "is-your-cookie-banner-aligned-with-your-tracking",
+    topic: "technical-seo",
+    title: "Is Your Cookie Banner Aligned With Your Tracking?",
+    description:
+      "A browser-based case study of the Sagrada Família website, looking at cookie consent, localStorage, the dataLayer, GTM, and how consent choices should match tracking behavior.",
+    date: "2026-06-25",
+    readingTime: "14 min read",
+    icon: "🍪",
+    image: "/images/blog/sagrada-familia-cookie-banner.png",
+    imageAlt:
+      "Cookie banner on the Sagrada Família website used for a tracking and consent audit",
+  },
 ];
 
 export function getTopicBySlug(slug: string) {
