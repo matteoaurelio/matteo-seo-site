@@ -117,15 +117,30 @@ const languageLinks = [
         {
           navLinks.map((link) =>
             link.label === "Services" ? (
-              <>
-                <a href={link.href}>{link.label}</a>
+              <details class="panel-dropdown">
+                <summary class="panel-dropdown-summary">
+                  <span class="panel-dropdown-label">{link.label}</span>
+
+                  <span class="panel-dropdown-icon" aria-hidden="true">
+                    <svg viewBox="0 0 20 20" focusable="false">
+                      <path
+                        d="M5 7.5L10 12.5L15 7.5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </summary>
 
                 <div class="panel-subnav" aria-label="Services submenu">
                   {serviceLinks.map((service) => (
                     <a href={service.href}>{service.label}</a>
                   ))}
                 </div>
-              </>
+              </details>
             ) : (
               <a href={link.href}>{link.label}</a>
             ),
@@ -171,6 +186,18 @@ const languageLinks = [
   const toggle = document.querySelector(".nav-toggle");
   const panel = document.querySelector("#nav-panel");
 
+  function closePanel() {
+    if (!toggle || !panel) return;
+
+    toggle.setAttribute("aria-expanded", "false");
+    panel.classList.remove("is-open");
+    document.body.classList.remove("nav-open");
+
+    panel.querySelectorAll("details").forEach((details) => {
+      details.removeAttribute("open");
+    });
+  }
+
   if (toggle && panel) {
     toggle.addEventListener("click", () => {
       const isOpen = toggle.getAttribute("aria-expanded") === "true";
@@ -178,14 +205,16 @@ const languageLinks = [
       toggle.setAttribute("aria-expanded", String(!isOpen));
       panel.classList.toggle("is-open", !isOpen);
       document.body.classList.toggle("nav-open", !isOpen);
+
+      if (isOpen) {
+        panel.querySelectorAll("details").forEach((details) => {
+          details.removeAttribute("open");
+        });
+      }
     });
 
     panel.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
-        toggle.setAttribute("aria-expanded", "false");
-        panel.classList.remove("is-open");
-        document.body.classList.remove("nav-open");
-      });
+      link.addEventListener("click", closePanel);
     });
   }
 </script>

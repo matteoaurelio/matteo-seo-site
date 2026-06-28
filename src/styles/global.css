@@ -1467,6 +1467,152 @@ h3 {
   color: #0b5cad;
 }
 
+/* Collapsible Services group inside mobile/tablet menu */
+
+/* Mobile/tablet Services accordion */
+
+.panel-dropdown {
+  display: grid;
+  gap: 6px;
+}
+
+.panel-dropdown-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 15px;
+  background: #f8fbff;
+  color: #24364b;
+  font-size: 0.98rem;
+  font-weight: 800;
+  line-height: 1.2;
+  cursor: pointer;
+  list-style: none;
+  transition:
+    background 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.panel-dropdown-summary::-webkit-details-marker {
+  display: none;
+}
+
+.panel-dropdown-summary:hover {
+  background: #edf6ff;
+  color: #0b5cad;
+}
+
+.panel-dropdown-label {
+  display: inline-flex;
+  align-items: center;
+}
+
+.panel-dropdown-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  color: #0b5cad;
+  background: rgba(11, 92, 173, 0.08);
+  transition:
+    transform 180ms ease,
+    background 180ms ease,
+    color 180ms ease;
+}
+
+.panel-dropdown-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.panel-dropdown[open] .panel-dropdown-icon {
+  transform: rotate(180deg);
+  color: #ffffff;
+  background: #0b5cad;
+}
+
+.panel-subnav {
+  display: grid;
+  gap: 6px;
+  margin: -2px 0 8px;
+  padding-left: 14px;
+}
+
+.panel-subnav a {
+  min-height: 42px;
+  padding: 10px 14px;
+  border-left: 3px solid rgba(15, 76, 129, 0.18);
+  border-radius: 12px;
+  background: #ffffff;
+  color: #46617d;
+  font-size: 0.92rem;
+  font-weight: 750;
+  line-height: 1.25;
+}
+
+.panel-subnav a:hover {
+  border-left-color: #0b5cad;
+  background: #edf6ff;
+  color: #0b5cad;
+}
+
+.panel-subnav {
+  display: grid;
+  gap: 6px;
+  margin: -2px 0 8px;
+  padding-left: 14px;
+}
+
+.panel-subnav a {
+  min-height: 42px;
+  padding: 10px 14px;
+  border-left: 3px solid rgba(15, 76, 129, 0.18);
+  border-radius: 12px;
+  background: #ffffff;
+  color: #46617d;
+  font-size: 0.92rem;
+  font-weight: 750;
+  line-height: 1.25;
+}
+
+.panel-subnav a:hover {
+  border-left-color: #0b5cad;
+  background: #edf6ff;
+  color: #0b5cad;
+}
+
+/* Services links inside mobile/tablet menu */
+
+.panel-subnav {
+  display: grid;
+  gap: 6px;
+  margin: -2px 0 8px;
+  padding-left: 14px;
+}
+
+.panel-subnav a {
+  min-height: 42px;
+  padding: 10px 14px;
+  border-left: 3px solid rgba(15, 76, 129, 0.18);
+  border-radius: 12px;
+  background: #ffffff;
+  color: #46617d;
+  font-size: 0.92rem;
+  font-weight: 750;
+  line-height: 1.25;
+}
+
+.panel-subnav a:hover {
+  border-left-color: #0b5cad;
+  background: #edf6ff;
+  color: #0b5cad;
+}
+
 .panel-audit {
   justify-content: center;
   margin-top: 2px;
@@ -1596,6 +1742,13 @@ h3 {
     width: calc(100% - 28px);
     min-height: 72px;
     gap: 14px;
+  }
+  .panel-subnav {
+    padding-left: 10px;
+  }
+
+  .panel-subnav a {
+    font-size: 0.9rem;
   }
 
   .brand {
