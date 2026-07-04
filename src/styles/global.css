@@ -728,6 +728,126 @@ h3 {
   }
 }
 
+/* Revenue page desktop spacing */
+
+.revenue-page .commercial-section-header {
+  max-width: 980px;
+  margin-bottom: 40px;
+}
+
+.revenue-page .commercial-section-header h2 {
+  font-size: clamp(2.5rem, 3.8vw, 3.8rem);
+  line-height: 1.1;
+  letter-spacing: -0.045em;
+}
+
+.revenue-page .commercial-section-header p:not(.commercial-eyebrow) {
+  max-width: 780px;
+  margin-top: 20px;
+  font-size: 1.04rem;
+  line-height: 1.7;
+}
+
+/* Fit cards */
+
+.revenue-page .commercial-card {
+  padding: 30px;
+}
+
+.revenue-page .commercial-card h3 {
+  line-height: 1.28;
+}
+
+.revenue-page .commercial-card > .revenue-check-list {
+  margin-top: 18px;
+}
+
+.revenue-page .revenue-check-list {
+  gap: 14px;
+}
+
+.revenue-page .revenue-check-list li {
+  line-height: 1.58;
+}
+
+/* Matteo profile section */
+
+.revenue-page .visibility-signup-section {
+  padding: 64px 20px 76px;
+}
+
+.revenue-page .visibility-signup-card {
+  grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.72fr);
+  width: min(1080px, 100%);
+  min-height: 0;
+  margin-inline: auto;
+}
+
+.revenue-page .visibility-signup-copy {
+  padding: 42px 44px;
+}
+
+.revenue-page .visibility-signup-copy .kicker {
+  margin-bottom: 20px;
+}
+
+.revenue-page .visibility-signup-copy h2 {
+  margin: 0 0 18px;
+  font-size: clamp(2.45rem, 3.3vw, 3.45rem);
+  line-height: 1.08;
+  letter-spacing: -0.05em;
+}
+
+.revenue-page .visibility-signup-copy p {
+  margin-top: 14px;
+  font-size: 0.98rem;
+  line-height: 1.64;
+}
+
+.revenue-page .visibility-signup-copy .commercial-actions {
+  margin-top: 26px;
+}
+
+.revenue-page .visibility-signup-image {
+  align-self: center;
+  height: 520px;
+  min-height: 0;
+  margin: 28px 28px 28px 0;
+  border-radius: 28px;
+  background-position: center 14%;
+}
+
+/* Final CTA */
+
+.revenue-page .commercial-cta {
+  width: min(1100px, calc(100% - 40px));
+  margin: 30px auto 82px;
+  padding: 48px 54px;
+}
+
+.revenue-page .commercial-cta .commercial-eyebrow {
+  margin-bottom: 20px;
+}
+
+.revenue-page .commercial-cta h2 {
+  max-width: 980px;
+  font-size: clamp(2.7rem, 4vw, 4.15rem);
+  line-height: 1.08;
+  letter-spacing: -0.05em;
+}
+
+.revenue-page .commercial-cta > p:not(.commercial-eyebrow) {
+  max-width: 820px;
+  margin-top: 20px;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 1.04rem;
+  line-height: 1.7;
+}
+
+.revenue-page .commercial-cta .commercial-actions {
+  margin-top: 30px;
+}
+
 @media (max-width: 1040px) {
   .hero-grid,
   .section-header,
@@ -1534,56 +1654,6 @@ h3 {
   transform: rotate(180deg);
   color: #ffffff;
   background: #0b5cad;
-}
-
-.panel-subnav {
-  display: grid;
-  gap: 6px;
-  margin: -2px 0 8px;
-  padding-left: 14px;
-}
-
-.panel-subnav a {
-  min-height: 42px;
-  padding: 10px 14px;
-  border-left: 3px solid rgba(15, 76, 129, 0.18);
-  border-radius: 12px;
-  background: #ffffff;
-  color: #46617d;
-  font-size: 0.92rem;
-  font-weight: 750;
-  line-height: 1.25;
-}
-
-.panel-subnav a:hover {
-  border-left-color: #0b5cad;
-  background: #edf6ff;
-  color: #0b5cad;
-}
-
-.panel-subnav {
-  display: grid;
-  gap: 6px;
-  margin: -2px 0 8px;
-  padding-left: 14px;
-}
-
-.panel-subnav a {
-  min-height: 42px;
-  padding: 10px 14px;
-  border-left: 3px solid rgba(15, 76, 129, 0.18);
-  border-radius: 12px;
-  background: #ffffff;
-  color: #46617d;
-  font-size: 0.92rem;
-  font-weight: 750;
-  line-height: 1.25;
-}
-
-.panel-subnav a:hover {
-  border-left-color: #0b5cad;
-  background: #edf6ff;
-  color: #0b5cad;
 }
 
 /* Services links inside mobile/tablet menu */
@@ -2873,7 +2943,7 @@ h3 {
   letter-spacing: -0.06em;
 }
 
-.commercial-copy p {
+.commercial-copy p:not(.commercial-kicker) {
   max-width: 760px;
   margin: 28px 0 0;
   color: #425a74;
@@ -3009,9 +3079,9 @@ h3 {
   margin-bottom: 38px;
 }
 
-.commercial-section-header p,
-.commercial-proof p,
-.commercial-cta p {
+.commercial-section-header p:not(.commercial-eyebrow),
+.commercial-proof p:not(.commercial-eyebrow),
+.commercial-cta p:not(.commercial-eyebrow) {
   margin: 20px 0 0;
   color: #425a74;
   font-size: 1.08rem;
@@ -4474,4 +4544,933 @@ h3 {
   color: #0b5cad;
   background: #edf6ff;
   transform: none;
+}
+
+/* ================================
+   Plumbing and HVAC revenue page
+   ================================ */
+
+.revenue-page {
+  overflow: hidden;
+}
+
+.revenue-page {
+  overflow: hidden;
+}
+
+/* Revenue page hero */
+
+.revenue-hero {
+  position: relative;
+  padding: 84px 0 72px;
+  overflow: hidden;
+}
+
+.revenue-hero::before {
+  content: "";
+  position: absolute;
+  top: -120px;
+  right: -160px;
+  width: 680px;
+  height: 680px;
+  border-radius: 999px;
+  background: radial-gradient(
+    circle,
+    rgba(90, 169, 255, 0.17),
+    transparent 68%
+  );
+  pointer-events: none;
+}
+
+.revenue-hero-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 430px);
+  gap: 52px;
+  align-items: start;
+}
+
+.revenue-hero-copy {
+  min-width: 0;
+}
+
+.revenue-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  margin-bottom: 24px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  color: var(--primary);
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(15, 76, 129, 0.12);
+  box-shadow: 0 10px 24px rgba(16, 43, 77, 0.05);
+  font-size: 0.78rem;
+  font-weight: 850;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.revenue-kicker::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  flex: 0 0 9px;
+  border-radius: 999px;
+  background: var(--success);
+  box-shadow: 0 0 0 6px rgba(15, 118, 110, 0.12);
+}
+
+.revenue-hero-title {
+  max-width: 820px;
+  margin: 0;
+  color: #061527;
+  font-size: clamp(3.4rem, 5vw, 5.25rem);
+  line-height: 0.98;
+  letter-spacing: -0.06em;
+}
+
+.revenue-hero-title span {
+  display: block;
+  color: var(--primary);
+}
+
+.revenue-hero-lede {
+  max-width: 730px;
+  margin: 28px 0 0;
+  color: #425a74;
+  font-size: clamp(1.08rem, 1.45vw, 1.24rem);
+  line-height: 1.75;
+}
+
+.revenue-hero-note {
+  max-width: 700px;
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.revenue-hero-panel {
+  margin-top: 54px;
+  padding: 28px;
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(14, 116, 144, 0.14),
+      transparent 24rem
+    ),
+    rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(197, 221, 245, 0.82);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px);
+}
+
+/* Hero diagnostic journey */
+
+.revenue-panel-label {
+  margin: 0 0 16px;
+  color: var(--primary);
+  font-size: 0.78rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.revenue-flow {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.revenue-flow li {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 14px;
+  padding: 17px 0;
+  border-top: 1px solid rgba(197, 221, 245, 0.72);
+}
+
+.revenue-flow li:first-child {
+  padding-top: 4px;
+  border-top: 0;
+}
+
+.revenue-flow-number {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 13px;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+.revenue-flow strong {
+  display: block;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.revenue-flow small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.87rem;
+  line-height: 1.5;
+}
+
+/* Offer and pricing cards */
+
+.revenue-offers {
+  display: grid;
+  gap: 22px;
+}
+
+.revenue-offer-card {
+  padding: 38px;
+  border-radius: var(--radius-xl);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(197, 221, 245, 0.82);
+  box-shadow: var(--shadow);
+}
+
+.revenue-offer-card.is-primary {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(90, 169, 255, 0.48);
+}
+
+.revenue-offer-card.is-primary::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background: linear-gradient(
+    90deg,
+    var(--primary),
+    var(--primary-2),
+    var(--accent)
+  );
+}
+
+.revenue-offer-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.revenue-offer-header h2 {
+  font-size: clamp(2rem, 4vw, 3.6rem);
+}
+
+.revenue-price {
+  flex: 0 0 auto;
+  text-align: right;
+}
+
+.revenue-price strong {
+  display: block;
+  color: var(--primary-2);
+  font-size: clamp(2.4rem, 4vw, 3.8rem);
+  line-height: 1;
+  letter-spacing: -0.06em;
+}
+
+.revenue-price span {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 750;
+}
+
+.revenue-offer-intro {
+  max-width: 900px;
+  margin: 24px 0 0;
+  color: var(--muted);
+  font-size: 1.08rem;
+  line-height: 1.75;
+}
+
+.revenue-offer-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+  margin-top: 32px;
+}
+
+.revenue-offer-columns h3 {
+  margin-bottom: 16px;
+}
+
+.revenue-check-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.revenue-check-list li {
+  display: flex;
+  gap: 11px;
+  color: #294765;
+  line-height: 1.6;
+  font-weight: 620;
+}
+
+.revenue-check-list li::before {
+  content: "\2713";
+  display: grid;
+  place-items: center;
+  flex: 0 0 22px;
+  width: 22px;
+  height: 22px;
+  margin-top: 2px;
+  border-radius: 999px;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--success), var(--accent));
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+.revenue-offer-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(197, 221, 245, 0.72);
+}
+
+.revenue-offer-footer span {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+}
+
+.revenue-monthly-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 30px;
+}
+
+.revenue-monthly-item {
+  padding: 22px;
+  border-radius: var(--radius-lg);
+  background: var(--bg);
+  border: 1px solid rgba(197, 221, 245, 0.76);
+}
+
+.revenue-monthly-item > span {
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  margin-bottom: 17px;
+  border-radius: 14px;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.revenue-monthly-item p {
+  margin: 10px 0 0;
+  color: var(--muted);
+}
+
+.revenue-scope-note {
+  margin-top: 24px;
+  padding: 18px;
+  border-radius: var(--radius-md);
+  color: #294765;
+  background: var(--bg-strong);
+  border: 1px solid rgba(90, 169, 255, 0.2);
+}
+
+/* Cost calculation */
+
+.revenue-economics {
+  color: #ffffff;
+  background:
+    radial-gradient(
+      circle at 15% 10%,
+      rgba(90, 169, 255, 0.24),
+      transparent 28rem
+    ),
+    linear-gradient(135deg, var(--primary), #092f53);
+}
+
+.revenue-economics h2,
+.revenue-economics p {
+  color: #ffffff;
+}
+
+.revenue-economics .commercial-eyebrow {
+  color: #dff7ff;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.revenue-economics-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(360px, 0.75fr);
+  gap: 42px;
+  align-items: center;
+}
+
+.revenue-equation {
+  padding: 30px;
+  border-radius: var(--radius-xl);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(14px);
+}
+
+.revenue-equation-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+  font-weight: 750;
+}
+
+.revenue-equation-result {
+  margin-top: 18px;
+  color: #ffffff;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.05em;
+  font-weight: 900;
+}
+
+.revenue-equation p {
+  margin: 18px 0 0;
+  color: rgba(255, 255, 255, 0.76);
+}
+
+/* Expandable FAQ */
+
+.revenue-faq details {
+  padding: 0;
+  overflow: hidden;
+}
+
+.revenue-faq summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 24px;
+  color: var(--text);
+  font-weight: 820;
+  cursor: pointer;
+  list-style: none;
+}
+
+.revenue-faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.revenue-faq summary::after {
+  content: "+";
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  color: var(--primary);
+  background: var(--bg-strong);
+  font-size: 1.2rem;
+  transition: transform 180ms ease;
+}
+
+.revenue-faq details[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.revenue-faq details p {
+  margin: 0;
+  padding: 0 24px 24px;
+}
+
+/* Floating WhatsApp button */
+
+.whatsapp-float {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 900;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 54px;
+  padding: 13px 18px;
+  border-radius: 999px;
+  color: #ffffff;
+  background: var(--success);
+  box-shadow: 0 18px 42px rgba(15, 118, 110, 0.3);
+  font-weight: 850;
+  text-decoration: none;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
+}
+
+.whatsapp-float:hover {
+  color: #ffffff;
+  background: #0b625c;
+  transform: translateY(-3px);
+  box-shadow: 0 24px 50px rgba(15, 118, 110, 0.38);
+}
+
+.whatsapp-float svg {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+}
+
+/* Responsive adjustments */
+
+@media (max-width: 1040px) {
+  .revenue-hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .revenue-hero-panel {
+    width: 100%;
+    max-width: 680px;
+    margin-top: 0;
+  }
+
+  .revenue-offer-columns,
+  .revenue-economics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .revenue-offer-header {
+    display: grid;
+  }
+
+  .revenue-price {
+    text-align: left;
+  }
+}
+
+@media (max-width: 760px) {
+  /* Hero */
+
+  .revenue-hero {
+    padding: 52px 0 44px;
+  }
+
+  .revenue-hero-grid {
+    gap: 28px;
+  }
+
+  .revenue-kicker {
+    max-width: 100%;
+    margin-bottom: 18px;
+    padding: 7px 11px;
+    font-size: 0.7rem;
+    line-height: 1.3;
+    letter-spacing: 0.06em;
+    white-space: normal;
+  }
+
+  .revenue-hero-title {
+    font-size: clamp(2.45rem, 10.5vw, 3.6rem);
+    line-height: 1;
+    letter-spacing: -0.055em;
+  }
+
+  .revenue-hero-lede {
+    margin-top: 22px;
+    font-size: 1rem;
+    line-height: 1.62;
+  }
+
+  .revenue-hero-note {
+    margin-top: 14px;
+    font-size: 0.94rem;
+    line-height: 1.58;
+  }
+
+  .revenue-hero-panel {
+    width: 100%;
+    margin-top: 0;
+    padding: 21px;
+    border-radius: 22px;
+  }
+
+  .revenue-flow li {
+    grid-template-columns: 38px 1fr;
+    gap: 11px;
+    padding: 14px 0;
+  }
+
+  .revenue-flow-number {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+  }
+
+  .revenue-flow strong {
+    font-size: 0.96rem;
+    line-height: 1.3;
+  }
+
+  .revenue-flow small {
+    margin-top: 3px;
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+
+  /* Sections */
+
+  .revenue-page .commercial-section {
+    padding: 46px 0;
+  }
+
+  .revenue-page .commercial-section-header {
+    margin-bottom: 24px;
+  }
+
+  .revenue-page .commercial-eyebrow {
+    display: inline-flex;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 0 13px;
+    padding: 7px 11px;
+    font-size: 0.7rem;
+    line-height: 1.3;
+    letter-spacing: 0.065em;
+  }
+
+  .revenue-page .commercial-section-header h2,
+  .revenue-page .commercial-proof h2,
+  .revenue-page .commercial-cta h2 {
+    font-size: clamp(1.9rem, 8vw, 2.45rem);
+    line-height: 1.04;
+    letter-spacing: -0.048em;
+  }
+
+  .revenue-page .commercial-section-header p:not(.commercial-eyebrow),
+  .revenue-page .commercial-proof p:not(.commercial-eyebrow) {
+    margin-top: 15px;
+    font-size: 0.98rem;
+    line-height: 1.58;
+  }
+
+  /* Cards */
+
+  .revenue-page .commercial-card-grid {
+    gap: 13px;
+  }
+
+  .revenue-page .commercial-card {
+    padding: 19px;
+    border-radius: 20px;
+  }
+
+  .revenue-page .commercial-card > .tag {
+    display: inline-flex;
+    width: fit-content;
+    margin-bottom: 12px;
+    padding: 6px 9px;
+    border-radius: 999px;
+    color: var(--primary);
+    background: rgba(90, 169, 255, 0.12);
+    font-size: 0.72rem;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .revenue-page .commercial-card h3 {
+    font-size: 1.15rem;
+    line-height: 1.22;
+  }
+
+  .revenue-page .commercial-card p {
+    margin-top: 10px;
+    font-size: 0.94rem;
+    line-height: 1.55;
+  }
+
+  /* Offers */
+
+  .revenue-offer-card {
+    padding: 21px;
+    border-radius: 22px;
+  }
+
+  .revenue-offer-header {
+    display: grid;
+    gap: 18px;
+  }
+
+  .revenue-offer-header h2 {
+    font-size: clamp(1.95rem, 8vw, 2.6rem);
+  }
+
+  .revenue-price {
+    text-align: left;
+  }
+
+  .revenue-price strong {
+    font-size: 2.5rem;
+  }
+
+  .revenue-offer-intro {
+    margin-top: 18px;
+    font-size: 0.98rem;
+    line-height: 1.6;
+  }
+
+  .revenue-offer-columns {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-top: 24px;
+  }
+
+  .revenue-offer-columns h3 {
+    margin-bottom: 13px;
+    font-size: 1.12rem;
+  }
+
+  .revenue-check-list {
+    gap: 10px;
+  }
+
+  .revenue-check-list li {
+    gap: 9px;
+    font-size: 0.92rem;
+    line-height: 1.48;
+  }
+
+  .revenue-check-list li::before {
+    flex-basis: 20px;
+    width: 20px;
+    height: 20px;
+    margin-top: 1px;
+    font-size: 0.7rem;
+  }
+
+  .revenue-monthly-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .revenue-monthly-item {
+    padding: 19px;
+    border-radius: 19px;
+  }
+
+  .revenue-monthly-item p {
+    font-size: 0.94rem;
+    line-height: 1.55;
+  }
+
+  .revenue-scope-note {
+    margin-top: 20px;
+    padding: 16px;
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+
+  .revenue-offer-footer {
+    display: grid;
+    gap: 17px;
+    margin-top: 23px;
+    padding-top: 20px;
+  }
+
+  .revenue-offer-footer span {
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  /* Buttons */
+
+  .revenue-page .commercial-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 11px;
+  }
+
+  .revenue-page .commercial-primary,
+  .revenue-page .commercial-secondary {
+    width: 100%;
+    min-height: 48px;
+    padding: 13px 17px;
+    font-size: 0.96rem;
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  .revenue-offer-footer .commercial-primary {
+    width: 100%;
+  }
+
+  /* Economics section */
+
+  .revenue-economics-grid {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  .revenue-equation {
+    padding: 21px;
+    border-radius: 22px;
+  }
+
+  .revenue-equation-line {
+    gap: 8px;
+    font-size: 1.15rem;
+  }
+
+  .revenue-equation-result {
+    margin-top: 14px;
+    font-size: 2rem;
+  }
+
+  .revenue-equation p {
+    margin-top: 14px;
+    font-size: 0.94rem;
+    line-height: 1.55;
+  }
+
+  /* Matteo photo section */
+
+  .revenue-page .visibility-signup-section {
+    padding: 36px 14px 54px;
+  }
+
+  .revenue-page .visibility-signup-card {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    border-radius: 26px;
+  }
+
+  .revenue-page .visibility-signup-image {
+    order: -1;
+    min-height: 0;
+    height: 300px;
+    background-position: center 18%;
+  }
+
+  .revenue-page .visibility-signup-copy {
+    padding: 24px 21px 28px;
+  }
+
+  .revenue-page .visibility-signup-copy .kicker {
+    margin: 0 0 18px;
+    padding: 7px 11px;
+    font-size: 0.72rem;
+    line-height: 1.3;
+  }
+
+  .revenue-page .visibility-signup-copy h2 {
+    margin: 0 0 17px;
+    font-size: clamp(2rem, 8.5vw, 2.7rem);
+    line-height: 1.02;
+  }
+
+  .revenue-page .visibility-signup-copy p {
+    margin-top: 13px;
+    font-size: 0.96rem;
+    line-height: 1.58;
+  }
+
+  /* Fit section */
+
+  .revenue-page .commercial-card .revenue-check-list {
+    margin-top: 16px;
+  }
+
+  /* FAQ */
+
+  .revenue-faq summary {
+    padding: 17px 18px;
+    font-size: 0.96rem;
+    line-height: 1.35;
+  }
+
+  .revenue-faq summary::after {
+    flex-basis: 29px;
+    width: 29px;
+    height: 29px;
+  }
+
+  .revenue-faq details p {
+    padding: 0 18px 18px;
+    font-size: 0.94rem;
+    line-height: 1.56;
+  }
+
+  /* Final CTA */
+
+  .revenue-page .commercial-cta {
+    margin: 24px auto 62px;
+    padding: 27px 21px;
+    border-radius: 26px;
+  }
+
+  .revenue-page .commercial-cta .commercial-eyebrow {
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .revenue-page .commercial-cta h2 {
+    color: #ffffff;
+  }
+
+  .revenue-page .commercial-cta > p:not(.commercial-eyebrow) {
+    margin-top: 17px;
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 0.98rem;
+    line-height: 1.6;
+  }
+
+  .revenue-page .commercial-cta .commercial-actions {
+    margin-top: 25px;
+  }
+
+  /* Floating WhatsApp */
+
+  .whatsapp-float {
+    right: 15px;
+    bottom: 15px;
+    width: 52px;
+    height: 52px;
+    min-height: 52px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .whatsapp-float svg {
+    width: 23px;
+    height: 23px;
+  }
+
+  .whatsapp-float span {
+    display: none;
+  }
 }

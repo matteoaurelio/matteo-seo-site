@@ -1,0 +1,124 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+
+const title = "Google Ads Support | Matteo Arellano";
+const description =
+  "Independent Google Ads support focused on lead quality, conversion tracking, landing pages, and the real cost of acquiring customers.";
+const canonical = "https://matteoarellano.com/services/google-ads/";
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  lang="en"
+>
+  <Header />
+
+  <main class="commercial-page">
+    <section class="commercial-hero">
+      <div class="commercial-container commercial-hero-grid">
+        <div class="commercial-copy">
+          <span class="commercial-kicker">Google Ads support</span>
+
+          <h1>Find out what happens after someone clicks your ad.</h1>
+
+          <p>
+            Google Ads can generate clicks and leads while the business still
+            struggles to produce profitable customers. I help companies examine
+            targeting, tracking, landing pages, lead quality, conversion, and
+            customer-acquisition costs together.
+          </p>
+
+          <div class="commercial-actions">
+            <a
+              class="commercial-primary"
+              href="/free-visibility-check/#calendar"
+            >
+              Discuss your Google Ads
+            </a>
+
+            <a class="commercial-secondary" href="/#services">
+              View all services
+            </a>
+          </div>
+        </div>
+
+        <div class="commercial-profile-card">
+          <img
+            src="/images/matteo-arellano-visibility-signup.jpg"
+            alt="Matteo Arellano"
+            loading="eager"
+          />
+
+          <div class="commercial-profile-copy">
+            <strong>Matteo Arellano</strong>
+            <span>Google Ads, analytics and conversion support</span>
+
+            <p>
+              Independent analysis focused on what produces customers, revenue,
+              and useful business evidence.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="commercial-section commercial-soft">
+      <div class="commercial-container">
+        <div class="commercial-section-header">
+          <span class="commercial-eyebrow">What I examine</span>
+
+          <h2>Clicks are only one part of the customer journey.</h2>
+
+          <p>
+            The useful question is whether the ads attract the right people and
+            whether those people become qualified leads, bookings, purchases, or
+            completed jobs.
+          </p>
+        </div>
+
+        <div class="commercial-card-grid">
+          <article class="commercial-card">
+            <h3>Campaign and search intent</h3>
+            <p>
+              Keywords, search terms, targeting, bids, budgets, locations, and
+              whether the campaign is reaching the customers the business
+              actually wants.
+            </p>
+          </article>
+
+          <article class="commercial-card">
+            <h3>Landing-page performance</h3>
+            <p>
+              Message match, offer clarity, mobile usability, page speed,
+              conversion friction, and whether the page continues the promise
+              made by the advertisement.
+            </p>
+          </article>
+
+          <article class="commercial-card">
+            <h3>Tracking and measurement</h3>
+            <p>
+              GA4, Google Ads conversions, calls, forms, bookings, purchases,
+              and gaps between the reported conversion and the real business
+              result.
+            </p>
+          </article>
+
+          <article class="commercial-card">
+            <h3>Lead and customer economics</h3>
+            <p>
+              Cost per qualified lead, booking, sale, or completed customer, not
+              only cost per click or the conversion number shown in Google Ads.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
