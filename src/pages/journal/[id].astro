@@ -1,0 +1,241 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollection, render } from "astro:content";
+import BlogLayout from "../../layouts/BlogLayout.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection(
+    "journal",
+    ({ data }) => !data.draft
+  );
+
+  return entries.map((entry) => ({
+    params: {
+      id: entry.id,
+    },
+    props: {
+      entry,
+    },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<"journal">;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const title = `${entry.data.title} | Work Journal | Matteo Arellano`;
+const canonical = `https://matteoarellano.com/journal/${entry.id}/`;
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: entry.data.title,
+  description: entry.data.description,
+  datePublished: entry.data.pubDate.toISOString(),
+  dateModified: (
+    entry.data.updatedDate ?? entry.data.pubDate
+  ).toISOString(),
+  mainEntityOfPage: canonical,
+  url: canonical,
+  author: {
+    "@type": "Person",
+    name: "Matteo Arellano",
+    url: "https://matteoarellano.com/",
+  },
+};
+---
+
+<BlogLayout
+  title={title}
+  description={entry.data.description}
+  canonical={canonical}
+>
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify(articleSchema)}
+  />
+
+  <main class="journal-entry-page">
+    <article class="journal-article">
+      <a class="back-link" href="/journal/">
+        ← Back to the work journal
+      </a>
+
+      <header class="journal-header">
+        <p class="journal-label">Work Journal</p>
+
+        <h1>{entry.data.title}</h1>
+
+        <p class="journal-description">
+          {entry.data.description}
+        </p>
+
+        <div class="journal-meta">
+          <span>{formatDate(entry.data.pubDate)}</span>
+          <span>Matteo Arellano</span>
+        </div>
+
+        {
+          entry.data.tags.length > 0 && (
+            <div class="journal-tags" aria-label="Topics">
+              {entry.data.tags.map((tag) => (
+                <span>{tag}</span>
+              ))}
+            </div>
+          )
+        }
+      </header>
+
+      <div class="journal-content">
+        <Content />
+      </div>
+    </article>
+  </main>
+</BlogLayout>
+
+<style>
+  .journal-entry-page {
+    width: min(860px, calc(100% - 2rem));
+    margin: 0 auto;
+    padding: 4rem 0 6rem;
+  }
+
+  .journal-article {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-bottom: 3rem;
+    font-weight: 700;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .back-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .journal-header {
+    margin-bottom: 3rem;
+  }
+
+  .journal-label {
+    margin: 0 0 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .journal-header h1 {
+    margin: 0 0 1.25rem;
+    font-size: clamp(2.4rem, 7vw, 4.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+  }
+
+  .journal-description {
+    margin: 0;
+    max-width: 700px;
+    font-size: 1.2rem;
+    line-height: 1.7;
+  }
+
+  .journal-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    opacity: 0.7;
+  }
+
+  .journal-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+  }
+
+  .journal-tags span {
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(15, 76, 129, 0.08);
+    font-size: 0.82rem;
+  }
+
+  .journal-content {
+    font-size: 1.08rem;
+    line-height: 1.85;
+  }
+
+  .journal-content :global(p) {
+    margin: 0 0 1.5rem;
+  }
+
+  .journal-content :global(h2) {
+    margin: 3rem 0 1rem;
+    font-size: 1.8rem;
+    line-height: 1.25;
+  }
+
+  .journal-content :global(h3) {
+    margin: 2.5rem 0 1rem;
+    font-size: 1.4rem;
+  }
+
+  .journal-content :global(a) {
+    font-weight: 700;
+    text-underline-offset: 0.2em;
+  }
+
+  .journal-content :global(blockquote) {
+    margin: 2rem 0;
+    padding: 1.25rem 1.5rem;
+    border-left: 4px solid currentColor;
+    background: rgba(15, 76, 129, 0.06);
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+
+  .journal-content :global(blockquote p) {
+    margin: 0;
+  }
+
+  .journal-content :global(ul),
+  .journal-content :global(ol) {
+    margin: 0 0 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .journal-content :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .journal-entry-page {
+      padding: 2.5rem 0 4rem;
+    }
+
+    .back-link {
+      margin-bottom: 2rem;
+    }
+
+    .journal-content {
+      font-size: 1rem;
+    }
+  }
+</style>

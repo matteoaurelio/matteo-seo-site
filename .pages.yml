@@ -1,0 +1,65 @@
+media:
+  input: public/images/journal
+  output: /images/journal
+
+settings:
+  content:
+    merge: true
+
+content:
+  - name: journal
+    label: Work Journal
+    type: collection
+    path: src/content/journal
+    format: yaml-frontmatter
+    filename: "{pubDate}-{title}.md"
+
+    view:
+      fields: [title, pubDate, draft]
+      primary: title
+      sort: [pubDate, title]
+      search: [title, description, tags]
+      default:
+        sort: pubDate
+        order: desc
+
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+        options:
+          maxlength: 120
+
+      - name: description
+        label: Search description
+        type: text
+        required: true
+        options:
+          maxlength: 180
+
+      - name: pubDate
+        label: Publication date
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+
+      - name: tags
+        label: Topics
+        type: string
+        list: true
+
+      - name: draft
+        label: Keep unpublished
+        type: boolean
+        default: true
+
+      - name: body
+        label: Journal entry
+        type: rich-text
+        required: true
+        options:
+          format: markdown
+          switcher: true
+          media: false
