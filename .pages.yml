@@ -1,6 +1,9 @@
 media:
   input: public/images/journal
   output: /images/journal
+  extensions: [jpg, jpeg, png, webp]
+  categories: [image]
+  rename: safe
 
 settings:
   content:
