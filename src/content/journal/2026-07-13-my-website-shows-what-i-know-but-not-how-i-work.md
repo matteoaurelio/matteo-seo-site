@@ -1,6 +1,7 @@
 ---
-title: "My Website Shows What I Know, but Not How I Work"
-description: "Why I am starting a public work journal about the decisions, experiments and lessons behind my work."
+title: My Website Shows What I Know, but Not How I Work
+description: Why I am starting a public work journal about the decisions,
+  experiments and lessons behind my work.
 pubDate: 2026-07-13
 tags:
   - work journal
@@ -8,6 +9,7 @@ tags:
   - reflection
 draft: false
 ---
+This is the beginning of the journal.
 
 I have been thinking about the gap between the work I do and the work people can actually see.
 
