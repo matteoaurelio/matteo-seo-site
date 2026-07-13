@@ -1,9 +1,11 @@
 media:
-  input: public/images/journal
-  output: /images/journal
-  extensions: [jpg, jpeg, png, webp]
-  categories: [image]
-  rename: safe
+  - name: journal_images
+    label: Journal images
+    input: public/images/journal
+    output: /images/journal
+    extensions: [jpg, jpeg, png, webp]
+    categories: [image]
+    rename: safe
 
 settings:
   content:
@@ -65,3 +67,7 @@ content:
         options:
           format: markdown
           switcher: true
+          media: journal_images
+          extensions: [jpg, jpeg, png, webp]
+          categories: [image]
+          rename: safe
