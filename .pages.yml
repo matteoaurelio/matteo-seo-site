@@ -62,4 +62,3 @@ content:
         options:
           format: markdown
           switcher: true
-          media: false
