@@ -94,9 +94,9 @@ We can improve UI/UX analyzing the frequencies of each error type and linking th
 
 If you are struggling to prioritize your funnel recommendations as a web analyst or as a company trying to sell more online I would recommend the following approach:
 
-1. Check the general funnel and find the step where users fail. You will not yet know why. You will only know that something is going on. 
+1. Check the general funnel and find the step where users fail. You will not yet know why. You will only know that something is going on.
 2. Break each failure down into its categories, the way any large online store would dissect its payment step. Is it an unclear button? Is it a field marked as required that should be optional? Is it an error message that says something failed without saying what? Are you asking users for information that has nothing to do with their purchase?
-3. Use the general funnel to prioritize where you will perform a deep dive on the data. For each deep dive, analyze the data collected and bring statistics. Sometimes you might need to combine events on customer journeys. 
+3. Use the general funnel to prioritize where you will perform a deep dive on the data. For each deep dive, analyze the data collected and bring statistics. Sometimes you might need to combine events on customer journeys.
 
 Remember: Try to keep the initial analyses simple so you don't get lost on all the details. Once you have clarity on what is not working, it's a good idea to look at all the details. 
 
