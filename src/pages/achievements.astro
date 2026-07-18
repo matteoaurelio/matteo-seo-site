@@ -3,55 +3,267 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import {
-  achievements,
   recommendations,
   type Recommendation,
 } from "../data/achievements";
 
-const title = "Achievements, Recommendations & Reviews | Matteo Arellano";
+const title =
+  "Career Timeline, Recommendations & Education | Matteo Arellano";
 
 const description =
-  "Read professional recommendations, reviews, awards, academic results, and verified career achievements from Matteo Arellano's work in analytics, data, growth, and technical SEO.";
+  "Explore Matteo Arellano's career timeline, professional recommendations, university diplomas, academic achievements, Dataquest studies, and technical certifications across finance, analytics, data engineering, SEO, AI visibility, and conversion.";
 
 const canonical = "https://matteoarellano.com/achievements/";
 
-const featuredRecommendation = recommendations.find(
-  (recommendation) => recommendation.featured,
-) as Recommendation;
+const featuredRecommendation =
+  (recommendations.find(
+    (recommendation) => recommendation.featured,
+  ) as Recommendation) ?? recommendations[0];
 
 const remainingRecommendations = recommendations.filter(
-  (recommendation) => !recommendation.featured,
+  (recommendation) => recommendation !== featuredRecommendation,
 );
+
+const timeline = [
+  {
+    period: "2025-present",
+    title: "Lead SEO & Growth Manager",
+    organisation: "Systems Search Studio",
+    location: "Mexico, working globally",
+    icon: "search",
+    description:
+      "I moved fully into technical SEO, growth analytics, AI visibility, conversion, and website performance. My work includes payment acceptance analysis, event tracking, BigQuery and Amplitude analysis, Google Analytics 4, Google Ads, technical SEO, automation, and custom tools.",
+    skills: [
+      "Technical SEO",
+      "AI visibility",
+      "CRO",
+      "GA4",
+      "BigQuery",
+      "Amplitude",
+      "Payment analytics",
+    ],
+  },
+  {
+    period: "2024-2025",
+    title: "Financial Analytics Engineer",
+    organisation: "PIA Group Nederland",
+    location: "Utrecht, Netherlands",
+    icon: "dashboard",
+    description:
+      "I built financial and operational reporting for directors, created more than 30 analytical models, developed bronze, silver, and gold data layers with dbt and SQL, and designed internal controls to identify anomalies and balancing issues.",
+    skills: [
+      "Financial reporting",
+      "dbt",
+      "SQL",
+      "Internal controls",
+      "Data modelling",
+    ],
+  },
+  {
+    period: "2023-2024",
+    title: "Global Financial Analytics Engineer",
+    organisation: "Cargill",
+    location: "Mexico City, Mexico",
+    icon: "globe",
+    description:
+      "I supported global finance reporting across food, agriculture, energy trading, and specialised portfolios. I developed financial APIs and data pipelines, worked on machine-learning anomaly detection, and reduced cloud processing costs by around 90% through faster data technologies.",
+    skills: [
+      "Python",
+      "Polars",
+      "AWS",
+      "Hadoop",
+      "Machine learning",
+      "Financial APIs",
+    ],
+  },
+  {
+    period: "2022",
+    title: "Financial Analytics Engineer",
+    organisation: "Cargill",
+    location: "Amsterdam, Netherlands",
+    icon: "database",
+    description:
+      "I worked on trading-position risk management, forecasting, Power BI models, Impala data structures, and scheduled Hadoop workflows for accounting and financial reconciliation.",
+    skills: [
+      "Power BI",
+      "Forecasting",
+      "Impala",
+      "Hadoop",
+      "Risk analytics",
+    ],
+  },
+  {
+    period: "2020-2022",
+    title: "Finance, management information and data analytics",
+    organisation: "Cargill",
+    location: "Schiphol and Amsterdam, Netherlands",
+    icon: "chart",
+    description:
+      "I started in financial management and moved into business intelligence and data engineering. I built ETL pipelines, reporting models, and data flows for cocoa, chocolate, bioindustrials, and agricultural supply-chain teams.",
+    skills: [
+      "Finance",
+      "ETL",
+      "Power Query",
+      "DAX",
+      "Business intelligence",
+      "Supply chain",
+    ],
+  },
+  {
+    period: "2018-2019",
+    title: "Risk, restructuring and financial analysis",
+    organisation: "European Investment Fund and European Investment Bank",
+    location: "Luxembourg",
+    icon: "bank",
+    description:
+      "After graduating, I worked in European banking on operational risk, key risk indicators, distressed transactions, debt repayment analysis, insolvency research, company fundamentals, and credit analysis.",
+    skills: [
+      "Operational risk",
+      "Credit analysis",
+      "Restructuring",
+      "Financial modelling",
+    ],
+  },
+  {
+    period: "2018",
+    title: "Graduated cum laude",
+    organisation: "Rotterdam School of Management, Erasmus University",
+    location: "Rotterdam, Netherlands",
+    icon: "graduation",
+    description:
+      "I completed my Master of Science in Business Administration, specialising in Accounting and Financial Management. This was the point where my career moved from academic finance into applied risk, analytics, data engineering, and later website growth.",
+    skills: [
+      "Accounting",
+      "Financial management",
+      "Business administration",
+      "Research",
+    ],
+  },
+];
+
+const universityDiplomas = [
+  {
+    year: "2018",
+    degree:
+      "Master of Science in Business Administration",
+    field: "Accounting and Financial Management",
+    institution: "Rotterdam School of Management, Erasmus University",
+    result: "Cum laude",
+    description:
+      "Graduate degree focused on accounting, financial management, business analysis, and evidence-based decision-making.",
+  },
+  {
+    year: "2017",
+    degree: "Bachelor of Science in International Business Administration",
+    field: "International Business Administration",
+    institution: "Rotterdam School of Management, Erasmus University",
+    result: "Completed",
+    description:
+      "Undergraduate degree covering finance, strategy, operations, international management, and organisational decision-making.",
+  },
+];
+
+const otherStudies = [
+  {
+    year: "2021",
+    type: "Data science programme",
+    title: "Data Scientist Track",
+    institution: "Dataquest",
+    description:
+      "A structured programme in Python, data processing, statistics, data analysis, and applied data science completed from March to December 2021.",
+    topics: ["Python", "Data processing", "Statistics", "Data analysis"],
+  },
+  {
+    year: "2016",
+    type: "Intensive university course",
+    title: "China's Economic Growth, Foreign Trade and Investment",
+    institution: "LSE-PKU Summer School at Peking University",
+    description:
+      "Completed the EC205 intensive course in Beijing and received a grade of A.",
+    topics: [
+      "International economics",
+      "Economic growth",
+      "Trade",
+      "Investment",
+    ],
+  },
+  {
+    year: "2016-2017",
+    type: "University course",
+    title: "Financial Analysis",
+    institution:
+      "Graduate School of Management, St. Petersburg State University",
+    description:
+      "Completed a 45-hour financial analysis course. The accompanying academic recommendation highlighted analytical ability, attention to detail, teamwork, facilitation, and curiosity about the financial sector.",
+    topics: ["Financial analysis", "Teamwork", "Analytical thinking"],
+  },
+  {
+    year: "2015",
+    type: "Intensive university course",
+    title: "Human Resource Management and Employment Relations",
+    institution: "The London School of Economics and Political Science",
+    description:
+      "Completed the MG190 LSE Summer School course and received a grade of A.",
+    topics: [
+      "Human resources",
+      "Employment relations",
+      "Management",
+      "Organisations",
+    ],
+  },
+];
+
+const certifications = [
+  "Linear Regression for Machine Learning",
+  "Intro to Python for Finance",
+  "Data Modelling for Power BI",
+  "Docker Training for the Absolute Beginner",
+  "Recursion and Trees",
+];
 
 const profileSchema = {
   "@context": "https://schema.org",
   "@type": "ProfilePage",
+  "@id": `${canonical}#profile-page`,
+  url: canonical,
   name: title,
   description,
-  url: canonical,
+  dateModified: "2026-07-19",
   mainEntity: {
     "@type": "Person",
+    "@id": "https://matteoarellano.com/#person",
     name: "Matteo Arellano",
     url: "https://matteoarellano.com/",
     sameAs: ["https://www.linkedin.com/in/matteoarellano"],
-    jobTitle: "Technical SEO and AI Visibility Consultant",
+    jobTitle: "Lead SEO & Growth Manager",
+    description:
+      "Matteo Arellano works across technical SEO, AI visibility, growth analytics, conversion, GA4, BigQuery, Python, data engineering, and financial analytics.",
+    knowsLanguage: [
+      "English",
+      "Spanish",
+      "Catalan",
+      "Dutch",
+      "Norwegian",
+    ],
     knowsAbout: [
       "Technical SEO",
-      "Analytics",
-      "Data analysis",
+      "AI visibility",
+      "Conversion rate optimization",
+      "Growth analytics",
+      "Google Analytics 4",
+      "BigQuery",
+      "Amplitude",
       "Python",
-      "Conversion optimization",
-      "Artificial intelligence",
-    ],
-    award: [
-      "Winner of the Rotterdam100 2016-2017",
-      "Grade A in Human Resource Management and Employment Relations at LSE Summer School",
-      "Grade A in China's Economic Growth, Foreign Trade and Investment at LSE-PKU Summer School",
+      "SQL",
+      "Data engineering",
+      "Financial analytics",
+      "Machine learning",
+      "Payment analytics",
     ],
     alumniOf: [
       {
         "@type": "CollegeOrUniversity",
-        name: "Erasmus University Rotterdam",
+        name: "Rotterdam School of Management, Erasmus University",
       },
       {
         "@type": "CollegeOrUniversity",
@@ -61,36 +273,44 @@ const profileSchema = {
         "@type": "CollegeOrUniversity",
         name: "Peking University",
       },
+      {
+        "@type": "CollegeOrUniversity",
+        name:
+          "Graduate School of Management, St. Petersburg State University",
+      },
     ],
+    award: ["Winner of the Rotterdam100 2016-2017"],
     hasCredential: [
-      {
+      ...universityDiplomas.map((diploma) => ({
         "@type": "EducationalOccupationalCredential",
-        name: "Master of Science in Business Administration",
-        credentialCategory: "Degree",
+        name: `${diploma.degree}, ${diploma.field}`,
+        credentialCategory: "University degree",
         recognizedBy: {
           "@type": "CollegeOrUniversity",
-          name: "Erasmus University Rotterdam",
+          name: diploma.institution,
         },
-      },
-      {
+      })),
+      ...otherStudies.map((study) => ({
         "@type": "EducationalOccupationalCredential",
-        name: "LSE Summer School MG190 - Grade A",
-        credentialCategory: "Academic result",
+        name: study.title,
+        credentialCategory: study.type,
         recognizedBy: {
-          "@type": "CollegeOrUniversity",
-          name: "The London School of Economics and Political Science",
+          "@type": "Organization",
+          name: study.institution,
         },
-      },
-      {
-        "@type": "EducationalOccupationalCredential",
-        name: "LSE-PKU Summer School EC205 - Grade A",
-        credentialCategory: "Academic result",
-        recognizedBy: {
-          "@type": "CollegeOrUniversity",
-          name: "Peking University",
-        },
-      },
+      })),
     ],
+    hasOccupation: timeline
+      .filter((item) => item.period !== "2018")
+      .map((item) => ({
+        "@type": "Occupation",
+        name: item.title,
+        description: item.description,
+        occupationLocation: {
+          "@type": "Place",
+          name: item.location,
+        },
+      })),
   },
 };
 
@@ -107,10 +327,24 @@ const breadcrumbSchema = {
     {
       "@type": "ListItem",
       position: 2,
-      name: "Achievements, recommendations and reviews",
+      name: "Achievements, career, recommendations and education",
       item: canonical,
     },
   ],
+};
+
+const timelineSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Matteo Arellano career timeline",
+  itemListOrder: "https://schema.org/ItemListOrderDescending",
+  numberOfItems: timeline.length,
+  itemListElement: timeline.map((item, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: `${item.period}: ${item.title} at ${item.organisation}`,
+    description: item.description,
+  })),
 };
 ---
 
@@ -120,86 +354,302 @@ const breadcrumbSchema = {
   <script
     is:inline
     type="application/ld+json"
-    set:html={JSON.stringify([profileSchema, breadcrumbSchema])}
-  />
+    set:html={JSON.stringify([
+      profileSchema,
+      breadcrumbSchema,
+      timelineSchema,
+    ])}
+  ></script>
 
-  <main class="proof-page">
-    <section class="proof-hero">
-      <div class="proof-container proof-hero-grid">
-        <div class="proof-hero-copy">
-          <span class="proof-kicker">
-            Achievements · Recommendations · Reviews
+  <main class="achievement-page">
+    <section class="achievement-hero">
+      <div class="achievement-container achievement-hero-grid">
+        <div class="achievement-hero-copy">
+          <span class="achievement-kicker">
+            Career · Recommendations · Education
           </span>
 
           <h1>
-            A public record of the people and institutions behind my work.
+            Matteo Arellano's career, recommendations and education.
           </h1>
 
-          <p>
-            These recommendations were written by colleagues who worked with me
-            on analytics, finance, data engineering, machine learning, growth,
-            and complex business problems. This page also documents selected
-            awards and academic credentials.
+          <p class="achievement-lede">
+            I graduated from Rotterdam School of Management in 2018 and moved
+            from European banking and financial risk into global analytics,
+            data engineering, technical SEO, AI visibility, and conversion
+            work. This page brings that journey together in one place.
           </p>
 
-          <nav class="proof-jump-links" aria-label="Page sections">
-            <a href="#recommendations">Professional recommendations</a>
-            <a href="#credentials">Awards and credentials</a>
+          <nav class="achievement-jump-links" aria-label="Page sections">
+            <a href="#career-timeline">Career timeline</a>
+            <a href="#recommendations">Recommendations</a>
+            <a href="#university-diplomas">University diplomas</a>
+            <a href="#other-studies">Other studies</a>
           </nav>
         </div>
 
-        <aside class="proof-summary" aria-label="Achievement summary">
-          <div class="proof-summary-label">Documented proof</div>
+        <aside class="identity-card" aria-label="Matteo Arellano profile summary">
+          <span class="identity-label">Profile summary</span>
 
-          <div class="proof-summary-grid">
+          <dl>
             <div>
-              <strong>{recommendations.length}</strong>
-              <span>professional recommendations</span>
+              <dt>Current focus</dt>
+              <dd>Technical SEO, AI visibility, growth and analytics</dd>
             </div>
 
             <div>
-              <strong>{achievements.length}</strong>
-              <span>selected awards and credentials</span>
+              <dt>Career foundation</dt>
+              <dd>Finance, risk, data engineering and machine learning</dd>
             </div>
 
             <div>
-              <strong>2015-2026</strong>
-              <span>years represented on this page</span>
+              <dt>Education</dt>
+              <dd>
+                MSc Business Administration, Accounting and Financial
+                Management
+              </dd>
             </div>
 
             <div>
-              <strong>4</strong>
-              <span>areas: data, analytics, finance and growth</span>
+              <dt>Languages</dt>
+              <dd>English, Spanish, Catalan, Dutch and Norwegian</dd>
             </div>
-          </div>
+          </dl>
         </aside>
       </div>
     </section>
 
+    <aside class="credential-banner">
+      <div class="achievement-container credential-banner-inner">
+        <div class="credential-banner-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path
+              d="M8 3.75h8A2.25 2.25 0 0 1 18.25 6v12A2.25 2.25 0 0 1 16 20.25H8A2.25 2.25 0 0 1 5.75 18V6A2.25 2.25 0 0 1 8 3.75Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            />
+            <path
+              d="M9 8h6M9 11.5h6M9 15h3.5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+            />
+          </svg>
+        </div>
+
+        <p>
+          <strong>Want to work together?</strong>
+          I am happy to share the diplomas, certificates, and credentials
+          mentioned on this page directly with you.
+        </p>
+
+        <a href="mailto:matteo.visibility@gmail.com?subject=Credentials%20and%20project%20enquiry">
+          Contact me
+        </a>
+      </div>
+    </aside>
+
     <section
-      class="proof-section proof-section-soft"
+      class="achievement-section"
+      id="career-timeline"
+      aria-labelledby="career-timeline-title"
+    >
+      <div class="achievement-container">
+        <header class="achievement-section-header">
+          <div>
+            <span class="achievement-eyebrow">01 · Career timeline</span>
+            <h2 id="career-timeline-title">
+              From financial risk to data-driven website growth
+            </h2>
+          </div>
+
+          <p>
+            The timeline shows how each stage added a new layer: finance, risk,
+            business intelligence, data engineering, machine learning, growth,
+            technical SEO, and conversion.
+          </p>
+        </header>
+
+        <ol class="career-timeline">
+          {
+            timeline.map((item) => (
+              <li class="career-item">
+                <div class="career-marker" aria-hidden="true">
+                  {item.icon === "graduation" && (
+                    <svg viewBox="0 0 24 24" focusable="false">
+                      <path
+                        d="m3 9 9-4 9 4-9 4-9-4Z"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M7 11.2V15c0 1.4 2.2 3 5 3s5-1.6 5-3v-3.8M21 9v5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  )}
+
+                  {item.icon === "bank" && (
+                    <svg viewBox="0 0 24 24" focusable="false">
+                      <path
+                        d="m3 9 9-5 9 5M5 10.5h14M6.5 10.5v6M10.2 10.5v6M13.8 10.5v6M17.5 10.5v6M4 19h16"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  )}
+
+                  {item.icon === "chart" && (
+                    <svg viewBox="0 0 24 24" focusable="false">
+                      <path
+                        d="M5 19V9M12 19V5M19 19v-7M3 19.5h18"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  )}
+
+                  {item.icon === "database" && (
+                    <svg viewBox="0 0 24 24" focusable="false">
+                      <ellipse
+                        cx="12"
+                        cy="6"
+                        rx="7"
+                        ry="3"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                      />
+                      <path
+                        d="M5 6v6c0 1.66 3.13 3 7 3s7-1.34 7-3V6M5 12v6c0 1.66 3.13 3 7 3s7-1.34 7-3v-6"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                      />
+                    </svg>
+                  )}
+
+                  {item.icon === "globe" && (
+                    <svg viewBox="0 0 24 24" focusable="false">
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="8.5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                      />
+                      <path
+                        d="M3.8 12h16.4M12 3.5c2.2 2.2 3.3 5 3.3 8.5S14.2 18.3 12 20.5M12 3.5C9.8 5.7 8.7 8.5 8.7 12s1.1 6.3 3.3 8.5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  )}
+
+                  {item.icon === "dashboard" && (
+                    <svg viewBox="0 0 24 24" focusable="false">
+                      <rect
+                        x="4"
+                        y="4"
+                        width="16"
+                        height="16"
+                        rx="3"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                      />
+                      <path
+                        d="M8 16v-4M12 16V8M16 16v-6"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  )}
+
+                  {item.icon === "search" && (
+                    <svg viewBox="0 0 24 24" focusable="false">
+                      <circle
+                        cx="10.5"
+                        cy="10.5"
+                        r="5.5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                      />
+                      <path
+                        d="m15 15 5 5M7.8 10.5l1.7 1.8 3.6-4"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  )}
+                </div>
+
+                <article class="career-card">
+                  <div class="career-card-top">
+                    <span class="career-period">{item.period}</span>
+                    <span class="career-location">{item.location}</span>
+                  </div>
+
+                  <h3>{item.title}</h3>
+                  <p class="career-organisation">{item.organisation}</p>
+                  <p class="career-description">{item.description}</p>
+
+                  <ul class="career-skills" aria-label={`${item.title} topics`}>
+                    {item.skills.map((skill) => <li>{skill}</li>)}
+                  </ul>
+                </article>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
+
+    <section
+      class="achievement-section achievement-section-soft"
       id="recommendations"
       aria-labelledby="recommendations-title"
     >
-      <div class="proof-container">
-        <header class="proof-section-header">
+      <div class="achievement-container">
+        <header class="achievement-section-header">
           <div>
-            <span class="proof-eyebrow">Professional recommendations</span>
+            <span class="achievement-eyebrow">02 · Recommendations</span>
             <h2 id="recommendations-title">
               What colleagues say about working with me
             </h2>
           </div>
 
           <p>
-            The wording is reproduced from the original recommendations. Job
-            titles reflect how each person described themselves when this page
-            was prepared.
+            These recommendations come from people who worked with me across
+            growth, finance, analytics, data engineering, Python, machine
+            learning, and complex business projects.
           </p>
         </header>
 
         <article class="featured-recommendation">
-          <div class="featured-recommendation-topline">
-            <span class="source-badge">
+          <div class="featured-recommendation-meta">
+            <span class="linkedin-badge">
               <svg
                 aria-hidden="true"
                 viewBox="0 0 24 24"
@@ -211,10 +661,11 @@ const breadcrumbSchema = {
                   d="M5.37 3.5A2.37 2.37 0 1 1 5.36 8.24 2.37 2.37 0 0 1 5.37 3.5ZM3.32 9.86h4.1V21h-4.1V9.86Zm6.66 0h3.93v1.52h.06c.55-1.04 1.89-2.13 3.89-2.13 4.16 0 4.93 2.74 4.93 6.3V21h-4.1v-4.84c0-1.15-.02-2.64-1.61-2.64-1.61 0-1.86 1.26-1.86 2.56V21h-4.1V9.86Z"
                 ></path>
               </svg>
+
               {featuredRecommendation.source}
             </span>
 
-            <span>{featuredRecommendation.date}</span>
+            <time>{featuredRecommendation.date}</time>
           </div>
 
           <blockquote>
@@ -235,12 +686,12 @@ const breadcrumbSchema = {
           </footer>
         </article>
 
-        <div class="recommendation-columns">
+        <div class="recommendation-grid">
           {
             remainingRecommendations.map((recommendation) => (
               <article class="recommendation-card">
                 <header>
-                  <span class="source-badge source-badge-light">
+                  <span class="linkedin-badge linkedin-badge-light">
                     <svg
                       aria-hidden="true"
                       viewBox="0 0 24 24"
@@ -250,18 +701,21 @@ const breadcrumbSchema = {
                       <path
                         fill="currentColor"
                         d="M5.37 3.5A2.37 2.37 0 1 1 5.36 8.24 2.37 2.37 0 0 1 5.37 3.5ZM3.32 9.86h4.1V21h-4.1V9.86Zm6.66 0h3.93v1.52h.06c.55-1.04 1.89-2.13 3.89-2.13 4.16 0 4.93 2.74 4.93 6.3V21h-4.1v-4.84c0-1.15-.02-2.64-1.61-2.64-1.61 0-1.86 1.26-1.86 2.56V21h-4.1V9.86Z"
-                      />
+                      ></path>
                     </svg>
+
                     {recommendation.source}
                   </span>
 
-                  <span class="recommendation-date">{recommendation.date}</span>
+                  <time>{recommendation.date}</time>
                 </header>
 
                 <blockquote>
-                  {recommendation.quote.split("\n\n").map((paragraph) => (
-                    <p>{paragraph}</p>
-                  ))}
+                  {
+                    recommendation.quote
+                      .split("\n\n")
+                      .map((paragraph) => <p>{paragraph}</p>)
+                  }
                 </blockquote>
 
                 <footer>
@@ -274,10 +728,10 @@ const breadcrumbSchema = {
           }
         </div>
 
-        <div class="linkedin-source">
+        <div class="source-note">
           <p>
-            These professional recommendations were originally published on
-            LinkedIn.
+            The recommendation text is reproduced from the original LinkedIn
+            recommendations.
           </p>
 
           <a
@@ -285,7 +739,7 @@ const breadcrumbSchema = {
             target="_blank"
             rel="noopener noreferrer"
           >
-            View Matteo Arellano on LinkedIn
+            View my LinkedIn profile
             <span aria-hidden="true">↗</span>
           </a>
         </div>
@@ -293,106 +747,181 @@ const breadcrumbSchema = {
     </section>
 
     <section
-      class="proof-section"
-      id="credentials"
-      aria-labelledby="credentials-title"
+      class="achievement-section"
+      id="university-diplomas"
+      aria-labelledby="university-diplomas-title"
     >
-      <div class="proof-container">
-        <header class="proof-section-header">
+      <div class="achievement-container">
+        <header class="achievement-section-header">
           <div>
-            <span class="proof-eyebrow">Awards and academic credentials</span>
-            <h2 id="credentials-title">
-              Selected achievements across business, finance and education
+            <span class="achievement-eyebrow">03 · University diplomas</span>
+            <h2 id="university-diplomas-title">
+              Formal education in business, accounting and finance
             </h2>
           </div>
 
           <p>
-            Each item below is supported by an original certificate, transcript,
-            diploma, or recommendation letter.
+            My university education gave me the financial and business
+            foundation that later shaped my work in analytics, engineering,
+            technical SEO, and growth.
           </p>
         </header>
 
-        <div class="achievement-grid">
+        <div class="diploma-grid">
           {
-            achievements.map((achievement, index) => (
-              <article
-                class:list={[
-                  "achievement-card",
-                  index === 0 && "achievement-card-featured",
-                ]}
-              >
-                <div class="achievement-year">{achievement.year}</div>
+            universityDiplomas.map((diploma) => (
+              <article class="diploma-card">
+                <div class="diploma-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false">
+                    <path
+                      d="m3 9 9-4 9 4-9 4-9-4Z"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M7 11.2V15c0 1.4 2.2 3 5 3s5-1.6 5-3v-3.8M21 9v5"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </div>
 
-                <div class="achievement-content">
-                  <span class="achievement-category">
-                    {achievement.category}
-                  </span>
+                <div class="diploma-copy">
+                  <div class="diploma-topline">
+                    <span>{diploma.year}</span>
+                    <strong>{diploma.result}</strong>
+                  </div>
 
-                  <h3>{achievement.title}</h3>
-
-                  <p class="achievement-institution">
-                    {achievement.institution}
-                  </p>
-
-                  <p>{achievement.description}</p>
-
-                  {achievement.document ? (
-                    <a
-                      class="document-link"
-                      href={achievement.document}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View supporting document
-                      <span aria-hidden="true">↗</span>
-                    </a>
-                  ) : (
-                    <span class="document-status">
-                      Supporting document held on file
-                    </span>
-                  )}
+                  <h3>{diploma.degree}</h3>
+                  <p class="diploma-field">{diploma.field}</p>
+                  <p class="diploma-institution">{diploma.institution}</p>
+                  <p>{diploma.description}</p>
                 </div>
               </article>
             ))
           }
         </div>
 
-        <aside class="privacy-note">
-          <strong>Why the original files are not embedded directly</strong>
-          <p>
-            Some academic documents contain private identifiers, dates of birth,
-            signatures, or personal contact details. Public versions should be
-            redacted before they are linked from this page.
-          </p>
+        <aside class="award-callout">
+          <div class="award-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path
+                d="M8 4h8v5a4 4 0 0 1-8 0V4Z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+              />
+              <path
+                d="M8 6H5.5v1.5A3.5 3.5 0 0 0 9 11M16 6h2.5v1.5A3.5 3.5 0 0 1 15 11M12 13v4M8.5 20h7M10 17h4"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+
+          <div>
+            <span>University-era achievement</span>
+            <h3>Winner of the Rotterdam100, 2016-2017</h3>
+            <p>
+              Selected for a multidisciplinary talent competition and recognised
+              for professional work ethic, entrepreneurial skills, creativity,
+              perseverance, and the successful development of a Next Economy
+              business case.
+            </p>
+          </div>
         </aside>
       </div>
     </section>
 
     <section
-      class="proof-container proof-cta"
-      aria-labelledby="proof-cta-title"
+      class="achievement-section achievement-section-soft"
+      id="other-studies"
+      aria-labelledby="other-studies-title"
     >
+      <div class="achievement-container">
+        <header class="achievement-section-header">
+          <div>
+            <span class="achievement-eyebrow">04 · Other studies</span>
+            <h2 id="other-studies-title">
+              Continued learning in data, economics, finance and technology
+            </h2>
+          </div>
+
+          <p>
+            These studies sit between formal education and applied work. They
+            helped me build the technical range that now connects business
+            questions with code, data, search, and website performance.
+          </p>
+        </header>
+
+        <div class="study-grid">
+          {
+            otherStudies.map((study) => (
+              <article class="study-card">
+                <div class="study-topline">
+                  <span>{study.type}</span>
+                  <strong>{study.year}</strong>
+                </div>
+
+                <h3>{study.title}</h3>
+                <p class="study-institution">{study.institution}</p>
+                <p>{study.description}</p>
+
+                <ul aria-label={`${study.title} topics`}>
+                  {study.topics.map((topic) => <li>{topic}</li>)}
+                </ul>
+              </article>
+            ))
+          }
+        </div>
+
+        <div class="certification-panel">
+          <div>
+            <span class="achievement-eyebrow">Technical certifications</span>
+            <h3>Focused courses completed alongside my work</h3>
+            <p>
+              Shorter courses helped me deepen specific skills in machine
+              learning, finance, data modelling, software environments, and
+              computer science.
+            </p>
+          </div>
+
+          <ul>
+            {certifications.map((certification) => <li>{certification}</li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="achievement-container collaboration-banner">
       <div>
-        <span class="proof-eyebrow">Work with me</span>
-        <h2 id="proof-cta-title">
-          Bring me the technical or analytical problem that still feels unclear.
+        <span class="achievement-eyebrow">Credentials and collaboration</span>
+        <h2>
+          If you want to work together, I am happy to share the credentials
+          mentioned here.
         </h2>
         <p>
-          I work across technical SEO, analytics, data analysis, conversion
-          journeys, and complex diagnostics where the first challenge is finding
-          the real problem.
+          Tell me what you are working on and which background or credential is
+          relevant. I can share the supporting material directly and explain how
+          the experience connects to your project.
         </p>
       </div>
 
-      <div class="proof-cta-actions">
+      <div class="collaboration-actions">
         <a
-          class="proof-button proof-button-primary"
-          href="mailto:matteo.visibility@gmail.com?subject=Project%20enquiry"
+          class="collaboration-primary"
+          href="mailto:matteo.visibility@gmail.com?subject=Project%20and%20credentials"
         >
-          Discuss a project
+          Contact me
         </a>
 
-        <a class="proof-button proof-button-secondary" href="/about/">
+        <a class="collaboration-secondary" href="/about/">
           See how I work
         </a>
       </div>
@@ -403,74 +932,73 @@ const breadcrumbSchema = {
 </BaseLayout>
 
 <style>
-  .proof-page {
-    --proof-ink: #0c1b2a;
-    --proof-muted: #5c6b7a;
-    --proof-line: rgba(79, 111, 143, 0.2);
-    --proof-blue: #155fb8;
-    --proof-blue-dark: #0c3f76;
-    --proof-blue-soft: #edf6ff;
-    --proof-card: #ffffff;
-    color: var(--proof-ink);
-    background: #ffffff;
+  .achievement-page {
+    --achievement-ink: #0b1d31;
+    --achievement-copy: #324c68;
+    --achievement-muted: #60758b;
+    --achievement-line: rgba(15, 76, 129, 0.14);
+    --achievement-blue: #0f4c81;
+    --achievement-blue-2: #1b6bd8;
+    --achievement-soft: #eef7ff;
+    color: var(--achievement-ink);
   }
 
-  .proof-container {
+  .achievement-container {
     width: min(1160px, calc(100% - 40px));
-    margin: 0 auto;
+    margin-inline: auto;
   }
 
-  .proof-hero {
+  .achievement-hero {
     position: relative;
     overflow: hidden;
-    padding: 96px 0 80px;
+    padding: 92px 0 76px;
     background:
       radial-gradient(
-        circle at 82% 18%,
-        rgba(65, 154, 255, 0.24),
+        circle at 86% 16%,
+        rgba(90, 169, 255, 0.2),
         transparent 30rem
       ),
       linear-gradient(180deg, #f7fbff 0%, #ffffff 100%);
   }
 
-  .proof-hero::after {
+  .achievement-hero::after {
     content: "";
     position: absolute;
-    right: -170px;
-    bottom: -280px;
-    width: 540px;
-    height: 540px;
-    border: 1px solid rgba(21, 95, 184, 0.12);
-    border-radius: 50%;
+    right: -230px;
+    bottom: -350px;
+    width: 650px;
+    height: 650px;
+    border: 1px solid rgba(15, 76, 129, 0.1);
+    border-radius: 999px;
     box-shadow:
-      0 0 0 52px rgba(21, 95, 184, 0.04),
-      0 0 0 104px rgba(21, 95, 184, 0.025);
+      0 0 0 60px rgba(90, 169, 255, 0.035),
+      0 0 0 120px rgba(90, 169, 255, 0.02);
     pointer-events: none;
   }
 
-  .proof-hero-grid {
+  .achievement-hero-grid {
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.65fr);
-    gap: 64px;
+    grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.62fr);
+    gap: 58px;
     align-items: center;
   }
 
-  .proof-kicker,
-  .proof-eyebrow {
+  .achievement-kicker,
+  .achievement-eyebrow {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    color: var(--proof-blue);
+    gap: 9px;
+    color: var(--achievement-blue-2);
     font-size: 0.78rem;
-    font-weight: 800;
-    letter-spacing: 0.13em;
+    font-weight: 850;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
   }
 
-  .proof-kicker::before,
-  .proof-eyebrow::before {
+  .achievement-kicker::before,
+  .achievement-eyebrow::before {
     content: "";
     width: 28px;
     height: 2px;
@@ -478,135 +1006,334 @@ const breadcrumbSchema = {
     background: currentColor;
   }
 
-  .proof-hero h1 {
-    max-width: 850px;
-    margin: 20px 0 22px;
-    font-size: clamp(3rem, 6.3vw, 5.9rem);
+  .achievement-hero h1 {
+    max-width: 900px;
+    margin: 22px 0 0;
+    color: var(--achievement-ink);
+    font-size: clamp(3.1rem, 6.4vw, 6rem);
     line-height: 0.98;
-    letter-spacing: -0.055em;
+    letter-spacing: -0.06em;
   }
 
-  .proof-hero-copy > p {
-    max-width: 760px;
-    margin: 0;
-    color: var(--proof-muted);
-    font-size: clamp(1.08rem, 1.7vw, 1.28rem);
+  .achievement-lede {
+    max-width: 790px;
+    margin: 26px 0 0;
+    color: var(--achievement-copy);
+    font-size: clamp(1.08rem, 1.8vw, 1.3rem);
     line-height: 1.75;
   }
 
-  .proof-jump-links {
+  .achievement-jump-links {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 32px;
+    gap: 11px;
+    margin-top: 34px;
   }
 
-  .proof-jump-links a {
+  .achievement-jump-links a {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
-    padding: 10px 16px;
-    border: 1px solid rgba(21, 95, 184, 0.2);
+    padding: 10px 15px;
+    border: 1px solid rgba(15, 76, 129, 0.15);
     border-radius: 999px;
-    color: var(--proof-blue-dark);
-    background: rgba(255, 255, 255, 0.82);
-    font-size: 0.94rem;
-    font-weight: 750;
+    color: var(--achievement-blue);
+    background: rgba(255, 255, 255, 0.85);
+    font-size: 0.91rem;
+    font-weight: 780;
     text-decoration: none;
-    box-shadow: 0 8px 24px rgba(15, 76, 129, 0.06);
+    box-shadow: 0 10px 28px rgba(16, 43, 77, 0.055);
+    transition:
+      transform 180ms ease,
+      border-color 180ms ease,
+      background 180ms ease;
   }
 
-  .proof-jump-links a:hover {
-    border-color: rgba(21, 95, 184, 0.5);
-    transform: translateY(-1px);
+  .achievement-jump-links a:hover {
+    transform: translateY(-2px);
+    border-color: rgba(27, 107, 216, 0.42);
+    background: #ffffff;
   }
 
-  .proof-summary {
+  .identity-card {
     padding: 30px;
-    border: 1px solid rgba(183, 211, 239, 0.9);
+    border: 1px solid rgba(197, 221, 245, 0.9);
     border-radius: 30px;
-    background: rgba(255, 255, 255, 0.86);
-    box-shadow: 0 26px 80px rgba(17, 62, 105, 0.14);
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 28px 80px rgba(16, 43, 77, 0.13);
     backdrop-filter: blur(18px);
   }
 
-  .proof-summary-label {
-    margin-bottom: 22px;
-    color: var(--proof-muted);
-    font-size: 0.78rem;
-    font-weight: 800;
+  .identity-label {
+    color: var(--achievement-muted);
+    font-size: 0.76rem;
+    font-weight: 850;
     letter-spacing: 0.12em;
     text-transform: uppercase;
   }
 
-  .proof-summary-grid {
+  .identity-card dl {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
+    gap: 0;
+    margin: 20px 0 0;
   }
 
-  .proof-summary-grid div {
-    min-height: 142px;
-    padding: 20px;
-    border: 1px solid rgba(21, 95, 184, 0.12);
-    border-radius: 20px;
-    background: linear-gradient(145deg, #ffffff, #f2f8ff);
+  .identity-card dl div {
+    padding: 18px 0;
+    border-top: 1px solid rgba(15, 76, 129, 0.1);
   }
 
-  .proof-summary-grid strong {
-    display: block;
-    margin-bottom: 10px;
-    color: var(--proof-blue-dark);
-    font-size: clamp(1.55rem, 3vw, 2.35rem);
-    line-height: 1;
-    letter-spacing: -0.04em;
+  .identity-card dl div:first-child {
+    border-top: 0;
+    padding-top: 0;
   }
 
-  .proof-summary-grid span {
-    color: var(--proof-muted);
-    font-size: 0.92rem;
-    line-height: 1.45;
+  .identity-card dl div:last-child {
+    padding-bottom: 0;
   }
 
-  .proof-section {
+  .identity-card dt {
+    margin-bottom: 5px;
+    color: var(--achievement-blue-2);
+    font-size: 0.76rem;
+    font-weight: 850;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .identity-card dd {
+    margin: 0;
+    color: #203b57;
+    font-weight: 720;
+    line-height: 1.52;
+  }
+
+  .credential-banner {
+    color: #ffffff;
+    background: linear-gradient(135deg, #0b3157, #155fae);
+  }
+
+  .credential-banner-inner {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 20px;
+    align-items: center;
+    padding-block: 22px;
+  }
+
+  .credential-banner-icon {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .credential-banner-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .credential-banner p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.82);
+    line-height: 1.6;
+  }
+
+  .credential-banner strong {
+    color: #ffffff;
+  }
+
+  .credential-banner a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 11px 18px;
+    border-radius: 999px;
+    color: var(--achievement-blue);
+    background: #ffffff;
+    font-weight: 850;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .achievement-section {
     padding: 104px 0;
     scroll-margin-top: 100px;
   }
 
-  .proof-section-soft {
-    border-block: 1px solid rgba(79, 111, 143, 0.12);
-    background:
-      linear-gradient(rgba(237, 246, 255, 0.84), rgba(247, 251, 255, 0.84)),
-      #f7fbff;
+  .achievement-section-soft {
+    border-block: 1px solid rgba(197, 221, 245, 0.62);
+    background: linear-gradient(
+      180deg,
+      rgba(238, 247, 255, 0.78),
+      rgba(255, 255, 255, 0.94)
+    );
   }
 
-  .proof-section-header {
+  .achievement-section-header {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(290px, 0.54fr);
-    gap: 64px;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 0.52fr);
+    gap: 56px;
     align-items: end;
-    margin-bottom: 46px;
+    margin-bottom: 48px;
   }
 
-  .proof-section-header h2,
-  .proof-cta h2 {
+  .achievement-section-header h2,
+  .collaboration-banner h2 {
     margin: 14px 0 0;
-    font-size: clamp(2.2rem, 4.5vw, 4rem);
-    line-height: 1.06;
-    letter-spacing: -0.045em;
+    color: var(--achievement-ink);
+    font-size: clamp(2.2rem, 4.6vw, 4.15rem);
+    line-height: 1.05;
+    letter-spacing: -0.05em;
   }
 
-  .proof-section-header > p {
+  .achievement-section-header > p {
     margin: 0;
-    color: var(--proof-muted);
-    font-size: 1.02rem;
+    color: var(--achievement-muted);
+    font-size: 1.03rem;
     line-height: 1.72;
+  }
+
+  .career-timeline {
+    position: relative;
+    display: grid;
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .career-timeline::before {
+    content: "";
+    position: absolute;
+    top: 34px;
+    bottom: 34px;
+    left: 31px;
+    width: 2px;
+    background: linear-gradient(
+      180deg,
+      rgba(27, 107, 216, 0.18),
+      rgba(27, 107, 216, 0.5),
+      rgba(27, 107, 216, 0.12)
+    );
+  }
+
+  .career-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+  }
+
+  .career-marker {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    border: 7px solid #ffffff;
+    border-radius: 20px;
+    color: #ffffff;
+    background: linear-gradient(
+      135deg,
+      var(--achievement-blue),
+      var(--achievement-blue-2)
+    );
+    box-shadow:
+      0 14px 34px rgba(27, 107, 216, 0.24),
+      0 0 0 1px rgba(15, 76, 129, 0.09);
+  }
+
+  .career-marker svg {
+    width: 27px;
+    height: 27px;
+  }
+
+  .career-card {
+    padding: 30px;
+    border: 1px solid rgba(15, 76, 129, 0.12);
+    border-radius: 26px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 18px 52px rgba(12, 45, 80, 0.07);
+  }
+
+  .career-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 16px;
+  }
+
+  .career-period {
+    display: inline-flex;
+    padding: 7px 10px;
+    border-radius: 999px;
+    color: var(--achievement-blue);
+    background: var(--achievement-soft);
+    font-size: 0.8rem;
+    font-weight: 850;
+  }
+
+  .career-location {
+    color: var(--achievement-muted);
+    font-size: 0.86rem;
+    font-weight: 650;
+    text-align: right;
+  }
+
+  .career-card h3 {
+    margin: 0;
+    color: var(--achievement-ink);
+    font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+  }
+
+  .career-organisation {
+    margin: 7px 0 0;
+    color: var(--achievement-blue-2);
+    font-weight: 800;
+  }
+
+  .career-description {
+    max-width: 940px;
+    margin: 17px 0 0;
+    color: var(--achievement-copy);
+    line-height: 1.72;
+  }
+
+  .career-skills,
+  .study-card ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .career-skills li,
+  .study-card li {
+    padding: 7px 10px;
+    border: 1px solid rgba(15, 76, 129, 0.1);
+    border-radius: 999px;
+    color: #385775;
+    background: #f7fbff;
+    font-size: 0.8rem;
+    font-weight: 720;
   }
 
   .featured-recommendation {
     position: relative;
     overflow: hidden;
-    padding: clamp(30px, 5vw, 58px);
+    padding: clamp(30px, 5vw, 56px);
     border-radius: 32px;
     color: #ffffff;
     background:
@@ -616,22 +1343,22 @@ const breadcrumbSchema = {
         transparent 25rem
       ),
       linear-gradient(135deg, #0b3157, #105aa9 68%, #1675d1);
-    box-shadow: 0 30px 80px rgba(12, 63, 118, 0.25);
+    box-shadow: 0 30px 80px rgba(12, 63, 118, 0.24);
   }
 
   .featured-recommendation::after {
     content: "“";
     position: absolute;
-    right: 42px;
-    bottom: -92px;
-    color: rgba(255, 255, 255, 0.09);
+    right: 38px;
+    bottom: -96px;
+    color: rgba(255, 255, 255, 0.08);
     font-family: Georgia, serif;
     font-size: 24rem;
     line-height: 1;
     pointer-events: none;
   }
 
-  .featured-recommendation-topline,
+  .featured-recommendation-meta,
   .recommendation-card header {
     display: flex;
     align-items: center;
@@ -639,14 +1366,14 @@ const breadcrumbSchema = {
     gap: 16px;
   }
 
-  .featured-recommendation-topline {
+  .featured-recommendation-meta {
     position: relative;
     z-index: 1;
     color: rgba(255, 255, 255, 0.74);
-    font-size: 0.88rem;
+    font-size: 0.86rem;
   }
 
-  .source-badge {
+  .linkedin-badge {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -655,29 +1382,29 @@ const breadcrumbSchema = {
     border-radius: 999px;
     color: #ffffff;
     background: rgba(255, 255, 255, 0.1);
-    font-size: 0.78rem;
-    font-weight: 800;
-    letter-spacing: 0.04em;
+    font-size: 0.77rem;
+    font-weight: 850;
   }
 
-  .source-badge-light {
+  .linkedin-badge-light {
     color: #0b66c3;
-    border-color: rgba(11, 102, 195, 0.16);
+    border-color: rgba(11, 102, 195, 0.14);
     background: #eef7ff;
   }
 
   .featured-recommendation blockquote {
     position: relative;
     z-index: 1;
-    max-width: 960px;
-    margin: 42px 0;
+    max-width: 970px;
+    margin: 40px 0;
   }
 
   .featured-recommendation blockquote p {
     margin: 0 0 20px;
-    font-size: clamp(1.25rem, 2.2vw, 1.62rem);
-    line-height: 1.58;
-    letter-spacing: -0.012em;
+    color: #ffffff;
+    font-size: clamp(1.22rem, 2.2vw, 1.58rem);
+    line-height: 1.6;
+    letter-spacing: -0.01em;
   }
 
   .featured-recommendation blockquote p:last-child {
@@ -690,8 +1417,8 @@ const breadcrumbSchema = {
     display: flex;
     align-items: end;
     justify-content: space-between;
-    gap: 34px;
-    padding-top: 28px;
+    gap: 30px;
+    padding-top: 26px;
     border-top: 1px solid rgba(255, 255, 255, 0.2);
   }
 
@@ -701,7 +1428,7 @@ const breadcrumbSchema = {
   }
 
   .featured-recommendation footer strong {
-    font-size: 1.18rem;
+    font-size: 1.15rem;
   }
 
   .featured-recommendation footer span,
@@ -711,11 +1438,11 @@ const breadcrumbSchema = {
   }
 
   .featured-recommendation footer small {
-    max-width: 280px;
+    max-width: 290px;
     text-align: right;
   }
 
-  .recommendation-columns {
+  .recommendation-grid {
     columns: 2;
     column-gap: 22px;
     margin-top: 22px;
@@ -725,27 +1452,26 @@ const breadcrumbSchema = {
     display: inline-block;
     width: 100%;
     margin: 0 0 22px;
-    padding: 28px;
-    border: 1px solid rgba(109, 145, 181, 0.2);
+    padding: 27px;
+    border: 1px solid rgba(15, 76, 129, 0.13);
     border-radius: 24px;
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 16px 44px rgba(21, 65, 106, 0.07);
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 16px 44px rgba(21, 65, 106, 0.065);
     break-inside: avoid;
   }
 
-  .recommendation-date {
-    color: var(--proof-muted);
-    font-size: 0.82rem;
+  .recommendation-card time {
+    color: var(--achievement-muted);
+    font-size: 0.8rem;
   }
 
   .recommendation-card blockquote {
-    margin: 26px 0 28px;
+    margin: 25px 0 27px;
   }
 
   .recommendation-card blockquote p {
     margin: 0 0 16px;
-    color: #25384a;
-    font-size: 1rem;
+    color: var(--achievement-copy);
     line-height: 1.72;
   }
 
@@ -756,176 +1482,309 @@ const breadcrumbSchema = {
   .recommendation-card footer {
     display: grid;
     gap: 6px;
-    padding-top: 22px;
-    border-top: 1px solid rgba(79, 111, 143, 0.14);
+    padding-top: 21px;
+    border-top: 1px solid rgba(15, 76, 129, 0.11);
   }
 
   .recommendation-card footer strong {
-    color: var(--proof-ink);
-    font-size: 1.08rem;
+    font-size: 1.06rem;
   }
 
   .recommendation-card footer span,
   .recommendation-card footer small {
-    color: var(--proof-muted);
+    color: var(--achievement-muted);
     line-height: 1.5;
   }
 
   .recommendation-card footer span {
-    font-size: 0.9rem;
+    font-size: 0.89rem;
   }
 
   .recommendation-card footer small {
-    margin-top: 5px;
-    font-size: 0.78rem;
+    margin-top: 4px;
+    font-size: 0.77rem;
   }
 
-  .linkedin-source {
+  .source-note {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    margin-top: 20px;
-    padding: 24px 26px;
-    border: 1px solid rgba(11, 102, 195, 0.14);
+    margin-top: 18px;
+    padding: 23px 25px;
+    border: 1px solid rgba(15, 76, 129, 0.12);
     border-radius: 20px;
-    background: rgba(255, 255, 255, 0.74);
+    background: rgba(255, 255, 255, 0.78);
   }
 
-  .linkedin-source p {
+  .source-note p {
     margin: 0;
-    color: var(--proof-muted);
+    color: var(--achievement-muted);
   }
 
-  .linkedin-source a,
-  .document-link {
+  .source-note a {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: var(--proof-blue-dark);
-    font-weight: 800;
+    color: var(--achievement-blue);
+    font-weight: 850;
     text-decoration: none;
+    white-space: nowrap;
   }
 
-  .linkedin-source a:hover,
-  .document-link:hover {
+  .source-note a:hover {
     text-decoration: underline;
-    text-underline-offset: 0.22em;
+    text-underline-offset: 3px;
   }
 
-  .achievement-grid {
+  .diploma-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 20px;
   }
 
-  .achievement-card {
+  .diploma-card {
     display: grid;
-    grid-template-columns: 86px minmax(0, 1fr);
-    gap: 24px;
+    grid-template-columns: 68px minmax(0, 1fr);
+    gap: 22px;
     padding: 30px;
-    border: 1px solid rgba(79, 111, 143, 0.18);
-    border-radius: 26px;
+    border: 1px solid rgba(15, 76, 129, 0.12);
+    border-radius: 27px;
     background: #ffffff;
-    box-shadow: 0 14px 44px rgba(21, 65, 106, 0.06);
+    box-shadow: 0 18px 54px rgba(12, 45, 80, 0.07);
   }
 
-  .achievement-card-featured {
-    grid-column: 1 / -1;
-    padding: 38px;
-    background:
-      radial-gradient(
-        circle at 92% 15%,
-        rgba(74, 158, 255, 0.16),
-        transparent 25rem
-      ),
-      linear-gradient(135deg, #ffffff, #f0f7ff);
-  }
-
-  .achievement-year {
+  .diploma-icon,
+  .award-icon {
     display: grid;
     place-items: center;
-    width: 74px;
-    height: 74px;
-    border: 1px solid rgba(21, 95, 184, 0.16);
+    width: 64px;
+    height: 64px;
     border-radius: 20px;
-    color: var(--proof-blue-dark);
-    background: var(--proof-blue-soft);
-    font-size: 1.18rem;
+    color: #ffffff;
+    background: linear-gradient(
+      135deg,
+      var(--achievement-blue),
+      var(--achievement-blue-2)
+    );
+    box-shadow: 0 14px 32px rgba(27, 107, 216, 0.22);
+  }
+
+  .diploma-icon svg,
+  .award-icon svg {
+    width: 29px;
+    height: 29px;
+  }
+
+  .diploma-topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+  }
+
+  .diploma-topline span,
+  .diploma-topline strong {
+    font-size: 0.78rem;
     font-weight: 850;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
 
-  .achievement-content {
-    align-self: center;
+  .diploma-topline span {
+    color: var(--achievement-blue-2);
   }
 
-  .achievement-category {
-    color: var(--proof-blue);
+  .diploma-topline strong {
+    color: #0f766e;
+  }
+
+  .diploma-card h3 {
+    margin: 12px 0 0;
+    font-size: clamp(1.35rem, 2.4vw, 1.8rem);
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+  }
+
+  .diploma-field {
+    margin: 8px 0 0;
+    color: var(--achievement-blue);
+    font-weight: 800;
+  }
+
+  .diploma-institution {
+    margin: 5px 0 0;
+    color: #344f6b;
+    font-weight: 680;
+  }
+
+  .diploma-copy > p:last-child {
+    margin: 16px 0 0;
+    color: var(--achievement-muted);
+    line-height: 1.67;
+  }
+
+  .award-callout {
+    display: grid;
+    grid-template-columns: 74px minmax(0, 1fr);
+    gap: 24px;
+    align-items: center;
+    margin-top: 22px;
+    padding: 28px 30px;
+    border: 1px solid rgba(196, 151, 45, 0.2);
+    border-radius: 25px;
+    background:
+      radial-gradient(
+        circle at 92% 8%,
+        rgba(230, 180, 55, 0.15),
+        transparent 20rem
+      ),
+      #fffaf0;
+  }
+
+  .award-icon {
+    color: #ffffff;
+    background: linear-gradient(135deg, #9a6d09, #d29a22);
+    box-shadow: 0 14px 32px rgba(154, 109, 9, 0.2);
+  }
+
+  .award-callout span {
+    color: #8a620b;
     font-size: 0.75rem;
     font-weight: 850;
     letter-spacing: 0.1em;
     text-transform: uppercase;
   }
 
-  .achievement-content h3 {
-    margin: 9px 0 8px;
-    font-size: clamp(1.3rem, 2.2vw, 1.72rem);
-    line-height: 1.2;
+  .award-callout h3 {
+    margin: 7px 0 0;
+    font-size: clamp(1.3rem, 2.2vw, 1.7rem);
     letter-spacing: -0.025em;
   }
 
-  .achievement-content p {
-    margin: 0;
-    color: var(--proof-muted);
+  .award-callout p {
+    margin: 11px 0 0;
+    color: #6d5b35;
     line-height: 1.65;
   }
 
-  .achievement-institution {
-    margin-bottom: 13px !important;
-    color: #29445e !important;
-    font-weight: 750;
-  }
-
-  .document-link,
-  .document-status {
-    margin-top: 18px;
-    font-size: 0.88rem;
-  }
-
-  .document-status {
-    display: inline-flex;
-    color: #64788b;
-    font-weight: 700;
-  }
-
-  .privacy-note {
+  .study-grid {
     display: grid;
-    grid-template-columns: minmax(210px, 0.32fr) minmax(0, 1fr);
-    gap: 30px;
-    margin-top: 24px;
-    padding: 26px 30px;
-    border: 1px solid rgba(196, 151, 45, 0.2);
-    border-radius: 22px;
-    background: #fffaf0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 19px;
   }
 
-  .privacy-note strong {
-    color: #704e07;
+  .study-card {
+    padding: 28px;
+    border: 1px solid rgba(15, 76, 129, 0.12);
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 16px 48px rgba(12, 45, 80, 0.065);
   }
 
-  .privacy-note p {
+  .study-topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .study-topline span {
+    color: var(--achievement-blue-2);
+    font-size: 0.75rem;
+    font-weight: 850;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .study-topline strong {
+    color: var(--achievement-muted);
+    font-size: 0.82rem;
+  }
+
+  .study-card h3 {
+    margin: 15px 0 0;
+    font-size: clamp(1.3rem, 2.3vw, 1.7rem);
+    line-height: 1.22;
+    letter-spacing: -0.028em;
+  }
+
+  .study-institution {
+    margin: 8px 0 0;
+    color: var(--achievement-blue);
+    font-weight: 780;
+  }
+
+  .study-card > p:not(.study-institution) {
+    margin: 16px 0 0;
+    color: var(--achievement-muted);
+    line-height: 1.68;
+  }
+
+  .certification-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 0.75fr) minmax(320px, 1fr);
+    gap: 34px;
+    align-items: center;
+    margin-top: 22px;
+    padding: 34px;
+    border-radius: 28px;
+    color: #ffffff;
+    background:
+      radial-gradient(
+        circle at 92% 4%,
+        rgba(90, 169, 255, 0.24),
+        transparent 23rem
+      ),
+      linear-gradient(135deg, #0b3157, #105aa9);
+    box-shadow: 0 24px 70px rgba(12, 63, 118, 0.2);
+  }
+
+  .certification-panel .achievement-eyebrow,
+  .certification-panel h3 {
+    color: #ffffff;
+  }
+
+  .certification-panel h3 {
+    margin: 13px 0 0;
+    font-size: clamp(1.65rem, 3vw, 2.45rem);
+    line-height: 1.12;
+    letter-spacing: -0.04em;
+  }
+
+  .certification-panel p {
+    margin: 15px 0 0;
+    color: rgba(255, 255, 255, 0.76);
+    line-height: 1.68;
+  }
+
+  .certification-panel ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 11px;
     margin: 0;
-    color: #6c5a35;
-    line-height: 1.65;
+    padding: 0;
+    list-style: none;
   }
 
-  .proof-cta {
+  .certification-panel li {
+    padding: 15px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 16px;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.09);
+    font-size: 0.91rem;
+    font-weight: 720;
+    line-height: 1.4;
+  }
+
+  .collaboration-banner {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 48px;
     align-items: center;
-    margin-block: 10px 96px;
-    padding: clamp(34px, 6vw, 62px);
+    margin-block: 16px 96px;
+    padding: clamp(34px, 5.5vw, 58px);
     border-radius: 34px;
     color: #ffffff;
     background:
@@ -935,30 +1794,30 @@ const breadcrumbSchema = {
         transparent 28rem
       ),
       linear-gradient(135deg, #0b3157, #1268bf);
-    box-shadow: 0 30px 80px rgba(12, 63, 118, 0.25);
+    box-shadow: 0 30px 80px rgba(12, 63, 118, 0.24);
   }
 
-  .proof-cta .proof-eyebrow,
-  .proof-cta h2,
-  .proof-cta p {
+  .collaboration-banner .achievement-eyebrow,
+  .collaboration-banner h2 {
     color: #ffffff;
   }
 
-  .proof-cta p {
-    max-width: 760px;
+  .collaboration-banner p {
+    max-width: 800px;
     margin: 18px 0 0;
     color: rgba(255, 255, 255, 0.78);
-    font-size: 1.05rem;
+    font-size: 1.03rem;
     line-height: 1.7;
   }
 
-  .proof-cta-actions {
+  .collaboration-actions {
     display: grid;
     gap: 12px;
-    min-width: 210px;
+    min-width: 205px;
   }
 
-  .proof-button {
+  .collaboration-primary,
+  .collaboration-secondary {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -966,85 +1825,128 @@ const breadcrumbSchema = {
     padding: 13px 20px;
     border: 1px solid transparent;
     border-radius: 999px;
-    font-weight: 800;
+    font-weight: 850;
     text-align: center;
     text-decoration: none;
   }
 
-  .proof-button-primary {
-    color: #0c3f76;
+  .collaboration-primary {
+    color: var(--achievement-blue);
     background: #ffffff;
   }
 
-  .proof-button-secondary {
+  .collaboration-secondary {
     color: #ffffff;
-    border-color: rgba(255, 255, 255, 0.28);
+    border-color: rgba(255, 255, 255, 0.26);
     background: rgba(255, 255, 255, 0.08);
   }
 
-  .proof-button:hover {
-    transform: translateY(-1px);
-  }
-
   @media (max-width: 980px) {
-    .proof-hero-grid,
-    .proof-section-header,
-    .proof-cta {
+    .achievement-hero-grid,
+    .achievement-section-header,
+    .certification-panel,
+    .collaboration-banner {
       grid-template-columns: 1fr;
     }
 
-    .proof-section-header {
+    .achievement-section-header {
       gap: 24px;
     }
 
-    .proof-cta-actions {
+    .diploma-grid,
+    .study-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .collaboration-actions {
       display: flex;
       flex-wrap: wrap;
       min-width: 0;
     }
-
-    .achievement-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .achievement-card-featured {
-      grid-column: auto;
-    }
   }
 
   @media (max-width: 760px) {
-    .proof-container {
+    .achievement-container {
       width: min(100% - 28px, 1160px);
     }
 
-    .proof-hero {
+    .achievement-hero {
       padding: 66px 0 58px;
     }
 
-    .proof-hero-grid {
+    .achievement-hero-grid {
       gap: 38px;
     }
 
-    .proof-hero h1 {
-      font-size: clamp(2.75rem, 14vw, 4.4rem);
+    .achievement-hero h1 {
+      font-size: clamp(2.75rem, 13vw, 4.35rem);
+      line-height: 0.97;
     }
 
-    .proof-summary {
-      padding: 20px;
+    .achievement-jump-links,
+    .achievement-jump-links a {
+      width: 100%;
+    }
+
+    .achievement-jump-links a {
+      justify-content: center;
+    }
+
+    .identity-card {
+      padding: 24px;
       border-radius: 24px;
     }
 
-    .proof-summary-grid {
-      grid-template-columns: 1fr 1fr;
+    .credential-banner-inner {
+      grid-template-columns: auto minmax(0, 1fr);
+      padding-block: 20px;
     }
 
-    .proof-summary-grid div {
-      min-height: 126px;
-      padding: 16px;
+    .credential-banner a {
+      grid-column: 1 / -1;
+      width: 100%;
     }
 
-    .proof-section {
+    .achievement-section {
       padding: 76px 0;
+    }
+
+    .career-timeline::before {
+      left: 24px;
+    }
+
+    .career-item {
+      grid-template-columns: 50px minmax(0, 1fr);
+      gap: 14px;
+    }
+
+    .career-marker {
+      width: 50px;
+      height: 50px;
+      border-width: 5px;
+      border-radius: 16px;
+    }
+
+    .career-marker svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .career-card {
+      padding: 22px;
+      border-radius: 22px;
+    }
+
+    .career-card-top,
+    .featured-recommendation-meta,
+    .recommendation-card header,
+    .study-topline {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .career-location {
+      text-align: left;
     }
 
     .featured-recommendation {
@@ -1052,10 +1954,8 @@ const breadcrumbSchema = {
     }
 
     .featured-recommendation footer,
-    .linkedin-source,
-    .privacy-note {
+    .source-note {
       display: grid;
-      grid-template-columns: 1fr;
       align-items: start;
     }
 
@@ -1064,72 +1964,83 @@ const breadcrumbSchema = {
       text-align: left;
     }
 
-    .recommendation-columns {
+    .recommendation-grid {
       columns: 1;
     }
 
     .recommendation-card {
-      padding: 24px;
+      padding: 23px;
       border-radius: 21px;
     }
 
-    .recommendation-card header {
-      align-items: flex-start;
-    }
-
-    .achievement-card {
+    .diploma-card {
       grid-template-columns: 1fr;
-      padding: 25px;
+      padding: 24px;
+      border-radius: 23px;
     }
 
-    .achievement-card-featured {
-      padding: 25px;
+    .award-callout {
+      grid-template-columns: 1fr;
+      padding: 24px;
     }
 
-    .proof-cta {
+    .study-card {
+      padding: 23px;
+      border-radius: 22px;
+    }
+
+    .certification-panel {
+      padding: 25px;
+      border-radius: 24px;
+    }
+
+    .certification-panel ul {
+      grid-template-columns: 1fr;
+    }
+
+    .collaboration-banner {
       margin-bottom: 66px;
       border-radius: 26px;
     }
 
-    .proof-cta-actions,
-    .proof-button {
+    .collaboration-actions,
+    .collaboration-primary,
+    .collaboration-secondary {
       width: 100%;
     }
   }
 
   @media (max-width: 480px) {
-    .proof-summary-grid {
-      grid-template-columns: 1fr;
+    .career-item {
+      grid-template-columns: 44px minmax(0, 1fr);
+      gap: 11px;
     }
 
-    .proof-summary-grid div {
-      min-height: auto;
+    .career-timeline::before {
+      left: 21px;
     }
 
-    .proof-jump-links,
-    .proof-jump-links a {
-      width: 100%;
+    .career-marker {
+      width: 44px;
+      height: 44px;
     }
 
-    .proof-jump-links a {
-      justify-content: center;
+    .career-card {
+      padding: 19px;
     }
 
-    .featured-recommendation-topline,
-    .recommendation-card header {
-      align-items: flex-start;
-      flex-direction: column;
+    .career-skills li,
+    .study-card li {
+      font-size: 0.75rem;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .proof-jump-links a,
-    .proof-button {
+    .achievement-jump-links a {
       transition: none;
     }
 
-    .proof-jump-links a:hover,
-    .proof-button:hover {
+    .achievement-jump-links a:hover {
       transform: none;
     }
   }
