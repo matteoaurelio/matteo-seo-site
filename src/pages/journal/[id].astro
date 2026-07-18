@@ -4,10 +4,7 @@ import { getCollection, render } from "astro:content";
 import BlogLayout from "../../layouts/BlogLayout.astro";
 
 export async function getStaticPaths() {
-  const entries = await getCollection(
-    "journal",
-    ({ data }) => !data.draft
-  );
+  const entries = await getCollection("journal", ({ data }) => !data.draft);
 
   return entries.map((entry) => ({
     params: {
@@ -42,9 +39,7 @@ const articleSchema = {
   headline: entry.data.title,
   description: entry.data.description,
   datePublished: entry.data.pubDate.toISOString(),
-  dateModified: (
-    entry.data.updatedDate ?? entry.data.pubDate
-  ).toISOString(),
+  dateModified: (entry.data.updatedDate ?? entry.data.pubDate).toISOString(),
   mainEntityOfPage: canonical,
   url: canonical,
   author: {
@@ -60,16 +55,11 @@ const articleSchema = {
   description={entry.data.description}
   canonical={canonical}
 >
-  <script
-    type="application/ld+json"
-    set:html={JSON.stringify(articleSchema)}
-  />
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
 
   <main class="journal-entry-page">
     <article class="journal-article">
-      <a class="back-link" href="/journal/">
-        ← Back to the work journal
-      </a>
+      <a class="back-link" href="/journal/"> ← Back to the work journal </a>
 
       <header class="journal-header">
         <p class="journal-label">Work Journal</p>
@@ -148,8 +138,8 @@ const articleSchema = {
   }
 
   .journal-description {
-    margin: 0;
     max-width: 700px;
+    margin: 0;
     font-size: 1.2rem;
     line-height: 1.7;
   }
@@ -195,10 +185,12 @@ const articleSchema = {
   .journal-content :global(h3) {
     margin: 2.5rem 0 1rem;
     font-size: 1.4rem;
+    line-height: 1.35;
   }
 
   .journal-content :global(a) {
     font-weight: 700;
+    overflow-wrap: anywhere;
     text-underline-offset: 0.2em;
   }
 
@@ -225,8 +217,72 @@ const articleSchema = {
     margin-bottom: 0.5rem;
   }
 
+  .journal-content :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 2.5rem 0;
+    border-radius: 0.5rem;
+  }
+
+  .journal-content :global(hr) {
+    margin: 3rem 0;
+    border: 0;
+    border-top: 1px solid rgba(15, 76, 129, 0.2);
+  }
+
+  .journal-content :global(table) {
+    width: 100%;
+    margin: 2rem 0 2.5rem;
+    border: 1px solid rgba(15, 76, 129, 0.2);
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .journal-content :global(th),
+  .journal-content :global(td) {
+    padding: 0.9rem 1rem;
+    border-right: 1px solid rgba(15, 76, 129, 0.18);
+    border-bottom: 1px solid rgba(15, 76, 129, 0.18);
+    text-align: left;
+    vertical-align: top;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .journal-content :global(th:last-child),
+  .journal-content :global(td:last-child) {
+    border-right: 0;
+  }
+
+  .journal-content :global(tbody tr:last-child td) {
+    border-bottom: 0;
+  }
+
+  .journal-content :global(th) {
+    background: rgba(15, 76, 129, 0.09);
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .journal-content :global(tbody tr:nth-child(even)) {
+    background: rgba(15, 76, 129, 0.025);
+  }
+
+  .journal-content :global(td p),
+  .journal-content :global(th p) {
+    margin: 0;
+  }
+
+  .journal-content :global(td a) {
+    white-space: nowrap;
+  }
+
   @media (max-width: 640px) {
     .journal-entry-page {
+      width: min(100% - 1.25rem, 860px);
       padding: 2.5rem 0 4rem;
     }
 
@@ -234,8 +290,47 @@ const articleSchema = {
       margin-bottom: 2rem;
     }
 
+    .journal-header {
+      margin-bottom: 2.5rem;
+    }
+
+    .journal-header h1 {
+      font-size: clamp(2.25rem, 12vw, 3.4rem);
+    }
+
+    .journal-description {
+      font-size: 1.05rem;
+      line-height: 1.65;
+    }
+
     .journal-content {
       font-size: 1rem;
+    }
+
+    .journal-content :global(table) {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+      font-size: 0.88rem;
+      white-space: normal;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .journal-content :global(thead),
+    .journal-content :global(tbody) {
+      white-space: normal;
+    }
+
+    .journal-content :global(th),
+    .journal-content :global(td) {
+      min-width: 135px;
+      padding: 0.75rem;
+    }
+
+    .journal-content :global(th:first-child),
+    .journal-content :global(td:first-child) {
+      min-width: 210px;
     }
   }
 </style>
