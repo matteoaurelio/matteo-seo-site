@@ -19,7 +19,7 @@ Some of them load products, browse at them and just leave without clicking. Othe
 
 We all wish consumer behavior was easy to understand, but it's not. And I also think that's what makes analytics fascinating. 
 
-# How To Improve Your Web Analytics
+## How To Improve Your Web Analytics
 
 As an analyst, I look at many different website events. What are users typing on the search bar? Which products are they clicking on? How much time do they spend on the each stage of the funnel before buying? What kind of devices do they have and use? Why some browsers perform better than others?
 
