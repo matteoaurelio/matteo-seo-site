@@ -219,10 +219,12 @@ const articleSchema = {
 
   .journal-content :global(img) {
     display: block;
-    width: 100%;
+    width: min(100%, 600px);
+    max-height: 720px;
     height: auto;
-    margin: 2.5rem 0;
+    margin: 2.5rem auto;
     border-radius: 0.5rem;
+    object-fit: contain;
   }
 
   .journal-content :global(hr) {
