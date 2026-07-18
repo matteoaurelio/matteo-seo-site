@@ -11,7 +11,7 @@ tags:
   - google cloud
   - hotjar
   - google analytics 4
-draft: true
+draft: false
 ---
 I originally specialized in finance and accounting while doing my Master's Degree at Rotterdam School of Management. It was back in 2018 when I graduated and started my first internship at the European Investment Fund (EIF). My first task as an intern was to read, analyze and enrich all the Operational Risk Indicators (ORI) for the Fund. That meant I had to learn all the relationships between departments, teams and clients. Auditing processes can be tedious, but it taught me the importance of setting up the right systems in place.
 
