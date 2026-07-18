@@ -1,0 +1,1136 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import {
+  achievements,
+  recommendations,
+  type Recommendation,
+} from "../data/achievements";
+
+const title = "Achievements, Recommendations & Reviews | Matteo Arellano";
+
+const description =
+  "Read professional recommendations, reviews, awards, academic results, and verified career achievements from Matteo Arellano's work in analytics, data, growth, and technical SEO.";
+
+const canonical = "https://matteoarellano.com/achievements/";
+
+const featuredRecommendation = recommendations.find(
+  (recommendation) => recommendation.featured,
+) as Recommendation;
+
+const remainingRecommendations = recommendations.filter(
+  (recommendation) => !recommendation.featured,
+);
+
+const profileSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  name: title,
+  description,
+  url: canonical,
+  mainEntity: {
+    "@type": "Person",
+    name: "Matteo Arellano",
+    url: "https://matteoarellano.com/",
+    sameAs: ["https://www.linkedin.com/in/matteoarellano"],
+    jobTitle: "Technical SEO and AI Visibility Consultant",
+    knowsAbout: [
+      "Technical SEO",
+      "Analytics",
+      "Data analysis",
+      "Python",
+      "Conversion optimization",
+      "Artificial intelligence",
+    ],
+    award: [
+      "Winner of the Rotterdam100 2016-2017",
+      "Grade A in Human Resource Management and Employment Relations at LSE Summer School",
+      "Grade A in China's Economic Growth, Foreign Trade and Investment at LSE-PKU Summer School",
+    ],
+    alumniOf: [
+      {
+        "@type": "CollegeOrUniversity",
+        name: "Erasmus University Rotterdam",
+      },
+      {
+        "@type": "CollegeOrUniversity",
+        name: "The London School of Economics and Political Science",
+      },
+      {
+        "@type": "CollegeOrUniversity",
+        name: "Peking University",
+      },
+    ],
+    hasCredential: [
+      {
+        "@type": "EducationalOccupationalCredential",
+        name: "Master of Science in Business Administration",
+        credentialCategory: "Degree",
+        recognizedBy: {
+          "@type": "CollegeOrUniversity",
+          name: "Erasmus University Rotterdam",
+        },
+      },
+      {
+        "@type": "EducationalOccupationalCredential",
+        name: "LSE Summer School MG190 - Grade A",
+        credentialCategory: "Academic result",
+        recognizedBy: {
+          "@type": "CollegeOrUniversity",
+          name: "The London School of Economics and Political Science",
+        },
+      },
+      {
+        "@type": "EducationalOccupationalCredential",
+        name: "LSE-PKU Summer School EC205 - Grade A",
+        credentialCategory: "Academic result",
+        recognizedBy: {
+          "@type": "CollegeOrUniversity",
+          name: "Peking University",
+        },
+      },
+    ],
+  },
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://matteoarellano.com/",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Achievements, recommendations and reviews",
+      item: canonical,
+    },
+  ],
+};
+---
+
+<BaseLayout title={title} description={description} canonical={canonical}>
+  <Header />
+
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={JSON.stringify([profileSchema, breadcrumbSchema])}
+  />
+
+  <main class="proof-page">
+    <section class="proof-hero">
+      <div class="proof-container proof-hero-grid">
+        <div class="proof-hero-copy">
+          <span class="proof-kicker">
+            Achievements · Recommendations · Reviews
+          </span>
+
+          <h1>
+            A public record of the people and institutions behind my work.
+          </h1>
+
+          <p>
+            These recommendations were written by colleagues who worked with me
+            on analytics, finance, data engineering, machine learning, growth,
+            and complex business problems. This page also documents selected
+            awards and academic credentials.
+          </p>
+
+          <nav class="proof-jump-links" aria-label="Page sections">
+            <a href="#recommendations">Professional recommendations</a>
+            <a href="#credentials">Awards and credentials</a>
+          </nav>
+        </div>
+
+        <aside class="proof-summary" aria-label="Achievement summary">
+          <div class="proof-summary-label">Documented proof</div>
+
+          <div class="proof-summary-grid">
+            <div>
+              <strong>{recommendations.length}</strong>
+              <span>professional recommendations</span>
+            </div>
+
+            <div>
+              <strong>{achievements.length}</strong>
+              <span>selected awards and credentials</span>
+            </div>
+
+            <div>
+              <strong>2015-2026</strong>
+              <span>years represented on this page</span>
+            </div>
+
+            <div>
+              <strong>4</strong>
+              <span>areas: data, analytics, finance and growth</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section
+      class="proof-section proof-section-soft"
+      id="recommendations"
+      aria-labelledby="recommendations-title"
+    >
+      <div class="proof-container">
+        <header class="proof-section-header">
+          <div>
+            <span class="proof-eyebrow">Professional recommendations</span>
+            <h2 id="recommendations-title">
+              What colleagues say about working with me
+            </h2>
+          </div>
+
+          <p>
+            The wording is reproduced from the original recommendations. Job
+            titles reflect how each person described themselves when this page
+            was prepared.
+          </p>
+        </header>
+
+        <article class="featured-recommendation">
+          <div class="featured-recommendation-topline">
+            <span class="source-badge">
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                width="16"
+                height="16"
+              >
+                <path
+                  fill="currentColor"
+                  d="M5.37 3.5A2.37 2.37 0 1 1 5.36 8.24 2.37 2.37 0 0 1 5.37 3.5ZM3.32 9.86h4.1V21h-4.1V9.86Zm6.66 0h3.93v1.52h.06c.55-1.04 1.89-2.13 3.89-2.13 4.16 0 4.93 2.74 4.93 6.3V21h-4.1v-4.84c0-1.15-.02-2.64-1.61-2.64-1.61 0-1.86 1.26-1.86 2.56V21h-4.1V9.86Z"
+                ></path>
+              </svg>
+              {featuredRecommendation.source}
+            </span>
+
+            <span>{featuredRecommendation.date}</span>
+          </div>
+
+          <blockquote>
+            {
+              featuredRecommendation.quote
+                .split("\n\n")
+                .map((paragraph) => <p>{paragraph}</p>)
+            }
+          </blockquote>
+
+          <footer>
+            <div>
+              <strong>{featuredRecommendation.name}</strong>
+              <span>{featuredRecommendation.headline}</span>
+            </div>
+
+            <small>{featuredRecommendation.relationship}</small>
+          </footer>
+        </article>
+
+        <div class="recommendation-columns">
+          {
+            remainingRecommendations.map((recommendation) => (
+              <article class="recommendation-card">
+                <header>
+                  <span class="source-badge source-badge-light">
+                    <svg
+                      aria-hidden="true"
+                      viewBox="0 0 24 24"
+                      width="15"
+                      height="15"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M5.37 3.5A2.37 2.37 0 1 1 5.36 8.24 2.37 2.37 0 0 1 5.37 3.5ZM3.32 9.86h4.1V21h-4.1V9.86Zm6.66 0h3.93v1.52h.06c.55-1.04 1.89-2.13 3.89-2.13 4.16 0 4.93 2.74 4.93 6.3V21h-4.1v-4.84c0-1.15-.02-2.64-1.61-2.64-1.61 0-1.86 1.26-1.86 2.56V21h-4.1V9.86Z"
+                      />
+                    </svg>
+                    {recommendation.source}
+                  </span>
+
+                  <span class="recommendation-date">{recommendation.date}</span>
+                </header>
+
+                <blockquote>
+                  {recommendation.quote.split("\n\n").map((paragraph) => (
+                    <p>{paragraph}</p>
+                  ))}
+                </blockquote>
+
+                <footer>
+                  <strong>{recommendation.name}</strong>
+                  <span>{recommendation.headline}</span>
+                  <small>{recommendation.relationship}</small>
+                </footer>
+              </article>
+            ))
+          }
+        </div>
+
+        <div class="linkedin-source">
+          <p>
+            These professional recommendations were originally published on
+            LinkedIn.
+          </p>
+
+          <a
+            href="https://www.linkedin.com/in/matteoarellano"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View Matteo Arellano on LinkedIn
+            <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="proof-section"
+      id="credentials"
+      aria-labelledby="credentials-title"
+    >
+      <div class="proof-container">
+        <header class="proof-section-header">
+          <div>
+            <span class="proof-eyebrow">Awards and academic credentials</span>
+            <h2 id="credentials-title">
+              Selected achievements across business, finance and education
+            </h2>
+          </div>
+
+          <p>
+            Each item below is supported by an original certificate, transcript,
+            diploma, or recommendation letter.
+          </p>
+        </header>
+
+        <div class="achievement-grid">
+          {
+            achievements.map((achievement, index) => (
+              <article
+                class:list={[
+                  "achievement-card",
+                  index === 0 && "achievement-card-featured",
+                ]}
+              >
+                <div class="achievement-year">{achievement.year}</div>
+
+                <div class="achievement-content">
+                  <span class="achievement-category">
+                    {achievement.category}
+                  </span>
+
+                  <h3>{achievement.title}</h3>
+
+                  <p class="achievement-institution">
+                    {achievement.institution}
+                  </p>
+
+                  <p>{achievement.description}</p>
+
+                  {achievement.document ? (
+                    <a
+                      class="document-link"
+                      href={achievement.document}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View supporting document
+                      <span aria-hidden="true">↗</span>
+                    </a>
+                  ) : (
+                    <span class="document-status">
+                      Supporting document held on file
+                    </span>
+                  )}
+                </div>
+              </article>
+            ))
+          }
+        </div>
+
+        <aside class="privacy-note">
+          <strong>Why the original files are not embedded directly</strong>
+          <p>
+            Some academic documents contain private identifiers, dates of birth,
+            signatures, or personal contact details. Public versions should be
+            redacted before they are linked from this page.
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    <section
+      class="proof-container proof-cta"
+      aria-labelledby="proof-cta-title"
+    >
+      <div>
+        <span class="proof-eyebrow">Work with me</span>
+        <h2 id="proof-cta-title">
+          Bring me the technical or analytical problem that still feels unclear.
+        </h2>
+        <p>
+          I work across technical SEO, analytics, data analysis, conversion
+          journeys, and complex diagnostics where the first challenge is finding
+          the real problem.
+        </p>
+      </div>
+
+      <div class="proof-cta-actions">
+        <a
+          class="proof-button proof-button-primary"
+          href="mailto:matteo.visibility@gmail.com?subject=Project%20enquiry"
+        >
+          Discuss a project
+        </a>
+
+        <a class="proof-button proof-button-secondary" href="/about/">
+          See how I work
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .proof-page {
+    --proof-ink: #0c1b2a;
+    --proof-muted: #5c6b7a;
+    --proof-line: rgba(79, 111, 143, 0.2);
+    --proof-blue: #155fb8;
+    --proof-blue-dark: #0c3f76;
+    --proof-blue-soft: #edf6ff;
+    --proof-card: #ffffff;
+    color: var(--proof-ink);
+    background: #ffffff;
+  }
+
+  .proof-container {
+    width: min(1160px, calc(100% - 40px));
+    margin: 0 auto;
+  }
+
+  .proof-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 96px 0 80px;
+    background:
+      radial-gradient(
+        circle at 82% 18%,
+        rgba(65, 154, 255, 0.24),
+        transparent 30rem
+      ),
+      linear-gradient(180deg, #f7fbff 0%, #ffffff 100%);
+  }
+
+  .proof-hero::after {
+    content: "";
+    position: absolute;
+    right: -170px;
+    bottom: -280px;
+    width: 540px;
+    height: 540px;
+    border: 1px solid rgba(21, 95, 184, 0.12);
+    border-radius: 50%;
+    box-shadow:
+      0 0 0 52px rgba(21, 95, 184, 0.04),
+      0 0 0 104px rgba(21, 95, 184, 0.025);
+    pointer-events: none;
+  }
+
+  .proof-hero-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.65fr);
+    gap: 64px;
+    align-items: center;
+  }
+
+  .proof-kicker,
+  .proof-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--proof-blue);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  .proof-kicker::before,
+  .proof-eyebrow::before {
+    content: "";
+    width: 28px;
+    height: 2px;
+    border-radius: 999px;
+    background: currentColor;
+  }
+
+  .proof-hero h1 {
+    max-width: 850px;
+    margin: 20px 0 22px;
+    font-size: clamp(3rem, 6.3vw, 5.9rem);
+    line-height: 0.98;
+    letter-spacing: -0.055em;
+  }
+
+  .proof-hero-copy > p {
+    max-width: 760px;
+    margin: 0;
+    color: var(--proof-muted);
+    font-size: clamp(1.08rem, 1.7vw, 1.28rem);
+    line-height: 1.75;
+  }
+
+  .proof-jump-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .proof-jump-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 10px 16px;
+    border: 1px solid rgba(21, 95, 184, 0.2);
+    border-radius: 999px;
+    color: var(--proof-blue-dark);
+    background: rgba(255, 255, 255, 0.82);
+    font-size: 0.94rem;
+    font-weight: 750;
+    text-decoration: none;
+    box-shadow: 0 8px 24px rgba(15, 76, 129, 0.06);
+  }
+
+  .proof-jump-links a:hover {
+    border-color: rgba(21, 95, 184, 0.5);
+    transform: translateY(-1px);
+  }
+
+  .proof-summary {
+    padding: 30px;
+    border: 1px solid rgba(183, 211, 239, 0.9);
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.86);
+    box-shadow: 0 26px 80px rgba(17, 62, 105, 0.14);
+    backdrop-filter: blur(18px);
+  }
+
+  .proof-summary-label {
+    margin-bottom: 22px;
+    color: var(--proof-muted);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .proof-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .proof-summary-grid div {
+    min-height: 142px;
+    padding: 20px;
+    border: 1px solid rgba(21, 95, 184, 0.12);
+    border-radius: 20px;
+    background: linear-gradient(145deg, #ffffff, #f2f8ff);
+  }
+
+  .proof-summary-grid strong {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--proof-blue-dark);
+    font-size: clamp(1.55rem, 3vw, 2.35rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .proof-summary-grid span {
+    color: var(--proof-muted);
+    font-size: 0.92rem;
+    line-height: 1.45;
+  }
+
+  .proof-section {
+    padding: 104px 0;
+    scroll-margin-top: 100px;
+  }
+
+  .proof-section-soft {
+    border-block: 1px solid rgba(79, 111, 143, 0.12);
+    background:
+      linear-gradient(rgba(237, 246, 255, 0.84), rgba(247, 251, 255, 0.84)),
+      #f7fbff;
+  }
+
+  .proof-section-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(290px, 0.54fr);
+    gap: 64px;
+    align-items: end;
+    margin-bottom: 46px;
+  }
+
+  .proof-section-header h2,
+  .proof-cta h2 {
+    margin: 14px 0 0;
+    font-size: clamp(2.2rem, 4.5vw, 4rem);
+    line-height: 1.06;
+    letter-spacing: -0.045em;
+  }
+
+  .proof-section-header > p {
+    margin: 0;
+    color: var(--proof-muted);
+    font-size: 1.02rem;
+    line-height: 1.72;
+  }
+
+  .featured-recommendation {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(30px, 5vw, 58px);
+    border-radius: 32px;
+    color: #ffffff;
+    background:
+      radial-gradient(
+        circle at 88% 0%,
+        rgba(117, 191, 255, 0.34),
+        transparent 25rem
+      ),
+      linear-gradient(135deg, #0b3157, #105aa9 68%, #1675d1);
+    box-shadow: 0 30px 80px rgba(12, 63, 118, 0.25);
+  }
+
+  .featured-recommendation::after {
+    content: "“";
+    position: absolute;
+    right: 42px;
+    bottom: -92px;
+    color: rgba(255, 255, 255, 0.09);
+    font-family: Georgia, serif;
+    font-size: 24rem;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .featured-recommendation-topline,
+  .recommendation-card header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .featured-recommendation-topline {
+    position: relative;
+    z-index: 1;
+    color: rgba(255, 255, 255, 0.74);
+    font-size: 0.88rem;
+  }
+
+  .source-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 11px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+  }
+
+  .source-badge-light {
+    color: #0b66c3;
+    border-color: rgba(11, 102, 195, 0.16);
+    background: #eef7ff;
+  }
+
+  .featured-recommendation blockquote {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 42px 0;
+  }
+
+  .featured-recommendation blockquote p {
+    margin: 0 0 20px;
+    font-size: clamp(1.25rem, 2.2vw, 1.62rem);
+    line-height: 1.58;
+    letter-spacing: -0.012em;
+  }
+
+  .featured-recommendation blockquote p:last-child {
+    margin-bottom: 0;
+  }
+
+  .featured-recommendation footer {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 34px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .featured-recommendation footer div {
+    display: grid;
+    gap: 6px;
+  }
+
+  .featured-recommendation footer strong {
+    font-size: 1.18rem;
+  }
+
+  .featured-recommendation footer span,
+  .featured-recommendation footer small {
+    color: rgba(255, 255, 255, 0.74);
+    line-height: 1.5;
+  }
+
+  .featured-recommendation footer small {
+    max-width: 280px;
+    text-align: right;
+  }
+
+  .recommendation-columns {
+    columns: 2;
+    column-gap: 22px;
+    margin-top: 22px;
+  }
+
+  .recommendation-card {
+    display: inline-block;
+    width: 100%;
+    margin: 0 0 22px;
+    padding: 28px;
+    border: 1px solid rgba(109, 145, 181, 0.2);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 16px 44px rgba(21, 65, 106, 0.07);
+    break-inside: avoid;
+  }
+
+  .recommendation-date {
+    color: var(--proof-muted);
+    font-size: 0.82rem;
+  }
+
+  .recommendation-card blockquote {
+    margin: 26px 0 28px;
+  }
+
+  .recommendation-card blockquote p {
+    margin: 0 0 16px;
+    color: #25384a;
+    font-size: 1rem;
+    line-height: 1.72;
+  }
+
+  .recommendation-card blockquote p:last-child {
+    margin-bottom: 0;
+  }
+
+  .recommendation-card footer {
+    display: grid;
+    gap: 6px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(79, 111, 143, 0.14);
+  }
+
+  .recommendation-card footer strong {
+    color: var(--proof-ink);
+    font-size: 1.08rem;
+  }
+
+  .recommendation-card footer span,
+  .recommendation-card footer small {
+    color: var(--proof-muted);
+    line-height: 1.5;
+  }
+
+  .recommendation-card footer span {
+    font-size: 0.9rem;
+  }
+
+  .recommendation-card footer small {
+    margin-top: 5px;
+    font-size: 0.78rem;
+  }
+
+  .linkedin-source {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-top: 20px;
+    padding: 24px 26px;
+    border: 1px solid rgba(11, 102, 195, 0.14);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.74);
+  }
+
+  .linkedin-source p {
+    margin: 0;
+    color: var(--proof-muted);
+  }
+
+  .linkedin-source a,
+  .document-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--proof-blue-dark);
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .linkedin-source a:hover,
+  .document-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.22em;
+  }
+
+  .achievement-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .achievement-card {
+    display: grid;
+    grid-template-columns: 86px minmax(0, 1fr);
+    gap: 24px;
+    padding: 30px;
+    border: 1px solid rgba(79, 111, 143, 0.18);
+    border-radius: 26px;
+    background: #ffffff;
+    box-shadow: 0 14px 44px rgba(21, 65, 106, 0.06);
+  }
+
+  .achievement-card-featured {
+    grid-column: 1 / -1;
+    padding: 38px;
+    background:
+      radial-gradient(
+        circle at 92% 15%,
+        rgba(74, 158, 255, 0.16),
+        transparent 25rem
+      ),
+      linear-gradient(135deg, #ffffff, #f0f7ff);
+  }
+
+  .achievement-year {
+    display: grid;
+    place-items: center;
+    width: 74px;
+    height: 74px;
+    border: 1px solid rgba(21, 95, 184, 0.16);
+    border-radius: 20px;
+    color: var(--proof-blue-dark);
+    background: var(--proof-blue-soft);
+    font-size: 1.18rem;
+    font-weight: 850;
+  }
+
+  .achievement-content {
+    align-self: center;
+  }
+
+  .achievement-category {
+    color: var(--proof-blue);
+    font-size: 0.75rem;
+    font-weight: 850;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .achievement-content h3 {
+    margin: 9px 0 8px;
+    font-size: clamp(1.3rem, 2.2vw, 1.72rem);
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+  }
+
+  .achievement-content p {
+    margin: 0;
+    color: var(--proof-muted);
+    line-height: 1.65;
+  }
+
+  .achievement-institution {
+    margin-bottom: 13px !important;
+    color: #29445e !important;
+    font-weight: 750;
+  }
+
+  .document-link,
+  .document-status {
+    margin-top: 18px;
+    font-size: 0.88rem;
+  }
+
+  .document-status {
+    display: inline-flex;
+    color: #64788b;
+    font-weight: 700;
+  }
+
+  .privacy-note {
+    display: grid;
+    grid-template-columns: minmax(210px, 0.32fr) minmax(0, 1fr);
+    gap: 30px;
+    margin-top: 24px;
+    padding: 26px 30px;
+    border: 1px solid rgba(196, 151, 45, 0.2);
+    border-radius: 22px;
+    background: #fffaf0;
+  }
+
+  .privacy-note strong {
+    color: #704e07;
+  }
+
+  .privacy-note p {
+    margin: 0;
+    color: #6c5a35;
+    line-height: 1.65;
+  }
+
+  .proof-cta {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 48px;
+    align-items: center;
+    margin-block: 10px 96px;
+    padding: clamp(34px, 6vw, 62px);
+    border-radius: 34px;
+    color: #ffffff;
+    background:
+      radial-gradient(
+        circle at 18% 0%,
+        rgba(255, 255, 255, 0.21),
+        transparent 28rem
+      ),
+      linear-gradient(135deg, #0b3157, #1268bf);
+    box-shadow: 0 30px 80px rgba(12, 63, 118, 0.25);
+  }
+
+  .proof-cta .proof-eyebrow,
+  .proof-cta h2,
+  .proof-cta p {
+    color: #ffffff;
+  }
+
+  .proof-cta p {
+    max-width: 760px;
+    margin: 18px 0 0;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+
+  .proof-cta-actions {
+    display: grid;
+    gap: 12px;
+    min-width: 210px;
+  }
+
+  .proof-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px;
+    padding: 13px 20px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font-weight: 800;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .proof-button-primary {
+    color: #0c3f76;
+    background: #ffffff;
+  }
+
+  .proof-button-secondary {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .proof-button:hover {
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 980px) {
+    .proof-hero-grid,
+    .proof-section-header,
+    .proof-cta {
+      grid-template-columns: 1fr;
+    }
+
+    .proof-section-header {
+      gap: 24px;
+    }
+
+    .proof-cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      min-width: 0;
+    }
+
+    .achievement-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .achievement-card-featured {
+      grid-column: auto;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .proof-container {
+      width: min(100% - 28px, 1160px);
+    }
+
+    .proof-hero {
+      padding: 66px 0 58px;
+    }
+
+    .proof-hero-grid {
+      gap: 38px;
+    }
+
+    .proof-hero h1 {
+      font-size: clamp(2.75rem, 14vw, 4.4rem);
+    }
+
+    .proof-summary {
+      padding: 20px;
+      border-radius: 24px;
+    }
+
+    .proof-summary-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .proof-summary-grid div {
+      min-height: 126px;
+      padding: 16px;
+    }
+
+    .proof-section {
+      padding: 76px 0;
+    }
+
+    .featured-recommendation {
+      border-radius: 24px;
+    }
+
+    .featured-recommendation footer,
+    .linkedin-source,
+    .privacy-note {
+      display: grid;
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    .featured-recommendation footer small {
+      max-width: none;
+      text-align: left;
+    }
+
+    .recommendation-columns {
+      columns: 1;
+    }
+
+    .recommendation-card {
+      padding: 24px;
+      border-radius: 21px;
+    }
+
+    .recommendation-card header {
+      align-items: flex-start;
+    }
+
+    .achievement-card {
+      grid-template-columns: 1fr;
+      padding: 25px;
+    }
+
+    .achievement-card-featured {
+      padding: 25px;
+    }
+
+    .proof-cta {
+      margin-bottom: 66px;
+      border-radius: 26px;
+    }
+
+    .proof-cta-actions,
+    .proof-button {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .proof-summary-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .proof-summary-grid div {
+      min-height: auto;
+    }
+
+    .proof-jump-links,
+    .proof-jump-links a {
+      width: 100%;
+    }
+
+    .proof-jump-links a {
+      justify-content: center;
+    }
+
+    .featured-recommendation-topline,
+    .recommendation-card header {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .proof-jump-links a,
+    .proof-button {
+      transition: none;
+    }
+
+    .proof-jump-links a:hover,
+    .proof-button:hover {
+      transform: none;
+    }
+  }
+</style>

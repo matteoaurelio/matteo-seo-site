@@ -2,14 +2,31 @@
 const navLinks = [
   { href: "/about/", label: "About" },
   { href: "/#services", label: "Services" },
-  { href: "/#process", label: "Process" },
   { href: "/#tools", label: "Tools" },
   { href: "/#faq", label: "FAQ" },
   { href: "/blog/", label: "Blog" },
 ];
 
+const aboutLinks = [
+  {
+    href: "/about/",
+    label: "About Matteo Arellano",
+  },
+  {
+    href: "/#process",
+    label: "How I work",
+  },
+  {
+    href: "/achievements/",
+    label: "Achievements, recommendations & reviews",
+  },
+];
+
 const serviceLinks = [
-  { href: "/#services", label: "Overview" },
+  {
+    href: "/#services",
+    label: "Services overview",
+  },
   {
     href: "/services/product-copy-landing-pages/",
     label: "Product copy and landing pages",
@@ -59,52 +76,78 @@ const languageLinks = [
 
     <nav class="desktop-nav" aria-label="Primary navigation">
       {
-        navLinks.map((link) =>
-          link.label === "Services" ? (
-            <div class="nav-dropdown">
-              <a class="nav-dropdown-trigger" href={link.href}>
-                {link.label}
-                <span aria-hidden="true">▾</span>
-              </a>
+        navLinks.map((link) => {
+          if (link.label === "About") {
+            return (
+              <div class="nav-dropdown">
+                <a class="nav-dropdown-trigger" href={link.href}>
+                  {link.label}
 
-              <div class="nav-dropdown-menu" aria-label="Services submenu">
-                {serviceLinks.map((service) => (
-                  <a href={service.href}>{service.label}</a>
-                ))}
+                  <span aria-hidden="true">▾</span>
+                </a>
 
-                <details class="panel-dropdown">
-                  <summary class="panel-dropdown-summary">
-                    <span class="panel-dropdown-label">Local Services Ads</span>
-
-                    <span class="panel-dropdown-icon" aria-hidden="true">
-                      <svg viewBox="0 0 20 20" focusable="false">
-                        <path
-                          d="M5 7.5L10 12.5L15 7.5"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2.2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                    </span>
-                  </summary>
-
-                  <div
-                    class="panel-subnav"
-                    aria-label="Local Services Ads submenu"
-                  >
-                    {localServicesLinks.map((service) => (
-                      <a href={service.href}>{service.label}</a>
-                    ))}
-                  </div>
-                </details>
+                <div
+                  class="nav-dropdown-menu"
+                  aria-label="About Matteo Arellano submenu"
+                >
+                  {aboutLinks.map((aboutLink) => (
+                    <a href={aboutLink.href}>{aboutLink.label}</a>
+                  ))}
+                </div>
               </div>
-            </div>
-          ) : (
-            <a href={link.href}>{link.label}</a>
-          ),
-        )
+            );
+          }
+
+          if (link.label === "Services") {
+            return (
+              <div class="nav-dropdown">
+                <a class="nav-dropdown-trigger" href={link.href}>
+                  {link.label}
+
+                  <span aria-hidden="true">▾</span>
+                </a>
+
+                <div class="nav-dropdown-menu" aria-label="Services submenu">
+                  {serviceLinks.map((service) => (
+                    <a href={service.href}>{service.label}</a>
+                  ))}
+
+                  <details class="panel-dropdown">
+                    <summary class="panel-dropdown-summary">
+                      <span class="panel-dropdown-label">
+                        Local Services Ads
+                      </span>
+
+                      <span class="panel-dropdown-icon" aria-hidden="true">
+                        <svg viewBox="0 0 20 20" focusable="false">
+                          <path
+                            d="M5 7.5L10 12.5L15 7.5"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      </span>
+                    </summary>
+
+                    <div
+                      class="panel-subnav"
+                      aria-label="Local Services Ads submenu"
+                    >
+                      {localServicesLinks.map((service) => (
+                        <a href={service.href}>{service.label}</a>
+                      ))}
+                    </div>
+                  </details>
+                </div>
+              </div>
+            );
+          }
+
+          return <a href={link.href}>{link.label}</a>;
+        })
       }
     </nav>
 
@@ -154,66 +197,100 @@ const languageLinks = [
     <div class="nav-panel" id="nav-panel">
       <nav class="panel-nav" aria-label="Collapsed navigation">
         {
-          navLinks.map((link) =>
-            link.label === "Services" ? (
-              <details class="panel-dropdown">
-                <summary class="panel-dropdown-summary">
-                  <span class="panel-dropdown-label">{link.label}</span>
+          navLinks.map((link) => {
+            if (link.label === "About") {
+              return (
+                <details class="panel-dropdown">
+                  <summary class="panel-dropdown-summary">
+                    <span class="panel-dropdown-label">{link.label}</span>
 
-                  <span class="panel-dropdown-icon" aria-hidden="true">
-                    <svg viewBox="0 0 20 20" focusable="false">
-                      <path
-                        d="M5 7.5L10 12.5L15 7.5"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2.2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </span>
-                </summary>
+                    <span class="panel-dropdown-icon" aria-hidden="true">
+                      <svg viewBox="0 0 20 20" focusable="false">
+                        <path
+                          d="M5 7.5L10 12.5L15 7.5"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2.2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </span>
+                  </summary>
 
-                <div class="panel-subnav" aria-label="Services submenu">
-                  {serviceLinks.map((service) => (
-                    <a href={service.href}>{service.label}</a>
-                  ))}
+                  <div
+                    class="panel-subnav"
+                    aria-label="About Matteo Arellano submenu"
+                  >
+                    {aboutLinks.map((aboutLink) => (
+                      <a href={aboutLink.href}>{aboutLink.label}</a>
+                    ))}
+                  </div>
+                </details>
+              );
+            }
 
-                  <details class="panel-dropdown">
-                    <summary class="panel-dropdown-summary">
-                      <span class="panel-dropdown-label">
-                        Local Services Ads
-                      </span>
+            if (link.label === "Services") {
+              return (
+                <details class="panel-dropdown">
+                  <summary class="panel-dropdown-summary">
+                    <span class="panel-dropdown-label">{link.label}</span>
 
-                      <span class="panel-dropdown-icon" aria-hidden="true">
-                        <svg viewBox="0 0 20 20" focusable="false">
-                          <path
-                            d="M5 7.5L10 12.5L15 7.5"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2.2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                        </svg>
-                      </span>
-                    </summary>
+                    <span class="panel-dropdown-icon" aria-hidden="true">
+                      <svg viewBox="0 0 20 20" focusable="false">
+                        <path
+                          d="M5 7.5L10 12.5L15 7.5"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2.2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </span>
+                  </summary>
 
-                    <div
-                      class="panel-subnav"
-                      aria-label="Local Services Ads submenu"
-                    >
-                      {localServicesLinks.map((service) => (
-                        <a href={service.href}>{service.label}</a>
-                      ))}
-                    </div>
-                  </details>
-                </div>
-              </details>
-            ) : (
-              <a href={link.href}>{link.label}</a>
-            ),
-          )
+                  <div class="panel-subnav" aria-label="Services submenu">
+                    {serviceLinks.map((service) => (
+                      <a href={service.href}>{service.label}</a>
+                    ))}
+
+                    <details class="panel-dropdown">
+                      <summary class="panel-dropdown-summary">
+                        <span class="panel-dropdown-label">
+                          Local Services Ads
+                        </span>
+
+                        <span class="panel-dropdown-icon" aria-hidden="true">
+                          <svg viewBox="0 0 20 20" focusable="false">
+                            <path
+                              d="M5 7.5L10 12.5L15 7.5"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2.2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                        </span>
+                      </summary>
+
+                      <div
+                        class="panel-subnav"
+                        aria-label="Local Services Ads submenu"
+                      >
+                        {localServicesLinks.map((service) => (
+                          <a href={service.href}>{service.label}</a>
+                        ))}
+                      </div>
+                    </details>
+                  </div>
+                </details>
+              );
+            }
+
+            return <a href={link.href}>{link.label}</a>;
+          })
         }
       </nav>
 
