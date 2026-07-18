@@ -1,8 +1,8 @@
 ---
 title: What Finance Taught Me About Fixing Conversion Funnels
 description: Not all the data is equally important. Not all the website changes
-  are crucial to lift conversion rates and, most importantly, correlation is
-  not causation.
+  are crucial to lift conversion rates and, most importantly, correlation is not
+  causation.
 pubDate: 2026-07-18
 tags:
   - conversion rate optimization
@@ -13,7 +13,6 @@ tags:
   - google analytics 4
 draft: false
 ---
-
 I originally specialized in finance and accounting while doing my Master's Degree at Rotterdam School of Management. It was back in 2018 when I graduated and started my first internship at the European Investment Fund (EIF). My first task as an intern was to read, analyze and enrich all the Operational Risk Indicators (ORI) for the Fund. That meant I had to learn all the relationships between departments, teams and clients. Auditing processes can be tedious, but it taught me the importance of setting up the right systems in place.
 
 A website is like a system. There are multiple elements being triggered every time we browse a page, when we move further down the purchasing funnel, or when we decide to drop off; because we might have changed our mind, or perhaps because we didn't get the experience we expected.
@@ -50,18 +49,18 @@ The rule was simple: a question could only be marked as high priority if it was 
 
 This changed the dynamic of the meetings completely. Instead of ten people asking ten different questions, we had one board answering one question at a time. Product knew what to build next. Leadership knew why we were not "doing everything." And I could spend my time analyzing the real root cause for drop offs and making improvements instead of defending the roadmap.
 
-### What the data actually said
+### Bring Insights, Not Data
 
-Once the noise was reduced, the analysis became much more interesting. Three learnings stood out for me.
+Once the noise was reduced, the analysis became much more interesting. Three learnings stood out for me. Let's take an imagined tour company as an example. 
 
-**First: users were not abandoning, they were refining.** When I matched what users initially searched against what they finally purchased, the large majority bought exactly what they first looked for. And among those who "changed their mind," most were not switching to a completely different product, they kept the same tour and the same date, but changed a detail like the starting time or the meeting point location. Think of it like buying a plane ticket: you rarely change your destination at the last minute, but you might switch from a morning flight to an evening one, or from one airport in the city to another. The trip is decided; the logistics are being refined. In other words, users knew what they wanted. What they were struggling with was clarity on the options. That reframed the whole conversation: instead of asking "why are users leaving?", we started asking "what is confusing them at the moment of choosing?"
+**First: users were not abandoning, they were refining.** When I matched what users initially searched against what they finally purchased, the large majority bought exactly what they first looked for. Someone who arrived looking for the old coastal village food tour bought that actual tour. And among those who "changed their mind," most were not switching to a completely different product: they kept the same tour and the same date, but changed a detail. The sunset slot instead of the afternoon one. The meeting point at the harbor entrance instead of the one across town, because it was closer to their hotel. Think of it like buying a plane ticket: you rarely change your destination at the last minute, but you might switch from a morning flight to an evening one, or from one airport in the city to another. The trip is decided; the logistics are being refined. In other words, users knew what they wanted. What they were struggling with was clarity on the options — several starting times and two meeting points, all presented as if they were different products. That reframed the whole conversation: instead of asking "why are users leaving?", we started asking "what is confusing them at the moment of choosing?"
 
-**Second: not all buyers behave the same, and segments confirm hypotheses.** You might believe that your website needs a lot of cheap discounts to get more sales coming, but that might simply be wrong. In reality, online shops have different segments, and they all behave differently. For example, one segment of your online clothing store might be families that look for clear product descriptions: the materials used, where it was produced and whether it is suitable for washing at hot temperatures. Another segment might be students who just need functional clothes that make them look good and feel good during winter. Same store, two different buyers, two different needs. In my case, the split was about timing. Surprisingly, there were many last-minute buyers: the median last-minute buyer purchased only a few hours before the tour activity started. Planners, on the other hand, booked days in advance. Two completely different mindsets co-existed next to each other on the same funnel: one needs speed and flexibility, the other needs reassurance and information. Intuition is fine, I rely on it as well and it can be powerful, but a hunch confirmed with percentiles is a decision. That single chart unlocked two concrete product ideas that drove more sales and conversion:
+**Second: not all buyers behave the same, and segments confirm hypotheses.** You might believe that your website needs a lot of cheap discounts to get more sales coming, but that might simply be wrong. In reality, online shops have different segments, and they all behave differently. For example, one segment of your online clothing store might be families that look for clear product descriptions: the materials used, where it was produced and whether it is suitable for washing at hot temperatures. Another segment might be students who just need functional clothes that make them look good and feel good during winter. Same store, two different buyers, two different needs. For a tour company, the split was about timing, and it makes sense once you picture the two travelers behind the screen. One is planning their vacation from home, weeks before flying, comparing reviews with a coffee in hand. The other is already in the city, standing in their hotel lobby after breakfast, deciding what to do that same afternoon. When we looked at booking times, both groups were clearly there: a big share of purchases happened within hours of the tour starting, while the rest were booked well in advance. Two completely different mindsets co-existed on the same funnel: the traveler in the lobby needs speed and certainty that there's still a spot; the planner at home needs reassurance and information, because plans change and flights get delayed. Intuition is fine, I rely on it as well and it can be powerful, but a hunch confirmed with data is a decision. That insight unlocked two concrete product ideas that drove more sales and conversion:
 
-- Adding urgency messaging for those undecided buyers that needed to book their daily activity,
-- And a clear cancellation and refund policy description before even going to checkout.
+- Adding urgency messaging ("3 spots left for today's 4 PM tour") for the traveler deciding from the hotel lobby,
+- And a clear cancellation and refund policy description before even going to checkout, for the planner booking weeks ahead.
 
-**Third: never trust your funnel before auditing your tracking.** Before drawing any conclusion from a funnel, I always run a sanity check: **do the numbers at each step actually add up against a source I trust, like confirmed orders or payment records?** More often than you'd expect, they don't. Analytics implementations might have silent gaps. These are events that break after a website update, ad blockers eating a share of your traffic, sessions splitting in two when a user switches devices. I've learned this the hard way: I once spent hours building a funnel analysis on top of a metric, only to discover that some underlying data for certain user steps was incomplete (I wrote another post about it, it was due to a [Race Condition](https://matteoarellano.com/journal/2026-07-18-how-deep-analytics-work-fixed-product-bugs/)) and the whole thing had to be redone. It's like a shop with a broken door counter: the register shows sales all day, but the counter says almost nobody walked in. If you trust the counter, every decision you make from there will be wrong. This is where my auditing background at the EIF pays off: before analyzing a system, verify that the system is recording reality. And when part of the data simply cannot be trusted or matched, it is better to fix that as soon as possible to gather new data going forward than making assumptions on what actually happened.
+**Third: never trust your funnel before auditing your tracking.** Before drawing any conclusion from a funnel, I always run a sanity check: **do the numbers at each step actually add up against a source I trust, like confirmed orders or payment records?** More often than you'd expect, they don't. Analytics implementations might have silent gaps. These are events that break after a website update, ad blockers eating a share of your traffic, sessions splitting in two when a user switches devices. I've learned this the hard way: I once spent hours building a funnel analysis on top of a metric, only to discover that some underlying data for certain user steps was incomplete (I wrote another post about it, it was due to a [Race Condition](https://matteoarellano.com/journal/2026-07-18-how-deep-analytics-work-fixed-product-bugs/)) and the whole thing had to be redone. It's like a tour operator counting guests with a clicker at the meeting point while the ticket scanner at the bus door tells a different story: if the two numbers don't match, one of your systems is lying, and every decision built on the wrong one will be wrong too. This is where my auditing background at the EIF pays off: before analyzing a system, verify that the system is recording reality. And when part of the data simply cannot be trusted or matched, it is better to fix that as soon as possible to gather new data going forward than making assumptions on what actually happened.
 
 ### One spreadsheet to align everyone
 
@@ -73,29 +72,35 @@ If there are some front-end works that need client approval such as changing a b
 
 **"Importance"** forces us to rank instead of treating everything as urgent. And "Status" means nobody has to ask "where are we on this?" in a meeting ever again.
 
-My mentor at the time gave me the best quality test for it: _"If I need to spend more than two minutes understanding the tracker, it's not clear enough."_
+My mentor at the time gave me the best quality test for it: *"If I need to spend more than two minutes understanding the tracker, it's not clear enough."*
 
 That became my rule. Every time a column got messy or a row needed explanation, I simplified it. A tracker isn't for the person who builds it, it's for the person who opens it once a week, under pressure, looking for one answer.
 
 Here's what it looks like in practice — three views of the same tracker:
 
-| Page           | Topic   | Initiative                                | Detail                                                    |
+
+| Page | Topic | Initiative | Detail |
 | -------------- | ------- | ----------------------------------------- | --------------------------------------------------------- |
-| Search results | Clarity | Show meeting point on tour card           | [JIRA-142](https://example.atlassian.net/browse/JIRA-142) |
-| Checkout       | Trust   | Add "free cancellation" badge near price  | [JIRA-155](https://example.atlassian.net/browse/JIRA-155) |
-| Tour detail    | Urgency | Display remaining spots for today's tours | [JIRA-149](https://example.atlassian.net/browse/JIRA-149) |
+| Search results | Clarity | Show meeting point on tour card | [JIRA-142](https://example.atlassian.net/browse/JIRA-142) |
+| Checkout | Trust | Add "free cancellation" badge near price | [JIRA-155](https://example.atlassian.net/browse/JIRA-155) |
+| Tour detail | Urgency | Display remaining spots for today's tours | [JIRA-149](https://example.atlassian.net/browse/JIRA-149) |
 
-| Initiative                               | Importance | Status           | Dev Time Required |
+
+
+| Initiative | Importance | Status | Dev Time Required |
 | ---------------------------------------- | ---------- | ---------------- | ----------------- |
-| Show meeting point on tour card          | High       | In progress      | 2 days            |
-| Add "free cancellation" badge near price | High       | Waiting sign-off | None              |
-| Retry flow after failed card payment     | Medium     | Backlog          | 8 days            |
+| Show meeting point on tour card | High | In progress | 2 days |
+| Add "free cancellation" badge near price | High | Waiting sign-off | None |
+| Retry flow after failed card payment | Medium | Backlog | 8 days |
 
-| Initiative                               | Needs Client Sign-Off | Sign-Off Received | Comment                        |
+
+
+| Initiative | Needs Client Sign-Off | Sign-Off Received | Comment |
 | ---------------------------------------- | --------------------- | ----------------- | ------------------------------ |
-| Add "free cancellation" badge near price | Yes                   | Pending           | Copy change only               |
-| Update seasonal banner text              | Yes                   | Jul 3             | Shipped same day               |
-| Show meeting point on tour card          | No                    | —                 | Ship first, top drop-off point |
+| Add "free cancellation" badge near price | Yes | Pending | Copy change only |
+| Update seasonal banner text | Yes | Jul 3 | Shipped same day |
+| Show meeting point on tour card | No | — | Ship first, top drop-off point |
+
 
 ## The lesson
 
