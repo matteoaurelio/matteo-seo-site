@@ -39,7 +39,7 @@ That was the real question. The rest were secondary items to look at.
 
 As an independent consultant, my job is to ensure that I solve the problem and reduce friction to the ultimate goal. That involves creating a system that sets up users for success. If any information is missing, if there's a trust issue, or there's a lack of urgency, these could be reasons why it is underperforming.
 
-## Structuring the chaos
+## Structuring the conversation
 
 Another challenge I was facing was how to structure the conversations. When there's a performance threshold before migrating to a new website or approving a new proposal, everything becomes more difficult. The team wants to provide the best results at all costs and focus on all improvements at once, but that's simply not possible.
 
