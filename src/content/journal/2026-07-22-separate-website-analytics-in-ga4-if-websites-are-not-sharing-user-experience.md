@@ -1,8 +1,8 @@
 ---
 title: Separate Website Analytics in GA4 If Websites Are Not Sharing User Experience
-description: A practical guide to deciding when websites should share a GA4
-  property, when they should remain separate, and how to safely repair
-  contaminated analytics tracking.
+description: A practical GA4 and Google Tag Manager tutorial using a fictional
+  two-pet-shop example to explain property structure, cross-property
+  contamination, diagnosis, risks, and safe fixes
 pubDate: 2026-07-22
 tags:
   - GA4
@@ -12,253 +12,136 @@ tags:
   - analytics
 draft: true
 ---
-## The two-pet-shop example
+> ### Educational note
+>
+> This tutorial uses a fictional scenario for educational purposes. All company names, websites, identifiers, timelines, tag names, and implementation details are invented. The example does not describe the complete analytics setup of any real organisation.
 
-Imagine that a company operates two independent online pet shops:
+When setting up Google Analytics 4, multiple websites should share a property only when they belong to the same customer journey or reporting environment. Independent brands and funnels are usually clearer and safer when they use separate GA4 properties.
 
-- **Happy Paws**, which sells products for cats.
-- **Adventure Tails**, which sells products for dogs.
+This tutorial explains how cross-property contamination happens, how to detect it with Google Tag Manager and browser tools, and how to fix it without breaking valid tracking.
 
-Each shop has its own website, brand, customers, marketing campaigns and commercial reporting.
+## The fictional pet-shop example
 
-Their intended analytics setup is:
+Imagine that one company operates two independent online pet shops.
+
+**Happy Paws** sells products for cats, while **Adventure Tails** sells products for dogs. Each shop has its own website, brand, campaigns, customers, revenue targets, and reporting.
+
+The intended setup is simple:
 
 ```
-happypaws.com
+happypaws.example
 → Happy Paws GTM container
 → Happy Paws GA4 property
 ```
 
 ```
-adventuretails.com
+adventuretails.example
 → Adventure Tails GTM container
 → Adventure Tails GA4 property
 ```
 
-That structure is easy to understand. Every shop sends its data to its own property.
-
-But imagine that someone adds the Adventure Tails GA4 tag inside the Happy Paws Google Tag Manager container.
-
-The live setup becomes:
+Now imagine that the Adventure Tails GA4 tag is also added to the Happy Paws GTM container:
 
 ```
-happypaws.com
+happypaws.example
 → Happy Paws GTM container
-→ Happy Paws GA4
-→ Adventure Tails GA4
+→ Happy Paws GA4 property
+→ Adventure Tails GA4 property
 ```
 
-Now every visit to Happy Paws may also appear in Adventure Tails.
+Happy Paws may continue tracking correctly, but Adventure Tails will also begin receiving data from the wrong website.
 
-If the additional tag fires on all pages, Adventure Tails receives Happy Paws page views and automatic events.
+If the extra Google tag fires on every page, the second property may receive page views, users, sessions, and automatic GA4 events. If a separate purchase tag also points there, it may receive Happy Paws transaction IDs, revenue, currency, product details, and purchase events.
 
-If an additional purchase tag also exists, Adventure Tails may receive:
+That is why this problem can remain hidden. One property works as expected while another quietly receives an unwanted copy.
 
-- Happy Paws transaction IDs
-- Revenue
-- Currency
-- Product names
-- Product quantities
-- Purchase events
+## When should websites share one GA4 property?
 
-Both analytics properties may still appear to be working. That makes this issue particularly dangerous. The correct property continues receiving data, while the second property silently receives a duplicate copy.
+The decision should follow the customer journey and reporting purpose, not just the domain structure or company ownership.
 
-This is the type of issue I fixed today. This field note explains how I found the issue, how I fixed it without damaging the correct tracking, and when multiple websites should or should not share the same GA4 property. All the examples here are just intended for educational purposes and 
+A practical rule is:
 
-## When should two websites share a GA4 property?
+> Use one GA4 property for one connected customer journey. Keep independent businesses and reporting objectives separate.
 
-The decision should be based on the customer journey and the logical user base, not simply on whether the websites have similar names or belong to the same company.
-
-Google recommends thinking of a GA4 property as the data belonging to one logical user base. When data should be analyzed together, it can belong in one property. When it does not represent the same logical user base, **Google recommends separate properties or subproperties** (this is super important, to avoid legacy problems later on when separating and filtering data!)
-
-### Use the same GA4 property when the websites form one journey
-
-Suppose Happy Paws uses:
+Suppose Happy Paws uses `www.happypaws.example` for product discovery and `checkout.happypaws.example` for payment. These are two parts of the same funnel:
 
 ```
-
-```
-
-```
-www.happypaws.com
-```
-
-for product discovery and:
-
-```
-
-```
-
-```
-checkout.happypaws.com
-```
-
-for payment.
-
-These are not two separate businesses. They are two steps in the same customer journey.
-
-A visitor should be measurable from landing page to purchase:
-
-```
-
-```
-
-```
-Homepage
+Landing page
 → Product page
 → Basket
 → Checkout
 → Purchase
 ```
 
-In this situation, using one GA4 property and one web data stream is normally appropriate.
+Using one GA4 property is normally appropriate because the business needs to measure the complete journey.
 
-If the journey crosses different root domains, such as:
-
-```
+The same principle may apply when checkout uses a different root domain, such as:
 
 ```
-
-```
-happypaws.com
-→ happypaws-checkout.com
+happypaws.example
+→ secure-happypaws-payments.example
 ```
 
-cross-domain measurement may be required. GA4 cross-domain measurement passes identifiers between domains so that one visitor is not incorrectly counted as two users and two sessions. 
+In that case, cross-domain measurement may be required so that GA4 does not split one customer into different users or sessions.
 
-### Use separate GA4 properties when the websites are separate businesses or experiences
+Happy Paws and Adventure Tails, however, should normally use separate properties if they operate as different brands, run different campaigns, have separate commercial goals, and do not form one continuous funnel. The fact that two businesses share an owner does not automatically mean their traffic, revenue, audiences, and conversions should be combined.
 
-Now suppose Happy Paws and Adventure Tails:
+## A subdomain does not decide the structure
 
--   
-Have different brands  
+Subdomains do not automatically belong together, and separate domains do not automatically need separate properties.
 
--   
-Sell different products  
-
--   
-Run separate advertising  
-
--   
-Have separate commercial teams  
-
--   
-Do not form one continuous user journey  
-
--   
-Need independent reporting  
-
-
-In that case, separate GA4 properties are cleaner.
-
-The sites may be owned by the same parent company, but they do not represent the same logical user base or reporting objective.
-
-A discussion in the Google Analytics community reached the same practical conclusion: disconnected websites with no need for combined reporting are generally easier to manage in separate GA4 properties, while sites forming one connected experience can be measured together. This community advice is consistent with Google’s official account-structure guidance. 
-
-## A subdomain does not automatically decide the answer
-
-The technical hostname alone should not determine the analytics structure.
-
-These two domains may represent one journey:
-
-```
-
-```
+These may form one journey:
 
 ```
 shop.example.com
 checkout.example.com
+account.example.com
 ```
 
-But these may represent separate regional businesses:
-
-```
-
-```
+These may represent separate regional businesses:
 
 ```
 uk.example.com
 fr.example.com
+es.example.com
 ```
 
-The correct decision depends on how the business operates and how the data will be used.
+The real questions are whether users move between the sites, whether the sites form one funnel, whether revenue should be analysed together, and whether the same teams own the data.
 
-The questions I would ask are:
+## Cross-domain, cross-network, and cross-property are different
 
--   
-Are users expected to move between the sites?  
+These terms sound similar but describe different things.
 
--   
-Is it one funnel?  
+**Cross-domain measurement** preserves one user journey across different domains.
 
--   
-Are the sites serving the same logical customer base?  
+**Cross-network** is a GA4 acquisition channel. It is commonly associated with Google Ads campaigns, such as Performance Max, that can serve across several Google networks. It describes where traffic came from and how GA4 classifies that visit. It does not determine which measurement ID receives the event or whether two websites should share a property.
 
--   
-Should revenue and conversion rates be reported together?  
-
--   
-Should the same audiences be shared with advertising platforms?  
-
--   
-Would combining the data make decisions clearer or more confusing?  
-
-
-The URL structure is only one part of the answer.
-
-## Cross-network is not the same as cross-domain
-
-One of the sources I reviewed discussed the **Cross-network** channel in GA4.
-
-This is a different topic.
-
-Cross-network is a marketing channel classification related to traffic and campaigns that span multiple Google advertising networks and touchpoints. It can help analysts understand complex marketing journeys, but it does not determine whether two websites should share the same GA4 property or measurement ID. 
-
-The terminology can be confusing:
-
-- **Cross-domain measurement** connects one user journey across different domains.  
-
-- **Cross-network traffic** is a marketing acquisition and attribution category.  
-
-- **Cross-property contamination** occurs when one website sends data to a property where it does not belong.  
-
-
-They solve or describe very different problems.
-
-## How the contamination developed
-
-The issue I investigated did not appear through one obvious, catastrophic change.
-
-It developed gradually across several published GTM versions.
-
-Using the pet-shop example, the sequence looked like this.
-
-### Version A: the clean implementation
-
-Only the correct Happy Paws GA4 tag existed.
+**Cross-property contamination** happens when one website sends data to a property where it does not belong.
 
 ```
-
+Happy Paws website
+→ Happy Paws GA4
+→ Adventure Tails GA4
 ```
 
+Cross-domain measurement connects a legitimate journey. Cross-property contamination mixes unrelated reporting environments.
+
+## How contamination can develop
+
+The problem may appear gradually.
+
+### Stage 1: clean implementation
+
+Happy Paws sends page views and purchases only to its own property.
+
 ```
-happypaws.com
+Happy Paws website
 → Happy Paws GA4
 ```
 
-Page views and purchases were sent to the intended property.
+### Stage 2: purchases are duplicated
 
-### Version B: purchases were sent to the second property
-
-A new GA4 purchase event tag was introduced.
-
-It fired on the Happy Paws booking confirmation page but used the Adventure Tails measurement ID.
-
-The flow became:
-
-```
-
-```
+A new GA4 purchase tag is added, but it uses the Adventure Tails measurement ID.
 
 ```
 Happy Paws purchase
@@ -266,666 +149,204 @@ Happy Paws purchase
 → Adventure Tails GA4
 ```
 
-At this point, general website traffic was still separate, but purchase data had begun contaminating the second property.
+General website traffic remains separate, but transactions begin appearing in the wrong property.
 
-### Version C: an all-page tag was introduced
+### Stage 3: an all-page tag is added
 
-A second Google tag was then added to the Happy Paws GTM container.
+A second Google tag is added to the Happy Paws container and configured to fire on every page. Adventure Tails may now receive page views, sessions, and automatic events as well as purchases.
 
-It was configured to fire during initialization on every page and pointed to the Adventure Tails GA4 property.
+### Stage 4: ecommerce details are added
 
-The measurement ID initially contained a typing error, which may have stopped it from operating correctly.
+The purchase implementation is expanded with revenue, currency, transaction ID, and item information. The second property now receives a detailed copy of the first shop’s commercial activity.
 
-### Version D: the typing error was corrected
+This is why GTM version history matters. The current container shows what is happening now. Earlier versions show when each part of the problem appeared.
 
-The incorrect character was removed from the measurement ID.
+## How to diagnose the issue
 
-From this version onward, the Adventure Tails Google tag loaded successfully across the Happy Paws website.
+Do not begin by deleting tags. Start by collecting evidence.
 
-The second property could now receive:
+### 1. Inspect browser network requests
 
--   
-Page views  
+Open Chrome Developer Tools, select **Network**, reload the page, and search for `collect`.
 
--   
-Session information  
-
--   
-Automatic GA4 events  
-
--   
-Purchase events  
-
--   
-Transaction IDs  
-
--   
-Revenue  
-
--   
-Currency  
-
--   
-Purchased items  
-
-
-This version history was essential. It showed exactly when the problem started and separated the original implementation from the later changes.
-
-## How I diagnosed it
-
-I did not begin by changing tags.
-
-I began by collecting evidence.
-
-### 1. I inspected browser network requests
-
-I exported a HAR file and examined the requests made when the website loaded.
-
-The important requests were the GA4 collection calls containing:
-
-```
-
-```
+GA4 requests normally contain a parameter such as:
 
 ```
 tid=G-XXXXXXXXXX
 ```
 
-The `tid` parameter identifies the GA4 measurement destination.
+The `tid` parameter identifies the destination measurement ID.
 
-I found that a single website load was generating collection requests for two different measurement IDs.
-
-That proved the browser itself was sending data to both properties. It was not simply a reporting filter, hostname issue or visual problem inside GA4.
-
-### 2. I identified the GTM container
-
-I inspected the request to:
+If one page load sends requests to both:
 
 ```
-
+G-HAPPYPAWS1
+G-ADVENTURETAILS1
 ```
 
-```
-googletagmanager.com/gtm.js
-```
+the browser is actively sending data to two properties. The problem is happening before the data reaches GA4 reporting.
 
-This revealed the Google Tag Manager container installed on the site.
+### 2. Identify the GTM container
 
-The browser initiator chain showed that this container was loading both GA4 tags.
-
-### 3. I used Tag Assistant
-
-Tag Assistant confirmed that the website loaded:
-
--   
-Its intended GA4 Google tag  
-
--   
-A second Google tag belonging to the other property  
-
--   
-A separate purchase event tag targeting that other property  
-
-
-This provided a visual record of which tags fired and when.
-
-### 4. I exported the GTM workspace
-
-The GTM container export showed the exact configuration of every tag, trigger and variable.
-
-It confirmed that there were two paths sending data to the wrong property:
+Search the Network panel for:
 
 ```
+gtm.js
+```
+
+You should find a request similar to:
 
 ```
+https://www.googletagmanager.com/gtm.js?id=GTM-EXAMPLE1
+```
+
+The value after `id=` is the GTM container loaded by the website.
+
+### 3. Use Tag Assistant
+
+GTM Preview and Tag Assistant can show which containers loaded, which Google tags fired, which event tags activated, and which measurement IDs received the hits.
+
+Pay particular attention to initialization, page-load events, custom funnel events, and the purchase confirmation step.
+
+### 4. Search for every reference to the unwanted measurement ID
+
+Do not inspect only the obvious all-page tag. The same measurement ID may also appear in purchase tags, measurement ID overrides, variables, lookup tables, custom HTML, or custom JavaScript.
+
+For example, contamination may have two separate routes:
 
 ```
 All-page Google tag
-→ Wrong GA4 measurement ID
-```
-
-```
-
+→ Adventure Tails GA4
 ```
 
 ```
 Purchase event tag
-→ Wrong GA4 measurement ID
+→ Adventure Tails GA4
 ```
 
-Finding only the all-page tag would not have been enough. Pausing it alone would have stopped page views, but purchase data would have continued flowing through the separate event tag.
+Pausing only the first route would stop page views but allow purchases to continue.
 
-### 5. I compared the published versions
+### 5. Export and compare GTM versions
 
-I exported the previous published GTM versions and compared them chronologically.
+Export the current container before changing anything. Then compare the latest published versions with the last known clean version.
 
-This allowed me to identify:
+Look for new tags, changed measurement IDs, new ecommerce parameters, trigger changes, and measurement ID overrides. This helps determine when the issue began and whether a full rollback would remove useful improvements.
 
--   
-The final clean version  
+## The main risks
 
--   
-The version that introduced purchase contamination  
+Cross-property contamination affects more than page views.
 
--   
-The version that added the all-page Google tag  
+Users and sessions become unreliable because one property may report visitors who only used the other website. Conversion rate becomes misleading because traffic and transactions no longer belong to one consistent funnel.
 
--   
-The version that corrected the malformed measurement ID  
+Revenue can also be overstated. Duplicate purchase events may distort total revenue, average order value, product performance, revenue by channel, and campaign return.
 
--   
-The version that added ecommerce parameters  
+Attribution becomes difficult to trust because the wrong property may assign another website’s purchases to its own organic, paid, referral, email, or social traffic.
 
+If GA4 is linked to advertising platforms, audiences and imported conversions may also become mixed. A remarketing audience for Adventure Tails could accidentally contain Happy Paws visitors.
 
-This was one of the most useful parts of the investigation.
+Stopping the tags prevents future contamination, but it does not automatically repair historical reports. The correction date and time should therefore be documented clearly.
 
-Without version comparison, I would have known what was wrong today but not how the implementation reached that state.
+## Two ways to fix it
 
-Google Tag Manager versions preserve snapshots of the container and its publication history. Workspaces also allow related changes to be developed and tested separately. Google recommends keeping workspace changes small and using clear names and descriptions when publishing. 
+### Solution 1: restore the last clean version
 
-## The risks of sending one website into another property
+This is the simplest option when the last clean version is known and later versions contain no useful changes.
 
-Cross-property contamination can damage far more than a page-view report.
+The risk is that a rollback may also remove valid improvements, such as new ecommerce parameters, variables, or unrelated fixes.
 
-### Users and sessions become unreliable
+### Solution 2: keep the latest version and pause only the incorrect tags
 
-The second property may report visitors who never interacted with that business.
+This is usually safer when the current version contains useful tracking improvements.
 
-User counts, new-user counts, session counts and engagement metrics can all become inflated.
+In the pet-shop example, pause:
 
-### Conversion rate becomes misleading
+```
+Adventure Tails – All Pages
+```
 
-Conversion rate normally compares conversions with eligible traffic.
+and:
 
-If traffic and purchases from another website enter the property, both sides of that calculation may become distorted.
+```
+Happy Paws Purchase → Adventure Tails GA4
+```
 
-A business may believe its website is performing better or worse than it really is.
+Keep active:
 
-### Revenue becomes contaminated
+```
+Happy Paws – All Pages
+```
 
-If purchase events are duplicated, the second property may show revenue that does not belong to it.
+and:
 
-This affects:
+```
+Happy Paws Purchase → Happy Paws GA4
+```
 
--   
-Total revenue  
+Pausing is often better than deleting because the original configuration remains visible in the audit trail and can be restored if necessary.
 
--   
-Average order value  
+The main risk is missing another tag that still uses the unwanted measurement ID. That is why the entire container must be searched first.
 
--   
-Ecommerce conversion rate  
+## How to publish the fix safely
 
--   
-Product performance  
+Create a dedicated GTM workspace and keep the change separate from unrelated tracking work.
 
--   
-Revenue by channel  
+Pause the incorrect all-page tag and the incorrect purchase tag, but leave the valid Happy Paws tags unchanged.
 
--   
-Revenue by country  
+Test the draft in GTM Preview. Confirm that the correct Google tag still fires, that purchases still reach the intended property, and that no requests go to the Adventure Tails measurement ID.
 
--   
-Campaign return  
+In the Network panel, the expected result is:
 
-
-### Attribution becomes difficult to trust
-
-The wrong property may begin attributing another website’s purchases to its own channels, campaigns and referrals.
-
-This can lead teams to invest more money in campaigns that did not actually generate those purchases.
-
-The Adaptive article correctly highlights that integrated, multi-touchpoint analysis creates attribution complexity. That complexity becomes significantly worse when the underlying properties contain data from unrelated websites. 
-
-### Advertising audiences can become mixed
-
-When GA4 is connected to advertising platforms, audiences and key events may be shared with those platforms.
-
-If one property contains another brand’s customers, remarketing audiences and imported conversions may no longer represent the intended business.
-
-### Sensitive commercial data may cross boundaries
-
-Purchase events can contain transaction IDs, product details, prices and revenue.
-
-Even within the same parent company, teams may not expect one brand’s commercial data to appear in another brand’s property.
-
-### Historical reports do not automatically repair themselves
-
-Stopping the incorrect tag prevents future contamination. It does not rewrite the historical reports.
-
-Google explains that GA4 data filters act from the moment they are created and do not affect historical data. Data-deletion tools also have important limitations: deleting parameter text does not necessarily remove the event from aggregate metrics. 
-
-This makes prevention and early detection especially important.
-
-## The two possible fixes
-
-I considered two solutions.
-
-### Solution 1: roll back to the last clean version
-
-The safest historical option would have been to restore the last GTM version before the incorrect tags were introduced.
-
-The benefit is simplicity. The clean configuration was already known.
-
-The downside is that later versions also contained useful improvements to the legitimate purchase tracking. A complete rollback would remove those changes too.
-
-### Solution 2: preserve the latest version and pause only the incorrect tags
-
-This was the approach I selected.
-
-I created a dedicated GTM workspace and paused:
-
--   
-The all-page Google tag pointing to the wrong property  
-
--   
-The purchase event tag pointing to the wrong property  
-
-
-I left the correct page-view and purchase tags untouched.
-
-This preserved the valid ecommerce improvements while removing both routes into the unrelated GA4 property.
-
-Pausing was preferable to deleting because it preserved the original configuration for the audit trail.
-
-## The controlled publication process
-
-The actual change was small.
-
-The process around it mattered just as much.
-
-### Written approval
-
-Before publishing, I documented:
-
--   
-The two properties  
-
--   
-The two measurement IDs  
-
--   
-The affected tags  
-
--   
-The GTM version history  
-
--   
-The proposed correction  
-
--   
-What would remain active  
-
--   
-How the change would be tested  
-
-
-I requested written approval before modifying production.
-
-### Dedicated workspace
-
-I created a workspace for this specific correction.
-
-Only two changes appeared in it.
-
-That reduced the risk of accidentally publishing unrelated work and created a clear version history.
-
-### Preview testing
-
-Before publishing, I used GTM Preview to confirm that:
-
--   
-The correct GA4 Google tag still fired  
-
--   
-The two incorrect tags were paused  
-
--   
-Page views continued going to the intended property  
-
--   
-No new collection request was sent to the unrelated measurement ID  
-
-
-### Documented publication
-
-I published a new GTM version with a descriptive name and a complete explanation of:
-
--   
-What was paused  
-
--   
-Which measurement ID was being removed  
-
--   
-Which measurement ID remained active  
-
--   
-What testing had been completed  
-
-
-Google recommends reviewing workspace changes and entering a meaningful version name and description before publishing. 
-
-## A second issue I found but did not mix into the fix
-
-During the audit, I noticed that one purchase event was named:
-
+```
+G-HAPPYPAWS1
+→ requests present
 ```
 
 ```
-
-```
-Purchase
-```
-
-instead of:
-
+G-ADVENTURETAILS1
+→ no requests from Happy Paws
 ```
 
-```
+For purchase testing, confirm:
 
 ```
-purchase
+en=purchase
+tid=G-HAPPYPAWS1
 ```
 
-GA4 event names are case-sensitive, so those are two different events. Google’s recommended ecommerce event is the lowercase `purchase` event, and GA4 uses its parameters to calculate ecommerce revenue metrics. 
+Publish a clearly named GTM version and document which tags were paused, which measurement ID was removed, which one remains active, and what testing was completed.
 
-This could affect whether revenue appears correctly in standard ecommerce reporting.
+## Recommendations by website structure
 
-However, I deliberately did not change it during the contamination fix.
+A brand with a separate checkout domain will usually benefit from one GA4 property and cross-domain measurement.
 
-Combining unrelated corrections would have:
+A brand using connected subdomains will also usually use one property, provided cookie behavior, referrals, and session continuity are tested.
 
--   
-Expanded the scope  
+Two independent brands should normally use separate GA4 properties, separate measurement IDs, and preferably separate GTM containers. Consolidated reporting can be created later in Looker Studio, BigQuery, a data warehouse, or another business intelligence tool.
 
--   
-Increased the testing requirements  
+Regional websites require a business decision. One property may work when tracking and reporting are centrally managed. Separate properties may be better when regional teams, funnels, access requirements, or commercial goals differ.
 
--   
-Made the audit trail less clear  
+A shared checkout serving several brands needs explicit routing. The purchase should be sent only to the correct property based on a brand value, hostname, lookup variable, or another reliable identifier.
 
--   
-Added unnecessary production risk  
+## Prevention checklist
 
+Before publishing analytics changes across several websites:
 
-A disciplined analytics fix should solve the approved problem first. Other findings should be documented and handled separately.
-
-## My recommendation for different website structures
-
-### One brand with a separate checkout domain
-
-Example:
-
-```
-
-```
-
-```
-happypaws.com
-→ secure-happypaws-payments.com
-```
-
-Recommended approach:
-
--   
-One GA4 property  
-
--   
-One web data stream  
-
--   
-Cross-domain measurement  
-
--   
-Consistent event names and ecommerce schema  
-
-
-The two domains are part of one continuous customer journey. 
-
-### One brand using several connected subdomains
-
-Example:
-
-```
-
-```
-
-```
-www.happypaws.com
-shop.happypaws.com
-account.happypaws.com
-```
-
-Recommended approach:
-
--   
-Usually one GA4 property and one web stream  
-
--   
-Confirm cookie and referral behaviour  
-
--   
-Test users and sessions across the complete journey  
-
-
-### Two independent brands
-
-Example:
-
-```
-
-```
-
-```
-happypaws.com
-adventuretails.com
-```
-
-Recommended approach:
-
--   
-Separate GA4 properties  
-
--   
-Prefer separate GTM containers  
-
--   
-Keep measurement IDs isolated  
-
--   
-Share data later through dashboards, BigQuery or another reporting layer when consolidated reporting is needed  
-
-
-### Regional websites belonging to one brand
-
-Example:
-
-```
-
-```
-
-```
-happypaws.co.uk
-happypaws.fr
-happypaws.es
-```
-
-The answer depends on the business.
-
-One property may work when:
-
--   
-The customer base is logically shared  
-
--   
-The sites follow the same data model  
-
--   
-The business wants unified reporting  
-
--   
-Users can move between regions  
-
--   
-Central teams control marketing and analytics  
-
-
-Separate properties may be better when:
-
--   
-Regional teams operate independently  
-
--   
-Legal or data-access requirements differ  
-
--   
-Reporting must remain isolated  
-
--   
-Each website has different funnels and commercial objectives  
-
-
-### A shared checkout serving several brands
-
-This requires careful routing.
-
-The checkout should send each journey to the correct property based on the originating brand. It should not send every purchase to every GA4 property.
-
-Possible controls include:
-
--   
-A hostname or brand lookup variable  
-
--   
-Brand-specific measurement IDs  
-
--   
-Clearly scoped triggers  
-
--   
-Separate containers  
-
--   
-A shared data layer with an explicit brand identifier  
-
--   
-Automated testing for every brand and destination  
-
-
-## A practical prevention checklist
-
-Before publishing GA4 changes across multiple websites, I now recommend checking the following.
-
-### Architecture
-
--   
-Does every website have a clearly documented GA4 destination?  
-
--   
-Is each measurement ID assigned to the correct brand?  
-
--   
-Are connected domains part of one real customer journey?  
-
--   
-Are separate brands being kept separate?  
-
-
-### GTM configuration
-
--   
-Search the entire container for every measurement ID.  
-
--   
-Check Google tags, GA4 event tags, custom HTML and variables.  
-
--   
-Verify triggers by hostname and page type.  
-
--   
-Look for measurement ID overrides inside event tags.  
-
--   
-Confirm that purchase tags use the correct destination.  
-
-
-### Testing
-
--   
-Use Tag Assistant.  
-
--   
-Inspect browser Network requests.  
-
--   
-Confirm the `tid` parameter in GA4 collection calls.  
-
--   
-Test the homepage, funnel and confirmation page.  
-
--   
-Verify that every event goes to the intended property.  
-
--   
-Confirm that no event is duplicated into another property.  
-
-
-### Governance
-
--   
-Use one workspace per change.  
-
--   
-Keep the number of changes small.  
-
--   
-Export the current version before editing.  
-
--   
-Use descriptive version names.  
-
--   
-Record what was changed and why.  
-
--   
-Request approval for production changes.  
-
--   
-Keep screenshots and exports as evidence.  
-
-
-## The outcome
-
-The final correction achieved four things:
-
-1.   
-The first website continued sending data to its correct GA4 property.  
-
-2.   
-Page views and purchases stopped being duplicated into the second property.  
-
-3.   
-Useful ecommerce improvements from the latest version were preserved.  
-
-4.   
-The complete investigation and correction were documented in GTM and in writing.  
-
-
-The technical change consisted of pausing two tags.
-
-Finding the right two tags required understanding the browser requests, GTM initiator chain, Tag Assistant output, container exports, purchase configuration and version history.
-
-That is the difference between changing tracking code and performing a controlled analytics investigation.
+- Document the intended GA4 destination for each website.
+- Search the entire GTM container for every measurement ID.
+- Review Google tags, purchase tags, event tags, overrides, and variables.
+- Test the homepage, funnel, checkout, and purchase.
+- Confirm the `tid` value in Network requests.
+- Use one workspace per change.
+- Export the current container first.
+- Publish with a clear version name and description.
+- Record the approval and publication time.
 
 ## Final lesson
 
-Using the same GA4 property across several domains can be correct when those domains form one connected customer journey.
+Using one GA4 property across several domains can be correct when those domains form one connected customer journey.
 
-Using one website’s GA4 tag on an unrelated website is different. It combines data that the business expects to remain separate.
-
-The safest principle is simple:
+Sending an independent website’s data into another brand’s property is different. It mixes users, sessions, revenue, attribution, and audiences that should remain separate.
 
 > Measure one logical customer journey together. Keep unrelated businesses and reporting objectives separate.
 
-And whenever a GA4 property contains data that does not make sense, inspect what the browser is actually sending before trying to repair the reports.
+When GA4 reports contain data that does not make sense, inspect what the browser is actually sending before trying to repair the reports.
