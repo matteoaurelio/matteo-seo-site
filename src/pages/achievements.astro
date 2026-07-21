@@ -2,13 +2,9 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import {
-  recommendations,
-  type Recommendation,
-} from "../data/achievements";
+import { recommendations, type Recommendation } from "../data/achievements";
 
-const title =
-  "Career Timeline, Recommendations & Education | Matteo Arellano";
+const title = "Career Timeline, Recommendations & Education | Matteo Arellano";
 
 const description =
   "Explore Matteo Arellano's career timeline, professional recommendations, university diplomas, academic achievements, Dataquest studies, and technical certifications across finance, analytics, data engineering, SEO, AI visibility, and conversion.";
@@ -84,13 +80,7 @@ const timeline = [
     icon: "database",
     description:
       "I worked on trading-position risk management, forecasting, Power BI models, Impala data structures, and scheduled Hadoop workflows for accounting and financial reconciliation.",
-    skills: [
-      "Power BI",
-      "Forecasting",
-      "Impala",
-      "Hadoop",
-      "Risk analytics",
-    ],
+    skills: ["Power BI", "Forecasting", "Impala", "Hadoop", "Risk analytics"],
   },
   {
     period: "2020-2022",
@@ -144,8 +134,7 @@ const timeline = [
 const universityDiplomas = [
   {
     year: "2018",
-    degree:
-      "Master of Science in Business Administration",
+    degree: "Master of Science in Business Administration",
     field: "Accounting and Financial Management",
     institution: "Rotterdam School of Management, Erasmus University",
     result: "Cum laude",
@@ -238,13 +227,7 @@ const profileSchema = {
     jobTitle: "Lead SEO & Growth Manager",
     description:
       "Matteo Arellano works across technical SEO, AI visibility, growth analytics, conversion, GA4, BigQuery, Python, data engineering, and financial analytics.",
-    knowsLanguage: [
-      "English",
-      "Spanish",
-      "Catalan",
-      "Dutch",
-      "Norwegian",
-    ],
+    knowsLanguage: ["English", "Spanish", "Catalan", "Dutch", "Norwegian"],
     knowsAbout: [
       "Technical SEO",
       "AI visibility",
@@ -275,8 +258,7 @@ const profileSchema = {
       },
       {
         "@type": "CollegeOrUniversity",
-        name:
-          "Graduate School of Management, St. Petersburg State University",
+        name: "Graduate School of Management, St. Petersburg State University",
       },
     ],
     award: ["Winner of the Rotterdam100 2016-2017"],
@@ -354,12 +336,8 @@ const timelineSchema = {
   <script
     is:inline
     type="application/ld+json"
-    set:html={JSON.stringify([
-      profileSchema,
-      breadcrumbSchema,
-      timelineSchema,
-    ])}
-  ></script>
+    set:html={JSON.stringify([profileSchema, breadcrumbSchema, timelineSchema])}
+  />
 
   <main class="achievement-page">
     <section class="achievement-hero">
@@ -369,15 +347,13 @@ const timelineSchema = {
             Career · Recommendations · Education
           </span>
 
-          <h1>
-            Matteo Arellano's career, recommendations and education.
-          </h1>
+          <h1>Matteo Arellano's career, recommendations and education.</h1>
 
           <p class="achievement-lede">
             I graduated from Rotterdam School of Management in 2018 and moved
-            from European banking and financial risk into global analytics,
-            data engineering, technical SEO, AI visibility, and conversion
-            work. This page brings that journey together in one place.
+            from European banking and financial risk into global analytics, data
+            engineering, technical SEO, AI visibility, and conversion work. This
+            page brings that journey together in one place.
           </p>
 
           <nav class="achievement-jump-links" aria-label="Page sections">
@@ -388,7 +364,10 @@ const timelineSchema = {
           </nav>
         </div>
 
-        <aside class="identity-card" aria-label="Matteo Arellano profile summary">
+        <aside
+          class="identity-card"
+          aria-label="Matteo Arellano profile summary"
+        >
           <span class="identity-label">Profile summary</span>
 
           <dl>
@@ -405,8 +384,7 @@ const timelineSchema = {
             <div>
               <dt>Education</dt>
               <dd>
-                MSc Business Administration, Accounting and Financial
-                Management
+                MSc Business Administration, Accounting and Financial Management
               </dd>
             </div>
 
@@ -427,25 +405,25 @@ const timelineSchema = {
               d="M8 3.75h8A2.25 2.25 0 0 1 18.25 6v12A2.25 2.25 0 0 1 16 20.25H8A2.25 2.25 0 0 1 5.75 18V6A2.25 2.25 0 0 1 8 3.75Z"
               fill="none"
               stroke="currentColor"
-              stroke-width="1.8"
-            />
+              stroke-width="1.8"></path>
             <path
               d="M9 8h6M9 11.5h6M9 15h3.5"
               fill="none"
               stroke="currentColor"
               stroke-width="1.8"
-              stroke-linecap="round"
-            />
+              stroke-linecap="round"></path>
           </svg>
         </div>
 
         <p>
           <strong>Want to work together?</strong>
-          I am happy to share the diplomas, certificates, and credentials
-          mentioned on this page directly with you.
+          I am happy to share the diplomas, certificates, and credentials mentioned
+          on this page directly with you.
         </p>
 
-        <a href="mailto:matteo.visibility@gmail.com?subject=Credentials%20and%20project%20enquiry">
+        <a
+          href="mailto:matteo.visibility@gmail.com?subject=Credentials%20and%20project%20enquiry"
+        >
           Contact me
         </a>
       </div>
@@ -616,7 +594,9 @@ const timelineSchema = {
                   <p class="career-description">{item.description}</p>
 
                   <ul class="career-skills" aria-label={`${item.title} topics`}>
-                    {item.skills.map((skill) => <li>{skill}</li>)}
+                    {item.skills.map((skill) => (
+                      <li>{skill}</li>
+                    ))}
                   </ul>
                 </article>
               </li>
@@ -701,7 +681,7 @@ const timelineSchema = {
                       <path
                         fill="currentColor"
                         d="M5.37 3.5A2.37 2.37 0 1 1 5.36 8.24 2.37 2.37 0 0 1 5.37 3.5ZM3.32 9.86h4.1V21h-4.1V9.86Zm6.66 0h3.93v1.52h.06c.55-1.04 1.89-2.13 3.89-2.13 4.16 0 4.93 2.74 4.93 6.3V21h-4.1v-4.84c0-1.15-.02-2.64-1.61-2.64-1.61 0-1.86 1.26-1.86 2.56V21h-4.1V9.86Z"
-                      ></path>
+                      />
                     </svg>
 
                     {recommendation.source}
@@ -711,11 +691,9 @@ const timelineSchema = {
                 </header>
 
                 <blockquote>
-                  {
-                    recommendation.quote
-                      .split("\n\n")
-                      .map((paragraph) => <p>{paragraph}</p>)
-                  }
+                  {recommendation.quote.split("\n\n").map((paragraph) => (
+                    <p>{paragraph}</p>
+                  ))}
                 </blockquote>
 
                 <footer>
@@ -743,6 +721,60 @@ const timelineSchema = {
             <span aria-hidden="true">↗</span>
           </a>
         </div>
+
+        <div class="senja-reviews">
+          <header class="senja-reviews-heading">
+            <div>
+              <span class="achievement-eyebrow">Verified feedback</span>
+
+              <h3>Reviews collected directly through Senja</h3>
+            </div>
+
+            <p>
+              Additional feedback shared by people who have worked with me on
+              analytics, growth, SEO, data, and technical projects.
+            </p>
+          </header>
+
+          <div class="senja-review-grid">
+            <article
+              class="senja-review-shell"
+              aria-label="Review collected through Senja"
+            >
+              <div
+                class="senja-embed"
+                data-id="ec497f76-377a-46dc-9240-db1d69100c24"
+                data-mode="shadow"
+                data-lazyload="true"
+                style="display: block; width: 100%;"
+              >
+              </div>
+            </article>
+
+            <!-- The second Senja review will go here -->
+
+            <script
+              src="https://widget.senja.io/widget/23825e64-b11f-4de5-854f-47c6093628b5/platform.js"
+              type="text/javascript"
+              async></script>
+            <div
+              class="senja-embed"
+              data-id="23825e64-b11f-4de5-854f-47c6093628b5"
+              data-mode="shadow"
+              data-lazyload="false"
+              style="display: block; width: 100%;"
+            >
+            </div>
+
+            <!-- The second Senja review will finish here -->
+          </div>
+        </div>
+
+        <script
+          is:inline
+          src="https://widget.senja.io/widget/ec497f76-377a-46dc-9240-db1d69100c24/platform.js"
+          type="text/javascript"
+          async></script>
       </div>
     </section>
 
@@ -813,15 +845,13 @@ const timelineSchema = {
                 d="M8 4h8v5a4 4 0 0 1-8 0V4Z"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="1.8"
-              />
+                stroke-width="1.8"></path>
               <path
                 d="M8 6H5.5v1.5A3.5 3.5 0 0 0 9 11M16 6h2.5v1.5A3.5 3.5 0 0 1 15 11M12 13v4M8.5 20h7M10 17h4"
                 fill="none"
                 stroke="currentColor"
                 stroke-width="1.8"
-                stroke-linecap="round"
-              />
+                stroke-linecap="round"></path>
             </svg>
           </div>
 
@@ -874,7 +904,9 @@ const timelineSchema = {
                 <p>{study.description}</p>
 
                 <ul aria-label={`${study.title} topics`}>
-                  {study.topics.map((topic) => <li>{topic}</li>)}
+                  {study.topics.map((topic) => (
+                    <li>{topic}</li>
+                  ))}
                 </ul>
               </article>
             ))
@@ -921,9 +953,7 @@ const timelineSchema = {
           Contact me
         </a>
 
-        <a class="collaboration-secondary" href="/about/">
-          See how I work
-        </a>
+        <a class="collaboration-secondary" href="/about/"> See how I work </a>
       </div>
     </section>
   </main>
@@ -1537,6 +1567,69 @@ const timelineSchema = {
     text-underline-offset: 3px;
   }
 
+  .senja-reviews {
+    margin-top: 56px;
+    padding-top: 50px;
+    border-top: 1px solid var(--achievement-line);
+  }
+
+  .senja-reviews-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.58fr);
+    gap: 42px;
+    align-items: end;
+    margin-bottom: 26px;
+  }
+
+  .senja-reviews-heading h3 {
+    margin: 13px 0 0;
+    color: var(--achievement-ink);
+    font-size: clamp(1.75rem, 3.4vw, 2.7rem);
+    line-height: 1.12;
+    letter-spacing: -0.04em;
+  }
+
+  .senja-reviews-heading > p {
+    margin: 0;
+    color: var(--achievement-muted);
+    line-height: 1.7;
+  }
+
+  .senja-review-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+    align-items: start;
+  }
+
+  .senja-review-shell {
+    min-width: 0;
+    overflow: hidden;
+    padding: 14px;
+    border: 1px solid rgba(15, 76, 129, 0.13);
+    border-radius: 28px;
+    background:
+      radial-gradient(
+        circle at 100% 0%,
+        rgba(90, 169, 255, 0.12),
+        transparent 18rem
+      ),
+      rgba(255, 255, 255, 0.96);
+    box-shadow: 0 18px 52px rgba(12, 45, 80, 0.075);
+  }
+
+  .senja-review-shell:only-child {
+    grid-column: 1 / -1;
+    width: min(100%, 760px);
+    justify-self: center;
+  }
+
+  .senja-review-shell .senja-embed {
+    display: block;
+    width: 100%;
+    min-width: 0;
+  }
+
   .diploma-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1863,6 +1956,11 @@ const timelineSchema = {
       flex-wrap: wrap;
       min-width: 0;
     }
+
+    .senja-reviews-heading {
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
   }
 
   @media (max-width: 760px) {
@@ -2007,6 +2105,23 @@ const timelineSchema = {
     .collaboration-primary,
     .collaboration-secondary {
       width: 100%;
+    }
+
+    .senja-reviews {
+      margin-top: 44px;
+      padding-top: 40px;
+    }
+
+    .senja-review-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .senja-review-shell,
+    .senja-review-shell:only-child {
+      width: 100%;
+      grid-column: auto;
+      padding: 9px;
+      border-radius: 22px;
     }
   }
 
