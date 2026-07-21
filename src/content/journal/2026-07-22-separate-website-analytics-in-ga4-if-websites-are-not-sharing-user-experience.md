@@ -10,7 +10,7 @@ tags:
   - data quality
   - debugging
   - analytics
-draft: true
+draft: false
 ---
 > ### Educational note
 >
