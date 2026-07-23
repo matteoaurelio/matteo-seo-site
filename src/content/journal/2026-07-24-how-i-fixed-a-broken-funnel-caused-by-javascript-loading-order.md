@@ -9,7 +9,7 @@ tags:
   - website optimization
   - conversion rate optimization
   - client success story
-draft: true
+draft: false
 ---
 Today I fixed a critical production issue that initially looked like a slow website.
 
