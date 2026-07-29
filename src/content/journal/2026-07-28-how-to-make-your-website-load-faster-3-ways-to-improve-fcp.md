@@ -11,7 +11,7 @@ tags:
   - Chrome DevTools
   - Frontend Development
   - Resource Loading
-draft: true
+draft: false
 ---
 ## What is First Contentful Paint?
 
@@ -349,7 +349,7 @@ This is not necessarily a "bad" thing. It depends on where it will be loaded. If
 In this case, the font belongs to a widget from the Writesonic AI marketing company which allows websites to add an AI customer-support chatbot. The request chain is as follows: 
 
 1. Sagrafa Família Page loads
-2. Writesonic script (this can be seen on the main HTML page with the `<script>` tag on it. 
+2. Writesonic script (this can be seen on the main HTML page with the `<script>` tag on it.
 3. Chatbot iframe
 4. Chatbot CSS
 5. Satoshi font
@@ -373,13 +373,9 @@ A complete font preload looks like this on the head component of the HTML page:
 Each attribute gives the browser important information:
 
 - `rel="preload"` tells it to download the file early.  
-
 - `href` provides the file’s location.  
-
 - `as="font"` identifies the resource as a font.  
-
 - `type="font/woff2"` specifies the font format.  
-
 - `crossorigin` ensures the request uses the same CORS mode as the later CSS font request. You only write that on the preload code.
 
 The same file must then be referenced in `@font-face` from the CSS script that loads that pre-loaded font:
@@ -454,15 +450,10 @@ When fonts are hosted on the website’s own origin or CDN, the browser can ofte
 Self-hosting can therefore provide several advantages:
 
 - More control over filenames, caching and deployment  
-
 - Fewer third-party dependencies  
-
 - More predictable resource URLs  
-
 - Easier preloading  
-
 - Potentially faster delivery through your own CDN  
-
 - Fewer external connections during the critical loading period
 
 It does not automatically guarantee better performance. A slow server, poor cache configuration or oversized font files can still produce a bad result. However, self-hosting gives the development team more control over those factors.
@@ -617,4 +608,98 @@ However, preloading a stylesheet does not automatically apply it. It still needs
 Browsers can usually discover a normal stylesheet in the document’s `<head>` very quickly, so preloading it is not always useful. Preload is most valuable when an important resource would otherwise be discovered late.
 
 > “Is this file important for the initial viewport, and would the browser otherwise discover it too late?”
+
+## Lazy Loading Resources
+
+Not every resources is needed to display the first visible content, also known as FCP. JavaScript used for analytics, tracking or additional functionality can be delayed to produce a better FCP score and a better user experience. 
+
+For example, a normal script can block the page:
+
+```
+<script src="/everything.jsp"></script>
+```
+
+When the browser reaches it, it may pause HTML parsing, download the file and execute it before continuing. In the Sagrada Família recording, `everything.jsp` is marked as **render-blocking** and takes around **1.05 seconds**, making it worth investigating.
+
+![render-blocking-sagrada-familia.png](/images/journal/render-blocking-sagrada-familia.png)
+
+The question is: are we render blocking the main thread at the right time? Is this affecting our user experience? And, if we wanted to change that, how would you do it?
+
+Let's start with learning about `async` and `defer` attributes.
+
+### What does `async` do?
+
+Sagrada Família uses `async` for scripts such as Facebook tracking and Botsonic:
+
+```
+<script
+  src="https://connect.facebook.net/signals/config/..."
+  async>
+</script>
+```
+
+```
+<script
+  id="Botsonic"
+  src="https://widget.writesonic.com/CDN/botsonic.min.js"
+  async>
+</script>
+```
+
+`async` allows the browser to continue reading the HTML while the script downloads. However, once the download finishes, the script executes immediately and can briefly interrupt parsing.
+
+This is normally suitable for **independent third-party** scripts because they do not rely on other scripts executing in a particular order.
+
+### `async` versus `defer`
+
+A deferred script also downloads without blocking HTML parsing:
+
+```
+<script src="/scripts.js" defer></script>
+```
+
+The difference is that `defer` waits until the HTML has been parsed before executing. Deferred scripts also maintain their document order. For scripts that are not required for the initial content, `defer` is therefore often the safer option. 
+
+```
+Normal script: downloads and blocks when executed
+Async: downloads in parallel, executes as soon as ready
+Defer: downloads in parallel, executes after HTML parsing
+```
+
+It is important to note that neither `async` nor `defer` truly postpones the download until the user needs the feature. True lazy loading would mean loading the script only after an interaction, consent decision or another later condition.
+
+The objective is to keep non-critical JavaScript away from the path to FCP, allowing the browser to prioritize the HTML, CSS, fonts and images needed for the first visible content.
+
+### So, when to use which?
+
+Sagrada Família has a chat embedded on their page. The first thing I would ask: how many users use that chat widget? how critical is it for the booking flow to happen or conversion to take place?
+
+At that what point in time do users click on the chat? Is it immediately after loading the page or p75 is > 10 seconds?
+
+Usage and website analytics can help discover patterns and insights into how to optimize your website.
+
+If, let's say only 2% of users use the chat, and most of them use it after being more than 10 seconds on the page, I would load it after the page finishes loading and only when the visitor clicks the chat button. 
+
+We could insert this <script> tag:
+
+```
+<script>
+  window.addEventListener("load", () => {
+    const script = document.createElement("script");
+    script.src = "https://widget.writesonic.com/CDN/botsonic.min.js";
+    script.async = true;
+    document.body.appendChild(script);
+  });
+</script>
+```
+
+## Conclusions
+
+Website performance optimization is not only about making individual files smaller or adding technical attributes to scripts and fonts. It requires understanding how the page is built, which resources are needed first, and how users actually interact with the product.
+
+Improving First Contentful Paint means shortening the path between the initial request and the first visible content. In practice, this may involve reducing request chains, preloading truly critical resources, and delaying scripts or assets that are not needed immediately. However, each change should be based on evidence from tools such as Chrome DevTools and, where possible, real-user data.
+
+The fastest technical solution is not always the best product decision. A tracking script may be important for measurement, while a chatbot may support customer service. The objective is therefore not to remove everything, but to load each resource at the right moment and with the right priority.
+
+Ultimately, good performance work is contextual. It requires understanding the website’s purpose, its user journey and the business value of each feature. The goal is not simply to achieve a better score, but to create a faster and more stable experience for real users.
 
