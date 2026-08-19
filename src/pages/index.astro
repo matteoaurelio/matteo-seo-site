@@ -5,10 +5,11 @@ import Footer from "../components/Footer.astro";
 
 import "../styles/services.css";
 
-const title = "Growth Partner for B2B & Service Businesses | Matteo Arellano";
+const title =
+  "Growth Partner for Complex, Data-Intensive Businesses | Matteo Arellano";
 
 const description =
-  "Growth partner for B2B and service businesses. Better insights, stronger conversion, market expansion and automation — combining commercial thinking with technical execution.";
+  "I help complex, data-intensive businesses find where revenue, time and opportunity are being lost — combining commercial judgment, analytics and technical execution.";
 
 const alternateLanguages = [
   {
@@ -29,149 +30,185 @@ const alternateLanguages = [
   },
 ];
 
+/* =========================================================
+   GROWTH LEVERS
+   ========================================================= */
+
 const growthLevers = [
   {
     number: "01",
     category: "Insights",
-    title: "See where growth is hiding",
+    title: "Find where performance is hiding",
     promise:
-      "Turn customer, product, market and operational data into better decisions.",
-    need: "When the business has plenty of information but not enough clarity on what deserves attention next.",
+      "Turn customer, product, financial and operational data into decisions.",
+    need: "For businesses with plenty of information but limited clarity on what is driving revenue, cost or performance.",
     outcomes: [
       "Find revenue and margin opportunities",
       "Understand customer and product performance",
-      "Spot patterns, anomalies and missed opportunities",
+      "Spot anomalies, leakage and missed opportunities",
     ],
     tools: ["BigQuery", "SQL", "Python", "Analytics"],
   },
 
   {
     number: "02",
-    category: "Acquisition",
-    title: "Capture more demand",
-    promise:
-      "Get in front of people and companies already looking for what you offer.",
-    need: "When the offer is strong but the business needs a more reliable way to generate qualified demand.",
-    outcomes: [
-      "Improve Google and local visibility",
-      "Find high-intent customer opportunities",
-      "Strengthen landing pages and acquisition journeys",
-    ],
-    tools: [
-      "Google Business Profile",
-      "SEO",
-      "Search Console",
-      "Landing pages",
-    ],
-  },
-
-  {
-    number: "03",
     category: "Conversion",
-    title: "Turn more interest into customers",
+    title: "Recover lost revenue",
     promise:
-      "Find where customer journeys break and focus on the improvements that matter.",
-    need: "When traffic, leads or users are coming in but too many disappear before the business outcome.",
+      "Find where customer journeys break and prioritize the problems worth fixing.",
+    need: "For digital businesses where users are arriving, searching, booking or buying — but too many disappear before the commercial outcome.",
     outcomes: [
-      "Identify conversion leaks",
-      "Understand customer behaviour and abandonment",
-      "Prioritize improvements by commercial impact",
+      "Identify conversion and payment leaks",
+      "Understand abandonment behaviour",
+      "Prioritize improvements by business impact",
     ],
     tools: ["Amplitude", "GA4", "GTM", "BigQuery", "Experimentation"],
   },
 
   {
+    number: "03",
+    category: "Acquisition",
+    title: "Capture more valuable demand",
+    promise:
+      "Improve how the business attracts customers already looking for what it offers.",
+    need: "For businesses with a strong offer that need more qualified demand rather than simply more traffic.",
+    outcomes: [
+      "Improve organic and paid acquisition",
+      "Find high-intent customer opportunities",
+      "Strengthen landing pages and acquisition journeys",
+    ],
+    tools: ["SEO", "Google Ads", "Search Console", "Landing pages"],
+  },
+
+  {
     number: "04",
     category: "Expansion",
-    title: "Find the next market",
+    title: "Find the next opportunity",
     promise:
-      "Identify the customers, partners and markets worth pursuing next.",
-    need: "When growth beyond the current customer base depends on better market intelligence and a more focused pipeline.",
+      "Use market evidence to identify customers, partners and markets worth pursuing.",
+    need: "For businesses where growth depends on choosing the right segments and concentrating commercial effort where it has the best chance of paying off.",
     outcomes: [
       "Evaluate markets and segments",
       "Identify high-fit companies and partners",
-      "Build repeatable business development workflows",
+      "Build focused business-development pipelines",
     ],
-    tools: ["Market intelligence", "Prospecting", "CRM", "AI", "Research"],
+    tools: ["Market intelligence", "Prospecting", "CRM", "Research", "AI"],
   },
 
   {
     number: "05",
-    category: "Scale",
-    title: "Remove what slows growth down",
+    category: "Efficiency",
+    title: "Remove expensive manual work",
     promise:
-      "Automate repetitive work and build the data systems the business needs to scale.",
-    need: "When reporting, spreadsheets, disconnected systems or manual processes become bottlenecks.",
+      "Automate recurring processes and improve the systems behind the business.",
+    need: "For teams slowed down by spreadsheets, recurring reporting, fragmented systems or processes that require too much human intervention.",
     outcomes: [
-      "Automate recurring operational work",
+      "Reduce repetitive operational work",
       "Connect systems and APIs",
-      "Build reliable data and reporting workflows",
+      "Build reusable data and reporting workflows",
     ],
     tools: ["Python", "APIs", "SQL", "BigQuery", "Automation"],
   },
 ];
 
+/* =========================================================
+   PROOF
+   ========================================================= */
+
 const proofPoints = [
   {
     number: "42%",
     title: "Conversion improvement",
-    copy: "Growth work informed by behavioural analysis and real customer journeys.",
+    copy: "Behavioural analysis used to identify friction and improve digital customer journeys.",
   },
   {
     number: "90%",
     title: "Cloud cost reduction",
-    copy: "Technical improvements that materially reduced the cost of data processing.",
+    copy: "Technical redesign that materially reduced recurring data-processing costs.",
   },
   {
     number: "9+",
     title: "Years across business & technology",
-    copy: "Experience spanning finance, analytics, data engineering, growth and operations.",
+    copy: "Experience spanning finance, operations, analytics, data engineering and growth.",
   },
 ];
+
+/* =========================================================
+   DIFFERENTIATION
+   ========================================================= */
+
+const environments = [
+  {
+    number: "01",
+    title: "Complex operations",
+    subtitle: "Cargill · Distribusion",
+    copy: "I have worked in environments where operational, financial, customer and transactional data interact across multiple systems. I am comfortable investigating problems that do not live neatly inside one dashboard or one department.",
+  },
+  {
+    number: "02",
+    title: "Financial rigor",
+    subtitle: "European Investment Bank · EIF · PIA Group",
+    copy: "I have worked around institutional finance, reporting, performance analysis and sensitive business information — environments where accuracy, controls and the quality of the underlying data matter.",
+  },
+  {
+    number: "03",
+    title: "Commercial + technical execution",
+    subtitle: "From business question to implementation",
+    copy: "I can follow a problem from its financial or commercial consequence into SQL, BigQuery, Python, APIs, analytics, automation or digital-product implementation when that is what solving it requires.",
+  },
+];
+
+/* =========================================================
+   EXPERIENCE
+   ========================================================= */
 
 const experience = [
   {
     company: "Cargill",
     logo: "/images/experience/CARGILL_LOGO.webp",
-    context: "Global agriculture & operations",
-  },
-  {
-    company: "PIA Group",
-    logo: "/images/experience/PIA_GROUP_NEDERLAND.avif",
-    context: "Professional services · Netherlands",
-  },
-  {
-    company: "European Investment Bank",
-    logo: "/images/experience/EIB_BANK.png",
-    context: "European institutional finance",
-  },
-  {
-    company: "European Investment Fund",
-    logo: "/images/experience/eif.png",
-    context: "European institutional finance",
+    context: "Global operations · finance · data",
   },
   {
     company: "Distribusion",
     logo: "/images/experience/DISTRIBUSION_TECHNOLOGIES.png",
-    context: "B2B technology · APIs · mobility",
+    context: "Mobility technology · APIs · high-volume data",
+  },
+  {
+    company: "European Investment Bank",
+    logo: "/images/experience/EIB_BANK.png",
+    context: "Institutional finance · complex processes",
+  },
+  {
+    company: "European Investment Fund",
+    logo: "/images/experience/eif.png",
+    context: "European finance · investment environment",
+  },
+  {
+    company: "PIA Group",
+    logo: "/images/experience/PIA_GROUP_NEDERLAND.avif",
+    context: "Financial reporting · business performance",
   },
 ];
+
+/* =========================================================
+   HOW I WORK
+   ========================================================= */
 
 const workingStyle = [
   {
     number: "01",
-    title: "Understand the growth constraint",
-    copy: "We start with the commercial question: what are you trying to grow, what is getting in the way and what would meaningful progress look like?",
+    title: "Start with the economic problem",
+    copy: "What is costing money, limiting revenue, consuming time or making an important decision harder than it should be?",
   },
   {
     number: "02",
-    title: "Find the evidence",
-    copy: "I combine customer behaviour, market intelligence, business context and operational data instead of relying on assumptions.",
+    title: "Follow the evidence",
+    copy: "I combine customer behaviour, financial context, operational data and technical evidence to understand what is actually happening.",
   },
   {
     number: "03",
-    title: "Turn insight into execution",
-    copy: "I can move from analysis into implementation — measurement, workflows, automation, acquisition, technical systems or market development.",
+    title: "Build the useful fix",
+    copy: "The answer might be an analysis, a process change, better measurement, automation, acquisition work, a data workflow or a technical implementation.",
   },
 ];
 
@@ -187,12 +224,16 @@ const personJsonLd = JSON.stringify({
     "Growth strategy",
     "Business analytics",
     "Product analytics",
+    "Financial analysis",
+    "Operational analytics",
     "Business development",
     "Market expansion",
     "Conversion optimization",
-    "Search engine optimization",
     "Data engineering",
     "Business process automation",
+    "BigQuery",
+    "SQL",
+    "Python",
   ],
 });
 ---
@@ -219,24 +260,25 @@ const personJsonLd = JSON.stringify({
           <span class="services-overline"> Independent growth partner </span>
 
           <h1>
-            Find the next growth opportunity. Build what it takes to capture it.
+            I help complex businesses find where money, time and opportunity are
+            being lost.
           </h1>
 
           <p class="services-hero-lede">
-            I combine commercial thinking, analytics and technical execution to
-            help B2B and service businesses uncover better insights, convert
-            more demand, expand into new markets and automate the work that
-            slows growth.
+            I combine commercial judgment, analytics and technical execution to
+            solve problems inside data-intensive businesses — from revenue
+            leakage and conversion to operational inefficiency, reporting and
+            market growth.
           </p>
 
           <p class="services-hero-fit">
-            From understanding the business problem to analysing the data and
-            helping implement the solution.
+            Experience across global operations, mobility technology,
+            institutional finance and professional services.
           </p>
 
           <div class="services-hero-actions">
             <a class="services-primary-action" href="/services/">
-              See how I help businesses grow
+              See how I can help
             </a>
 
             <a class="services-text-action" href="/achievements/">
@@ -256,14 +298,14 @@ const personJsonLd = JSON.stringify({
           </div>
 
           <div class="services-profile-info">
-            <strong>Matteo Arellano</strong>
+            <strong> Matteo Arellano </strong>
 
             <p>Growth partner · Business + technology</p>
 
             <div class="services-profile-specialisms" aria-label="Growth focus">
               <span>Insights</span>
               <span>Conversion</span>
-              <span>Expansion</span>
+              <span>Operations</span>
               <span>Automation</span>
             </div>
 
@@ -297,7 +339,7 @@ const personJsonLd = JSON.stringify({
     </section>
 
     <!-- =====================================================
-         PROOF
+         IMPACT
          ===================================================== -->
 
     <section class="services-method">
@@ -305,7 +347,12 @@ const personJsonLd = JSON.stringify({
         <header class="services-method-header">
           <span class="services-overline"> Selected impact </span>
 
-          <h2>Growth has to show up somewhere measurable.</h2>
+          <h2>The work should change something measurable.</h2>
+
+          <p>
+            Revenue, conversion, operating cost, time or decision quality —
+            technical work is only useful when it improves a business outcome.
+          </p>
         </header>
 
         <div class="services-method-grid">
@@ -331,14 +378,14 @@ const personJsonLd = JSON.stringify({
     <section class="services-portfolio" id="growth">
       <div class="services-shell">
         <header class="services-portfolio-header">
-          <span class="services-overline"> Growth levers </span>
+          <span class="services-overline"> Where I help </span>
 
-          <h2>Growth is rarely just a marketing problem.</h2>
+          <h2>Growth problems rarely belong to one department.</h2>
 
           <p>
-            Sometimes the opportunity is hidden in the data. Sometimes customers
-            cannot find you. Sometimes they find you but do not convert.
-            Sometimes the team simply cannot scale the process behind it.
+            Revenue might be leaking through acquisition, customer behaviour,
+            payments, operations, bad data or manual processes. I look across
+            the system rather than assuming the answer belongs to one channel.
           </p>
         </header>
 
@@ -380,63 +427,44 @@ const personJsonLd = JSON.stringify({
 
         <div class="services-hero-actions">
           <a class="services-primary-action" href="/services/">
-            Explore all services
+            Explore services
           </a>
         </div>
       </div>
     </section>
 
     <!-- =====================================================
-         DIFFERENTIATION
+         NICHE / DIFFERENTIATION
          ===================================================== -->
 
     <section class="services-method">
       <div class="services-shell">
         <header class="services-method-header">
-          <span class="services-overline"> Business + technology </span>
+          <span class="services-overline"> Where I fit best </span>
 
-          <h2>I bring actionable solutions in 15 days</h2>
+          <h2>Complex operations. Sensitive data. Expensive problems.</h2>
 
           <p>
-            The useful part of my background is the combination. I can
-            understand the commercial problem, investigate it with data and go
-            deep enough technically to help build the solution.
+            My strongest experience comes from businesses where the systems,
+            data and decisions are interconnected — and where getting the answer
+            wrong can cost real money.
           </p>
         </header>
 
         <div class="services-method-grid">
-          <article class="services-method-item">
-            <span>BUSINESS</span>
+          {
+            environments.map((item) => (
+              <article class="services-method-item">
+                <span>{item.number}</span>
 
-            <h3>Commercial thinking</h3>
+                <h3>{item.title}</h3>
 
-            <p>
-              Customer acquisition, conversion, business development, market
-              expansion, finance and operational performance.
-            </p>
-          </article>
+                <strong>{item.subtitle}</strong>
 
-          <article class="services-method-item">
-            <span>DATA</span>
-
-            <h3>Evidence before assumptions</h3>
-
-            <p>
-              Customer behaviour, product analytics, market intelligence, large
-              datasets and business performance analysis.
-            </p>
-          </article>
-
-          <article class="services-method-item">
-            <span>EXECUTION</span>
-
-            <h3>Technical depth</h3>
-
-            <p>
-              SQL, BigQuery, Python, APIs, analytics implementation, data
-              pipelines, automation and technical diagnostics.
-            </p>
-          </article>
+                <p>{item.copy}</p>
+              </article>
+            ))
+          }
         </div>
       </div>
     </section>
@@ -450,12 +478,13 @@ const personJsonLd = JSON.stringify({
         <header class="services-experience-header">
           <span class="services-overline"> Selected experience </span>
 
-          <h2>Experience inside different kinds of businesses.</h2>
+          <h2>Experience in businesses where complexity is real.</h2>
 
           <p>
-            My background spans global operations, professional services,
-            European finance and API-intensive B2B technology. That range is
-            useful when the problem does not fit neatly inside one department.
+            Global supply chains, mobility technology, institutional finance and
+            professional services have very different business models, but they
+            share something important: large amounts of information,
+            interconnected processes and decisions that require reliable data.
           </p>
 
           <a href="/achievements/" class="services-text-action">
@@ -491,7 +520,7 @@ const personJsonLd = JSON.stringify({
     </section>
 
     <!-- =====================================================
-         WORKING RELATIONSHIP
+         HOW I WORK
          ===================================================== -->
 
     <section class="services-method">
@@ -499,11 +528,12 @@ const personJsonLd = JSON.stringify({
         <header class="services-method-header">
           <span class="services-overline"> How I work </span>
 
-          <h2>From opportunity to execution.</h2>
+          <h2>Start with the economics. Then follow the evidence.</h2>
 
           <p>
-            The goal is not another report. It is to understand what would move
-            the business forward and help make it happen.
+            I do not begin with a technology or a predetermined solution. I
+            begin with what the business is trying to improve and work backwards
+            from there.
           </p>
         </header>
 
@@ -530,28 +560,28 @@ const personJsonLd = JSON.stringify({
     <section class="services-contact">
       <div class="services-shell services-contact-inner">
         <div>
-          <span class="services-overline"> Let's grow </span>
+          <span class="services-overline"> Let's talk </span>
 
-          <h2>What are you trying to grow?</h2>
+          <h2>Where is complexity costing your business money?</h2>
 
           <p>
-            Tell me what you want to improve — acquisition, conversion,
-            expansion, insight or operations. I'll tell you where I would start
-            and whether I can help.
+            Tell me what is underperforming, taking too much time or becoming
+            difficult to understand. I'll tell you where I would start and
+            whether I can help.
           </p>
         </div>
 
         <div class="services-contact-actions">
           <a
             class="services-contact-primary"
-            href="mailto:matteo.visibility@gmail.com?subject=Growth%20opportunity&body=Hi%20Matteo,%0A%0AWhat%20we%20want%20to%20grow%20or%20improve%20is:%20"
+            href="mailto:matteo.visibility@gmail.com?subject=Business%20problem&body=Hi%20Matteo,%0A%0AThe%20problem%20we%20are%20trying%20to%20solve%20is:%20"
           >
-            Tell me what you want to grow
+            Tell me the problem
           </a>
 
           <a
             class="services-contact-secondary"
-            href="https://wa.me/525574136001?text=Hi%20Matteo%2C%20I'd%20like%20to%20talk%20about%20a%20growth%20opportunity."
+            href="https://wa.me/525574136001?text=Hi%20Matteo%2C%20I'd%20like%20to%20discuss%20a%20business%20problem."
             target="_blank"
             rel="noreferrer"
           >
@@ -562,11 +592,13 @@ const personJsonLd = JSON.stringify({
     </section>
   </main>
 
-  <!-- FLOATING WHATSAPP -->
+  <!-- =====================================================
+       FLOATING WHATSAPP
+       ===================================================== -->
 
   <a
     class="services-whatsapp-float"
-    href="https://wa.me/525574136001?text=Hi%20Matteo%2C%20I'd%20like%20to%20talk%20about%20a%20growth%20opportunity."
+    href="https://wa.me/525574136001?text=Hi%20Matteo%2C%20I'd%20like%20to%20discuss%20a%20business%20problem."
     target="_blank"
     rel="noreferrer"
     aria-label="Contact Matteo on WhatsApp"
@@ -575,12 +607,13 @@ const personJsonLd = JSON.stringify({
       <path
         d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.198.297-.767.966-.94 1.164-.173.198-.347.223-.644.074-.297-.148-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.297-.497.099-.198.05-.371-.025-.52-.074-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.009-.371-.011-.57-.011-.198 0-.52.074-.792.371-.272.297-1.04 1.016-1.04 2.479s1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.262.489 1.693.625.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"
       ></path>
+
       <path
         d="M12.004 2C6.477 2 2 6.477 2 12c0 1.764.459 3.42 1.261 4.858L2 22l5.293-1.235A9.94 9.94 0 0 0 12.004 22C17.527 22 22 17.523 22 12S17.527 2 12.004 2zm0 18.182a8.14 8.14 0 0 1-4.147-1.135l-.297-.176-3.14.733.748-3.058-.193-.314A8.145 8.145 0 0 1 3.818 12c0-4.515 3.671-8.182 8.186-8.182 4.511 0 8.178 3.667 8.178 8.182s-3.667 8.182-8.178 8.182z"
       ></path>
     </svg>
 
-    <span>WhatsApp</span>
+    <span> WhatsApp </span>
   </a>
 
   <Footer />
