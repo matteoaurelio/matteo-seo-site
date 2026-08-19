@@ -4,217 +4,286 @@ import Header from "../../../components/Header.astro";
 import Footer from "../../../components/Footer.astro";
 
 const title =
-  "Large-Scale Data Analysis with Python, Polars & Cloud | Matteo Arellano";
+  "Large-Scale Data Analysis for Revenue & Cost Reduction | Matteo Arellano";
 
 const description =
-  "I help businesses analyze large datasets with Python, Polars, Apache Arrow, Parquet and cloud workflows to find patterns, improve reporting, and support better decisions.";
+  "Turn large datasets into revenue opportunities, lower operating costs and faster decisions. Commercial data analysis using Python, Polars, BigQuery, SQL, Parquet and cloud workflows.";
 
 const canonical =
   "https://matteoarellano.com/services/large-scale-data-analysis/";
 
-const helpCards = [
-  {
-    title: "Large dataset analysis",
-    copy:
-      "Analyze large CSV, Parquet, JSON, analytics, SEO, product, customer, operational, or transaction datasets without forcing everything into slow spreadsheet workflows."
-  },
-  {
-    title: "Cloud-based data workflows",
-    copy:
-      "Work with datasets stored in AWS S3, object storage, partitioned folders, Parquet files, and analytical workflows that need faster reading and easier reuse."
-  },
-  {
-    title: "Messy data cleaning",
-    copy:
-      "Clean inconsistent columns, duplicated records, broken types, missing values, date issues, category mismatches, and exports that are hard to trust."
-  },
-  {
-    title: "Business insight and reporting",
-    copy:
-      "Turn technical analysis into useful findings: what is growing, what is underperforming, where data quality is weak, and what should be prioritized."
-  }
-];
+/* =========================================================
+   BUSINESS VALUE
+   ========================================================= */
 
 const valueCards = [
   {
-    title: "Performance thinking",
-    copy:
-      "Large datasets require better decisions around lazy execution, column selection, filtering, partitioning, and file formats. The goal is to avoid loading more data than needed."
+    title: "Find revenue opportunities",
+    copy: "Identify customers, products, routes, markets or segments that are outperforming, underperforming or hiding commercial potential inside large datasets.",
   },
   {
-    title: "Cloud and storage awareness",
-    copy:
-      "Working with cloud storage is not the same as working with a local spreadsheet. Naming, folder structure, partitioning, file size, and read patterns affect cost and speed."
+    title: "Reduce expensive manual work",
+    copy: "Replace recurring exports, spreadsheet manipulation, repetitive joins and reporting work with reusable analysis workflows that give teams time back.",
   },
   {
-    title: "Data quality judgment",
-    copy:
-      "A script can run and still produce misleading results. Good analysis checks types, duplicates, missing values, outliers, and business logic before trusting the output."
+    title: "Lower data processing costs",
+    copy: "Improve how data is stored, filtered, partitioned and processed so teams do not repeatedly scan, move or compute more data than the business actually needs.",
   },
   {
-    title: "Business translation",
-    copy:
-      "The final output should not be only a notebook. It should explain what changed, what matters, what is risky, and what the business should do next."
-  }
+    title: "Make decisions faster",
+    copy: "Turn fragmented operational and commercial data into clear answers so important questions do not sit in a reporting backlog for weeks.",
+  },
 ];
+
+/* =========================================================
+   BUSINESS QUESTIONS
+   ========================================================= */
+
+const businessQuestions = [
+  {
+    title: "Where are we losing revenue?",
+    copy: "Analyze customer journeys, transactions, routes, products, pricing or operational events to find where commercial performance breaks down.",
+  },
+  {
+    title: "Which customers or markets deserve more investment?",
+    copy: "Compare segments, locations, products, partners or cohorts to identify where demand, conversion, margin or retention is strongest.",
+  },
+  {
+    title: "What is costing us more than it should?",
+    copy: "Investigate processing costs, operational bottlenecks, repeated manual work, inefficient data reads and workflows that consume unnecessary resources.",
+  },
+  {
+    title: "Why did performance change?",
+    copy: "Connect historical data, customer behaviour and operational signals to understand what changed and which factors are most commercially relevant.",
+  },
+  {
+    title: "Can this reporting process be automated?",
+    copy: "Turn analyses that are recreated every week or month into repeatable workflows with consistent business logic and reusable outputs.",
+  },
+  {
+    title: "Can we trust the numbers?",
+    copy: "Find duplicated records, broken identifiers, missing data, inconsistent categories and logic problems before they become business decisions.",
+  },
+];
+
+/* =========================================================
+   ROI
+   ========================================================= */
+
+const roiCards = [
+  {
+    title: "Manual reporting adds up fast",
+    metric: "936 hours / year",
+    copy: "Example: if three people each spend six hours per week extracting, cleaning or reconciling data, the business spends 936 staff-hours per year before anyone acts on the information.",
+  },
+  {
+    title: "Small revenue leaks become expensive",
+    metric: "1% = $10k",
+    copy: "On $1 million of annual revenue, even a 1% issue in conversion, pricing, retention or operational leakage represents $10,000 of economic exposure.",
+  },
+  {
+    title: "Data infrastructure can have direct ROI",
+    metric: "90% lower cost",
+    copy: "In previous work, I redesigned a cloud data-processing workflow and reduced its processing cost by roughly 90%. Better architecture can materially change recurring data costs.",
+  },
+];
+
+/* =========================================================
+   REAL PROOF
+   ========================================================= */
+
+const results = [
+  {
+    metric: "90%",
+    title: "Lower cloud processing cost",
+    copy: "I redesigned a data-processing workflow that reduced recurring cloud processing costs by roughly 90%.",
+  },
+  {
+    metric: "Improved sales",
+    title: "Analysis tied to commercial decisions",
+    copy: "My background spans finance, operations, analytics, data engineering and growth. I start with what the business needs to understand — not which tool I want to use.",
+  },
+  {
+    metric: "Reusable by design",
+    title: "Stop paying twice for the same answer",
+    copy: "When a question will come back, I can turn the investigation into automated, high-ROI workflows.",
+  },
+];
+
+/* =========================================================
+   DELIVERABLES
+   ========================================================= */
+
+const deliverables = [
+  {
+    title: "A commercially useful answer",
+    copy: "The work starts with the decision the business needs to make — not with producing another dashboard or notebook.",
+  },
+  {
+    title: "Validated analysis",
+    copy: "Data types, joins, identifiers, missing values, duplicates, outliers and business rules are checked before results are treated as trustworthy.",
+  },
+  {
+    title: "Reusable analytical workflow",
+    copy: "When the question will return, the analysis can be structured so it is easier to rerun, maintain and automate.",
+  },
+  {
+    title: "Decision-ready output",
+    copy: "Clear findings, charts, tables, limitations, commercial implications and recommended next actions for technical and non-technical stakeholders.",
+  },
+];
+
+/* =========================================================
+   TECHNICAL STACK
+   ========================================================= */
 
 const stackItems = [
   {
+    title: "BigQuery & SQL",
+    copy: "Analyze event, transaction, customer and operational data at scale while keeping query logic understandable and controlling unnecessary processing.",
+  },
+  {
     title: "Python",
-    copy:
-      "Analysis scripts, automation, data cleaning, reusable utilities, APIs, reporting workflows, and custom logic."
+    copy: "Build reusable analysis, automation, API integrations, data validation and business logic when SQL or dashboards alone are not enough.",
   },
   {
     title: "Polars",
-    copy:
-      "Fast DataFrame workflows, lazy queries, large file processing, transformations, aggregations, joins, and performance-focused analysis."
-  },
-  {
-    title: "Apache Arrow",
-    copy:
-      "Columnar memory format, interoperability, efficient data exchange, and analytical workflows across tools."
+    copy: "Use fast DataFrame workflows and lazy execution to process larger datasets efficiently without loading unnecessary data into memory.",
   },
   {
     title: "Parquet",
-    copy:
-      "Columnar storage for analytical datasets, especially when data needs to be read, filtered, compressed, partitioned, and reused."
+    copy: "Replace slow heavyweight exports with compressed columnar datasets that are easier and cheaper to filter, store and reuse analytically.",
   },
   {
-    title: "Cloud storage",
-    copy:
-      "Cloud object storage for data lakes, exports, partitioned datasets, and scalable analytical workflows across AWS and similar cloud environments."
+    title: "Apache Arrow",
+    copy: "Move analytical data efficiently between tools and formats while reducing unnecessary serialization and transformation overhead.",
   },
   {
-    title: "Data visualization",
-    copy:
-      "Clear charts, summaries, dashboards, and stories that make the analysis easier to understand and act on."
-  }
+    title: "Cloud storage & AWS",
+    copy: "Work with S3, object storage, partitioned datasets and scalable analytical workflows where storage structure directly affects speed and cost.",
+  },
 ];
+
+/* =========================================================
+   PROCESS
+   ========================================================= */
 
 const processSteps = [
   {
-    title: "Understand the question",
-    copy:
-      "What decision does the business need to make? What problem are we trying to solve? What would a useful answer look like?"
+    title: "Quantify the business question",
+    copy: "What are we trying to increase, reduce, understand or decide? What would the answer be worth to the business?",
   },
   {
     title: "Inspect the data",
-    copy:
-      "Review size, schema, missing values, types, duplicates, file formats, time ranges, identifiers, and quality issues."
+    copy: "Review sources, size, schema, identifiers, quality, time ranges and whether the existing data can actually answer the question reliably.",
   },
   {
-    title: "Build the analysis",
-    copy:
-      "Use the right workflow for the data size and storage setup: local files, Parquet, partitioned datasets, cloud storage, lazy queries, or reusable scripts."
+    title: "Find the signal",
+    copy: "Analyze the data using the simplest workflow capable of finding the commercial or operational pattern we care about.",
   },
   {
-    title: "Explain the result",
-    copy:
-      "Deliver findings, charts, tables, recommendations, limitations, and next steps in language the business can use."
-  }
+    title: "Validate the economics",
+    copy: "Separate technically interesting findings from findings that could materially affect revenue, cost, risk or decision-making.",
+  },
+  {
+    title: "Make it reusable",
+    copy: "If the question will return, turn the work into a reusable query, script, dataset or automated analytical workflow.",
+  },
 ];
+
+/* =========================================================
+   TECHNICAL PROOF
+   ========================================================= */
 
 const proofLinks = [
   {
     title: "Polars, Apache Arrow & AWS S3",
-    href:
-      "https://medium.com/@matteo.arellano/polars-apache-arrow-aws-s3-spanish-version-3a6816d4f9a3",
-    copy:
-      "How Polars, Arrow and AWS S3 can work together for large-scale analytical workflows."
+    href: "https://medium.com/@matteo.arellano/polars-apache-arrow-aws-s3-spanish-version-3a6816d4f9a3",
+    copy: "Technical work combining Polars, Apache Arrow and AWS S3 for scalable analytical workflows.",
   },
   {
     title: "Utility Python functions for AWS projects",
-    href:
-      "https://medium.com/@matteo.arellano/utility-python-functions-for-your-aws-based-projects-660354aaef9b",
-    copy:
-      "Practical Python utility functions for AWS-based projects and reusable workflows."
+    href: "https://medium.com/@matteo.arellano/utility-python-functions-for-your-aws-based-projects-660354aaef9b",
+    copy: "Reusable Python utilities for cloud-based data processing and analytical projects.",
   },
   {
     title: "Partitioning Polars DataFrames on S3",
-    href:
-      "https://medium.com/@matteo.arellano/partitioning-polars-dataframe-on-s3-with-apache-arrow-1fa6518d23f1",
-    copy:
-      "A technical article about partitioning data on S3 using Polars and Apache Arrow."
+    href: "https://medium.com/@matteo.arellano/partitioning-polars-dataframe-on-s3-with-apache-arrow-1fa6518d23f1",
+    copy: "Working with partitioned analytical data on S3 using Polars and Apache Arrow.",
   },
   {
-    title: "Managing Excel Files and SharePoint Automations with Python",
-    href:
-      "https://medium.com/@matteo.arellano/moving-data-across-sharepoint-folders-with-python-f783f8cd1cb1",
-    copy:
-      "A technical article about connecting to SharePoint and building automated internal reporting."
-  }
-
-
-
+    title: "Excel & SharePoint automation with Python",
+    href: "https://medium.com/@matteo.arellano/moving-data-across-sharepoint-folders-with-python-f783f8cd1cb1",
+    copy: "Using Python to connect internal systems and remove repetitive reporting workflows.",
+  },
 ];
 
-const useCases = [
-  {
-    title: "SEO and Search Console exports",
-    copy:
-      "Analyze large query, page, country, device, and date exports to find patterns that are hard to see in the interface."
+const serviceJsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Large-scale data analysis",
+  serviceType:
+    "Commercial data analysis, large-scale data analysis, data automation and cloud analytics",
+  provider: {
+    "@type": "Person",
+    name: "Matteo Arellano",
+    url: "https://matteoarellano.com/",
   },
-  {
-    title: "Product or marketplace data",
-    copy:
-      "Analyze product performance, categories, routes, destinations, suppliers, availability, pricing, demand, or long-tail patterns."
-  },
-  {
-    title: "Campaign and lead analysis",
-    copy:
-      "Clean and connect campaign data, landing pages, leads, conversion events, costs, and revenue signals."
-  },
-  {
-    title: "Data quality audits",
-    copy:
-      "Find duplicates, broken identifiers, missing data, inconsistent categories, schema drift, and reporting risks."
-  },
-  {
-    title: "Large CSV to Parquet workflows",
-    copy:
-      "Convert slow, heavy exports into cleaner analytical datasets that are easier to read, filter, store, and reuse."
-  },
-  {
-    title: "Executive reporting",
-    copy:
-      "Translate technical analysis into charts, summaries, decision notes, and business recommendations."
-  }
-];
+  areaServed: "Worldwide",
+  url: canonical,
+  description,
+});
 ---
 
 <BaseLayout title={title} description={description} canonical={canonical}>
   <Header />
 
+  <script type="application/ld+json" set:html={serviceJsonLd} />
+
   <main class="commercial-page data-service-page">
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
+
     <section class="commercial-hero">
       <div class="commercial-container commercial-hero-grid">
         <div class="commercial-copy">
           <span class="commercial-kicker">
-            Python · Polars · Cloud · Large datasets
+            Revenue · Cost · Insight · Automation
           </span>
 
           <h1>
-            I help businesses analyze large datasets faster, cleaner, and with clearer business impact.
+            Turn large datasets into revenue opportunities, lower costs and
+            faster decisions.
           </h1>
 
           <p>
-            I work with Python, Polars, Apache Arrow, Parquet and cloud-based workflows
-            to help businesses process large datasets, clean messy exports, structure
-            analytical data, and turn raw information into decisions.
+            I help businesses answer high-value commercial and operational
+            questions from large, messy or fragmented datasets — then build
+            reusable analytical workflows so the team does not have to solve the
+            same problem again next month.
           </p>
 
           <div class="commercial-actions">
-            <a class="commercial-primary" href="/free-visibility-check/#calendar">
-              Book a data analysis review
+            <a
+              class="commercial-primary"
+              href="mailto:matteo.visibility@gmail.com?subject=Large-scale%20data%20analysis&body=Hi%20Matteo,%0A%0AThe%20business%20question%20we%20are%20trying%20to%20answer%20is:%20"
+            >
+              Tell me the business question
             </a>
 
-            <a class="commercial-secondary" href="#technical-writing">
-              See technical proof
+            <a class="commercial-secondary" href="#business-value">
+              See where the ROI comes from
             </a>
           </div>
         </div>
 
-        <aside class="commercial-profile-card" aria-label="Large-scale data analysis service summary">
+        <!-- TECHNICAL PROOF IN HERO -->
+
+        <aside
+          class="commercial-profile-card"
+          aria-label="Large-scale data analysis technical proof"
+        >
           <div class="data-terminal-card">
             <span class="terminal-dot-row" aria-hidden="true">
               <span></span>
@@ -224,199 +293,327 @@ const useCases = [
 
             <pre><code>import polars as pl
 
-df = (
-    pl.scan_parquet("s3://bucket/data/*.parquet")
-      .filter(pl.col("country") == "NL")
-      .group_by("channel")
+result = (
+    pl.scan_parquet("s3://data/*.parquet")
+      .filter(pl.col("revenue") &gt; 0)
+      .group_by("customer_segment")
       .agg([
           pl.col("revenue").sum(),
+          pl.col("margin").sum(),
           pl.col("customer_id").n_unique()
       ])
+      .sort("margin", descending=True)
       .collect()
 )</code></pre>
           </div>
 
           <div class="commercial-profile-copy">
-            <strong>Large-scale analysis</strong>
-            <span>Python, Polars, Arrow, Parquet & cloud</span>
+            <strong> Commercial analysis at scale </strong>
+
+            <span> Python · SQL · Polars · BigQuery · Cloud </span>
+
             <p>
-              For teams with large CSVs, cloud data, analytics exports, SEO datasets,
-              operational data, or reporting problems that need performance and clarity.
+              Technical depth for questions involving millions of events,
+              transactions, customers, products or operational records.
             </p>
           </div>
         </aside>
       </div>
     </section>
 
-    <section class="commercial-section">
-      <div class="commercial-container commercial-split">
-        <div>
-          <span class="commercial-eyebrow">What I help with</span>
+    <!-- =====================================================
+         BUSINESS VALUE
+         ===================================================== -->
+
+    <section class="commercial-section" id="business-value">
+      <div class="commercial-container">
+        <div class="commercial-section-header">
+          <span class="commercial-eyebrow"> Where the value comes from </span>
+
           <h2>
-            When spreadsheets, dashboards, or slow scripts are no longer enough.
+            Data analysis should either make money, save money or improve an
+            important decision.
           </h2>
+
+          <p>
+            Processing more rows is not the business outcome. The useful
+            question is what changes once those rows become understandable.
+          </p>
         </div>
 
-        <div class="commercial-card-grid">
-          {helpCards.map((card) => (
-            <div class="commercial-card">
-              <h3>{card.title}</h3>
-              <p>{card.copy}</p>
-            </div>
-          ))}
+        <div class="commercial-services">
+          {
+            valueCards.map((card) => (
+              <article>
+                <h3>{card.title}</h3>
+
+                <p>{card.copy}</p>
+              </article>
+            ))
+          }
         </div>
       </div>
     </section>
+
+    <!-- =====================================================
+         ROI ECONOMICS
+         ===================================================== -->
 
     <section class="commercial-section commercial-soft">
       <div class="commercial-container">
         <div class="commercial-section-header">
-          <span class="commercial-eyebrow">Why this matters</span>
-          <h2>
-            AI can write code, but businesses still need someone who understands the data problem.
-          </h2>
+          <span class="commercial-eyebrow"> The economics </span>
+
+          <h2>Small inefficiencies become expensive at scale.</h2>
+
           <p>
-            AI can help generate scripts, but large-scale data work is not only about writing
-            code. The real value is knowing how to structure the data, avoid memory problems,
-            choose the right file format, validate the results, and explain what the analysis
-            means for the business.
+            The value of better data work depends on your volumes, labour costs,
+            cloud spend and commercial exposure. These examples show where I
+            look for economic impact.
           </p>
         </div>
 
-        <div class="commercial-services data-service-grid">
-          {valueCards.map((card) => (
-            <article>
-              <h3>{card.title}</h3>
-              <p>{card.copy}</p>
-            </article>
-          ))}
+        <div class="commercial-services">
+          {
+            roiCards.map((card) => (
+              <article>
+                <span class="commercial-eyebrow">{card.metric}</span>
+
+                <h3>{card.title}</h3>
+
+                <p>{card.copy}</p>
+              </article>
+            ))
+          }
         </div>
       </div>
     </section>
 
+    <!-- =====================================================
+         REAL RESULT / PROOF
+         ===================================================== -->
+
     <section class="commercial-section">
       <div class="commercial-container">
         <div class="commercial-section-header">
-          <span class="commercial-eyebrow">Technical stack</span>
+          <span class="commercial-eyebrow"> Results-oriented </span>
+
           <h2>
-            Tools I enjoy using for high-value data analysis work.
+            The technical work matters because of what it changes economically.
           </h2>
+        </div>
+        <div class="data-results-grid">
+          {
+            results.map((result) => (
+              <article class="data-result-card">
+                <div class="data-result-metric">{result.metric}</div>
+
+                <h3>{result.title}</h3>
+
+                <p>{result.copy}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         BUSINESS QUESTIONS
+         ===================================================== -->
+
+    <section class="commercial-section commercial-soft">
+      <div class="commercial-container">
+        <div class="commercial-section-header">
+          <span class="commercial-eyebrow"> Questions worth answering </span>
+
+          <h2>Businesses that thrive, ask these questions.</h2>
+
           <p>
-            The stack depends on the problem, but these are the tools and concepts I naturally
-            connect with this service.
+            These are the kinds of questions where large-scale analysis can
+            become commercially valuable.
+          </p>
+        </div>
+
+        <div class="commercial-services">
+          {
+            businessQuestions.map((question) => (
+              <article>
+                <h3>{question.title}</h3>
+
+                <p>{question.copy}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         WHAT CLIENT GETS
+         ===================================================== -->
+
+    <section class="commercial-section">
+      <div class="commercial-container">
+        <div class="commercial-section-header">
+          <span class="commercial-eyebrow"> What you get </span>
+
+          <h2>Not just analysis. Something the business can use.</h2>
+        </div>
+
+        <div class="commercial-card-grid">
+          {
+            deliverables.map((item) => (
+              <div class="commercial-card">
+                <h3>{item.title}</h3>
+
+                <p>{item.copy}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         TECHNICAL ECONOMICS
+         ===================================================== -->
+
+    <section class="commercial-section commercial-soft">
+      <div class="commercial-container">
+        <div class="commercial-section-header">
+          <span class="commercial-eyebrow"> Technical depth </span>
+
+          <h2>
+            The stack is chosen to make the analysis faster, cheaper and
+            reusable.
+          </h2>
+
+          <p>
+            Tools are not the offer. They matter because the wrong storage
+            format, query pattern or workflow can make recurring analysis slow,
+            fragile and unnecessarily expensive.
           </p>
         </div>
 
         <div class="data-stack-grid">
-          {stackItems.map((item, index) => (
-            <div>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <h3>{item.title}</h3>
-              <p>{item.copy}</p>
-            </div>
-          ))}
+          {
+            stackItems.map((item, index) => (
+              <div>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+
+                <h3>{item.title}</h3>
+
+                <p>{item.copy}</p>
+              </div>
+            ))
+          }
         </div>
       </div>
     </section>
 
-    <section class="commercial-section commercial-soft">
+    <!-- =====================================================
+         PROCESS
+         ===================================================== -->
+
+    <section class="commercial-section">
       <div class="commercial-container">
         <div class="commercial-section-header">
-          <span class="commercial-eyebrow">How I work</span>
-          <h2>
-            From messy data to useful decisions.
-          </h2>
+          <span class="commercial-eyebrow"> How I work </span>
+
+          <h2>From expensive question to reusable answer.</h2>
+
           <p>
-            The process is designed to avoid “analysis for the sake of analysis.”
-            The goal is to understand the business question, inspect the data, build
-            the right workflow, and deliver clear findings.
+            I do not start by choosing Python, SQL or a dashboard. I start by
+            understanding what the answer could change for the business.
           </p>
         </div>
 
         <div class="commercial-process">
-          {processSteps.map((step, index) => (
-            <div>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <h3>{step.title}</h3>
-              <p>{step.copy}</p>
-            </div>
-          ))}
+          {
+            processSteps.map((step, index) => (
+              <div>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+
+                <h3>{step.title}</h3>
+
+                <p>{step.copy}</p>
+              </div>
+            ))
+          }
         </div>
       </div>
     </section>
 
-    <section class="commercial-section" id="technical-writing">
+    <!-- =====================================================
+         TECHNICAL PROOF
+         ===================================================== -->
+
+    <section class="commercial-section commercial-soft" id="technical-proof">
       <div class="commercial-container commercial-why-grid">
         <div class="commercial-proof">
-          <span class="commercial-eyebrow">Technical writing</span>
+          <span class="commercial-eyebrow"> Technical proof </span>
 
           <h2>
-            I have written about Python, Polars, Apache Arrow and AWS before offering this as a service.
+            I can go from the commercial question into the implementation.
           </h2>
 
           <p>
-            These articles show the type of technical problems I enjoy: processing larger datasets,
-            working with cloud storage, using efficient file formats, and creating reusable Python
-            workflows. They are useful proof that this service is connected to real hands-on interest,
-            not just a generic consulting offer.
+            The business value comes first, but the implementation still
+            matters. I have worked directly with Python, Polars, Apache Arrow,
+            Parquet, AWS, large files and internal automation workflows.
           </p>
 
           <p>
-            Over time, I may bring expanded versions of these articles into this website. For now,
-            they are useful external proof of my technical thinking.
+            These articles provide hands-on technical proof behind the service
+            rather than asking you to take a list of technologies at face value.
           </p>
         </div>
 
         <div class="commercial-values data-proof-links">
-          {proofLinks.map((link) => (
-            <a href={link.href} target="_blank" rel="noreferrer">
-              <h3>{link.title}</h3>
-              <p>{link.copy}</p>
-            </a>
-          ))}
+          {
+            proofLinks.map((link) => (
+              <a href={link.href} target="_blank" rel="noreferrer">
+                <h3>{link.title}</h3>
+
+                <p>{link.copy}</p>
+              </a>
+            ))
+          }
         </div>
       </div>
     </section>
 
-    <section class="commercial-section commercial-soft">
-      <div class="commercial-container">
-        <div class="commercial-section-header">
-          <span class="commercial-eyebrow">Use cases</span>
-          <h2>
-            Examples of projects where this service fits.
-          </h2>
-        </div>
+    <!-- =====================================================
+         CTA
+         ===================================================== -->
 
-        <div class="commercial-services">
-          {useCases.map((useCase) => (
-            <article>
-              <h3>{useCase.title}</h3>
-              <p>{useCase.copy}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
+    <section class="commercial-container commercial-cta" id="data-analysis-cta">
+      <span class="commercial-eyebrow"> Large-scale data analysis </span>
 
-    <section class="commercial-container commercial-cta">
-      <span class="commercial-eyebrow">Data analysis support</span>
-
-      <h2>
-        Have a large dataset, messy export, or cloud-based analysis problem?
-      </h2>
+      <h2>What business question is your data not answering today?</h2>
 
       <p>
-        I can help review the data, understand the business question, design the analysis
-        workflow, and turn the findings into clear recommendations.
+        Send me the question, the type of data you have and what the answer
+        could change. I can tell you whether the problem is worth analysing, how
+        I would approach it and where I see the likely business value.
       </p>
 
       <div class="commercial-actions">
-        <a class="commercial-primary" href="/free-visibility-check/#calendar">
-          Book a first review
+        <a
+          class="commercial-primary"
+          href="mailto:matteo.visibility@gmail.com?subject=Large-scale%20data%20analysis&body=Hi%20Matteo,%0A%0AThe%20business%20question%20we%20are%20trying%20to%20answer%20is:%20%0A%0AThe%20data%20we%20have%20is:%20%0A%0AIf%20we%20could%20answer%20this,%20it%20would%20help%20us:%20"
+        >
+          Send me the business question
         </a>
 
-        <a class="commercial-secondary" href="mailto:matteo.arellano@hotmail.com">
-          Send me an email
+        <a
+          class="commercial-secondary"
+          href="https://wa.me/525574136001?text=Hi%20Matteo%2C%20I%20have%20a%20data%20analysis%20problem%20I'd%20like%20to%20discuss."
+          target="_blank"
+          rel="noreferrer"
+        >
+          WhatsApp
         </a>
       </div>
     </section>

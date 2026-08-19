@@ -5474,3 +5474,108 @@ h3 {
     display: none;
   }
 }
+
+/* =========================================================
+   LARGE-SCALE DATA ANALYSIS — FINAL CTA
+   Scoped specifically to this page
+   ========================================================= */
+
+#data-analysis-cta {
+  color: #ffffff;
+}
+
+#data-analysis-cta .commercial-eyebrow {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+#data-analysis-cta h2 {
+  color: #ffffff;
+}
+
+#data-analysis-cta p {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+#data-analysis-cta .commercial-primary {
+  background: #ffffff;
+  color: #0f4c81;
+  box-shadow: 0 12px 30px rgba(4, 23, 43, 0.18);
+}
+
+#data-analysis-cta .commercial-primary:hover {
+  background: #f4f8fc;
+  color: #0f4c81;
+}
+
+#data-analysis-cta .commercial-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+#data-analysis-cta .commercial-secondary:hover {
+  background: rgba(255, 255, 255, 0.17);
+  color: #ffffff;
+}
+
+/* =========================================================
+   LARGE-SCALE DATA ANALYSIS — RESULTS
+   Page-specific, does NOT touch commercial-process
+   ========================================================= */
+
+.data-results-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.data-result-card {
+  padding: 34px;
+
+  border: 1px solid #dce6ee;
+  border-radius: 24px;
+
+  background: #ffffff;
+
+  box-shadow: 0 14px 40px rgba(16, 43, 77, 0.05);
+}
+
+.data-result-metric {
+  margin-bottom: 30px;
+
+  color: #0f4c81;
+
+  font-size: clamp(1.5rem, 2.3vw, 2.6rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
+.data-result-card:first-child .data-result-metric {
+  font-size: clamp(2.8rem, 4vw, 4.5rem);
+}
+
+.data-result-card h3 {
+  margin: 0;
+
+  color: #071424;
+
+  font-size: 1.55rem;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+}
+
+.data-result-card p {
+  margin: 18px 0 0;
+
+  color: #587087;
+
+  font-size: 0.97rem;
+  line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+  .data-results-grid {
+    grid-template-columns: 1fr;
+  }
+}

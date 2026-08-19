@@ -3,9 +3,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 
-const title = "Technical SEO & AI Visibility Consultant | Matteo Arellano";
+import "../styles/services.css";
+
+const title = "Growth Partner for B2B & Service Businesses | Matteo Arellano";
+
 const description =
-  "Technical SEO audits, AI visibility audits, Core Web Vitals analysis, on-page SEO, analytics, and automation for data-driven websites in the US, Canada, and globally.";
+  "Growth partner for B2B and service businesses. Better insights, stronger conversion, market expansion and automation — combining commercial thinking with technical execution.";
 
 const alternateLanguages = [
   {
@@ -26,142 +29,172 @@ const alternateLanguages = [
   },
 ];
 
-const problems = [
-  "Important pages are not indexable or easy to discover",
-  "Internal links are weak, missing, or disconnected from key pages",
-  "Pages load slowly because of render-blocking CSS, JavaScript, images, or third-party scripts",
-  "Duplicate titles, missing metadata, or unclear heading structures reduce relevance",
-  "JavaScript-rendered content creates crawl and rendering uncertainty",
-  "Structured data is missing, invalid, or disconnected from visible content",
-  "Content does not answer buyer questions clearly enough for AI-powered search",
-  "Analytics gaps make it difficult to understand what users do after landing",
+const growthLevers = [
+  {
+    number: "01",
+    category: "Insights",
+    title: "See where growth is hiding",
+    promise:
+      "Turn customer, product, market and operational data into better decisions.",
+    need: "When the business has plenty of information but not enough clarity on what deserves attention next.",
+    outcomes: [
+      "Find revenue and margin opportunities",
+      "Understand customer and product performance",
+      "Spot patterns, anomalies and missed opportunities",
+    ],
+    tools: ["BigQuery", "SQL", "Python", "Analytics"],
+  },
+
+  {
+    number: "02",
+    category: "Acquisition",
+    title: "Capture more demand",
+    promise:
+      "Get in front of people and companies already looking for what you offer.",
+    need: "When the offer is strong but the business needs a more reliable way to generate qualified demand.",
+    outcomes: [
+      "Improve Google and local visibility",
+      "Find high-intent customer opportunities",
+      "Strengthen landing pages and acquisition journeys",
+    ],
+    tools: [
+      "Google Business Profile",
+      "SEO",
+      "Search Console",
+      "Landing pages",
+    ],
+  },
+
+  {
+    number: "03",
+    category: "Conversion",
+    title: "Turn more interest into customers",
+    promise:
+      "Find where customer journeys break and focus on the improvements that matter.",
+    need: "When traffic, leads or users are coming in but too many disappear before the business outcome.",
+    outcomes: [
+      "Identify conversion leaks",
+      "Understand customer behaviour and abandonment",
+      "Prioritize improvements by commercial impact",
+    ],
+    tools: ["Amplitude", "GA4", "GTM", "BigQuery", "Experimentation"],
+  },
+
+  {
+    number: "04",
+    category: "Expansion",
+    title: "Find the next market",
+    promise:
+      "Identify the customers, partners and markets worth pursuing next.",
+    need: "When growth beyond the current customer base depends on better market intelligence and a more focused pipeline.",
+    outcomes: [
+      "Evaluate markets and segments",
+      "Identify high-fit companies and partners",
+      "Build repeatable business development workflows",
+    ],
+    tools: ["Market intelligence", "Prospecting", "CRM", "AI", "Research"],
+  },
+
+  {
+    number: "05",
+    category: "Scale",
+    title: "Remove what slows growth down",
+    promise:
+      "Automate repetitive work and build the data systems the business needs to scale.",
+    need: "When reporting, spreadsheets, disconnected systems or manual processes become bottlenecks.",
+    outcomes: [
+      "Automate recurring operational work",
+      "Connect systems and APIs",
+      "Build reliable data and reporting workflows",
+    ],
+    tools: ["Python", "APIs", "SQL", "BigQuery", "Automation"],
+  },
 ];
 
-const services = [
+const proofPoints = [
   {
-    tag: "Core offer",
-    title: "Technical SEO Audit",
-    copy: "A full review of crawlability, indexation, robots.txt, XML sitemaps, canonicals, redirects, duplicate content, internal linking, JavaScript rendering, structured data, and site architecture.",
+    number: "42%",
+    title: "Conversion improvement",
+    copy: "Growth work informed by behavioural analysis and real customer journeys.",
   },
   {
-    tag: "AI search",
-    title: "AI Visibility, AEO & GEO Audit",
-    copy: "A readiness review for AI-powered search, focused on content clarity, question-answer coverage, entity structure, topical clusters, trust signals, schema, and AI crawler access.",
+    number: "90%",
+    title: "Cloud cost reduction",
+    copy: "Technical improvements that materially reduced the cost of data processing.",
   },
   {
-    tag: "Performance",
-    title: "Core Web Vitals & Page Speed Audit",
-    copy: "A performance-focused audit covering LCP, INP, CLS, render-blocking assets, image optimization, font loading, third-party scripts, and template-level speed issues.",
-  },
-  {
-    tag: "Content structure",
-    title: "On-Page SEO Audit",
-    copy: "A practical review of titles, meta descriptions, headings, search intent, FAQs, topical relevance, image relevance, internal links, and calls to action.",
-  },
-  {
-    tag: "Analytics",
-    title: "SEO Analytics & Conversion Audit",
-    copy: "A data-driven review of GA4, Google Search Console, BigQuery, Amplitude, Hotjar, funnels, search behavior, click patterns, and drop-off points where available.",
-  },
-  {
-    tag: "Data analysis",
-    title: "Large-Scale Data Analysis",
-    copy: "Python, Polars, AWS, Apache Arrow, and Parquet workflows for large datasets, messy exports, cloud data, reporting problems, and business insight.",
-    href: "/services/large-scale-data-analysis/",
-  },
-  {
-    tag: "Automation",
-    title: "Custom SEO Diagnostics",
-    copy: "Custom checks using Python, JavaScript, APIs, and browser-based workflows when standard SEO tools are not enough for recurring or technical diagnostics.",
-  },
-  {
-    tag: "Product copywriting",
-    title: "Product Copy and Landing Pages",
-    copy: "Clear product messaging and landing-page copy built around customer intent, business goals, and conversion. Useful when the product is strong but the page does not explain its value clearly enough.",
-    href: "/services/product-copy-landing-pages/",
-  },
-  {
-    tag: "Paid acquisition",
-    title: "Google Ads and Local Services Ads",
-    copy: "Independent support for understanding lead quality, campaign performance, missed calls, bookings, and the real cost of turning Google leads into completed and profitable work.",
-
-    href: "/services/google-ads/",
+    number: "9+",
+    title: "Years across business & technology",
+    copy: "Experience spanning finance, analytics, data engineering, growth and operations.",
   },
 ];
 
-const deliverables = [
-  "Technical SEO audit report",
-  "Prioritized issue list by business impact",
-  "Crawl analysis and indexation review",
-  "Core Web Vitals and page speed findings",
-  "Internal linking and site architecture recommendations",
-  "Metadata, heading, and content structure recommendations",
-  "Structured data and schema recommendations",
-  "AI visibility and AEO/GEO readiness findings",
-  "Analytics and conversion insights",
-  "Developer-ready implementation notes",
+const experience = [
+  {
+    company: "Cargill",
+    logo: "/images/experience/CARGILL_LOGO.webp",
+    context: "Global agriculture & operations",
+  },
+  {
+    company: "PIA Group",
+    logo: "/images/experience/PIA_GROUP_NEDERLAND.avif",
+    context: "Professional services · Netherlands",
+  },
+  {
+    company: "European Investment Bank",
+    logo: "/images/experience/EIB_BANK.png",
+    context: "European institutional finance",
+  },
+  {
+    company: "European Investment Fund",
+    logo: "/images/experience/eif.png",
+    context: "European institutional finance",
+  },
+  {
+    company: "Distribusion",
+    logo: "/images/experience/DISTRIBUSION_TECHNOLOGIES.png",
+    context: "B2B technology · APIs · mobility",
+  },
 ];
 
-const steps = [
-  [
-    "Discovery",
-    "We define goals, priority pages, target markets, analytics access, known issues, and what success should look like.",
-  ],
-  [
-    "Crawl & collect",
-    "I review the site using SEO crawlers, browser inspection, performance tools, analytics platforms, and manual checks.",
-  ],
-  [
-    "Diagnose",
-    "I separate surface-level warnings from the issues that actually affect visibility, UX, and conversions.",
-  ],
-  [
-    "Prioritize",
-    "You receive a clear roadmap showing what to fix first, what can wait, and what needs developer support.",
-  ],
-  [
-    "Support",
-    "I can support implementation, QA, follow-up checks, and ongoing SEO monitoring.",
-  ],
+const workingStyle = [
+  {
+    number: "01",
+    title: "Understand the growth constraint",
+    copy: "We start with the commercial question: what are you trying to grow, what is getting in the way and what would meaningful progress look like?",
+  },
+  {
+    number: "02",
+    title: "Find the evidence",
+    copy: "I combine customer behaviour, market intelligence, business context and operational data instead of relying on assumptions.",
+  },
+  {
+    number: "03",
+    title: "Turn insight into execution",
+    copy: "I can move from analysis into implementation — measurement, workflows, automation, acquisition, technical systems or market development.",
+  },
 ];
 
-const tools = [
-  "Screaming Frog",
-  "Google Search Console",
-  "GA4",
-  "BigQuery",
-  "Amplitude",
-  "Hotjar",
-  "PageSpeed Insights",
-  "Chrome DevTools",
-  "Python",
-  "JavaScript",
-  "SQL",
-  "Custom diagnostics",
-];
-
-const faqs = [
-  [
-    "What is included in a technical SEO audit?",
-    "A technical SEO audit reviews whether your website can be crawled, rendered, indexed, understood, and used effectively by search engines. It can include site architecture, internal linking, page speed, Core Web Vitals, metadata, structured data, canonicals, redirects, JavaScript rendering, and duplicate content.",
+const personJsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Matteo Arellano",
+  url: "https://matteoarellano.com/",
+  jobTitle: "Independent Growth Partner",
+  description,
+  sameAs: ["https://www.linkedin.com/in/matteoarellano"],
+  knowsAbout: [
+    "Growth strategy",
+    "Business analytics",
+    "Product analytics",
+    "Business development",
+    "Market expansion",
+    "Conversion optimization",
+    "Search engine optimization",
+    "Data engineering",
+    "Business process automation",
   ],
-  [
-    "What is AI visibility?",
-    "AI visibility is the ability of your brand, content, and website to appear, be cited, or be summarized in AI-powered search experiences, including answer engines, conversational search, Google AI features, and AI assistants that use web search.",
-  ],
-  [
-    "Is AEO/GEO different from traditional SEO?",
-    "Yes and no. The technical foundation is similar: your content still needs to be crawlable, indexable, trustworthy, and useful. The difference is that AI-powered search often works through conversational questions, summaries, citations, and multi-step user journeys.",
-  ],
-  [
-    "Do you implement fixes or only provide audits?",
-    "I can provide audits, implementation guidance, QA, and ongoing support. For development-heavy changes, I can work with your developer or team and provide clear technical recommendations.",
-  ],
-  [
-    "Can you work with clients in the US and Canada?",
-    "Yes. I work remotely with clients in the US, Canada, and globally. También hablo español.",
-  ],
-];
+});
 ---
 
 <BaseLayout
@@ -173,252 +206,117 @@ const faqs = [
 >
   <Header />
 
-  <main id="top">
-    <section class="hero">
-      <div class="container hero-grid">
-        <div class="reveal">
-          <span class="kicker"
-            >Technical SEO audits for data-driven websites</span
-          >
+  <script type="application/ld+json" set:html={personJsonLd} />
+
+  <main class="services-index">
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
+
+    <section class="services-hero">
+      <div class="services-shell services-hero-grid">
+        <div class="services-hero-copy">
+          <span class="services-overline"> Independent growth partner </span>
+
           <h1>
-            Make your website easier to find, crawl, understand, and trust.
+            Find the next growth opportunity. Build what it takes to capture it.
           </h1>
-          <p class="lede">
-            I help websites improve visibility across Google Search, AI-powered
-            search, and conversion journeys through technical SEO audits,
-            on-page optimization, analytics, and AI visibility strategy.
+
+          <p class="services-hero-lede">
+            I combine commercial thinking, analytics and technical execution to
+            help B2B and service businesses uncover better insights, convert
+            more demand, expand into new markets and automate the work that
+            slows growth.
           </p>
-          <div class="hero-actions">
-            <a
-              class="button button-primary"
-              href="mailto:matteo.visibility@gmail.com?subject=Technical%20SEO%20Audit%20Request"
-              >Request a technical SEO audit</a
-            >
-            <a class="button button-secondary" href="#services"
-              >Explore services</a
-            >
-          </div>
-          <div class="trust-row" aria-label="Positioning highlights">
-            <span class="trust-pill">US / Canada focused</span>
-            <span class="trust-pill">Technical SEO + analytics</span>
-            <span class="trust-pill">AI visibility readiness</span>
-            <span class="trust-pill">También hablo español</span>
+
+          <p class="services-hero-fit">
+            From understanding the business problem to analysing the data and
+            helping implement the solution.
+          </p>
+
+          <div class="services-hero-actions">
+            <a class="services-primary-action" href="/services/">
+              See how I help businesses grow
+            </a>
+
+            <a class="services-text-action" href="/achievements/">
+              Results & experience →
+            </a>
           </div>
         </div>
 
-        <aside class="hero-card reveal" aria-label="SEO audit summary card">
-          <div class="audit-panel">
-            <div class="panel-header">
-              <div class="panel-title">Audit focus</div>
-              <div class="status"><span></span>Visibility ready</div>
+        <!-- PERSONAL PROFILE -->
+
+        <aside class="services-profile">
+          <div class="services-profile-image">
+            <img
+              src="/images/matteo-arellano-visibility-signup.jpg"
+              alt="Matteo Arellano"
+            />
+          </div>
+
+          <div class="services-profile-info">
+            <strong>Matteo Arellano</strong>
+
+            <p>Growth partner · Business + technology</p>
+
+            <div class="services-profile-specialisms" aria-label="Growth focus">
+              <span>Insights</span>
+              <span>Conversion</span>
+              <span>Expansion</span>
+              <span>Automation</span>
             </div>
-            <div class="metric-grid">
-              <div class="metric">
-                <strong>7+</strong><span
-                  >years across data, finance & growth</span
-                >
-              </div>
-              <div class="metric">
-                <strong>100+</strong><span
-                  >pages analyzed across analytics workflows</span
-                >
-              </div>
-              <div class="metric">
-                <strong>42%</strong><span
-                  >conversion lift through behavioral analysis</span
-                >
-              </div>
-              <div class="metric">
-                <strong>90%</strong><span
-                  >cloud cost reduction from automation work</span
-                >
-              </div>
+
+            <div class="services-profile-location">
+              <span>Based in Mexico City</span>
+              <span>Working internationally</span>
             </div>
-            <ul class="checklist">
-              <li>Crawlability, indexation, and site architecture</li>
-              <li>Core Web Vitals, page speed, and rendering</li>
-              <li>Structured data, internal links, and content clarity</li>
-              <li>GA4, BigQuery, Amplitude, and Hotjar insights</li>
-            </ul>
+
+            <nav class="services-profile-links" aria-label="Contact Matteo">
+              <a href="mailto:matteo.visibility@gmail.com"> Email </a>
+
+              <a
+                href="https://www.linkedin.com/in/matteoarellano"
+                target="_blank"
+                rel="noreferrer"
+              >
+                LinkedIn
+              </a>
+
+              <a
+                href="https://wa.me/525574136001"
+                target="_blank"
+                rel="noreferrer"
+              >
+                WhatsApp
+              </a>
+            </nav>
           </div>
         </aside>
       </div>
     </section>
-    <section class="visibility-signup-section" id="visibility-notes">
-      <div class="container visibility-signup-card">
-        <div class="visibility-signup-copy">
-          <span class="kicker">Website visibility notes</span>
 
-          <h2>
-            Get 3 practical website and AI visibility checks you can apply
-            today.
-          </h2>
+    <!-- =====================================================
+         PROOF
+         ===================================================== -->
 
-          <p>
-            I've helped over +30 companies increase their online traffic and
-            sales. Sign up to receive 3 personalized technical and
-            business-focused SEO actions that will boost your AI visibility,
-            increase high-quality traffic and improve conversion.
-          </p>
+    <section class="services-method">
+      <div class="services-shell">
+        <header class="services-method-header">
+          <span class="services-overline"> Selected impact </span>
 
-          <form
-            id="visibility-signup-form"
-            class="visibility-signup-form"
-            action="https://docs.google.com/forms/d/e/1FAIpQLSeH9tRoAczoBhezqq2XQcVFLDFo770BOVLDrLykqPHoj7n6oA/formResponse"
-            method="POST"
-            target="hidden-form-submit"
-          >
-            <div class="visibility-form-row">
-              <label>
-                <span>Email address</span>
-                <input
-                  name="entry.1812876085"
-                  type="email"
-                  placeholder="you@example.com"
-                  required
-                />
-              </label>
+          <h2>Growth has to show up somewhere measurable.</h2>
+        </header>
 
-              <label>
-                <span>Website URL <em>optional</em></span>
-                <input
-                  name="entry.1635188906"
-                  type="url"
-                  placeholder="https://yourwebsite.com"
-                />
-              </label>
-            </div>
-
-            <button type="submit"
-              >Yes. I want to receive my personalized AI and SEO checks</button
-            >
-
-            <p class="visibility-signup-note">
-              No spam. You can request removal at any time. Read the
-              <a href="/privacy-policy/">Privacy Policy</a>.
-            </p>
-            <p
-              id="visibility-signup-form"
-              class="visibility-signup-success"
-              aria-live="polite"
-            >
-              Sent. I received your request.
-            </p>
-          </form>
-
-          <iframe
-            name="hidden-form-submit"
-            style="display: none;"
-            title="Hidden form submission"></iframe>
-
-          <script>
-            const visibilityForm = document.getElementById(
-              "visibility-signup-form",
-            );
-
-            if (visibilityForm) {
-              const submitButton = visibilityForm.querySelector(
-                "button[type='submit']",
-              );
-              const successMessage = visibilityForm.querySelector(
-                ".visibility-signup-success",
-              );
-
-              visibilityForm.addEventListener("submit", () => {
-                if (!submitButton || !successMessage) return;
-
-                submitButton.textContent = "Sending...";
-                submitButton.disabled = true;
-
-                window.setTimeout(() => {
-                  visibilityForm.reset();
-
-                  successMessage.classList.add("is-visible");
-                  submitButton.textContent = "Sent";
-
-                  window.setTimeout(() => {
-                    submitButton.textContent = "Get my 3 visibility fixes";
-                    submitButton.disabled = false;
-                    successMessage.classList.remove("is-visible");
-                  }, 3500);
-                }, 900);
-              });
-            }
-          </script>
-        </div>
-
-        <div class="visibility-signup-image" aria-label="Matteo Arellano"></div>
-      </div>
-    </section>
-
-    <section class="section soft" id="positioning">
-      <div class="container split">
-        <div>
-          <div class="eyebrow">Positioning</div>
-          <h2>
-            A technical SEO consultant with a data and analytics background.
-          </h2>
-        </div>
-        <div class="feature-box">
-          <p>
-            I started in finance and accounting, then moved into process
-            automation, data engineering, analytics, and growth. That background
-            shapes the way I approach SEO: I do not only look at keywords. I
-            look at systems, data flows, user behavior, technical constraints,
-            and business outcomes.
-          </p>
-          <p>
-            My SEO work combines technical audits, HTML/CSS/JavaScript analysis,
-            analytics review, content structure, page experience, and AI
-            visibility strategy.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="problems">
-      <div class="container problem-grid">
-        <div class="problem-callout">
-          <div class="eyebrow">Visibility blockers</div>
-          <h2>Your content may be good, but still technically invisible.</h2>
-          <p>
-            Many websites underperform because search engines and AI systems
-            cannot clearly crawl, understand, connect, or trust the content. I
-            find the gaps and turn them into a prioritized roadmap.
-          </p>
-        </div>
-        <div class="problem-list">
-          {problems.map((problem) => <div class="problem-item">{problem}</div>)}
-        </div>
-      </div>
-    </section>
-
-    <section class="section soft" id="services">
-      <div class="container">
-        <div class="section-header">
-          <div>
-            <div class="eyebrow">Services</div>
-            <h2>Focused audit services for serious visibility work.</h2>
-          </div>
-          <p>
-            These offers combine technical SEO, AI visibility, analytics,
-            automation, product messaging, landing pages, Google Ads, and Local
-            Services Ads support.
-          </p>
-        </div>
-        <div class="card-grid">
+        <div class="services-method-grid">
           {
-            services.map((service) => (
-              <article class="card">
-                <span class="tag">{service.tag}</span>
-                <h3>{service.title}</h3>
-                <p>{service.copy}</p>
+            proofPoints.map((item) => (
+              <article class="services-method-item">
+                <span>{item.number}</span>
 
-                {service.href && (
-                  <a class="card-link" href={service.href}>
-                    Learn more
-                  </a>
-                )}
+                <h3>{item.title}</h3>
+
+                <p>{item.copy}</p>
               </article>
             ))
           }
@@ -426,148 +324,165 @@ const faqs = [
       </div>
     </section>
 
-    <section class="section" id="deliverables">
-      <div class="container">
-        <div class="section-header">
-          <div>
-            <div class="eyebrow">Deliverables</div>
-            <h2>Clear findings your team can actually implement.</h2>
-          </div>
-          <p>
-            Every audit is designed to be practical, not theoretical. The goal
-            is to give developers, marketers, and business owners a clear path
-            forward.
-          </p>
-        </div>
-        <div class="deliverables">
-          {deliverables.map((item) => <div class="deliverable">{item}</div>)}
-        </div>
-      </div>
-    </section>
+    <!-- =====================================================
+         GROWTH LEVERS
+         ===================================================== -->
 
-    <section class="section soft" id="process">
-      <div class="container">
-        <div class="section-header">
-          <div>
-            <div class="eyebrow">Process</div>
-            <h2>
-              A rigorous audit process, from discovery to implementation
-              support.
-            </h2>
-          </div>
+    <section class="services-portfolio" id="growth">
+      <div class="services-shell">
+        <header class="services-portfolio-header">
+          <span class="services-overline"> Growth levers </span>
+
+          <h2>Growth is rarely just a marketing problem.</h2>
+
           <p>
-            The process is structured so you understand what matters, why it
-            matters, and what to do next.
+            Sometimes the opportunity is hidden in the data. Sometimes customers
+            cannot find you. Sometimes they find you but do not convert.
+            Sometimes the team simply cannot scale the process behind it.
           </p>
-        </div>
-        <div class="process-grid">
+        </header>
+
+        <div class="services-card-grid">
           {
-            steps.map(([name, copy], index) => (
-              <article
-                class="step"
-                data-step={String(index + 1).padStart(2, "0")}
-              >
-                <strong>{index + 1}</strong>
-                <h3>{name}</h3>
-                <p>{copy}</p>
+            growthLevers.map((lever) => (
+              <article class="services-card">
+                <div class="services-card-top">
+                  <span class="services-card-number">{lever.number}</span>
+
+                  <span class="services-card-category">{lever.category}</span>
+                </div>
+
+                <h3>{lever.title}</h3>
+
+                <p class="services-card-promise">{lever.promise}</p>
+
+                <p class="services-card-need">{lever.need}</p>
+
+                <div class="services-card-divider" />
+
+                <p class="services-card-label">Where I can help</p>
+
+                <ul class="services-card-outcomes">
+                  {lever.outcomes.map((outcome) => (
+                    <li>{outcome}</li>
+                  ))}
+                </ul>
+
+                <div class="services-card-tools">
+                  {lever.tools.map((tool) => (
+                    <span>{tool}</span>
+                  ))}
+                </div>
               </article>
             ))
           }
         </div>
+
+        <div class="services-hero-actions">
+          <a class="services-primary-action" href="/services/">
+            Explore all services
+          </a>
+        </div>
       </div>
     </section>
 
-    <section class="section" id="tools">
-      <div class="container">
-        <div class="section-header">
-          <div>
-            <div class="eyebrow">Tools, methods & resources</div>
-            <h2>The tool is not the strategy. The interpretation is.</h2>
-          </div>
+    <!-- =====================================================
+         DIFFERENTIATION
+         ===================================================== -->
+
+    <section class="services-method">
+      <div class="services-shell">
+        <header class="services-method-header">
+          <span class="services-overline"> Business + technology </span>
+
+          <h2>I bring actionable solutions in 15 days</h2>
+
           <p>
-            I use crawlers, analytics platforms, browser inspection, performance
-            testing, and custom scripts to understand both the website and the
-            behavior behind it.
+            The useful part of my background is the combination. I can
+            understand the commercial problem, investigate it with data and go
+            deep enough technically to help build the solution.
           </p>
+        </header>
+
+        <div class="services-method-grid">
+          <article class="services-method-item">
+            <span>BUSINESS</span>
+
+            <h3>Commercial thinking</h3>
+
+            <p>
+              Customer acquisition, conversion, business development, market
+              expansion, finance and operational performance.
+            </p>
+          </article>
+
+          <article class="services-method-item">
+            <span>DATA</span>
+
+            <h3>Evidence before assumptions</h3>
+
+            <p>
+              Customer behaviour, product analytics, market intelligence, large
+              datasets and business performance analysis.
+            </p>
+          </article>
+
+          <article class="services-method-item">
+            <span>EXECUTION</span>
+
+            <h3>Technical depth</h3>
+
+            <p>
+              SQL, BigQuery, Python, APIs, analytics implementation, data
+              pipelines, automation and technical diagnostics.
+            </p>
+          </article>
         </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         EXPERIENCE
+         ===================================================== -->
+
+    <section class="services-experience">
+      <div class="services-shell">
+        <header class="services-experience-header">
+          <span class="services-overline"> Selected experience </span>
+
+          <h2>Experience inside different kinds of businesses.</h2>
+
+          <p>
+            My background spans global operations, professional services,
+            European finance and API-intensive B2B technology. That range is
+            useful when the problem does not fit neatly inside one department.
+          </p>
+
+          <a href="/achievements/" class="services-text-action">
+            See achievements & recommendations →
+          </a>
+        </header>
 
         <div
-          class="tool-cloud compact-tool-cloud"
-          aria-label="SEO and analytics tools"
+          class="services-logo-grid"
+          aria-label="Organizations Matteo Arellano has worked with"
         >
-          {tools.map((tool) => <span class="tool">{tool}</span>)}
-        </div>
-
-        <article class="cookbook-feature-card">
-          <div>
-            <span class="tag">Resource library</span>
-            <h3>Technical Growth Cookbook</h3>
-            <p>
-              A growing collection of reusable code recipes for SEO, analytics,
-              campaign tracking, browser diagnostics, Core Web Vitals, Search
-              Console exports, and large-scale data analysis.
-            </p>
-          </div>
-
-          <a class="button button-primary" href="/resources/">
-            Open the cookbook
-          </a>
-        </article>
-      </div>
-    </section>
-
-    <section class="section soft" id="ai-visibility">
-      <div class="container split">
-        <div class="feature-box">
-          <div class="eyebrow">AI visibility</div>
-          <h2>AI visibility starts with technical clarity.</h2>
-          <p>
-            AI search does not remove the need for SEO. It increases the need
-            for clean structure, useful content, clear entities, trustworthy
-            signals, and technically accessible pages.
-          </p>
-          <p>
-            For a website to appear in AI-powered search experiences, it needs
-            to be easy to crawl, easy to understand, and easy to summarize. My
-            audits focus on whether your website can be discovered, interpreted,
-            cited, and connected across a full search journey.
-          </p>
-        </div>
-        <div class="card-grid" style="grid-template-columns: 1fr;">
-          <article class="card">
-            <span class="tag">Entity clarity</span>
-            <h3>Make the business and offer easy to understand.</h3>
-            <p>
-              Clarify who you are, what you offer, who you help, what proof
-              exists, and how your pages connect into a full topic cluster.
-            </p>
-          </article>
-          <article class="card">
-            <span class="tag">Answer readiness</span>
-            <h3>Answer the questions buyers actually ask.</h3>
-            <p>
-              Structure content so users, search engines, and AI systems can
-              extract direct answers without guessing.
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="faq">
-      <div class="container">
-        <div class="section-header">
-          <div>
-            <div class="eyebrow">FAQ</div>
-            <h2>Common questions about technical SEO and AI visibility.</h2>
-          </div>
-        </div>
-        <div class="faq">
           {
-            faqs.map(([question, answer]) => (
-              <article class="faq-item">
-                <h3>{question}</h3>
-                <p>{answer}</p>
+            experience.map((item) => (
+              <article class="services-logo-item">
+                <div class="services-logo-image">
+                  <img
+                    src={item.logo}
+                    alt={`${item.company} logo`}
+                    loading="lazy"
+                  />
+                </div>
+
+                <div class="services-logo-copy">
+                  <strong>{item.company}</strong>
+
+                  <span>{item.context}</span>
+                </div>
               </article>
             ))
           }
@@ -575,29 +490,98 @@ const faqs = [
       </div>
     </section>
 
-    <section class="container cta-band" id="contact">
-      <div class="eyebrow">Request an audit</div>
-      <h2>Ready to find what is blocking your visibility?</h2>
-      <p>
-        If your website is not ranking, not converting, or not appearing where
-        your customers search, the first step is a clear technical and AI
-        visibility audit.
-      </p>
-      <div class="hero-actions">
-        <a
-          class="button button-secondary"
-          href="mailto:matteo.visibility@gmail.com?subject=Technical%20SEO%20Audit%20Request&body=Hi%20Matteo,%0A%0AI'd%20like%20to%20request%20a%20technical%20SEO%20audit.%20My%20website%20is:%20"
-          >Email Matteo</a
-        >
-        <a
-          class="button button-secondary"
-          href="https://www.linkedin.com/in/matteoarellano"
-          target="_blank"
-          rel="noreferrer">Connect on LinkedIn</a
-        >
+    <!-- =====================================================
+         WORKING RELATIONSHIP
+         ===================================================== -->
+
+    <section class="services-method">
+      <div class="services-shell">
+        <header class="services-method-header">
+          <span class="services-overline"> How I work </span>
+
+          <h2>From opportunity to execution.</h2>
+
+          <p>
+            The goal is not another report. It is to understand what would move
+            the business forward and help make it happen.
+          </p>
+        </header>
+
+        <div class="services-method-grid">
+          {
+            workingStyle.map((item) => (
+              <article class="services-method-item">
+                <span>{item.number}</span>
+
+                <h3>{item.title}</h3>
+
+                <p>{item.copy}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         FINAL CTA
+         ===================================================== -->
+
+    <section class="services-contact">
+      <div class="services-shell services-contact-inner">
+        <div>
+          <span class="services-overline"> Let's grow </span>
+
+          <h2>What are you trying to grow?</h2>
+
+          <p>
+            Tell me what you want to improve — acquisition, conversion,
+            expansion, insight or operations. I'll tell you where I would start
+            and whether I can help.
+          </p>
+        </div>
+
+        <div class="services-contact-actions">
+          <a
+            class="services-contact-primary"
+            href="mailto:matteo.visibility@gmail.com?subject=Growth%20opportunity&body=Hi%20Matteo,%0A%0AWhat%20we%20want%20to%20grow%20or%20improve%20is:%20"
+          >
+            Tell me what you want to grow
+          </a>
+
+          <a
+            class="services-contact-secondary"
+            href="https://wa.me/525574136001?text=Hi%20Matteo%2C%20I'd%20like%20to%20talk%20about%20a%20growth%20opportunity."
+            target="_blank"
+            rel="noreferrer"
+          >
+            WhatsApp
+          </a>
+        </div>
       </div>
     </section>
   </main>
+
+  <!-- FLOATING WHATSAPP -->
+
+  <a
+    class="services-whatsapp-float"
+    href="https://wa.me/525574136001?text=Hi%20Matteo%2C%20I'd%20like%20to%20talk%20about%20a%20growth%20opportunity."
+    target="_blank"
+    rel="noreferrer"
+    aria-label="Contact Matteo on WhatsApp"
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+      <path
+        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.198.297-.767.966-.94 1.164-.173.198-.347.223-.644.074-.297-.148-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.297-.497.099-.198.05-.371-.025-.52-.074-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.009-.371-.011-.57-.011-.198 0-.52.074-.792.371-.272.297-1.04 1.016-1.04 2.479s1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.262.489 1.693.625.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"
+      ></path>
+      <path
+        d="M12.004 2C6.477 2 2 6.477 2 12c0 1.764.459 3.42 1.261 4.858L2 22l5.293-1.235A9.94 9.94 0 0 0 12.004 22C17.527 22 22 17.523 22 12S17.527 2 12.004 2zm0 18.182a8.14 8.14 0 0 1-4.147-1.135l-.297-.176-3.14.733.748-3.058-.193-.314A8.145 8.145 0 0 1 3.818 12c0-4.515 3.671-8.182 8.186-8.182 4.511 0 8.178 3.667 8.178 8.182s-3.667 8.182-8.178 8.182z"
+      ></path>
+    </svg>
+
+    <span>WhatsApp</span>
+  </a>
 
   <Footer />
 </BaseLayout>
