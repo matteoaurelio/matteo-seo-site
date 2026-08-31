@@ -1,0 +1,1014 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { blogPosts } from "../../data/blog";
+import { cookbookChapters, cookbookRecipes } from "../../data/cookbook";
+
+const title = "Insights | Matteo Arellano";
+const description =
+  "Articles, field notes, technical recipes and practical resources across growth, product, analytics, data, automation, acquisition and visibility.";
+const canonical = "https://matteoarellano.com/insights/";
+
+const articles = [...blogPosts].sort(
+  (a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf(),
+);
+
+const fieldNotes = (await getCollection("journal", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const formatDate = (value: string | Date) =>
+  new Date(value).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+
+const articleHref = (post: (typeof blogPosts)[number]) =>
+  `/blog/${post.topic}/${post.slug}/`;
+
+const growthAreas = [
+  {
+    number: "01",
+    title: "Growth & Commercial Strategy",
+    description:
+      "How to find useful demand, understand commercial opportunities and decide where growth effort is worth investing.",
+    links: [
+      {
+        label: "Keyword research that solves real customer problems",
+        href: "/blog/organic-growth/how-to-get-more-website-traffic-keyword-research/",
+      },
+      {
+        label: "The Product Graph: related products, services and demand",
+        href: "/blog/organic-growth/product-graph-related-products-services-seo/",
+      },
+      {
+        label: "What Finance Taught Me About Fixing Conversion Funnels",
+        href: "/journal/2026-07-18-what-finance-taught-me-about-fixing-conversion-funnels/",
+      },
+    ],
+  },
+  {
+    number: "02",
+    title: "Product & Conversion",
+    description:
+      "Funnel problems, product friction, landing experiences and the technical details that determine whether demand becomes revenue.",
+    links: [
+      {
+        label: "How Deep Analytics Work Fixed Product Bugs",
+        href: "/journal/2026-07-18-how-deep-analytics-work-fixed-product-bugs/",
+      },
+      {
+        label: "How JavaScript Loading Order Broke a Conversion Funnel",
+        href: "/journal/2026-07-24-how-i-fixed-a-broken-funnel-caused-by-javascript-loading-order/",
+      },
+      {
+        label: "How to Make Great Product Copy and Sell More",
+        href: "/blog/organic-growth/how-to-make-great-product-copy-sell-more/",
+      },
+    ],
+  },
+  {
+    number: "03",
+    title: "Analytics & Measurement",
+    description:
+      "Measurement architecture, funnels, experiments and ways to turn behavioural data into decisions rather than dashboards.",
+    links: [
+      {
+        label: "How to Analyze a Funnel Without Drowning in the Details",
+        href: "/journal/2026-07-13-how-to-analyze-a-funnel-without-drowning-in-the-details/",
+      },
+      {
+        label: "Run a Simple A/B Test with UTMs and Traffic Splitting",
+        href: "/blog/analytics-measurement/utm-ab-test-traffic-split-food-delivery/",
+      },
+      {
+        label: "Separate Website Analytics in GA4",
+        href: "/journal/2026-07-22-separate-website-analytics-in-ga4-if-websites-are-not-sharing-user-experience/",
+      },
+    ],
+  },
+  {
+    number: "04",
+    title: "Data & Automation",
+    description:
+      "Python, APIs, data engineering, scalable analysis and technical workflows that remove repetitive work or make better decisions possible.",
+    links: [
+      {
+        label: "How I Turned Mexico’s DENUE API Into a National Excel Dataset",
+        href: "/journal/2026-08-02-how-i-turned-mexicos-denue-api-into-a-national-excel-dataset-with-python/",
+      },
+      {
+        label: "Large-Scale Data Workflows with Python, Polars & Cloud",
+        href: "/resources/data-workflows/",
+      },
+      {
+        label: "Reporting, Visualization & Decision Systems",
+        href: "/resources/reporting/",
+      },
+    ],
+  },
+  {
+    number: "05",
+    title: "Acquisition & Visibility",
+    description:
+      "Technical SEO, AI discovery, search demand, performance and the acquisition mechanics that help the right people find a business.",
+    links: [
+      {
+        label: "What Google AI Mode Means for Businesses",
+        href: "/blog/ai-visibility/google-ai-mode-search-business-impact/",
+      },
+      {
+        label: "Core Web Vitals: How to Read a Real PageSpeed Report",
+        href: "/blog/technical-seo/core-web-vitals-pagespeed-audit/",
+      },
+      {
+        label: "How AI Visibility Can Support Conversion",
+        href: "/blog/ai-visibility/how-to-drive-conversion-through-ai-visibility/",
+      },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  image="/images/matteo-arellano-visibility-signup.jpg"
+>
+  <Header />
+
+  <main class="insights-page">
+    <section class="insights-hero">
+      <div class="insights-shell insights-hero-grid">
+        <div>
+          <span class="insights-kicker">Insights</span>
+          <h1>Knowledge Hub</h1>
+          <p class="insights-hero-lede">
+            Articles, field notes and technical recipes about growth, product,
+            analytics, data, automation and visibility. Most of what I write starts
+            with a real problem I had to understand, build or fix.
+          </p>
+
+          <div class="insights-hero-actions">
+            <a class="insights-primary-button" href="#latest-articles">Latest articles</a>
+            <a class="insights-secondary-button" href="/resources/">Open the technical cookbook →</a>
+          </div>
+        </div>
+
+        <aside class="insights-hero-index" aria-label="Insights library summary">
+          <div>
+            <strong>{articles.length}</strong>
+            <span>Published articles</span>
+          </div>
+          <div>
+            <strong>{fieldNotes.length}</strong>
+            <span>Field notes</span>
+          </div>
+          <div>
+            <strong>{cookbookChapters.length}</strong>
+            <span>Cookbook chapters</span>
+          </div>
+          <div>
+            <strong>{cookbookRecipes.length}</strong>
+            <span>Published recipes</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="insights-section insights-section--areas" aria-labelledby="growth-areas-title">
+      <div class="insights-shell">
+        <header class="insights-section-heading">
+          <span class="insights-kicker">Browse by growth area</span>
+          <h2 id="growth-areas-title">One library. Five ways of looking at growth.</h2>
+          <p>
+            The categories overlap on purpose. A conversion problem can become a data
+            problem; an acquisition problem can become a product problem. These are
+            useful lenses, not silos.
+          </p>
+        </header>
+
+        <div class="insights-area-grid">
+          {growthAreas.map((area) => (
+            <article class="insights-area-card">
+              <div class="insights-area-card-top">
+                <span>{area.number}</span>
+                <h3>{area.title}</h3>
+              </div>
+              <p>{area.description}</p>
+              <div class="insights-area-links">
+                {area.links.map((link) => (
+                  <a href={link.href}>{link.label}<span aria-hidden="true">→</span></a>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="insights-section" id="latest-articles" aria-labelledby="articles-title">
+      <div class="insights-shell">
+        <header class="insights-section-heading insights-section-heading--split">
+          <div>
+            <span class="insights-kicker">Latest articles</span>
+            <h2 id="articles-title">Articles and practical guides.</h2>
+          </div>
+          <a class="insights-section-link" href="/blog/">Open the original blog archive →</a>
+        </header>
+
+        <div class="insights-article-grid">
+          {articles.map((post, index) => (
+            <article class:list={["insights-article-card", index === 0 && "insights-article-card--featured"]}>
+              <div class="insights-article-meta">
+                <span>{formatDate(post.date)}</span>
+                <span>{post.readingTime}</span>
+              </div>
+              <h3><a href={articleHref(post)}>{post.title}</a></h3>
+              <p>{post.description}</p>
+              <a class="insights-read-link" href={articleHref(post)}>Read article →</a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="insights-section insights-section--dark" id="field-notes" aria-labelledby="field-notes-title">
+      <div class="insights-shell">
+        <header class="insights-section-heading insights-section-heading--light insights-section-heading--split">
+          <div>
+            <span class="insights-kicker">Field Notes</span>
+            <h2 id="field-notes-title">What I learned while doing the work.</h2>
+            <p>
+              Shorter notes from projects, investigations and experiments. Client names
+              and confidential details are removed; the useful lesson stays.
+            </p>
+          </div>
+          <a class="insights-section-link insights-section-link--light" href="/journal/">View Field Notes archive →</a>
+        </header>
+
+        <div class="insights-note-list">
+          {fieldNotes.map((entry, index) => (
+            <a class="insights-note-row" href={`/journal/${entry.id}/`}>
+              <span class="insights-note-number">{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <span class="insights-note-date">{formatDate(entry.data.pubDate)}</span>
+                <h3>{entry.data.title}</h3>
+                <p>{entry.data.description}</p>
+              </div>
+              <span class="insights-note-arrow" aria-hidden="true">↗</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="insights-section" id="technical-resources" aria-labelledby="resources-title">
+      <div class="insights-shell">
+        <header class="insights-section-heading insights-section-heading--split">
+          <div>
+            <span class="insights-kicker">Technical Resources</span>
+            <h2 id="resources-title">The Technical Growth Cookbook.</h2>
+            <p>
+              Ten practical chapters covering measurement, browser diagnostics,
+              performance, search, large-scale data workflows and decision systems.
+            </p>
+          </div>
+          <a class="insights-section-link" href="/resources/">Open full cookbook →</a>
+        </header>
+
+        <div class="insights-resource-grid">
+          {cookbookChapters.map((chapter) => {
+            const recipeCount = cookbookRecipes.filter(
+              (recipe) => recipe.chapterSlug === chapter.slug,
+            ).length;
+
+            return (
+              <a class="insights-resource-card" href={`/resources/${chapter.slug}/`}>
+                <div class="insights-resource-topline">
+                  <span>Chapter {chapter.number}</span>
+                  <span>{recipeCount > 0 ? `${recipeCount} recipe${recipeCount === 1 ? "" : "s"}` : "Planned"}</span>
+                </div>
+                <h3>{chapter.title}</h3>
+                <p>{chapter.description}</p>
+                <div class="insights-resource-tags">
+                  {chapter.tags.map((tag) => <span>{tag}</span>)}
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+
+    <section class="insights-section insights-section--recipes" id="recipes" aria-labelledby="recipes-title">
+      <div class="insights-shell">
+        <header class="insights-section-heading">
+          <span class="insights-kicker">Published recipes</span>
+          <h2 id="recipes-title">Code you can actually use.</h2>
+          <p>
+            Each recipe starts with a practical problem, then explains the code,
+            measurement logic and the mistakes worth avoiding.
+          </p>
+        </header>
+
+        <div class="insights-recipe-grid">
+          {cookbookRecipes.map((recipe) => (
+            <a class="insights-recipe-card" href={recipe.href}>
+              <div class="insights-recipe-number">Recipe {recipe.number}</div>
+              <h3>{recipe.title}</h3>
+              <p>{recipe.description}</p>
+              <div class="insights-recipe-footer">
+                <span>{recipe.language}</span>
+                <span>{recipe.difficulty}</span>
+                <strong>Open recipe →</strong>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="insights-closing">
+      <div class="insights-shell insights-closing-inner">
+        <span class="insights-kicker">The point of the library</span>
+        <h2>Understand the problem. Build something useful. Share what worked.</h2>
+        <p>
+          The same principle runs through the articles, Field Notes and technical
+          recipes: start with a real business question and use the tools that help
+          answer it.
+        </p>
+        <a class="insights-primary-button" href="/#availability">Talk through a problem</a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .insights-page {
+    --ink: #0d2e47;
+    --muted: #5d7488;
+    --line: #d8e5ec;
+    --soft: #f4f8fa;
+    --blue: #0b69b7;
+    --cyan: #36bce5;
+    --dark: #071827;
+    color: var(--ink);
+    background: #fff;
+  }
+
+  .insights-shell {
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto;
+  }
+
+  .insights-hero {
+    padding: 104px 0 82px;
+    color: #fff;
+    background:
+      radial-gradient(circle at 83% 18%, rgba(54, 188, 229, 0.2), transparent 24rem),
+      linear-gradient(135deg, #071827 0%, #0b2940 62%, #0d3854 100%);
+  }
+
+  .insights-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
+    gap: 80px;
+    align-items: end;
+  }
+
+  .insights-kicker {
+    display: block;
+    margin-bottom: 16px;
+    color: #35bce6;
+    font-size: 0.76rem;
+    font-weight: 850;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .insights-hero h1 {
+    max-width: 820px;
+    margin: 0;
+    color: #fff;
+    font-size: clamp(3rem, 6vw, 5.8rem);
+    line-height: 0.99;
+    letter-spacing: -0.055em;
+  }
+
+  .insights-hero-lede {
+    max-width: 760px;
+    margin: 28px 0 0;
+    color: #c9d9e4;
+    font-size: clamp(1.05rem, 1.7vw, 1.25rem);
+    line-height: 1.7;
+  }
+
+  .insights-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 34px;
+  }
+
+  .insights-primary-button,
+  .insights-secondary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px;
+    padding: 0 20px;
+    border-radius: 12px;
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .insights-primary-button {
+    color: #062236;
+    background: #59d1f2;
+  }
+
+  .insights-primary-button:hover {
+    background: #7bdcf6;
+  }
+
+  .insights-secondary-button {
+    color: #eaf6fb;
+    border: 1px solid rgba(219, 239, 248, 0.3);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .insights-secondary-button:hover {
+    border-color: rgba(89, 209, 242, 0.75);
+  }
+
+  .insights-hero-index {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    overflow: hidden;
+    border: 1px solid rgba(220, 240, 249, 0.18);
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .insights-hero-index > div {
+    min-height: 145px;
+    padding: 28px;
+    background: rgba(4, 20, 32, 0.68);
+  }
+
+  .insights-hero-index strong,
+  .insights-hero-index span {
+    display: block;
+  }
+
+  .insights-hero-index strong {
+    color: #fff;
+    font-size: 2.6rem;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .insights-hero-index span {
+    margin-top: 10px;
+    color: #a9bfce;
+    font-size: 0.82rem;
+    line-height: 1.4;
+  }
+
+  .insights-section {
+    padding: 92px 0;
+  }
+
+  .insights-section--areas {
+    background: var(--soft);
+  }
+
+  .insights-section-heading {
+    max-width: 820px;
+    margin-bottom: 42px;
+  }
+
+  .insights-section-heading--split {
+    max-width: none;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 36px;
+  }
+
+  .insights-section-heading--split > div {
+    max-width: 780px;
+  }
+
+  .insights-section-heading h2 {
+    margin: 0;
+    color: var(--ink);
+    font-size: clamp(2.2rem, 4.4vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -0.045em;
+  }
+
+  .insights-section-heading p {
+    max-width: 760px;
+    margin: 18px 0 0;
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.72;
+  }
+
+  .insights-section-link {
+    flex: 0 0 auto;
+    padding-bottom: 8px;
+    color: var(--blue);
+    font-size: 0.86rem;
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .insights-section-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+
+  .insights-area-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .insights-area-card {
+    padding: 34px;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: #fff;
+  }
+
+  .insights-area-card:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .insights-area-card-top {
+    display: grid;
+    grid-template-columns: 42px 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+
+  .insights-area-card-top > span {
+    padding-top: 5px;
+    color: #78a5bd;
+    font-size: 0.75rem;
+    font-weight: 850;
+  }
+
+  .insights-area-card h3 {
+    margin: 0;
+    color: var(--ink);
+    font-size: 1.65rem;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+  }
+
+  .insights-area-card > p {
+    margin: 18px 0 24px 60px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .insights-area-links {
+    margin-left: 60px;
+    border-top: 1px solid #e4edf2;
+  }
+
+  .insights-area-links a {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 20px;
+    padding: 14px 0;
+    color: #244a66;
+    border-bottom: 1px solid #e4edf2;
+    font-size: 0.86rem;
+    font-weight: 750;
+    line-height: 1.45;
+    text-decoration: none;
+  }
+
+  .insights-area-links a:hover {
+    color: var(--blue);
+  }
+
+  .insights-article-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .insights-article-card {
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+    padding: 28px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: #fff;
+  }
+
+  .insights-article-card--featured {
+    grid-column: span 2;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(54, 188, 229, 0.13), transparent 18rem),
+      #f6fbfd;
+  }
+
+  .insights-article-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    color: #7b91a1;
+    font-size: 0.74rem;
+    font-weight: 750;
+  }
+
+  .insights-article-card h3 {
+    margin: 34px 0 0;
+    font-size: 1.45rem;
+    line-height: 1.25;
+    letter-spacing: -0.028em;
+  }
+
+  .insights-article-card h3 a {
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .insights-article-card h3 a:hover {
+    color: var(--blue);
+  }
+
+  .insights-article-card p {
+    margin: 15px 0 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.62;
+  }
+
+  .insights-read-link {
+    margin-top: auto;
+    padding-top: 26px;
+    color: var(--blue);
+    font-size: 0.8rem;
+    font-weight: 850;
+    text-decoration: none;
+  }
+
+  .insights-section--dark {
+    color: #fff;
+    background:
+      radial-gradient(circle at 12% 15%, rgba(50, 171, 215, 0.16), transparent 27rem),
+      #071827;
+  }
+
+  .insights-section-heading--light h2 {
+    color: #fff;
+  }
+
+  .insights-section-heading--light p {
+    color: #aebfca;
+  }
+
+  .insights-section-link--light {
+    color: #58cbed;
+  }
+
+  .insights-note-list {
+    border-top: 1px solid rgba(218, 238, 247, 0.16);
+  }
+
+  .insights-note-row {
+    display: grid;
+    grid-template-columns: 50px minmax(0, 1fr) auto;
+    gap: 24px;
+    padding: 27px 4px;
+    color: inherit;
+    border-bottom: 1px solid rgba(218, 238, 247, 0.13);
+    text-decoration: none;
+    transition: padding 180ms ease, background 180ms ease;
+  }
+
+  .insights-note-row:hover {
+    padding-left: 14px;
+    padding-right: 14px;
+    background: rgba(255, 255, 255, 0.035);
+  }
+
+  .insights-note-number {
+    padding-top: 3px;
+    color: #548197;
+    font-size: 0.72rem;
+    font-weight: 850;
+  }
+
+  .insights-note-date {
+    color: #74a8bf;
+    font-size: 0.72rem;
+    font-weight: 750;
+  }
+
+  .insights-note-row h3 {
+    margin: 6px 0 0;
+    color: #f4f9fc;
+    font-size: 1.2rem;
+    line-height: 1.3;
+  }
+
+  .insights-note-row p {
+    max-width: 780px;
+    margin: 8px 0 0;
+    color: #9fb3bf;
+    font-size: 0.86rem;
+    line-height: 1.55;
+  }
+
+  .insights-note-arrow {
+    align-self: center;
+    color: #57c7e9;
+    font-size: 1.1rem;
+  }
+
+  .insights-resource-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .insights-resource-card {
+    display: block;
+    padding: 30px;
+    color: inherit;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: #fff;
+    text-decoration: none;
+    transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+  }
+
+  .insights-resource-card:hover {
+    transform: translateY(-4px);
+    border-color: #75b9d7;
+    box-shadow: 0 18px 40px rgba(20, 70, 105, 0.08);
+  }
+
+  .insights-resource-topline {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    color: #7b99a9;
+    font-size: 0.7rem;
+    font-weight: 850;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .insights-resource-card h3 {
+    margin: 30px 0 0;
+    color: var(--ink);
+    font-size: 1.35rem;
+    line-height: 1.28;
+    letter-spacing: -0.025em;
+  }
+
+  .insights-resource-card p {
+    margin: 12px 0 0;
+    color: var(--muted);
+    font-size: 0.88rem;
+    line-height: 1.58;
+  }
+
+  .insights-resource-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 22px;
+  }
+
+  .insights-resource-tags span {
+    padding: 6px 9px;
+    border-radius: 999px;
+    color: #315c76;
+    background: #edf5f8;
+    font-size: 0.68rem;
+    font-weight: 750;
+  }
+
+  .insights-section--recipes {
+    background: var(--soft);
+  }
+
+  .insights-recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .insights-recipe-card {
+    min-height: 350px;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    color: inherit;
+    border: 1px solid #d6e3e9;
+    border-radius: 20px;
+    background: #fff;
+    text-decoration: none;
+    transition: transform 180ms ease, border-color 180ms ease;
+  }
+
+  .insights-recipe-card:hover {
+    transform: translateY(-4px);
+    border-color: #6fb8d8;
+  }
+
+  .insights-recipe-number {
+    color: #1699cf;
+    font-size: 0.72rem;
+    font-weight: 850;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .insights-recipe-card h3 {
+    margin: 38px 0 0;
+    color: var(--ink);
+    font-size: 1.3rem;
+    line-height: 1.3;
+    letter-spacing: -0.025em;
+  }
+
+  .insights-recipe-card > p {
+    margin: 14px 0 0;
+    color: var(--muted);
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+
+  .insights-recipe-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    margin-top: auto;
+    padding-top: 25px;
+    border-top: 1px solid #e4edf2;
+    color: #7690a0;
+    font-size: 0.7rem;
+    font-weight: 750;
+  }
+
+  .insights-recipe-footer strong {
+    margin-left: auto;
+    color: var(--blue);
+  }
+
+  .insights-closing {
+    padding: 88px 0;
+    text-align: center;
+    background: #fff;
+  }
+
+  .insights-closing-inner {
+    max-width: 840px;
+  }
+
+  .insights-closing h2 {
+    margin: 0;
+    color: var(--ink);
+    font-size: clamp(2.3rem, 4.7vw, 4.2rem);
+    line-height: 1.04;
+    letter-spacing: -0.048em;
+  }
+
+  .insights-closing p {
+    max-width: 680px;
+    margin: 22px auto 30px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 980px) {
+    .insights-hero-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    .insights-hero-index {
+      max-width: 620px;
+    }
+
+    .insights-article-grid,
+    .insights-recipe-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .insights-article-card--featured {
+      grid-column: span 2;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .insights-shell {
+      width: min(100% - 28px, 1180px);
+    }
+
+    .insights-hero {
+      padding: 76px 0 60px;
+    }
+
+    .insights-section {
+      padding: 68px 0;
+    }
+
+    .insights-section-heading--split {
+      display: block;
+    }
+
+    .insights-section-link {
+      display: inline-block;
+      margin-top: 22px;
+    }
+
+    .insights-area-grid,
+    .insights-resource-grid,
+    .insights-article-grid,
+    .insights-recipe-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .insights-area-card:last-child,
+    .insights-article-card--featured {
+      grid-column: auto;
+    }
+
+    .insights-area-card {
+      padding: 26px;
+    }
+
+    .insights-area-card-top {
+      grid-template-columns: 34px 1fr;
+    }
+
+    .insights-area-card > p,
+    .insights-area-links {
+      margin-left: 52px;
+    }
+
+    .insights-note-row {
+      grid-template-columns: 34px 1fr;
+      gap: 14px;
+    }
+
+    .insights-note-arrow {
+      display: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .insights-hero-index {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .insights-hero-index > div {
+      min-height: 125px;
+      padding: 22px;
+    }
+
+    .insights-hero-index strong {
+      font-size: 2rem;
+    }
+
+    .insights-hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .insights-area-card-top {
+      display: block;
+    }
+
+    .insights-area-card h3 {
+      margin-top: 12px;
+    }
+
+    .insights-area-card > p,
+    .insights-area-links {
+      margin-left: 0;
+    }
+  }
+</style>

@@ -2,619 +2,312 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import DiscoveryCalendar from "../components/DiscoveryCalendar.astro";
+import { growthServices } from "../data/growthServices";
+import { recommendations } from "../data/achievements";
+import "../styles/growth-platform.css";
 
-import "../styles/services.css";
-
-const title =
-  "Growth Partner for Complex, Data-Intensive Businesses | Matteo Arellano";
-
+const title = "Technical Growth Partner | Matteo Arellano";
 const description =
-  "I help complex, data-intensive businesses find where revenue, time and opportunity are being lost — combining commercial judgment, analytics and technical execution.";
+  "I help companies create new revenue opportunities, improve conversion, acquire qualified demand, uncover commercial insights and automate expensive work.";
 
-const alternateLanguages = [
+const valueOutcomes = [
   {
-    hreflang: "en",
-    href: "https://matteoarellano.com/",
+    label: "New revenue",
+    title: "Find new markets, partners and commercial opportunities.",
+    copy: "Identify where the next source of growth could come from and turn it into a focused commercial path.",
   },
   {
-    hreflang: "es",
-    href: "https://matteoarellano.com/es/",
+    label: "Higher conversion",
+    title: "Turn more of the demand you already have into revenue.",
+    copy: "Find the funnel, payment and product friction that is costing customers and prioritize the fixes that matter.",
   },
   {
-    hreflang: "nl",
-    href: "https://matteoarellano.com/nl/",
+    label: "More qualified demand",
+    title: "Help the right customers discover you and take action.",
+    copy: "Connect search, paid acquisition, landing pages and measurement to real commercial outcomes.",
   },
   {
-    hreflang: "x-default",
-    href: "https://matteoarellano.com/",
+    label: "Lower cost & manual work",
+    title: "Automate expensive recurring work and build systems that scale.",
+    copy: "Use data workflows, APIs and automation to reduce operational friction and recurring cost.",
   },
 ];
 
-/* =========================================================
-   GROWTH LEVERS
-   ========================================================= */
-
-const growthLevers = [
-  {
-    number: "01",
-    category: "Insights",
-    title: "Find where performance is hiding",
-    promise:
-      "Turn customer, product, financial and operational data into decisions.",
-    need: "For businesses with plenty of information but limited clarity on what is driving revenue, cost or performance.",
-    outcomes: [
-      "Find revenue and margin opportunities",
-      "Understand customer and product performance",
-      "Spot anomalies, leakage and missed opportunities",
-    ],
-    tools: ["BigQuery", "SQL", "Python", "Analytics"],
-  },
-
-  {
-    number: "02",
-    category: "Conversion",
-    title: "Recover lost revenue",
-    promise:
-      "Find where customer journeys break and prioritize the problems worth fixing.",
-    need: "For digital businesses where users are arriving, searching, booking or buying — but too many disappear before the commercial outcome.",
-    outcomes: [
-      "Identify conversion and payment leaks",
-      "Understand abandonment behaviour",
-      "Prioritize improvements by business impact",
-    ],
-    tools: ["Amplitude", "GA4", "GTM", "BigQuery", "Experimentation"],
-  },
-
-  {
-    number: "03",
-    category: "Acquisition",
-    title: "Capture more valuable demand",
-    promise:
-      "Improve how the business attracts customers already looking for what it offers.",
-    need: "For businesses with a strong offer that need more qualified demand rather than simply more traffic.",
-    outcomes: [
-      "Improve organic and paid acquisition",
-      "Find high-intent customer opportunities",
-      "Strengthen landing pages and acquisition journeys",
-    ],
-    tools: ["SEO", "Google Ads", "Search Console", "Landing pages"],
-  },
-
-  {
-    number: "04",
-    category: "Expansion",
-    title: "Find the next opportunity",
-    promise:
-      "Use market evidence to identify customers, partners and markets worth pursuing.",
-    need: "For businesses where growth depends on choosing the right segments and concentrating commercial effort where it has the best chance of paying off.",
-    outcomes: [
-      "Evaluate markets and segments",
-      "Identify high-fit companies and partners",
-      "Build focused business-development pipelines",
-    ],
-    tools: ["Market intelligence", "Prospecting", "CRM", "Research", "AI"],
-  },
-
-  {
-    number: "05",
-    category: "Efficiency",
-    title: "Remove expensive manual work",
-    promise:
-      "Automate recurring processes and improve the systems behind the business.",
-    need: "For teams slowed down by spreadsheets, recurring reporting, fragmented systems or processes that require too much human intervention.",
-    outcomes: [
-      "Reduce repetitive operational work",
-      "Connect systems and APIs",
-      "Build reusable data and reporting workflows",
-    ],
-    tools: ["Python", "APIs", "SQL", "BigQuery", "Automation"],
-  },
+const featuredRecommendationNames = [
+  "Oscar Flores",
+  "Jose Laguna",
+  "Lucas Zarpellon",
 ];
+const featuredRecommendations = featuredRecommendationNames
+  .map((name) => recommendations.find((item) => item.name === name))
+  .filter(Boolean);
 
-/* =========================================================
-   PROOF
-   ========================================================= */
-
-const proofPoints = [
+const companies = [
   {
-    number: "42%",
-    title: "Conversion improvement",
-    copy: "Behavioural analysis used to identify friction and improve digital customer journeys.",
-  },
-  {
-    number: "90%",
-    title: "Cloud cost reduction",
-    copy: "Technical redesign that materially reduced recurring data-processing costs.",
-  },
-  {
-    number: "9+",
-    title: "Years across business & technology",
-    copy: "Experience spanning finance, operations, analytics, data engineering and growth.",
-  },
-];
-
-/* =========================================================
-   DIFFERENTIATION
-   ========================================================= */
-
-const environments = [
-  {
-    number: "01",
-    title: "Complex operations",
-    subtitle: "Cargill · Distribusion",
-    copy: "I have worked in environments where operational, financial, customer and transactional data interact across multiple systems. I am comfortable investigating problems that do not live neatly inside one dashboard or one department.",
-  },
-  {
-    number: "02",
-    title: "Financial rigor",
-    subtitle: "European Investment Bank · EIF · PIA Group",
-    copy: "I have worked around institutional finance, reporting, performance analysis and sensitive business information — environments where accuracy, controls and the quality of the underlying data matter.",
-  },
-  {
-    number: "03",
-    title: "Commercial + technical execution",
-    subtitle: "From business question to implementation",
-    copy: "I can follow a problem from its financial or commercial consequence into SQL, BigQuery, Python, APIs, analytics, automation or digital-product implementation when that is what solving it requires.",
-  },
-];
-
-/* =========================================================
-   EXPERIENCE
-   ========================================================= */
-
-const experience = [
-  {
-    company: "Cargill",
-    logo: "/images/experience/CARGILL_LOGO.webp",
-    context: "Global operations · finance · data",
-  },
-  {
-    company: "Distribusion",
+    name: "Distribusion Technologies",
     logo: "/images/experience/DISTRIBUSION_TECHNOLOGIES.png",
-    context: "Mobility technology · APIs · high-volume data",
   },
   {
-    company: "European Investment Bank",
+    name: "Cargill",
+    logo: "/images/experience/CARGILL_LOGO.webp",
+  },
+  {
+    name: "European Investment Bank",
     logo: "/images/experience/EIB_BANK.png",
-    context: "Institutional finance · complex processes",
   },
   {
-    company: "European Investment Fund",
+    name: "European Investment Fund",
     logo: "/images/experience/eif.png",
-    context: "European finance · investment environment",
   },
   {
-    company: "PIA Group",
+    name: "PIA Group Netherlands",
     logo: "/images/experience/PIA_GROUP_NEDERLAND.avif",
-    context: "Financial reporting · business performance",
   },
 ];
-
-/* =========================================================
-   HOW I WORK
-   ========================================================= */
-
-const workingStyle = [
-  {
-    number: "01",
-    title: "Start with the economic problem",
-    copy: "What is costing money, limiting revenue, consuming time or making an important decision harder than it should be?",
-  },
-  {
-    number: "02",
-    title: "Follow the evidence",
-    copy: "I combine customer behaviour, financial context, operational data and technical evidence to understand what is actually happening.",
-  },
-  {
-    number: "03",
-    title: "Build the useful fix",
-    copy: "The answer might be an analysis, a process change, better measurement, automation, acquisition work, a data workflow or a technical implementation.",
-  },
-];
-
-const personJsonLd = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Matteo Arellano",
-  url: "https://matteoarellano.com/",
-  jobTitle: "Independent Growth Partner",
-  description,
-  sameAs: ["https://www.linkedin.com/in/matteoarellano"],
-  knowsAbout: [
-    "Growth strategy",
-    "Business analytics",
-    "Product analytics",
-    "Financial analysis",
-    "Operational analytics",
-    "Business development",
-    "Market expansion",
-    "Conversion optimization",
-    "Data engineering",
-    "Business process automation",
-    "BigQuery",
-    "SQL",
-    "Python",
-  ],
-});
 ---
 
 <BaseLayout
   title={title}
   description={description}
   canonical="https://matteoarellano.com/"
-  lang="en"
-  alternateLanguages={alternateLanguages}
+  image="/images/matteo-arellano-visibility-signup.jpg"
 >
   <Header />
 
-  <script type="application/ld+json" set:html={personJsonLd} />
-
-  <main class="services-index">
-    <!-- =====================================================
-         HERO
-         ===================================================== -->
-
-    <section class="services-hero">
-      <div class="services-shell services-hero-grid">
-        <div class="services-hero-copy">
-          <span class="services-overline"> Independent growth partner </span>
-
+  <main class="growth-home">
+    <section class="growth-hero">
+      <div class="growth-shell growth-hero-grid">
+        <div class="growth-hero-copy">
+          <span class="growth-overline">Technical Growth Partner</span>
           <h1>
-            I help complex businesses find where money, time and opportunity are
-            being lost.
+            I help companies find new ways to grow and turn them into revenue.
           </h1>
-
-          <p class="services-hero-lede">
-            I combine commercial judgment, analytics and technical execution to
-            solve problems inside data-intensive businesses — from revenue
-            leakage and conversion to operational inefficiency, reporting and
-            market growth.
+          <p class="growth-hero-lede">
+            From new markets and partnerships to conversion, acquisition, data
+            and automation, I help teams identify commercial opportunities,
+            understand what is holding growth back and build the next move.
           </p>
 
-          <p class="services-hero-fit">
-            Experience across global operations, mobility technology,
-            institutional finance and professional services.
-          </p>
+          <div class="growth-hero-actions">
+            <a class="growth-primary-button" href="#services"
+              >Explore how I can help</a
+            >
+            <a class="growth-secondary-link" href="#availability"
+              >Talk through an opportunity →</a
+            >
+          </div>
 
-          <div class="services-hero-actions">
-            <a class="services-primary-action" href="/services/">
-              See how I can help
-            </a>
-
-            <a class="services-text-action" href="/achievements/">
-              Results & experience →
-            </a>
+          <div class="growth-hero-principle">
+            <span>How I work</span>
+            <strong
+              >Start with the commercial outcome: more revenue, higher
+              conversion, lower cost or faster execution. Then use the right
+              tools to get there.</strong
+            >
           </div>
         </div>
 
-        <!-- PERSONAL PROFILE -->
-
-        <aside class="services-profile">
-          <div class="services-profile-image">
+        <aside class="growth-portrait-card" aria-label="About Matteo Arellano">
+          <div class="growth-portrait-image">
             <img
               src="/images/matteo-arellano-visibility-signup.jpg"
               alt="Matteo Arellano"
             />
           </div>
-
-          <div class="services-profile-info">
-            <strong> Matteo Arellano </strong>
-
-            <p>Growth partner · Business + technology</p>
-
-            <div class="services-profile-specialisms" aria-label="Growth focus">
-              <span>Insights</span>
-              <span>Conversion</span>
-              <span>Operations</span>
-              <span>Automation</span>
-            </div>
-
-            <div class="services-profile-location">
-              <span>Based in Mexico City</span>
-              <span>Working internationally</span>
-            </div>
-
-            <nav class="services-profile-links" aria-label="Contact Matteo">
-              <a href="mailto:matteo.visibility@gmail.com"> Email </a>
-
+          <div class="growth-portrait-copy">
+            <span>Business + technology</span>
+            <strong>Matteo Arellano</strong>
+            <p>
+              Growth partner working across commercial questions, analytics and
+              technical execution. Founder of Yeelen.
+            </p>
+            <div class="growth-portrait-links">
               <a
                 href="https://www.linkedin.com/in/matteoarellano"
                 target="_blank"
-                rel="noreferrer"
+                rel="noreferrer">LinkedIn</a
               >
-                LinkedIn
-              </a>
-
-              <a
-                href="https://wa.me/525574136001"
-                target="_blank"
-                rel="noreferrer"
-              >
-                WhatsApp
-              </a>
-            </nav>
+              <a href="mailto:matteo.visibility@gmail.com">Email</a>
+              <a href="/about/">About</a>
+            </div>
           </div>
         </aside>
       </div>
     </section>
 
-    <!-- =====================================================
-         IMPACT
-         ===================================================== -->
-
-    <section class="services-method">
-      <div class="services-shell">
-        <header class="services-method-header">
-          <span class="services-overline"> Selected impact </span>
-
-          <h2>The work should change something measurable.</h2>
-
-          <p>
-            Revenue, conversion, operating cost, time or decision quality —
-            technical work is only useful when it improves a business outcome.
-          </p>
-        </header>
-
-        <div class="services-method-grid">
-          {
-            proofPoints.map((item) => (
-              <article class="services-method-item">
-                <span>{item.number}</span>
-
-                <h3>{item.title}</h3>
-
-                <p>{item.copy}</p>
-              </article>
-            ))
-          }
-        </div>
+    <section class="growth-value-strip" aria-label="Commercial outcomes">
+      <div class="growth-shell growth-value-strip-grid">
+        {
+          valueOutcomes.map((item, index) => (
+            <article class="growth-value-strip-item">
+              <span>
+                {String(index + 1).padStart(2, "0")} · {item.label}
+              </span>
+              <h2>{item.title}</h2>
+              <p>{item.copy}</p>
+            </article>
+          ))
+        }
       </div>
     </section>
 
-    <!-- =====================================================
-         GROWTH LEVERS
-         ===================================================== -->
-
-    <section class="services-portfolio" id="growth">
-      <div class="services-shell">
-        <header class="services-portfolio-header">
-          <span class="services-overline"> Where I help </span>
-
-          <h2>Growth problems rarely belong to one department.</h2>
-
+    <section class="growth-services-section" id="services">
+      <div class="growth-shell">
+        <header class="growth-section-heading">
+          <span class="growth-overline">How I can help</span>
+          <h2>Five ways I help companies create commercial value.</h2>
           <p>
-            Revenue might be leaking through acquisition, customer behaviour,
-            payments, operations, bad data or manual processes. I look across
-            the system rather than assuming the answer belongs to one channel.
+            Each service has a clear end state. The work can still cross between
+            commercial, analytical and technical areas when that is what gets
+            the result.
           </p>
         </header>
 
-        <div class="services-card-grid">
+        <div class="growth-service-grid">
           {
-            growthLevers.map((lever) => (
-              <article class="services-card">
-                <div class="services-card-top">
-                  <span class="services-card-number">{lever.number}</span>
-
-                  <span class="services-card-category">{lever.category}</span>
+            growthServices.map((service, index) => (
+              <article
+                class:list={[
+                  "growth-service-card",
+                  index === 0 && "growth-service-card--featured",
+                ]}
+              >
+                <div class="growth-service-card-top">
+                  <span>{service.number}</span>
+                  <span>{service.name}</span>
                 </div>
-
-                <h3>{lever.title}</h3>
-
-                <p class="services-card-promise">{lever.promise}</p>
-
-                <p class="services-card-need">{lever.need}</p>
-
-                <div class="services-card-divider" />
-
-                <p class="services-card-label">Where I can help</p>
-
-                <ul class="services-card-outcomes">
-                  {lever.outcomes.map((outcome) => (
-                    <li>{outcome}</li>
-                  ))}
-                </ul>
-
-                <div class="services-card-tools">
-                  {lever.tools.map((tool) => (
-                    <span>{tool}</span>
-                  ))}
-                </div>
+                <h3>{service.shortTitle}</h3>
+                <p class="growth-service-promise">{service.homepagePromise}</p>
+                <p class="growth-service-description">
+                  {service.homepageDescription}
+                </p>
+                <a href={`/services/${service.slug}/`}>
+                  Explore {service.name} <span>→</span>
+                </a>
               </article>
             ))
           }
         </div>
 
-        <div class="services-hero-actions">
-          <a class="services-primary-action" href="/services/">
-            Explore services
-          </a>
+        <div class="growth-section-footer-link">
+          <a href="/services/">See all services together →</a>
         </div>
       </div>
     </section>
 
-    <!-- =====================================================
-         NICHE / DIFFERENTIATION
-         ===================================================== -->
-
-    <section class="services-method">
-      <div class="services-shell">
-        <header class="services-method-header">
-          <span class="services-overline"> Where I fit best </span>
-
-          <h2>Complex operations. Sensitive data. Expensive problems.</h2>
-
+    <section class="growth-recommendations-section" id="recommendations">
+      <div class="growth-shell">
+        <header class="growth-section-heading growth-section-heading--compact">
+          <span class="growth-overline">Recommendations & appraisals</span>
+          <h2>What people I have worked with say.</h2>
           <p>
-            My strongest experience comes from businesses where the systems,
-            data and decisions are interconnected — and where getting the answer
-            wrong can cost real money.
+            The strongest proof of how I work comes from people who have seen me
+            inside real teams, messy problems and demanding projects.
           </p>
         </header>
 
-        <div class="services-method-grid">
+        <div class="growth-recommendation-grid">
           {
-            environments.map((item) => (
-              <article class="services-method-item">
-                <span>{item.number}</span>
-
-                <h3>{item.title}</h3>
-
-                <strong>{item.subtitle}</strong>
-
-                <p>{item.copy}</p>
-              </article>
-            ))
+            featuredRecommendations.map(
+              (item) =>
+                item && (
+                  <article class="growth-recommendation-card">
+                    <span class="growth-quote-mark" aria-hidden="true">
+                      “
+                    </span>
+                    <blockquote>{item.quote}</blockquote>
+                    <footer>
+                      <strong>{item.name}</strong>
+                      <span>{item.headline}</span>
+                    </footer>
+                  </article>
+                ),
+            )
           }
         </div>
-      </div>
-    </section>
 
-    <!-- =====================================================
-         EXPERIENCE
-         ===================================================== -->
-
-    <section class="services-experience">
-      <div class="services-shell">
-        <header class="services-experience-header">
-          <span class="services-overline"> Selected experience </span>
-
-          <h2>Experience in businesses where complexity is real.</h2>
-
-          <p>
-            Global supply chains, mobility technology, institutional finance and
-            professional services have very different business models, but they
-            share something important: large amounts of information,
-            interconnected processes and decisions that require reliable data.
-          </p>
-
-          <a href="/achievements/" class="services-text-action">
-            See achievements & recommendations →
-          </a>
-        </header>
-
-        <div
-          class="services-logo-grid"
-          aria-label="Organizations Matteo Arellano has worked with"
+        <a
+          class="growth-recommendations-link"
+          href="/achievements/#recommendations"
         >
-          {
-            experience.map((item) => (
-              <article class="services-logo-item">
-                <div class="services-logo-image">
-                  <img
-                    src={item.logo}
-                    alt={`${item.company} logo`}
-                    loading="lazy"
-                  />
-                </div>
+          Read all recommendations, appraisals and career evidence →
+        </a>
+      </div>
+    </section>
 
-                <div class="services-logo-copy">
-                  <strong>{item.company}</strong>
-
-                  <span>{item.context}</span>
-                </div>
-              </article>
-            ))
-          }
+    <section class="growth-partner-section">
+      <div class="growth-shell growth-partner-grid">
+        <div>
+          <span class="growth-overline">How I partner</span>
+          <h2>Move from a growth goal to a concrete next action.</h2>
+        </div>
+        <div class="growth-partner-steps">
+          <article>
+            <span>01</span>
+            <h3>Define the commercial target</h3>
+            <p>
+              More revenue, higher conversion, lower cost, a new market or a
+              better decision — make the end state explicit.
+            </p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Find what is blocking it</h3>
+            <p>
+              Use prospect conversations, customer behaviour, market signals and
+              data to identify the real constraint or opportunity.
+            </p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Build the next move</h3>
+            <p>
+              Turn the evidence into outreach, a product change, an experiment,
+              a partnership, automation or another measurable action.
+            </p>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- =====================================================
-         HOW I WORK
-         ===================================================== -->
+    <section class="growth-calendar-band">
+      <div class="growth-shell">
+        <DiscoveryCalendar
+          namespace="homepage-discovery"
+          eyebrow="Talk and discover together"
+          title="Have something you're trying to grow, fix or understand?"
+          copy="Tell me what you are working on. We can use 20 minutes to understand the problem, exchange ideas and see whether there is a useful way for me to contribute."
+        />
+      </div>
+    </section>
 
-    <section class="services-method">
-      <div class="services-shell">
-        <header class="services-method-header">
-          <span class="services-overline"> How I work </span>
-
-          <h2>Start with the economics. Then follow the evidence.</h2>
-
-          <p>
-            I do not begin with a technology or a predetermined solution. I
-            begin with what the business is trying to improve and work backwards
-            from there.
-          </p>
+    <section
+      class="growth-companies-section"
+      aria-labelledby="companies-heading"
+    >
+      <div class="growth-shell">
+        <header class="growth-companies-heading">
+          <span class="growth-overline">Experience</span>
+          <h2 id="companies-heading">Companies and teams I've worked with.</h2>
         </header>
 
-        <div class="services-method-grid">
+        <div class="growth-company-grid">
           {
-            workingStyle.map((item) => (
-              <article class="services-method-item">
-                <span>{item.number}</span>
-
-                <h3>{item.title}</h3>
-
-                <p>{item.copy}</p>
-              </article>
+            companies.map((company) => (
+              <div class="growth-company-logo" title={company.name}>
+                <img
+                  src={company.logo}
+                  alt={`${company.name} logo`}
+                  loading="lazy"
+                />
+              </div>
             ))
           }
-        </div>
-      </div>
-    </section>
-
-    <!-- =====================================================
-         FINAL CTA
-         ===================================================== -->
-
-    <section class="services-contact">
-      <div class="services-shell services-contact-inner">
-        <div>
-          <span class="services-overline"> Let's talk </span>
-
-          <h2>Where is complexity costing your business money?</h2>
-
-          <p>
-            Tell me what is underperforming, taking too much time or becoming
-            difficult to understand. I'll tell you where I would start and
-            whether I can help.
-          </p>
-        </div>
-
-        <div class="services-contact-actions">
-          <a
-            class="services-contact-primary"
-            href="mailto:matteo.visibility@gmail.com?subject=Business%20problem&body=Hi%20Matteo,%0A%0AThe%20problem%20we%20are%20trying%20to%20solve%20is:%20"
-          >
-            Tell me the problem
-          </a>
-
-          <a
-            class="services-contact-secondary"
-            href="https://wa.me/525574136001?text=Hi%20Matteo%2C%20I'd%20like%20to%20discuss%20a%20business%20problem."
-            target="_blank"
-            rel="noreferrer"
-          >
-            WhatsApp
-          </a>
         </div>
       </div>
     </section>
   </main>
-
-  <!-- =====================================================
-       FLOATING WHATSAPP
-       ===================================================== -->
-
-  <a
-    class="services-whatsapp-float"
-    href="https://wa.me/525574136001?text=Hi%20Matteo%2C%20I'd%20like%20to%20discuss%20a%20business%20problem."
-    target="_blank"
-    rel="noreferrer"
-    aria-label="Contact Matteo on WhatsApp"
-  >
-    <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
-      <path
-        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.198.297-.767.966-.94 1.164-.173.198-.347.223-.644.074-.297-.148-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.297-.497.099-.198.05-.371-.025-.52-.074-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.009-.371-.011-.57-.011-.198 0-.52.074-.792.371-.272.297-1.04 1.016-1.04 2.479s1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.262.489 1.693.625.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"
-      ></path>
-
-      <path
-        d="M12.004 2C6.477 2 2 6.477 2 12c0 1.764.459 3.42 1.261 4.858L2 22l5.293-1.235A9.94 9.94 0 0 0 12.004 22C17.527 22 22 17.523 22 12S17.527 2 12.004 2zm0 18.182a8.14 8.14 0 0 1-4.147-1.135l-.297-.176-3.14.733.748-3.058-.193-.314A8.145 8.145 0 0 1 3.818 12c0-4.515 3.671-8.182 8.186-8.182 4.511 0 8.178 3.667 8.178 8.182s-3.667 8.182-8.178 8.182z"
-      ></path>
-    </svg>
-
-    <span> WhatsApp </span>
-  </a>
 
   <Footer />
 </BaseLayout>

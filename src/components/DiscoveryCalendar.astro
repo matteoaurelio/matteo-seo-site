@@ -1,0 +1,114 @@
+---
+interface Props {
+  namespace?: string;
+  eyebrow?: string;
+  title?: string;
+  copy?: string;
+}
+
+const {
+  namespace = "growth-discovery",
+  eyebrow = "Talk it through",
+  title = "Have something you're trying to grow, fix or understand?",
+  copy = "You do not need a polished brief. Bring the problem or opportunity and we can use 20 minutes to understand it together, exchange ideas and see whether there is a useful way for me to contribute.",
+} = Astro.props;
+
+const elementId = `cal-inline-${namespace}`;
+const calLink = "matteo-arellano-seo-visibility/20min";
+---
+
+<section
+  class="discovery-calendar"
+  id="availability"
+  aria-labelledby={`${namespace}-title`}
+>
+  <div class="discovery-calendar-copy">
+    <span class="growth-overline">{eyebrow}</span>
+    <h2 id={`${namespace}-title`}>{title}</h2>
+    <p>{copy}</p>
+    <div class="discovery-calendar-note">
+      <strong>20 minutes · No Prepared Brief Required</strong>
+      <span
+        >We start with the business question, not a predetermined solution.</span
+      >
+    </div>
+  </div>
+
+  <div
+    class="discovery-calendar-embed"
+    aria-label="Book a 20-minute conversation with Matteo Arellano"
+  >
+    <div id={elementId} class="cal-inline"></div>
+  </div>
+</section>
+
+<script is:inline define:vars={{ namespace, elementId, calLink }}>
+  (function (C, A, L) {
+    const push = function (api, args) {
+      api.q.push(args);
+    };
+
+    const d = C.document;
+
+    C.Cal =
+      C.Cal ||
+      function () {
+        const cal = C.Cal;
+        const args = arguments;
+
+        if (!cal.loaded) {
+          cal.ns = {};
+          cal.q = cal.q || [];
+          const script = d.createElement("script");
+          script.src = A;
+          script.async = true;
+          d.head.appendChild(script);
+          cal.loaded = true;
+        }
+
+        if (args[0] === L) {
+          const api = function () {
+            push(api, arguments);
+          };
+
+          const ns = args[1];
+          api.q = api.q || [];
+
+          if (typeof ns === "string") {
+            cal.ns[ns] = cal.ns[ns] || api;
+            push(cal.ns[ns], args);
+            push(cal, ["initNamespace", ns]);
+          } else {
+            push(cal, args);
+          }
+
+          return;
+        }
+
+        push(cal, args);
+      };
+  })(window, "https://app.cal.com/embed/embed.js", "init");
+
+  Cal("init", namespace, {
+    origin: "https://cal.com",
+  });
+
+  Cal.ns[namespace]("inline", {
+    elementOrSelector: `#${elementId}`,
+    calLink,
+    config: {
+      layout: "month_view",
+    },
+  });
+
+  Cal.ns[namespace]("ui", {
+    theme: "light",
+    styles: {
+      branding: {
+        brandColor: "#0b5cad",
+      },
+    },
+    hideEventTypeDetails: true,
+    layout: "month_view",
+  });
+</script>

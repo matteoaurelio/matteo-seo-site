@@ -1,0 +1,12 @@
+---
+import GrowthServicePage from "../../../components/GrowthServicePage.astro";
+import { getGrowthService } from "../../../data/growthServices";
+
+const service = getGrowthService("product-conversion");
+
+if (!service) {
+  throw new Error("Growth service not found: product-conversion");
+}
+---
+
+<GrowthServicePage service={service} />

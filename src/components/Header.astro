@@ -1,59 +1,28 @@
 ---
-const navLinks = [
-  { href: "/about/", label: "About" },
-  { href: "/services/", label: "Services" },
-  { href: "/resources/", label: "Resources" },
-  { href: "/blog/", label: "Blog" },
-];
-
-const aboutLinks = [
-  {
-    href: "/about/",
-    label: "About Matteo",
-  },
-  {
-    href: "/achievements/",
-    label: "Experience, achievements & recommendations",
-  },
-  {
-    href: "https://lab.matteoarellano.com/",
-    label: "Lab & experiments",
-  },
-];
-
-/*
-  IMPORTANT:
-  Only pages that CURRENTLY EXIST belong here.
-  New growth service pages can be added when we actually create them.
-*/
 const serviceLinks = [
   {
-    href: "/services/",
-    label: "All growth services",
+    href: "/services/expansion-partnerships/",
+    label: "Expansion & Partnerships",
   },
   {
-    href: "/services/large-scale-data-analysis/",
-    label: "Growth & commercial analysis",
+    href: "/services/insights-commercial-analysis/",
+    label: "Insights & Commercial Analysis",
   },
   {
-    href: "/services/product-copy-landing-pages/",
-    label: "Landing pages & conversion copy",
+    href: "/services/product-conversion/",
+    label: "Product & Conversion",
   },
   {
-    href: "/services/google-ads/",
-    label: "Google Ads & paid acquisition",
+    href: "/services/acquisition-visibility/",
+    label: "Acquisition & Visibility",
   },
-];
-
-const localServicesLinks = [
   {
-    href: "/services/plumbing-hvac-revenue-leak-discovery/",
-    label: "Plumbing & HVAC revenue growth",
+    href: "/services/data-automation/",
+    label: "Data & Automation",
   },
 ];
 
 const currentPath = Astro.url.pathname;
-
 const currentLanguage = currentPath.startsWith("/es/")
   ? "ES"
   : currentPath.startsWith("/nl/")
@@ -61,228 +30,60 @@ const currentLanguage = currentPath.startsWith("/es/")
     : "EN";
 
 const languageLinks = [
-  {
-    href: "/",
-    label: "EN",
-    name: "English",
-  },
-  {
-    href: "/es/",
-    label: "ES",
-    name: "Español",
-  },
-  {
-    href: "/nl/",
-    label: "NL",
-    name: "Nederlands",
-  },
+  { href: "/", label: "EN", name: "English" },
+  { href: "/es/", label: "ES", name: "Español" },
+  { href: "/nl/", label: "NL", name: "Nederlands" },
 ];
+
+const talkHref = currentPath.startsWith("/services/") ? "#availability" : "/#availability";
 ---
 
 <header class="site-header">
   <div class="header-inner">
-
-    <!-- BRAND -->
-
-    <a
-      class="brand"
-      href="/"
-      aria-label="Matteo Arellano homepage"
-    >
-      <span class="brand-mark">
-        MA
-      </span>
-
+    <a class="brand" href="/" aria-label="Matteo Arellano homepage">
+      <span class="brand-mark">MA</span>
       <span class="brand-copy">
-        <strong>
-          Matteo Arellano
-        </strong>
-
-        <small>
-          Growth Partner · Business + Technology
-        </small>
+        <strong>Matteo Arellano</strong>
+        <small>Technical Growth Partner</small>
       </span>
     </a>
 
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <div class="nav-dropdown">
+        <a class="nav-dropdown-trigger" href="/services/">
+          Services <span aria-hidden="true">▾</span>
+        </a>
 
-    <!-- DESKTOP NAVIGATION -->
+        <div class="nav-dropdown-menu" aria-label="Services submenu">
+          {serviceLinks.map((service) => (
+            <a href={service.href}>{service.label}</a>
+          ))}
+          <a class="nav-menu-all" href="/services/">All services →</a>
+        </div>
+      </div>
 
-    <nav
-      class="desktop-nav"
-      aria-label="Primary navigation"
-    >
-      {
-        navLinks.map((link) => {
-
-          if (link.label === "About") {
-            return (
-              <div class="nav-dropdown">
-
-                <a
-                  class="nav-dropdown-trigger"
-                  href={link.href}
-                >
-                  {link.label}
-
-                  <span aria-hidden="true">
-                    ▾
-                  </span>
-                </a>
-
-                <div
-                  class="nav-dropdown-menu"
-                  aria-label="About Matteo submenu"
-                >
-                  {
-                    aboutLinks.map((aboutLink) => (
-                      <a href={aboutLink.href}>
-                        {aboutLink.label}
-                      </a>
-                    ))
-                  }
-                </div>
-
-              </div>
-            );
-          }
-
-
-          if (link.label === "Services") {
-            return (
-              <div class="nav-dropdown">
-
-                <a
-                  class="nav-dropdown-trigger"
-                  href="/services/"
-                >
-                  Services
-
-                  <span aria-hidden="true">
-                    ▾
-                  </span>
-                </a>
-
-                <div
-                  class="nav-dropdown-menu"
-                  aria-label="Services submenu"
-                >
-                  {
-                    serviceLinks.map((service) => (
-                      <a href={service.href}>
-                        {service.label}
-                      </a>
-                    ))
-                  }
-
-
-                  <!-- Existing niche service -->
-
-                  <details class="panel-dropdown">
-
-                    <summary class="panel-dropdown-summary">
-
-                      <span class="panel-dropdown-label">
-                        Local service businesses
-                      </span>
-
-                      <span
-                        class="panel-dropdown-icon"
-                        aria-hidden="true"
-                      >
-                        <svg
-                          viewBox="0 0 20 20"
-                          focusable="false"
-                        >
-                          <path
-                            d="M5 7.5L10 12.5L15 7.5"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2.2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                        </svg>
-                      </span>
-
-                    </summary>
-
-                    <div
-                      class="panel-subnav"
-                      aria-label="Local service business submenu"
-                    >
-                      {
-                        localServicesLinks.map((service) => (
-                          <a href={service.href}>
-                            {service.label}
-                          </a>
-                        ))
-                      }
-                    </div>
-
-                  </details>
-
-                </div>
-
-              </div>
-            );
-          }
-
-
-          return (
-            <a href={link.href}>
-              {link.label}
-            </a>
-          );
-        })
-      }
+      <a href="/insights/">Insights</a>
+      <a href="/achievements/#recommendations">Recommendations</a>
+      <a href="/about/">About</a>
     </nav>
 
-
-    <!-- LANGUAGE -->
-
-    <div
-      class="desktop-language language-switcher"
-      aria-label="Language selector"
-    >
-      <span class="language-label">
-        Language
-      </span>
-
+    <div class="desktop-language language-switcher" aria-label="Language selector">
+      <span class="language-label">Language</span>
       <div class="language-options">
-        {
-          languageLinks.map((language) => (
-            <a
-              href={language.href}
-              class:list={[
-                "language-link",
-                currentLanguage === language.label && "is-active",
-              ]}
-              aria-label={`View site in ${language.name}`}
-              aria-current={
-                currentLanguage === language.label
-                  ? "page"
-                  : undefined
-              }
-            >
-              {language.label}
-            </a>
-          ))
-        }
+        {languageLinks.map((language) => (
+          <a
+            href={language.href}
+            class:list={["language-link", currentLanguage === language.label && "is-active"]}
+            aria-label={`View site in ${language.name}`}
+            aria-current={currentLanguage === language.label ? "page" : undefined}
+          >
+            {language.label}
+          </a>
+        ))}
       </div>
     </div>
 
-
-    <!-- MAIN CTA -->
-
-    <a
-      class="nav-audit header-cta"
-      href="mailto:matteo.visibility@gmail.com?subject=Growth%20opportunity&body=Hi%20Matteo,%0A%0AWhat%20we%20want%20to%20grow%20or%20improve%20is:%20"
-    >
-      Hire me
-    </a>
-
-
-    <!-- MOBILE TOGGLE -->
+    <a class="nav-audit header-cta" href={talkHref}>Let's talk</a>
 
     <button
       class="nav-toggle"
@@ -296,222 +97,58 @@ const languageLinks = [
       <span></span>
     </button>
 
+    <div class="nav-panel" id="nav-panel">
+      <nav class="panel-nav" aria-label="Mobile navigation">
+        <details class="panel-dropdown">
+          <summary class="panel-dropdown-summary">
+            <span class="panel-dropdown-label">Services</span>
+            <span class="panel-dropdown-icon" aria-hidden="true">
+              <svg viewBox="0 0 20 20" focusable="false">
+                <path
+                  d="M5 7.5L10 12.5L15 7.5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </summary>
 
-    <!-- MOBILE PANEL -->
+          <div class="panel-subnav" aria-label="Services submenu">
+            {serviceLinks.map((service) => (
+              <a href={service.href}>{service.label}</a>
+            ))}
+            <a href="/services/">All services →</a>
+          </div>
+        </details>
 
-    <div
-      class="nav-panel"
-      id="nav-panel"
-    >
-      <nav
-        class="panel-nav"
-        aria-label="Mobile navigation"
-      >
-        {
-          navLinks.map((link) => {
-
-            if (link.label === "About") {
-              return (
-                <details class="panel-dropdown">
-
-                  <summary class="panel-dropdown-summary">
-
-                    <span class="panel-dropdown-label">
-                      About
-                    </span>
-
-                    <span
-                      class="panel-dropdown-icon"
-                      aria-hidden="true"
-                    >
-                      <svg
-                        viewBox="0 0 20 20"
-                        focusable="false"
-                      >
-                        <path
-                          d="M5 7.5L10 12.5L15 7.5"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2.2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                    </span>
-
-                  </summary>
-
-                  <div
-                    class="panel-subnav"
-                    aria-label="About Matteo submenu"
-                  >
-                    {
-                      aboutLinks.map((aboutLink) => (
-                        <a href={aboutLink.href}>
-                          {aboutLink.label}
-                        </a>
-                      ))
-                    }
-                  </div>
-
-                </details>
-              );
-            }
-
-
-            if (link.label === "Services") {
-              return (
-                <details class="panel-dropdown">
-
-                  <summary class="panel-dropdown-summary">
-
-                    <span class="panel-dropdown-label">
-                      Services
-                    </span>
-
-                    <span
-                      class="panel-dropdown-icon"
-                      aria-hidden="true"
-                    >
-                      <svg
-                        viewBox="0 0 20 20"
-                        focusable="false"
-                      >
-                        <path
-                          d="M5 7.5L10 12.5L15 7.5"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2.2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                    </span>
-
-                  </summary>
-
-                  <div
-                    class="panel-subnav"
-                    aria-label="Services submenu"
-                  >
-                    {
-                      serviceLinks.map((service) => (
-                        <a href={service.href}>
-                          {service.label}
-                        </a>
-                      ))
-                    }
-
-
-                    <details class="panel-dropdown">
-
-                      <summary class="panel-dropdown-summary">
-
-                        <span class="panel-dropdown-label">
-                          Local service businesses
-                        </span>
-
-                        <span
-                          class="panel-dropdown-icon"
-                          aria-hidden="true"
-                        >
-                          <svg
-                            viewBox="0 0 20 20"
-                            focusable="false"
-                          >
-                            <path
-                              d="M5 7.5L10 12.5L15 7.5"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2.2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                          </svg>
-                        </span>
-
-                      </summary>
-
-                      <div
-                        class="panel-subnav"
-                        aria-label="Local service business submenu"
-                      >
-                        {
-                          localServicesLinks.map((service) => (
-                            <a href={service.href}>
-                              {service.label}
-                            </a>
-                          ))
-                        }
-                      </div>
-
-                    </details>
-
-                  </div>
-
-                </details>
-              );
-            }
-
-
-            return (
-              <a href={link.href}>
-                {link.label}
-              </a>
-            );
-          })
-        }
+        <a href="/insights/">Insights</a>
+        <a href="/achievements/#recommendations">Recommendations</a>
+        <a href="/about/">About</a>
       </nav>
 
-
-      <!-- MOBILE LANGUAGE -->
-
-      <div
-        class="panel-language language-switcher"
-        aria-label="Language selector"
-      >
-        <span class="language-label">
-          Language
-        </span>
-
+      <div class="panel-language language-switcher" aria-label="Language selector">
+        <span class="language-label">Language</span>
         <div class="language-options">
-          {
-            languageLinks.map((language) => (
-              <a
-                href={language.href}
-                class:list={[
-                  "language-link",
-                  currentLanguage === language.label && "is-active",
-                ]}
-                aria-label={`View site in ${language.name}`}
-                aria-current={
-                  currentLanguage === language.label
-                    ? "page"
-                    : undefined
-                }
-              >
-                {language.label}
-              </a>
-            ))
-          }
+          {languageLinks.map((language) => (
+            <a
+              href={language.href}
+              class:list={["language-link", currentLanguage === language.label && "is-active"]}
+              aria-label={`View site in ${language.name}`}
+              aria-current={currentLanguage === language.label ? "page" : undefined}
+            >
+              {language.label}
+            </a>
+          ))}
         </div>
       </div>
 
-
-      <!-- MOBILE CTA -->
-
-      <a
-        class="nav-audit panel-audit"
-        href="mailto:matteo.visibility@gmail.com?subject=Growth%20opportunity&body=Hi%20Matteo,%0A%0AWhat%20we%20want%20to%20grow%20or%20improve%20is:%20"
-      >
-        Hire me
-      </a>
-
+      <a class="nav-audit panel-audit" href={talkHref}>Let's talk</a>
     </div>
-
   </div>
 </header>
-
 
 <script is:inline>
   const toggle = document.querySelector(".nav-toggle");
@@ -519,11 +156,9 @@ const languageLinks = [
 
   function closePanel() {
     if (!toggle || !panel) return;
-
     toggle.setAttribute("aria-expanded", "false");
     panel.classList.remove("is-open");
     document.body.classList.remove("nav-open");
-
     panel.querySelectorAll("details").forEach((details) => {
       details.removeAttribute("open");
     });
@@ -531,40 +166,20 @@ const languageLinks = [
 
   if (toggle && panel) {
     toggle.addEventListener("click", () => {
-      const isOpen =
-        toggle.getAttribute("aria-expanded") === "true";
-
-      toggle.setAttribute(
-        "aria-expanded",
-        String(!isOpen),
-      );
-
-      panel.classList.toggle(
-        "is-open",
-        !isOpen,
-      );
-
-      document.body.classList.toggle(
-        "nav-open",
-        !isOpen,
-      );
+      const isOpen = toggle.getAttribute("aria-expanded") === "true";
+      toggle.setAttribute("aria-expanded", String(!isOpen));
+      panel.classList.toggle("is-open", !isOpen);
+      document.body.classList.toggle("nav-open", !isOpen);
 
       if (isOpen) {
-        panel
-          .querySelectorAll("details")
-          .forEach((details) => {
-            details.removeAttribute("open");
-          });
+        panel.querySelectorAll("details").forEach((details) => {
+          details.removeAttribute("open");
+        });
       }
     });
 
-    panel
-      .querySelectorAll("a")
-      .forEach((link) => {
-        link.addEventListener(
-          "click",
-          closePanel,
-        );
-      });
+    panel.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", closePanel);
+    });
   }
 </script>

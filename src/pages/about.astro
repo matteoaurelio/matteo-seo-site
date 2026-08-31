@@ -1,248 +1,230 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import DiscoveryCalendar from "../components/DiscoveryCalendar.astro";
+import "../styles/growth-platform.css";
+import "../styles/profile-growth.css";
 
-const title = 'About Matteo Arellano | Technical SEO, Analytics & AI Visibility Consultant';
-const description = 'Learn how Matteo Arellano combines technical SEO, analytics, automation, finance, and data engineering to help websites improve crawlability, AI visibility, and conversion performance.';
+const title = "About Matteo Arellano | Technical Growth Partner";
+const description =
+  "Matteo Arellano combines commercial strategy, partnerships, analytics, product, data engineering and automation to help companies create new revenue and solve growth problems.";
 
-const proofPoints = [
-  ['42%', 'conversion improvement through behavioral analytics, payment funnel analysis, and growth strategy'],
-  ['7+', 'years across analytics, finance, data engineering, automation, and growth'],
-  ['100+', 'pages reviewed across analytics, SEO, UX, and conversion workflows'],
-  ['4', 'working languages including English, Spanish, Dutch, Catalan']
-];
-
-const valuePillars = [
+const career = [
   {
-    title: 'Technical diagnosis',
-    copy: 'I inspect how pages are built, rendered, linked, indexed, and measured, so recommendations are based on evidence rather than generic SEO checklists.'
+    period: "Now",
+    organisation: "Distribusion Technologies",
+    title: "Growth, product & analytics",
+    copy: "I work on commercial and product growth problems across transport: conversion funnels, payment acceptance, customer journeys, experimentation, analytics, partner needs and technical performance.",
   },
   {
-    title: 'Analytics-led prioritization',
-    copy: 'I connect SEO issues to user behavior, funnel drop-offs, conversion paths, and business impact, helping teams focus on the fixes that matter first.'
+    period: "2024–2025",
+    organisation: "PIA Group Netherlands",
+    title: "Financial analytics & decision systems",
+    copy: "I built financial and operational reporting for management, created analytical models and data layers, and designed controls that made complex financial information easier to act on.",
   },
   {
-    title: 'AI visibility readiness',
-    copy: 'I help structure pages so search engines and AI-powered systems can understand the topic, entity, intent, and useful answers behind the content.'
-  }
+    period: "2020–2024",
+    organisation: "Cargill",
+    title: "Finance → analytics → data engineering",
+    copy: "I moved from finance into business intelligence, Python, data engineering and machine learning. I built APIs, pipelines and reporting systems for global teams and reduced one cloud-processing workflow's cost by about 90% through a technical redesign.",
+  },
+  {
+    period: "2018–2019",
+    organisation: "European Investment Bank & European Investment Fund",
+    title: "Risk, restructuring & financial analysis",
+    copy: "I started my career analysing companies, credit, operational risk, distressed transactions and repayment capacity — a foundation that still shapes how I think about commercial decisions today.",
+  },
 ];
 
 const capabilities = [
-  'Technical SEO audits',
-  'AI visibility, AEO & GEO strategy',
-  'Core Web Vitals and page speed analysis',
-  'On-page SEO and content structure',
-  'Google Analytics 4, Amplitude, Hotjar and BigQuery analysis',
-  'HTML, CSS, JavaScript, Python and SQL-based diagnostics',
-  'Conversion and user journey analysis',
-  'SEO automation and custom reporting workflows'
+  {
+    number: "01",
+    title: "Create new commercial opportunities",
+    copy: "Research markets and segments, speak with prospects, understand pain points and buying triggers, map potential partners and turn promising signals into focused outreach or pilots.",
+  },
+  {
+    number: "02",
+    title: "Find where revenue is being lost",
+    copy: "Use behavioural and commercial data to identify friction in funnels, payments, customer journeys and digital experiences, then prioritise the changes most likely to improve conversion.",
+  },
+  {
+    number: "03",
+    title: "Turn data into decisions",
+    copy: "Connect customer, revenue, market, product and operational data so teams can understand what is happening, why it matters and what to do next.",
+  },
+  {
+    number: "04",
+    title: "Build the system behind the growth",
+    copy: "Use Python, SQL, APIs, BigQuery and automation when the bottleneck is manual work, fragmented data, recurring cost or a process that does not scale.",
+  },
 ];
 
-const achievements = [
-  'Improved conversion performance by 42% through behavioral analytics, payment funnel analysis, and growth strategy.',
-  'Built analytics and reporting systems used by finance and accounting teams for decision-making, reconciliations, and operational visibility.',
-  'Reduced cloud processing costs by approximately 90% using efficient data processing technologies and backend optimization.',
-  'Built financial APIs, ETL pipelines, dashboards, and automated reporting workflows that saved hundreds of hours of manual work.',
-  'Supported machine learning anomaly detection workflows for financial transactions, data quality, and fraud-prevention use cases.',
-  'Analyzed website behavior, content quality, payment flows, booking errors, and user journeys to identify opportunities affecting conversion and customer experience.'
-];
-
-const testimonials = [
-  {
-    quote: 'Matteo has outstanding skills in data and analytics, with expertise in Python. He has strong problem-solving skills, which he applies to tackle complex business challenges.',
-    name: 'Shalini Kanojia',
-    role: 'Senior Finance and Data Analytics Engineer'
-  },
-  {
-    quote: 'Matteo always endeavors to drive new innovations and get into the why of a question. I have worked with him on multiple deployments, and it is always a learning experience with him.',
-    name: 'Abhishek Agarwal',
-    role: 'Finance Strategy & Risk Management Professional'
-  },
-  {
-    quote: 'His skills go beyond technical capabilities in Python and data analysis. He is an excellent problem solver, proactive, a good communicator, a change leader, and a technology evangelist.',
-    name: 'Jose Laguna',
-    role: 'Process Deployment Specialist, Reporting and Analytics'
-  },
-  {
-    quote: 'His expertise spans both data-related topics and corporate finance, making him a well-rounded professional. He is a quick learner and an excellent teacher.',
-    name: 'Lucas Zarpellon',
-    role: 'Data Science & Advanced Analytics Professional'
-  },
-  {
-    quote: 'His ability to translate complex requirements into efficient solutions is truly commendable.',
-    name: 'Sagar Makhija',
-    role: 'Data Scientist'
-  }
+const workingStyle = [
+  "I am comfortable talking to commercial teams, prospects, analysts and engineers — and translating between them.",
+  "I prefer evidence over assumptions: customer conversations, behavioural data, market signals and financial impact.",
+  "I can move from diagnosis into execution instead of stopping at a strategy deck.",
 ];
 ---
-<BaseLayout title={title} description={description} canonical="https://matteoarellano.com/about/">
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical="https://matteoarellano.com/about/"
+  image="/images/matteo-arellano-visibility-signup.jpg"
+>
   <Header />
 
-  <main id="top">
-    <section class="about-hero">
-      <div class="container about-hero-grid">
-        <div class="reveal">
-          <span class="kicker">About Matteo Arellano</span>
-          <h1>Technical SEO backed by analytics, automation, and business thinking.</h1>
-          <p class="lede">
-            I help websites become easier to crawl, understand, measure, and improve. My work connects technical SEO, AI visibility, analytics, and conversion insight into practical recommendations that teams can actually implement.
+  <main class="profile-page">
+    <section class="profile-hero">
+      <div class="growth-shell profile-hero-grid">
+        <div class="profile-hero-copy">
+          <span class="growth-overline">About Matteo</span>
+          <h1>I work where commercial questions meet data and technology.</h1>
+          <p class="profile-hero-lede">
+            I help companies find new ways to grow, establish new commercial
+            opportunities and generate higher revenue. When the problem is in
+            the product, the funnel, the data or the underlying process, I can
+            go there too.
           </p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="mailto:matteo.visibility@gmail.com?subject=Technical%20SEO%20Audit%20Request">Request an audit</a>
-            <a class="button button-secondary" href="/#services">See services</a>
+          <p class="profile-hero-support">
+            My background spans finance, partnerships, analytics, data
+            engineering, product growth and entrepreneurship. That range lets me
+            understand the business question first and then use the right tools
+            to solve it.
+          </p>
+          <div class="profile-hero-actions">
+            <a class="growth-primary-button" href="#availability">Talk through an opportunity</a>
+            <a class="growth-secondary-link" href="/services/">See how I can help →</a>
           </div>
         </div>
 
-        <aside class="profile-card reveal" aria-label="Matteo Arellano profile summary">
-          <div class="portrait-wrap">
-            <div class="about-headshot-card">
-                  <img
-                    src="/images/matteo-arellano-headshot.webp"
-                    alt="Matteo Arellano, technical SEO and AI visibility consultant"
-                    class="about-headshot"
-                  />
-            </div>
-          </div>
-          <div class="profile-summary">
-            <h2>Matteo Arellano</h2>
-            <p>Technical SEO & AI Visibility Consultant</p>
-            <div class="language-row" aria-label="Working languages">
-              <span>English</span>
-              <span>Spanish</span>
-              <span>Dutch</span>
-              <span>Catalan</span>
-            </div>
+        <aside class="profile-photo-card" aria-label="Matteo Arellano profile">
+          <img
+            src="/images/matteo-arellano-headshot.webp"
+            alt="Matteo Arellano"
+          />
+          <div class="profile-photo-copy">
+            <span>Technical Growth Partner</span>
+            <strong>Matteo Arellano</strong>
+            <p>Commercial thinking, analytical depth and technical execution.</p>
           </div>
         </aside>
       </div>
     </section>
 
-    <section class="section compact-section">
-      <div class="container proof-strip">
-        {proofPoints.map(([number, label]) => (
-          <div class="proof-item">
-            <strong>{number}</strong>
-            <span>{label}</span>
-          </div>
-        ))}
-      </div>
-    </section>
-
-    <section class="section soft about-story-section">
-      <div class="container about-story-grid">
+    <section class="profile-intro-band">
+      <div class="growth-shell profile-intro-grid">
         <div>
-          <div class="eyebrow">Positioning</div>
-          <h2>Why my background creates stronger SEO audits.</h2>
+          <span class="growth-overline">What that means in practice</span>
+          <h2>I do not sell one channel. I help move a commercial outcome.</h2>
         </div>
-        <div class="story-copy">
-          <p>
-            My background is not traditional SEO. I started in finance and accounting, then moved into process automation, data engineering, analytics, and growth. That path shaped the way I approach technical SEO: I look at websites as systems.
-          </p>
-          <p>
-            A page may have good copy but still fail because it loads slowly, is poorly linked, has weak metadata, renders important content through JavaScript, lacks structured data, or does not clearly answer the questions users and AI systems need answered.
-          </p>
-          <p>
-            This is where my analytical background becomes useful. I can inspect HTML and JavaScript, review analytics events, analyze funnels, identify page experience problems, and turn technical findings into clear recommendations for business teams, marketers, and developers.
-          </p>
-        </div>
+        <p>
+          Sometimes that means talking to prospects and opening a new market.
+          Sometimes it means fixing a conversion problem, building better
+          measurement, analysing a large dataset or automating expensive work.
+          The common thread is simple: the work needs to create measurable value.
+        </p>
       </div>
     </section>
 
-    <section class="section">
-      <div class="container">
-        <div class="section-header">
-          <div>
-            <div class="eyebrow">Customer value</div>
-            <h2>Focused on the issues that block visibility and revenue.</h2>
-          </div>
+    <section class="profile-capability-section">
+      <div class="growth-shell">
+        <header class="profile-section-heading">
+          <span class="growth-overline">What I bring</span>
+          <h2>From commercial opportunity to execution.</h2>
           <p>
-            The goal is not to produce a long report. The goal is to identify what blocks search visibility, AI discoverability, page experience, and conversion performance — then prioritize what to fix first.
+            My strongest work usually sits between functions — where the problem
+            is important, but no single team or discipline has the whole answer.
           </p>
-        </div>
-        <div class="card-grid value-grid">
-          {valuePillars.map((pillar) => (
-            <article class="card focus-card">
-              <span class="tag">Audit principle</span>
-              <h3>{pillar.title}</h3>
-              <p>{pillar.copy}</p>
+        </header>
+
+        <div class="profile-capability-grid">
+          {capabilities.map((item) => (
+            <article class="profile-capability-card">
+              <span>{item.number}</span>
+              <h3>{item.title}</h3>
+              <p>{item.copy}</p>
             </article>
           ))}
         </div>
       </div>
     </section>
 
-    <section class="section soft">
-      <div class="container split-section">
-        <div>
-          <div class="eyebrow">Areas of expertise</div>
-          <h2>Technical SEO, analytics, and AI visibility in one workflow.</h2>
-          <p class="section-lede">
-            I combine technical inspection, user behavior analysis, and structured content thinking so SEO recommendations are grounded in how websites actually work and how users actually behave.
-          </p>
-        </div>
-        <div class="capability-list">
-          {capabilities.map((item) => <div class="capability-item">{item}</div>)}
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container split-section reverse-mobile">
-        <div class="achievement-panel">
-          <div class="eyebrow">Selected achievements</div>
-          <h2>Evidence of analytical execution.</h2>
+    <section class="profile-career-section">
+      <div class="growth-shell profile-career-layout">
+        <div class="profile-career-intro">
+          <span class="growth-overline">Career path</span>
+          <h2>The breadth is deliberate.</h2>
           <p>
-            These achievements are included because they support the way I work as an SEO consultant: diagnose the system, measure behavior, automate where possible, and connect the work to business outcomes.
+            I did not start in marketing. I started by learning how companies
+            make money, how risk is evaluated and how decisions are made. Then I
+            moved deeper into data, engineering, product and growth.
           </p>
-          <a class="credential-link" href="https://credentials.cfainstitute.org/7fc77ff8-8d42-4028-8c24-ce908fea0340#acc.VfhCeAIa" target="_blank" rel="noopener noreferrer">View CFA credential</a>
+          <a href="/achievements/">See full experience, recommendations & education →</a>
         </div>
-        <div class="timeline-list">
-          {achievements.map((achievement) => (
-            <div class="timeline-item">
-              <span></span>
-              <p>{achievement}</p>
-            </div>
+
+        <div class="profile-career-list">
+          {career.map((item) => (
+            <article class="profile-career-item">
+              <div class="profile-career-meta">
+                <span>{item.period}</span>
+                <strong>{item.organisation}</strong>
+              </div>
+              <div>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+              </div>
+            </article>
           ))}
         </div>
       </div>
     </section>
 
-    <section class="section soft testimonials-section">
-      <div class="container">
-        <div class="section-header centered-header">
-          <div>
-            <div class="eyebrow">Peer recommendations</div>
-            <h2>Trusted for problem solving, analytics, and execution.</h2>
-          </div>
+    <section class="profile-builder-section">
+      <div class="growth-shell profile-builder-grid">
+        <div>
+          <span class="growth-overline">I also build</span>
+          <h2>Yeelen keeps me close to the realities of entrepreneurship.</h2>
+        </div>
+        <div>
           <p>
-            I use short excerpts here to keep the page focused on client value. The full recommendations are available on LinkedIn.
+            I founded Yeelen to help local businesses and independent
+            entrepreneurs build a stronger digital presence and become easier to
+            discover online. Building something myself keeps me close to customer
+            acquisition, pricing, product decisions, distribution and the daily
+            constraints that smaller businesses face.
+          </p>
+          <p>
+            That matters to my professional work too: I care about solutions that
+            are useful in the real world, not only technically correct.
           </p>
         </div>
-        <div class="testimonial-grid">
-          {testimonials.map((testimonial) => (
-            <figure class="testimonial-card">
-              <blockquote>“{testimonial.quote}”</blockquote>
-              <figcaption>
-                <strong>{testimonial.name}</strong>
-                <span>{testimonial.role}</span>
-              </figcaption>
-            </figure>
+      </div>
+    </section>
+
+    <section class="profile-working-section">
+      <div class="growth-shell profile-working-grid">
+        <header>
+          <span class="growth-overline">Working with me</span>
+          <h2>Direct, curious and comfortable crossing functions.</h2>
+        </header>
+        <div class="profile-working-list">
+          {workingStyle.map((item) => (
+            <p>{item}</p>
           ))}
         </div>
       </div>
     </section>
 
-    <section class="section final-cta-section">
-      <div class="container final-cta">
-        <div>
-          <div class="eyebrow">Work with me</div>
-          <h2>Need a sharper view of what is blocking your website?</h2>
-          <p>
-            I can help you understand what is working, what is broken, and what to fix first across technical SEO, AI visibility, analytics, and conversion journeys.
-          </p>
-        </div>
-        <a class="button button-primary" href="mailto:matteo.visibility@gmail.com?subject=Technical%20SEO%20Audit%20Request">Request a technical SEO audit</a>
+    <section class="profile-calendar-section">
+      <div class="growth-shell">
+        <DiscoveryCalendar
+          namespace="about-discovery"
+          eyebrow="Talk and discover together"
+          title="Have a commercial opportunity or growth problem worth exploring?"
+          copy="Tell me what you are trying to achieve. We can use 20 minutes to understand the context, exchange ideas and see whether there is a useful way for me to contribute."
+        />
       </div>
     </section>
   </main>

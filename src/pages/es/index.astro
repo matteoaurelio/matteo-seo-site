@@ -1,322 +1,468 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import Header from "../../components/Header.astro";
-import Footer from "../../components/Footer.astro";
+import { getCollection } from "astro:content";
+import { recommendations } from "../../data/achievements";
+import "../../styles/growth-platform.css";
+
+const title = "Socio técnico de crecimiento | Matteo Arellano";
+const description =
+  "Ayudo a empresas a crear nuevas oportunidades de ingresos, mejorar la conversión, captar demanda cualificada, descubrir oportunidades comerciales en sus datos y automatizar trabajo costoso.";
 
 const alternateLanguages = [
+  { hreflang: "en", href: "https://matteoarellano.com/" },
+  { hreflang: "es", href: "https://matteoarellano.com/es/" },
+  { hreflang: "nl", href: "https://matteoarellano.com/nl/" },
+  { hreflang: "x-default", href: "https://matteoarellano.com/" },
+];
+
+const valueOutcomes = [
   {
-    hreflang: "en",
-    href: "https://matteoarellano.com/",
+    label: "Nuevos ingresos",
+    title: "Encontrar nuevos mercados, socios y oportunidades comerciales.",
+    copy: "Identificar de dónde puede venir la próxima fuente de crecimiento y convertirla en una ruta comercial concreta.",
   },
   {
-    hreflang: "es",
-    href: "https://matteoarellano.com/es/",
+    label: "Mayor conversión",
+    title: "Convertir más de la demanda que ya tienes en ingresos.",
+    copy: "Detectar la fricción en funnels, pagos y producto que está costando clientes y priorizar las mejoras con más impacto.",
   },
   {
-    hreflang: "nl",
-    href: "https://matteoarellano.com/nl/",
+    label: "Más demanda cualificada",
+    title: "Ayudar a que los clientes correctos te encuentren y actúen.",
+    copy: "Conectar búsqueda, adquisición de pago, landing pages y medición con resultados comerciales reales.",
   },
   {
-    hreflang: "x-default",
-    href: "https://matteoarellano.com/",
+    label: "Menos coste y trabajo manual",
+    title: "Automatizar trabajo recurrente costoso y construir sistemas que escalen.",
+    copy: "Usar flujos de datos, APIs y automatización para reducir fricción operativa y costes recurrentes.",
   },
 ];
 
-const title =
-  "SEO técnico, crecimiento orgánico y Google Ads | Matteo Arellano";
-const description =
-  "Ayudo a empresas a mejorar su visibilidad orgánica, experiencia de usuario, medición y adquisición de demanda cualificada con SEO técnico, SEO orgánico y campañas en Google Ads.";
-const canonical = "https://matteoarellano.com/es/";
-const photoSrc = "/images/matteo-arellano-headshot.webp";
+const services = [
+  {
+    number: "01",
+    name: "Expansión & alianzas",
+    shortTitle: "Crear nuevas oportunidades comerciales",
+    promise: "Encontrar nuevos mercados, socios y segmentos de clientes que puedan convertirse en ingresos reales.",
+    description: "Hablo con prospectos, detecto pain points y motivos de compra, identifico las empresas adecuadas y convierto las mejores oportunidades en outreach, pilotos y alianzas concretas.",
+    href: "/services/expansion-partnerships/",
+  },
+  {
+    number: "02",
+    name: "Insights & análisis comercial",
+    shortTitle: "Encontrar dónde se gana o se pierde dinero",
+    promise: "Usar datos de clientes, ingresos, margen y operaciones para descubrir dónde se crea, se pierde o se deja valor sobre la mesa.",
+    description: "Convierto datos de negocio desordenados en decisiones comerciales claras: dónde enfocarse, qué detener, qué clientes o productos importan más y dónde puede mejorar el ingreso o el margen.",
+    href: "/services/insights-commercial-analysis/",
+  },
+  {
+    number: "03",
+    name: "Producto & conversión",
+    shortTitle: "Convertir más demanda en ingresos",
+    promise: "Aumentar los ingresos de la demanda que ya existe corrigiendo los puntos del recorrido donde los usuarios abandonan.",
+    description: "Analizo funnels, pagos, comportamiento y fricción técnica para encontrar dónde se pierde conversión, cuantificar el impacto y priorizar las mejoras que más importan.",
+    href: "/services/product-conversion/",
+  },
+  {
+    number: "04",
+    name: "Adquisición & visibilidad",
+    shortTitle: "Generar más demanda cualificada",
+    promise: "Llegar a más clientes adecuados mediante búsqueda, adquisición de pago, mejores landing pages y mayor visibilidad digital.",
+    description: "SEO es una parte del sistema. Conecto descubrimiento, demanda, experiencia de landing y medición para que la visibilidad esté ligada a resultados comerciales reales.",
+    href: "/services/acquisition-visibility/",
+  },
+  {
+    number: "05",
+    name: "Datos & automatización",
+    shortTitle: "Reducir costes y trabajo manual",
+    promise: "Automatizar trabajo recurrente costoso, conectar sistemas fragmentados y construir flujos de datos que permitan al negocio moverse más rápido.",
+    description: "Uso Python, SQL, APIs y herramientas cloud para sustituir procesos repetitivos, reducir costes operativos y hacer que la información sea más útil a escala.",
+    href: "/services/data-automation/",
+  },
+];
+
+const featuredRecommendationNames = ["Oscar Flores", "Jose Laguna", "Lucas Zarpellon"];
+const featuredRecommendations = featuredRecommendationNames
+  .map((name) => recommendations.find((item) => item.name === name))
+  .filter(Boolean);
+
+const companies = [
+  { name: "Distribusion Technologies", logo: "/images/experience/DISTRIBUSION_TECHNOLOGIES.png" },
+  { name: "Cargill", logo: "/images/experience/CARGILL_LOGO.webp" },
+  { name: "European Investment Bank", logo: "/images/experience/EIB_BANK.png" },
+  { name: "European Investment Fund", logo: "/images/experience/eif.png" },
+  { name: "PIA Group Netherlands", logo: "/images/experience/PIA_GROUP_NEDERLAND.avif" },
+];
+
+const fieldNotes = (await getCollection("journal", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const calNamespace = "homepage-discovery-es";
+const calElementId = `cal-inline-${calNamespace}`;
+const calLink = "matteo-arellano-seo-visibility/20min";
 ---
 
 <BaseLayout
   title={title}
   description={description}
-  canonical={canonical}
+  canonical="https://matteoarellano.com/es/"
   lang="es"
   alternateLanguages={alternateLanguages}
+  image="/images/matteo-arellano-visibility-signup.jpg"
 >
-  <Header />
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="Página principal de Matteo Arellano">
+        <span class="brand-mark">MA</span>
+        <span class="brand-copy">
+          <strong>Matteo Arellano</strong>
+          <small>Technical Growth Partner</small>
+        </span>
+      </a>
 
-  <main class="commercial-page">
-    <section class="commercial-hero">
-      <div class="commercial-container commercial-hero-grid">
-        <div class="commercial-copy">
-          <span class="commercial-kicker"
-            >SEO técnico · SEO orgánico · Google Ads</span
-          >
+      <nav class="desktop-nav" aria-label="Navegación principal">
+        <div class="nav-dropdown">
+          <a class="nav-dropdown-trigger" href="/services/">
+            Servicios <span aria-hidden="true">▾</span>
+          </a>
+          <div class="nav-dropdown-menu" aria-label="Submenú de servicios">
+            {services.map((service) => <a href={service.href}>{service.name}</a>)}
+            <a class="nav-menu-all" href="/services/">Todos los servicios →</a>
+          </div>
+        </div>
+        <a href="/achievements/#recommendations">Recomendaciones</a>
+        <a href="/about/">Sobre mí</a>
+      </nav>
 
-          <h1>
-            Ayudo a empresas, equipos de márketing y dueños de negocio a
-            convertir su visibilidad online en tráfico, ventas y oportunidades
-            reales.
-          </h1>
+      <div class="desktop-language language-switcher" aria-label="Selector de idioma">
+        <span class="language-label">Idioma</span>
+        <div class="language-options">
+          <a class="language-link" href="/">EN</a>
+          <a class="language-link is-active" href="/es/" aria-current="page">ES</a>
+          <a class="language-link" href="/nl/">NL</a>
+        </div>
+      </div>
 
-          <p>
-            Trabajo con profesionales y empresarios que quieren entender qué
-            está bloqueando su crecimiento online: problemas técnicos, baja
-            visibilidad en Google, campañas poco claras, medición incompleta o
-            páginas que no convierten como deberían.
-          </p>
+      <a class="nav-audit header-cta" href="/#availability">Hablemos</a>
 
-          <div class="commercial-actions">
-            <a
-              class="commercial-primary"
-              href="/free-visibility-check/#calendar"
-            >
-              Reservar una primera revisión
-            </a>
-            <a class="commercial-secondary" href="/blog/">
-              Ver artículos y casos prácticos
-            </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-panel" aria-label="Abrir menú de navegación">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-panel" id="nav-panel">
+        <nav class="panel-nav" aria-label="Navegación móvil">
+          <details class="panel-dropdown">
+            <summary class="panel-dropdown-summary">
+              <span class="panel-dropdown-label">Servicios</span>
+              <span class="panel-dropdown-icon" aria-hidden="true">
+                <svg viewBox="0 0 20 20" focusable="false">
+                  <path d="M5 7.5L10 12.5L15 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </span>
+            </summary>
+            <div class="panel-subnav" aria-label="Submenú de servicios">
+              {services.map((service) => <a href={service.href}>{service.name}</a>)}
+              <a href="/services/">Todos los servicios →</a>
+            </div>
+          </details>
+          <a href="/achievements/#recommendations">Recomendaciones</a>
+          <a href="/about/">Sobre mí</a>
+        </nav>
+
+        <div class="panel-language language-switcher" aria-label="Selector de idioma">
+          <span class="language-label">Idioma</span>
+          <div class="language-options">
+            <a class="language-link" href="/">EN</a>
+            <a class="language-link is-active" href="/es/" aria-current="page">ES</a>
+            <a class="language-link" href="/nl/">NL</a>
           </div>
         </div>
 
-        <aside
-          class="commercial-profile-card"
-          aria-label="Perfil de Matteo Arellano"
-        >
-          <img
-            src={photoSrc}
-            alt="Matteo Arellano, consultor de SEO técnico y crecimiento orgánico"
-            width="900"
-            height="900"
-          />
+        <a class="nav-audit panel-audit" href="/#availability">Hablemos</a>
+      </div>
+    </div>
+  </header>
 
-          <div class="commercial-profile-copy">
+  <main class="growth-home">
+    <section class="growth-hero">
+      <div class="growth-shell growth-hero-grid">
+        <div class="growth-hero-copy">
+          <span class="growth-overline">Socio técnico de crecimiento</span>
+          <h1>Ayudo a empresas a encontrar nuevas formas de crecer — y convertirlas en ingresos.</h1>
+          <p class="growth-hero-lede">
+            Desde nuevos mercados y alianzas hasta conversión, adquisición, datos y automatización, ayudo a los equipos a identificar oportunidades comerciales, entender qué está frenando el crecimiento y construir el siguiente paso.
+          </p>
+
+          <div class="growth-hero-actions">
+            <a class="growth-primary-button" href="/services/">Ver cómo puedo ayudar</a>
+            <a class="growth-secondary-link" href="/#availability">Hablar de una oportunidad →</a>
+          </div>
+
+          <div class="growth-hero-principle">
+            <span>Cómo trabajo</span>
+            <strong>Empezar por el resultado comercial: más ingresos, mayor conversión, menor coste o ejecución más rápida. Después, usar las herramientas adecuadas para conseguirlo.</strong>
+          </div>
+        </div>
+
+        <aside class="growth-portrait-card" aria-label="Sobre Matteo Arellano">
+          <div class="growth-portrait-image">
+            <img src="/images/matteo-arellano-visibility-signup.jpg" alt="Matteo Arellano" />
+          </div>
+          <div class="growth-portrait-copy">
+            <span>Negocio + tecnología</span>
             <strong>Matteo Arellano</strong>
-            <span>Technical SEO & AI Visibility</span>
             <p>
-              Experiencia en banca, finanzas, datos, analítica y proyectos SEO
-              con clientes en transporte terrestre en LATAM, Estados Unidos y
-              Europa.
+              Socio de crecimiento que trabaja entre preguntas comerciales, analítica y ejecución técnica. Fundador de Yeelen.
             </p>
+            <div class="growth-portrait-links">
+              <a href="https://www.linkedin.com/in/matteoarellano" target="_blank" rel="noreferrer">LinkedIn</a>
+              <a href="mailto:matteo.visibility@gmail.com">Email</a>
+              <a href="/about/">Sobre mí</a>
+            </div>
           </div>
         </aside>
       </div>
     </section>
 
-    <section class="commercial-section">
-      <div class="commercial-container commercial-split">
+    <section class="growth-value-strip" aria-label="Resultados comerciales">
+      <div class="growth-shell growth-value-strip-grid">
+        {valueOutcomes.map((item, index) => (
+          <article class="growth-value-strip-item">
+            <span>{String(index + 1).padStart(2, "0")} · {item.label}</span>
+            <h2>{item.title}</h2>
+            <p>{item.copy}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="growth-services-section" id="services">
+      <div class="growth-shell">
+        <header class="growth-section-heading">
+          <span class="growth-overline">Cómo puedo ayudar</span>
+          <h2>Cinco formas de ayudar a empresas a crear valor comercial.</h2>
+          <p>
+            Cada servicio parte de un resultado claro. El trabajo puede cruzar áreas comerciales, analíticas y técnicas cuando eso sea lo que realmente consiga el resultado.
+          </p>
+        </header>
+
+        <div class="growth-service-grid">
+          {services.map((service, index) => (
+            <article class:list={["growth-service-card", index === 0 && "growth-service-card--featured"]}>
+              <div class="growth-service-card-top">
+                <span>{service.number}</span>
+                <span>{service.name}</span>
+              </div>
+              <h3>{service.shortTitle}</h3>
+              <p class="growth-service-promise">{service.promise}</p>
+              <p class="growth-service-description">{service.description}</p>
+              <a href={service.href}>Explorar {service.name} <span>→</span></a>
+            </article>
+          ))}
+        </div>
+
+        <div class="growth-section-footer-link">
+          <a href="/services/">Ver todos los servicios →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="growth-recommendations-section" id="recommendations">
+      <div class="growth-shell">
+        <header class="growth-section-heading growth-section-heading--compact">
+          <span class="growth-overline">Recomendaciones & evaluaciones</span>
+          <h2>Lo que dicen las personas que han trabajado conmigo.</h2>
+          <p>
+            La mejor prueba de cómo trabajo viene de personas que me han visto dentro de equipos reales, problemas complejos y proyectos exigentes.
+          </p>
+        </header>
+
+        <div class="growth-recommendation-grid">
+          {featuredRecommendations.map((item) => item && (
+            <article class="growth-recommendation-card">
+              <span class="growth-quote-mark" aria-hidden="true">“</span>
+              <blockquote>{item.quote}</blockquote>
+              <footer>
+                <strong>{item.name}</strong>
+                <span>{item.headline}</span>
+              </footer>
+            </article>
+          ))}
+        </div>
+
+        <a class="growth-recommendations-link" href="/achievements/#recommendations">
+          Leer todas las recomendaciones, evaluaciones y experiencia →
+        </a>
+      </div>
+    </section>
+
+    <section class="growth-partner-section">
+      <div class="growth-shell growth-partner-grid">
         <div>
-          <span class="commercial-eyebrow">Qué consigo</span>
-          <h2>
-            Más claridad, más visibilidad y mejores decisiones de crecimiento.
-          </h2>
+          <span class="growth-overline">Cómo colaboro</span>
+          <h2>Pasar de un objetivo de crecimiento a una siguiente acción concreta.</h2>
         </div>
-
-        <div class="commercial-card-grid">
-          <div class="commercial-card">
-            <h3>Más tráfico cualificado</h3>
-            <p>
-              Identifico oportunidades técnicas, de contenido e intención de
-              búsqueda para que tu web pueda aparecer en búsquedas relevantes
-              para tu negocio.
-            </p>
-          </div>
-
-          <div class="commercial-card">
-            <h3>Más ventas y leads</h3>
-            <p>
-              No miro el SEO como tráfico aislado. Lo conecto con formularios,
-              reservas, conversiones, campañas y señales reales de negocio.
-            </p>
-          </div>
-
-          <div class="commercial-card">
-            <h3>Mejor experiencia de usuario</h3>
-            <p>
-              Reviso velocidad, Core Web Vitals, arquitectura, páginas clave y
-              fricciones que pueden afectar tanto a usuarios como a buscadores.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="commercial-section commercial-soft">
-      <div class="commercial-container">
-        <div class="commercial-section-header">
-          <span class="commercial-eyebrow">Cómo trabajo</span>
-          <h2>
-            Una metodología basada en datos, contexto y prioridades reales.
-          </h2>
-          <p>
-            No empiezo prometiendo rankings. Empiezo entendiendo el negocio,
-            revisando los datos disponibles y separando lo urgente de lo
-            accesorio.
-          </p>
-        </div>
-
-        <div class="commercial-process">
-          <div>
+        <div class="growth-partner-steps">
+          <article>
             <span>01</span>
-            <h3>Diagnóstico</h3>
-            <p>
-              Reviso Search Console, PageSpeed Insights, estructura del sitio,
-              analítica, páginas comerciales, contenido y principales puntos de
-              fricción.
-            </p>
-          </div>
-
-          <div>
+            <h3>Definir el objetivo comercial</h3>
+            <p>Más ingresos, mayor conversión, menor coste, un nuevo mercado o una mejor decisión: hacer explícito el resultado final.</p>
+          </article>
+          <article>
             <span>02</span>
-            <h3>Priorización</h3>
-            <p>
-              No todo tiene el mismo impacto. Ordeno los problemas por riesgo,
-              oportunidad, dificultad técnica y relación con ventas o leads.
-            </p>
-          </div>
-
-          <div>
+            <h3>Encontrar qué lo está bloqueando</h3>
+            <p>Usar conversaciones con prospectos, comportamiento de clientes, señales de mercado y datos para identificar la restricción o la oportunidad real.</p>
+          </article>
+          <article>
             <span>03</span>
-            <h3>Ejecución o acompañamiento</h3>
-            <p>
-              Puedo ayudarte con auditoría, recomendaciones, documentación para
-              desarrollo, seguimiento de campañas o consultoría continua.
-            </p>
-          </div>
-
-          <div>
-            <span>04</span>
-            <h3>Medición</h3>
-            <p>
-              Conecto visibilidad con indicadores útiles: tráfico orgánico,
-              leads, ventas, conversiones, rendimiento de páginas y calidad de
-              demanda.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="commercial-section">
-      <div class="commercial-container commercial-why-grid">
-        <div class="commercial-proof">
-          <span class="commercial-eyebrow">Por qué trabajar conmigo</span>
-          <h2>Combino SEO, datos, analítica y visión de negocio.</h2>
-
-          <p>
-            Antes de especializarme en SEO técnico y crecimiento orgánico,
-            trabajé en entornos de banca, finanzas, datos y analítica. Eso me
-            ayuda a leer un sitio web no solo como una colección de páginas,
-            sino como un sistema de medición, adquisición y conversión.
-          </p>
-
-          <p>
-            Actualmente trabajo con clientes reales en el sector del transporte
-            terrestre en LATAM, Estados Unidos y Europa. Esa experiencia me ha
-            enseñado a trabajar con sitios complejos, múltiples mercados, muchas
-            páginas, equipos técnicos y objetivos comerciales concretos.
-          </p>
-        </div>
-
-        <div class="commercial-values">
-          <div>
-            <h3>Profesional y claro</h3>
-            <p>
-              Trabajo con comunicación directa, entregables accionables y
-              prioridades entendibles.
-            </p>
-          </div>
-
-          <div>
-            <h3>Empático y responsable</h3>
-            <p>
-              Me importa entender el negocio, el contexto, las restricciones y
-              lo que realmente está en juego para la empresa.
-            </p>
-          </div>
-
-          <div>
-            <h3>Sin promesas vacías</h3>
-            <p>
-              El SEO es un juego a largo plazo. Se trata de visibilidad,
-              estructura, posicionamiento, escucha del cliente y mejora
-              constante.
-            </p>
-          </div>
-
-          <div>
-            <h3>Sin ataduras largas</h3>
-            <p>
-              Podemos empezar con un mes de prueba para conocernos, revisar
-              prioridades y validar si tiene sentido seguir trabajando juntos.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="commercial-section commercial-soft">
-      <div class="commercial-container">
-        <div class="commercial-section-header">
-          <span class="commercial-eyebrow">Servicios</span>
-          <h2>Áreas donde puedo ayudarte.</h2>
-        </div>
-
-        <div class="commercial-services">
-          <article>
-            <h3>SEO técnico</h3>
-            <p>
-              Auditorías técnicas, indexación, rastreo, Core Web Vitals,
-              redirecciones, migraciones, arquitectura web, enlaces internos y
-              documentación para equipos de desarrollo.
-            </p>
-          </article>
-
-          <article>
-            <h3>SEO orgánico</h3>
-            <p>
-              Estrategia de contenidos, clusters temáticos, páginas de servicio,
-              FAQs, intención de búsqueda, optimización de páginas y estructura
-              de crecimiento orgánico.
-            </p>
-          </article>
-
-          <article>
-            <h3>Google Ads y campañas pagadas</h3>
-            <p>
-              Consultoría o gestión de campañas en Google Ads, revisión de
-              estructura, medición, conversiones, términos de búsqueda y
-              conexión con objetivos comerciales.
-            </p>
-          </article>
-
-          <article>
-            <h3>Analítica y medición</h3>
-            <p>
-              Revisión de GA4, eventos, conversiones, embudos, calidad de datos
-              y conexión entre tráfico, leads, ventas y decisiones de negocio.
-            </p>
+            <h3>Construir el siguiente paso</h3>
+            <p>Convertir la evidencia en outreach, un cambio de producto, un experimento, una alianza, automatización u otra acción medible.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="commercial-container commercial-cta">
-      <span class="commercial-eyebrow">Empecemos con claridad</span>
-      <h2>¿Quieres saber qué está bloqueando tu crecimiento online?</h2>
-      <p>
-        Podemos empezar con una primera revisión para entender tu situación,
-        detectar problemas prioritarios y decidir si tiene sentido trabajar
-        juntos durante un mes de prueba.
-      </p>
+    <section class="growth-calendar-band" id="availability">
+      <div class="growth-shell">
+        <section class="discovery-calendar" aria-labelledby="homepage-discovery-es-title">
+          <div class="discovery-calendar-copy">
+            <span class="growth-overline">Hablar y descubrir juntos</span>
+            <h2 id="homepage-discovery-es-title">¿Hay algo que estás intentando hacer crecer, arreglar o entender?</h2>
+            <p>Cuéntame en qué estás trabajando. Podemos usar 20 minutos para entender el problema, intercambiar ideas y ver si hay una forma útil en la que pueda contribuir.</p>
+            <div class="discovery-calendar-note">
+              <strong>20 minutos · no necesitas preparar un briefing</strong>
+              <span>Empezamos por la pregunta de negocio, no por una solución predeterminada.</span>
+            </div>
+          </div>
+          <div class="discovery-calendar-embed" aria-label="Reservar una conversación de 20 minutos con Matteo Arellano">
+            <div id={calElementId} class="cal-inline"></div>
+          </div>
+        </section>
+      </div>
+    </section>
 
-      <div class="commercial-actions">
-        <a class="commercial-primary" href="/free-visibility-check/#calendar">
-          Reservar una primera revisión
-        </a>
-        <a
-          class="commercial-secondary"
-          href="mailto:matteo.visibility@gmail.com"
-        >
-          Escribirme por email
-        </a>
+    <section class="growth-companies-section" aria-labelledby="companies-heading-es">
+      <div class="growth-shell">
+        <header class="growth-companies-heading">
+          <span class="growth-overline">Experiencia</span>
+          <h2 id="companies-heading-es">Empresas y equipos con los que he trabajado.</h2>
+        </header>
+        <div class="growth-company-grid">
+          {companies.map((company) => (
+            <div class="growth-company-logo" title={company.name}>
+              <img src={company.logo} alt={`Logo de ${company.name}`} loading="lazy" />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   </main>
 
-  <Footer />
+  <footer class="site-footer growth-site-footer">
+    <div class="container growth-footer-grid">
+      <div class="growth-footer-brand">
+        <a class="growth-footer-name" href="/">Matteo Arellano</a>
+        <p>Technical Growth Partner trabajando en expansión, análisis comercial, producto, adquisición, datos y automatización.</p>
+        <div class="growth-footer-socials">
+          <a href="mailto:matteo.visibility@gmail.com">Email</a>
+          <a href="https://www.linkedin.com/in/matteoarellano" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+      </div>
+
+      <div class="growth-footer-notes">
+        <span class="growth-footer-label">Notas de campo</span>
+        <div class="growth-footer-note-list">
+          {fieldNotes.map((entry) => (
+            <a href={`/journal/${entry.id}/`}>
+              <strong>{entry.data.title}</strong>
+              <span>{entry.data.description}</span>
+            </a>
+          ))}
+        </div>
+        <a class="growth-footer-all-notes" href="/journal/">Ver todas las notas de campo →</a>
+      </div>
+
+      <nav class="growth-footer-nav" aria-label="Navegación del pie de página">
+        <span class="growth-footer-label">Explorar</span>
+        <a href="/services/">Servicios</a>
+        <a href="/achievements/#recommendations">Recomendaciones</a>
+        <a href="/about/">Sobre mí</a>
+        <a href="https://lab.matteoarellano.com/" target="_blank" rel="noreferrer">Laboratorio & experimentos</a>
+        <a href="/privacy-policy/">Privacidad</a>
+      </nav>
+    </div>
+
+    <div class="container growth-footer-bottom">
+      <span>© {new Date().getFullYear()} Matteo Arellano</span>
+      <span>Primero el problema de negocio. Después, las herramientas.</span>
+    </div>
+  </footer>
 </BaseLayout>
+
+<script is:inline define:vars={{ calNamespace, calElementId, calLink }}>
+  (function (C, A, L) {
+    const push = function (api, args) { api.q.push(args); };
+    const d = C.document;
+    C.Cal = C.Cal || function () {
+      const cal = C.Cal;
+      const args = arguments;
+      if (!cal.loaded) {
+        cal.ns = {};
+        cal.q = cal.q || [];
+        const script = d.createElement("script");
+        script.src = A;
+        script.async = true;
+        d.head.appendChild(script);
+        cal.loaded = true;
+      }
+      if (args[0] === L) {
+        const api = function () { push(api, arguments); };
+        const ns = args[1];
+        api.q = api.q || [];
+        if (typeof ns === "string") {
+          cal.ns[ns] = cal.ns[ns] || api;
+          push(cal.ns[ns], args);
+          push(cal, ["initNamespace", ns]);
+        } else {
+          push(cal, args);
+        }
+        return;
+      }
+      push(cal, args);
+    };
+  })(window, "https://app.cal.com/embed/embed.js", "init");
+
+  Cal("init", calNamespace, { origin: "https://cal.com" });
+  Cal.ns[calNamespace]("inline", {
+    elementOrSelector: `#${calElementId}`,
+    calLink,
+    config: { layout: "month_view" },
+  });
+  Cal.ns[calNamespace]("ui", {
+    theme: "light",
+    styles: { branding: { brandColor: "#0b5cad" } },
+    hideEventTypeDetails: true,
+    layout: "month_view",
+  });
+
+  const toggle = document.querySelector(".nav-toggle");
+  const panel = document.querySelector("#nav-panel");
+  function closePanel() {
+    if (!toggle || !panel) return;
+    toggle.setAttribute("aria-expanded", "false");
+    panel.classList.remove("is-open");
+    document.body.classList.remove("nav-open");
+    panel.querySelectorAll("details").forEach((details) => details.removeAttribute("open"));
+  }
+  if (toggle && panel) {
+    toggle.addEventListener("click", () => {
+      const isOpen = toggle.getAttribute("aria-expanded") === "true";
+      toggle.setAttribute("aria-expanded", String(!isOpen));
+      panel.classList.toggle("is-open", !isOpen);
+      document.body.classList.toggle("nav-open", !isOpen);
+      if (isOpen) panel.querySelectorAll("details").forEach((details) => details.removeAttribute("open"));
+    });
+    panel.querySelectorAll("a").forEach((link) => link.addEventListener("click", closePanel));
+  }
+</script>

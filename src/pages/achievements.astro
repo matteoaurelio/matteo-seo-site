@@ -2,2213 +2,368 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import { recommendations, type Recommendation } from "../data/achievements";
+import { recommendations, achievements } from "../data/achievements";
+import "../styles/growth-platform.css";
+import "../styles/profile-growth.css";
 
-const title = "Career Timeline, Recommendations & Education | Matteo Arellano";
-
+const title = "Recommendations, Experience & Education | Matteo Arellano";
 const description =
-  "Explore Matteo Arellano's career timeline, professional recommendations, university diplomas, academic achievements, Dataquest studies, and technical certifications across finance, analytics, data engineering, SEO, AI visibility, and conversion.";
-
+  "Professional recommendations, selected commercial and technical outcomes, career experience and education from Matteo Arellano, Technical Growth Partner.";
 const canonical = "https://matteoarellano.com/achievements/";
 
 const featuredRecommendation =
-  (recommendations.find(
-    (recommendation) => recommendation.featured,
-  ) as Recommendation) ?? recommendations[0];
-
+  recommendations.find((recommendation) => recommendation.featured) ?? recommendations[0];
 const remainingRecommendations = recommendations.filter(
   (recommendation) => recommendation !== featuredRecommendation,
 );
 
-const timeline = [
+const outcomes = [
   {
-    period: "2025-present",
-    title: "Lead SEO & Growth Manager",
-    organisation: "Systems Search Studio",
-    location: "Mexico, working globally",
-    icon: "search",
-    description:
-      "I moved fully into technical SEO, growth analytics, AI visibility, conversion, and website performance. My work includes payment acceptance analysis, event tracking, BigQuery and Amplitude analysis, Google Analytics 4, Google Ads, technical SEO, automation, and custom tools.",
-    skills: [
-      "Technical SEO",
-      "AI visibility",
-      "CRO",
-      "GA4",
-      "BigQuery",
-      "Amplitude",
-      "Payment analytics",
-    ],
+    number: "42%",
+    label: "conversion improvement",
+    copy: "Behavioural analysis and funnel work used to identify friction and improve a digital customer journey.",
   },
   {
-    period: "2024-2025",
-    title: "Financial Analytics Engineer",
-    organisation: "PIA Group Nederland",
-    location: "Utrecht, Netherlands",
-    icon: "dashboard",
-    description:
-      "I built financial and operational reporting for directors, created more than 30 analytical models, developed bronze, silver, and gold data layers with dbt and SQL, and designed internal controls to identify anomalies and balancing issues.",
-    skills: [
-      "Financial reporting",
-      "dbt",
-      "SQL",
-      "Internal controls",
-      "Data modelling",
-    ],
+    number: "90%",
+    label: "lower cloud-processing cost",
+    copy: "A technical redesign using more efficient data-processing technologies materially reduced recurring processing cost.",
   },
   {
-    period: "2023-2024",
-    title: "Global Financial Analytics Engineer",
-    organisation: "Cargill",
-    location: "Mexico City, Mexico",
-    icon: "globe",
-    description:
-      "I supported global finance reporting across food, agriculture, energy trading, and specialised portfolios. I developed financial APIs and data pipelines, worked on machine-learning anomaly detection, and reduced cloud processing costs by around 90% through faster data technologies.",
-    skills: [
-      "Python",
-      "Polars",
-      "AWS",
-      "Hadoop",
-      "Machine learning",
-      "Financial APIs",
-    ],
+    number: "30+",
+    label: "analytical models",
+    copy: "Financial and operational models built to give management clearer information for decisions and controls.",
   },
   {
-    period: "2022",
-    title: "Financial Analytics Engineer",
-    organisation: "Cargill",
-    location: "Amsterdam, Netherlands",
-    icon: "database",
-    description:
-      "I worked on trading-position risk management, forecasting, Power BI models, Impala data structures, and scheduled Hadoop workflows for accounting and financial reconciliation.",
-    skills: ["Power BI", "Forecasting", "Impala", "Hadoop", "Risk analytics"],
-  },
-  {
-    period: "2020-2022",
-    title: "Finance, management information and data analytics",
-    organisation: "Cargill",
-    location: "Schiphol and Amsterdam, Netherlands",
-    icon: "chart",
-    description:
-      "I started in financial management and moved into business intelligence and data engineering. I built ETL pipelines, reporting models, and data flows for cocoa, chocolate, bioindustrials, and agricultural supply-chain teams.",
-    skills: [
-      "Finance",
-      "ETL",
-      "Power Query",
-      "DAX",
-      "Business intelligence",
-      "Supply chain",
-    ],
-  },
-  {
-    period: "2018-2019",
-    title: "Risk, restructuring and financial analysis",
-    organisation: "European Investment Fund and European Investment Bank",
-    location: "Luxembourg",
-    icon: "bank",
-    description:
-      "After graduating, I worked in European banking on operational risk, key risk indicators, distressed transactions, debt repayment analysis, insolvency research, company fundamentals, and credit analysis.",
-    skills: [
-      "Operational risk",
-      "Credit analysis",
-      "Restructuring",
-      "Financial modelling",
-    ],
-  },
-  {
-    period: "2018",
-    title: "Graduated cum laude",
-    organisation: "Rotterdam School of Management, Erasmus University",
-    location: "Rotterdam, Netherlands",
-    icon: "graduation",
-    description:
-      "I completed my Master of Science in Business Administration, specialising in Accounting and Financial Management. This was the point where my career moved from academic finance into applied risk, analytics, data engineering, and later website growth.",
-    skills: [
-      "Accounting",
-      "Financial management",
-      "Business administration",
-      "Research",
-    ],
+    number: "Global",
+    label: "cross-functional experience",
+    copy: "Work across finance, risk, data engineering, analytics, product growth and commercial problems in international teams.",
   },
 ];
 
-const universityDiplomas = [
+const timeline = [
+  {
+    period: "Present",
+    role: "Growth, product & analytics",
+    organisation: "Distribusion Technologies",
+    location: "Remote / international",
+    copy: "Working across conversion, payments, customer journeys, analytics, experimentation, partner needs and technical performance in ground transportation.",
+    skills: ["Growth", "Product analytics", "Conversion", "Payments", "BigQuery", "Amplitude"],
+  },
+  {
+    period: "2024–2025",
+    role: "Financial Analytics Engineer",
+    organisation: "PIA Group Netherlands",
+    location: "Utrecht, Netherlands",
+    copy: "Built management reporting, more than 30 analytical models, dbt/SQL data layers and controls for financial and operational decision-making.",
+    skills: ["Financial analytics", "dbt", "SQL", "Data modelling", "Controls"],
+  },
+  {
+    period: "2020–2024",
+    role: "Finance, analytics & data engineering",
+    organisation: "Cargill",
+    location: "Amsterdam, Schiphol & Mexico City",
+    copy: "Moved from financial management into business intelligence, Python and data engineering. Built APIs, ETL pipelines, reporting systems and machine-learning workflows for global finance and agricultural businesses.",
+    skills: ["Python", "Data engineering", "Finance", "Machine learning", "Power BI", "AWS"],
+  },
+  {
+    period: "2018–2019",
+    role: "Risk, restructuring & financial analysis",
+    organisation: "European Investment Bank & European Investment Fund",
+    location: "Luxembourg",
+    copy: "Worked on operational risk, key risk indicators, distressed transactions, debt repayment analysis, insolvency research, company fundamentals and credit analysis.",
+    skills: ["Risk", "Credit analysis", "Restructuring", "Financial modelling"],
+  },
+];
+
+const education = [
   {
     year: "2018",
-    degree: "Master of Science in Business Administration",
-    field: "Accounting and Financial Management",
+    title: "MSc Business Administration",
+    detail: "Accounting & Financial Management · Cum laude",
     institution: "Rotterdam School of Management, Erasmus University",
-    result: "Cum laude",
-    description:
-      "Graduate degree focused on accounting, financial management, business analysis, and evidence-based decision-making.",
   },
   {
     year: "2017",
-    degree: "Bachelor of Science in International Business Administration",
-    field: "International Business Administration",
+    title: "BSc International Business Administration",
+    detail: "International Business Administration",
     institution: "Rotterdam School of Management, Erasmus University",
-    result: "Completed",
-    description:
-      "Undergraduate degree covering finance, strategy, operations, international management, and organisational decision-making.",
   },
-];
-
-const otherStudies = [
   {
     year: "2021",
-    type: "Data science programme",
     title: "Data Scientist Track",
+    detail: "Python, statistics, data processing and applied data science",
     institution: "Dataquest",
-    description:
-      "A structured programme in Python, data processing, statistics, data analysis, and applied data science completed from March to December 2021.",
-    topics: ["Python", "Data processing", "Statistics", "Data analysis"],
-  },
-  {
-    year: "2016",
-    type: "Intensive university course",
-    title: "China's Economic Growth, Foreign Trade and Investment",
-    institution: "LSE-PKU Summer School at Peking University",
-    description:
-      "Completed the EC205 intensive course in Beijing and received a grade of A.",
-    topics: [
-      "International economics",
-      "Economic growth",
-      "Trade",
-      "Investment",
-    ],
-  },
-  {
-    year: "2016-2017",
-    type: "University course",
-    title: "Financial Analysis",
-    institution:
-      "Graduate School of Management, St. Petersburg State University",
-    description:
-      "Completed a 45-hour financial analysis course. The accompanying academic recommendation highlighted analytical ability, attention to detail, teamwork, facilitation, and curiosity about the financial sector.",
-    topics: ["Financial analysis", "Teamwork", "Analytical thinking"],
-  },
-  {
-    year: "2015",
-    type: "Intensive university course",
-    title: "Human Resource Management and Employment Relations",
-    institution: "The London School of Economics and Political Science",
-    description:
-      "Completed the MG190 LSE Summer School course and received a grade of A.",
-    topics: [
-      "Human resources",
-      "Employment relations",
-      "Management",
-      "Organisations",
-    ],
   },
 ];
 
-const certifications = [
-  "Linear Regression for Machine Learning",
-  "Intro to Python for Finance",
-  "Data Modelling for Power BI",
-  "Docker Training for the Absolute Beginner",
-  "Recursion and Trees",
+const academicHighlights = achievements.filter((item) =>
+  ["Award", "Academic result", "Recommendation letter"].includes(item.category),
+);
+
+const senjaIds = [
+  "ec497f76-377a-46dc-9240-db1d69100c24",
+  "86fcd7c9-6eb3-4c3d-b0c2-eb39f1808c23",
+  "23825e64-b11f-4de5-854f-47c6093628b5",
+  "810b2a8c-4b82-4ec6-9070-8e89eb250eb8",
+  "3c50d95c-ed58-44ea-81e0-efc4f589558b",
 ];
 
 const profileSchema = {
   "@context": "https://schema.org",
   "@type": "ProfilePage",
-  "@id": `${canonical}#profile-page`,
   url: canonical,
   name: title,
   description,
-  dateModified: "2026-07-19",
   mainEntity: {
     "@type": "Person",
     "@id": "https://matteoarellano.com/#person",
     name: "Matteo Arellano",
     url: "https://matteoarellano.com/",
     sameAs: ["https://www.linkedin.com/in/matteoarellano"],
-    jobTitle: "Lead SEO & Growth Manager",
-    description:
-      "Matteo Arellano works across technical SEO, AI visibility, growth analytics, conversion, GA4, BigQuery, Python, data engineering, and financial analytics.",
-    knowsLanguage: ["English", "Spanish", "Catalan", "Dutch", "Norwegian"],
+    jobTitle: "Technical Growth Partner",
     knowsAbout: [
+      "Business development",
+      "Partnerships",
+      "Commercial analysis",
+      "Product analytics",
+      "Conversion optimization",
       "Technical SEO",
-      "AI visibility",
-      "Conversion rate optimization",
-      "Growth analytics",
-      "Google Analytics 4",
-      "BigQuery",
-      "Amplitude",
+      "Google Ads",
+      "Data engineering",
       "Python",
       "SQL",
-      "Data engineering",
-      "Financial analytics",
-      "Machine learning",
-      "Payment analytics",
+      "BigQuery",
+      "Automation",
     ],
-    alumniOf: [
-      {
-        "@type": "CollegeOrUniversity",
-        name: "Rotterdam School of Management, Erasmus University",
-      },
-      {
-        "@type": "CollegeOrUniversity",
-        name: "The London School of Economics and Political Science",
-      },
-      {
-        "@type": "CollegeOrUniversity",
-        name: "Peking University",
-      },
-      {
-        "@type": "CollegeOrUniversity",
-        name: "Graduate School of Management, St. Petersburg State University",
-      },
-    ],
-    award: ["Winner of the Rotterdam100 2016-2017"],
-    hasCredential: [
-      ...universityDiplomas.map((diploma) => ({
-        "@type": "EducationalOccupationalCredential",
-        name: `${diploma.degree}, ${diploma.field}`,
-        credentialCategory: "University degree",
-        recognizedBy: {
-          "@type": "CollegeOrUniversity",
-          name: diploma.institution,
-        },
-      })),
-      ...otherStudies.map((study) => ({
-        "@type": "EducationalOccupationalCredential",
-        name: study.title,
-        credentialCategory: study.type,
-        recognizedBy: {
-          "@type": "Organization",
-          name: study.institution,
-        },
-      })),
-    ],
-    hasOccupation: timeline
-      .filter((item) => item.period !== "2018")
-      .map((item) => ({
-        "@type": "Occupation",
-        name: item.title,
-        description: item.description,
-        occupationLocation: {
-          "@type": "Place",
-          name: item.location,
-        },
-      })),
   },
-};
-
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: "https://matteoarellano.com/",
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Achievements, career, recommendations and education",
-      item: canonical,
-    },
-  ],
-};
-
-const timelineSchema = {
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  name: "Matteo Arellano career timeline",
-  itemListOrder: "https://schema.org/ItemListOrderDescending",
-  numberOfItems: timeline.length,
-  itemListElement: timeline.map((item, index) => ({
-    "@type": "ListItem",
-    position: index + 1,
-    name: `${item.period}: ${item.title} at ${item.organisation}`,
-    description: item.description,
-  })),
 };
 ---
 
-<BaseLayout title={title} description={description} canonical={canonical}>
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  image="/images/matteo-arellano-visibility-signup.jpg"
+>
   <Header />
 
   <script
     is:inline
     type="application/ld+json"
-    set:html={JSON.stringify([profileSchema, breadcrumbSchema, timelineSchema])}
+    set:html={JSON.stringify(profileSchema)}
   />
 
-  <main class="achievement-page">
-    <section class="achievement-hero">
-      <div class="achievement-container achievement-hero-grid">
-        <div class="achievement-hero-copy">
-          <span class="achievement-kicker">
-            Career · Recommendations · Education
-          </span>
-
-          <h1>Matteo Arellano's career, recommendations and education.</h1>
-
-          <p class="achievement-lede">
-            I graduated from Rotterdam School of Management in 2018 and moved
-            from European banking and financial risk into global analytics, data
-            engineering, technical SEO, AI visibility, and conversion work. This
-            page brings that journey together in one place.
+  <main class="evidence-page">
+    <section class="evidence-hero">
+      <div class="growth-shell evidence-hero-grid">
+        <div>
+          <span class="growth-overline">Recommendations & experience</span>
+          <h1>Evidence from the people, teams and problems I have worked with.</h1>
+          <p>
+            My background is broad by design: commercial growth, finance,
+            analytics, data engineering and product work. This page brings
+            together the recommendations, outcomes and experience behind that
+            range.
           </p>
-
-          <nav class="achievement-jump-links" aria-label="Page sections">
-            <a href="#career-timeline">Career timeline</a>
-            <a href="#recommendations">Recommendations</a>
-            <a href="#university-diplomas">University diplomas</a>
-            <a href="#other-studies">Other studies</a>
-          </nav>
         </div>
-
-        <aside
-          class="identity-card"
-          aria-label="Matteo Arellano profile summary"
-        >
-          <span class="identity-label">Profile summary</span>
-
-          <dl>
-            <div>
-              <dt>Current focus</dt>
-              <dd>Technical SEO, AI visibility, growth and analytics</dd>
-            </div>
-
-            <div>
-              <dt>Career foundation</dt>
-              <dd>Finance, risk, data engineering and machine learning</dd>
-            </div>
-
-            <div>
-              <dt>Education</dt>
-              <dd>
-                MSc Business Administration, Accounting and Financial Management
-              </dd>
-            </div>
-
-            <div>
-              <dt>Languages</dt>
-              <dd>English, Spanish, Catalan, Dutch and Norwegian</dd>
-            </div>
-          </dl>
+        <aside class="evidence-hero-note">
+          <span>What people consistently mention</span>
+          <strong>Problem solving · analytical depth · communication · initiative</strong>
+          <p>
+            The pattern matters more than any individual job title: I am most
+            useful when the problem is important, ambiguous and crosses functions.
+          </p>
         </aside>
       </div>
     </section>
 
-    <aside class="credential-banner">
-      <div class="achievement-container credential-banner-inner">
-        <div class="credential-banner-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" focusable="false">
-            <path
-              d="M8 3.75h8A2.25 2.25 0 0 1 18.25 6v12A2.25 2.25 0 0 1 16 20.25H8A2.25 2.25 0 0 1 5.75 18V6A2.25 2.25 0 0 1 8 3.75Z"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"></path>
-            <path
-              d="M9 8h6M9 11.5h6M9 15h3.5"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"></path>
-          </svg>
-        </div>
-
-        <p>
-          <strong>Want to work together?</strong>
-          I am happy to share the diplomas, certificates, and credentials mentioned
-          on this page directly with you.
-        </p>
-
-        <a
-          href="mailto:matteo.visibility@gmail.com?subject=Credentials%20and%20project%20enquiry"
-        >
-          Contact me
-        </a>
-      </div>
-    </aside>
-
-    <section
-      class="achievement-section"
-      id="career-timeline"
-      aria-labelledby="career-timeline-title"
-    >
-      <div class="achievement-container">
-        <header class="achievement-section-header">
-          <div>
-            <span class="achievement-eyebrow">01 · Career timeline</span>
-            <h2 id="career-timeline-title">
-              From financial risk to data-driven website growth
-            </h2>
-          </div>
-
+    <section class="evidence-outcomes-section">
+      <div class="growth-shell">
+        <header class="evidence-section-heading">
+          <span class="growth-overline">Selected outcomes</span>
+          <h2>Results from different parts of my career.</h2>
           <p>
-            The timeline shows how each stage added a new layer: finance, risk,
-            business intelligence, data engineering, machine learning, growth,
-            technical SEO, and conversion.
+            These are deliberately varied. They show the range from customer
+            conversion to technical efficiency and management information.
           </p>
         </header>
-
-        <ol class="career-timeline">
-          {
-            timeline.map((item) => (
-              <li class="career-item">
-                <div class="career-marker" aria-hidden="true">
-                  {item.icon === "graduation" && (
-                    <svg viewBox="0 0 24 24" focusable="false">
-                      <path
-                        d="m3 9 9-4 9 4-9 4-9-4Z"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M7 11.2V15c0 1.4 2.2 3 5 3s5-1.6 5-3v-3.8M21 9v5"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                        stroke-linecap="round"
-                      />
-                    </svg>
-                  )}
-
-                  {item.icon === "bank" && (
-                    <svg viewBox="0 0 24 24" focusable="false">
-                      <path
-                        d="m3 9 9-5 9 5M5 10.5h14M6.5 10.5v6M10.2 10.5v6M13.8 10.5v6M17.5 10.5v6M4 19h16"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  )}
-
-                  {item.icon === "chart" && (
-                    <svg viewBox="0 0 24 24" focusable="false">
-                      <path
-                        d="M5 19V9M12 19V5M19 19v-7M3 19.5h18"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                        stroke-linecap="round"
-                      />
-                    </svg>
-                  )}
-
-                  {item.icon === "database" && (
-                    <svg viewBox="0 0 24 24" focusable="false">
-                      <ellipse
-                        cx="12"
-                        cy="6"
-                        rx="7"
-                        ry="3"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                      />
-                      <path
-                        d="M5 6v6c0 1.66 3.13 3 7 3s7-1.34 7-3V6M5 12v6c0 1.66 3.13 3 7 3s7-1.34 7-3v-6"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                      />
-                    </svg>
-                  )}
-
-                  {item.icon === "globe" && (
-                    <svg viewBox="0 0 24 24" focusable="false">
-                      <circle
-                        cx="12"
-                        cy="12"
-                        r="8.5"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                      />
-                      <path
-                        d="M3.8 12h16.4M12 3.5c2.2 2.2 3.3 5 3.3 8.5S14.2 18.3 12 20.5M12 3.5C9.8 5.7 8.7 8.5 8.7 12s1.1 6.3 3.3 8.5"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                        stroke-linecap="round"
-                      />
-                    </svg>
-                  )}
-
-                  {item.icon === "dashboard" && (
-                    <svg viewBox="0 0 24 24" focusable="false">
-                      <rect
-                        x="4"
-                        y="4"
-                        width="16"
-                        height="16"
-                        rx="3"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                      />
-                      <path
-                        d="M8 16v-4M12 16V8M16 16v-6"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                        stroke-linecap="round"
-                      />
-                    </svg>
-                  )}
-
-                  {item.icon === "search" && (
-                    <svg viewBox="0 0 24 24" focusable="false">
-                      <circle
-                        cx="10.5"
-                        cy="10.5"
-                        r="5.5"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                      />
-                      <path
-                        d="m15 15 5 5M7.8 10.5l1.7 1.8 3.6-4"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  )}
-                </div>
-
-                <article class="career-card">
-                  <div class="career-card-top">
-                    <span class="career-period">{item.period}</span>
-                    <span class="career-location">{item.location}</span>
-                  </div>
-
-                  <h3>{item.title}</h3>
-                  <p class="career-organisation">{item.organisation}</p>
-                  <p class="career-description">{item.description}</p>
-
-                  <ul class="career-skills" aria-label={`${item.title} topics`}>
-                    {item.skills.map((skill) => (
-                      <li>{skill}</li>
-                    ))}
-                  </ul>
-                </article>
-              </li>
-            ))
-          }
-        </ol>
+        <div class="evidence-outcome-grid">
+          {outcomes.map((item) => (
+            <article class="evidence-outcome-card">
+              <strong>{item.number}</strong>
+              <span>{item.label}</span>
+              <p>{item.copy}</p>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
 
-    <section
-      class="achievement-section achievement-section-soft"
-      id="recommendations"
-      aria-labelledby="recommendations-title"
-    >
-      <div class="achievement-container">
-        <header class="achievement-section-header">
-          <div>
-            <span class="achievement-eyebrow">02 · Recommendations</span>
-            <h2 id="recommendations-title">
-              What colleagues say about working with me
-            </h2>
-          </div>
-
+    <section class="evidence-recommendations-section" id="recommendations">
+      <div class="growth-shell">
+        <header class="evidence-section-heading evidence-section-heading--light">
+          <span class="growth-overline">Professional recommendations</span>
+          <h2>What people I have worked with say.</h2>
           <p>
-            These recommendations come from people who worked with me across
-            growth, finance, analytics, data engineering, Python, machine
-            learning, and complex business projects.
+            These are recommendations from colleagues who saw my work directly
+            across growth, finance, analytics, data engineering and complex
+            cross-functional projects.
           </p>
         </header>
 
-        <article class="featured-recommendation">
-          <div class="featured-recommendation-meta">
-            <span class="linkedin-badge">
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-                width="16"
-                height="16"
-              >
-                <path
-                  fill="currentColor"
-                  d="M5.37 3.5A2.37 2.37 0 1 1 5.36 8.24 2.37 2.37 0 0 1 5.37 3.5ZM3.32 9.86h4.1V21h-4.1V9.86Zm6.66 0h3.93v1.52h.06c.55-1.04 1.89-2.13 3.89-2.13 4.16 0 4.93 2.74 4.93 6.3V21h-4.1v-4.84c0-1.15-.02-2.64-1.61-2.64-1.61 0-1.86 1.26-1.86 2.56V21h-4.1V9.86Z"
-                ></path>
-              </svg>
-
-              {featuredRecommendation.source}
-            </span>
-
-            <time>{featuredRecommendation.date}</time>
-          </div>
-
+        <article class="evidence-featured-quote">
+          <span class="evidence-quote-mark" aria-hidden="true">“</span>
           <blockquote>
-            {
-              featuredRecommendation.quote
-                .split("\n\n")
-                .map((paragraph) => <p>{paragraph}</p>)
-            }
+            {featuredRecommendation.quote.split("\n\n").map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
           </blockquote>
-
           <footer>
-            <div>
-              <strong>{featuredRecommendation.name}</strong>
-              <span>{featuredRecommendation.headline}</span>
-            </div>
-
+            <strong>{featuredRecommendation.name}</strong>
+            <span>{featuredRecommendation.headline}</span>
             <small>{featuredRecommendation.relationship}</small>
           </footer>
         </article>
 
-        <div class="recommendation-grid">
-          {
-            remainingRecommendations.map((recommendation) => (
-              <article class="recommendation-card">
-                <header>
-                  <span class="linkedin-badge linkedin-badge-light">
-                    <svg
-                      aria-hidden="true"
-                      viewBox="0 0 24 24"
-                      width="15"
-                      height="15"
-                    >
-                      <path
-                        fill="currentColor"
-                        d="M5.37 3.5A2.37 2.37 0 1 1 5.36 8.24 2.37 2.37 0 0 1 5.37 3.5ZM3.32 9.86h4.1V21h-4.1V9.86Zm6.66 0h3.93v1.52h.06c.55-1.04 1.89-2.13 3.89-2.13 4.16 0 4.93 2.74 4.93 6.3V21h-4.1v-4.84c0-1.15-.02-2.64-1.61-2.64-1.61 0-1.86 1.26-1.86 2.56V21h-4.1V9.86Z"
-                      />
-                    </svg>
-
-                    {recommendation.source}
-                  </span>
-
-                  <time>{recommendation.date}</time>
-                </header>
-
-                <blockquote>
-                  {recommendation.quote.split("\n\n").map((paragraph) => (
-                    <p>{paragraph}</p>
-                  ))}
-                </blockquote>
-
-                <footer>
-                  <strong>{recommendation.name}</strong>
-                  <span>{recommendation.headline}</span>
-                  <small>{recommendation.relationship}</small>
-                </footer>
-              </article>
-            ))
-          }
+        <div class="evidence-recommendation-grid">
+          {remainingRecommendations.map((recommendation) => (
+            <article class="evidence-recommendation-card">
+              <blockquote>
+                {recommendation.quote.split("\n\n").map((paragraph) => (
+                  <p>{paragraph}</p>
+                ))}
+              </blockquote>
+              <footer>
+                <strong>{recommendation.name}</strong>
+                <span>{recommendation.headline}</span>
+                <small>{recommendation.date}</small>
+              </footer>
+            </article>
+          ))}
         </div>
 
-        <div class="source-note">
-          <p>
-            The recommendation text is reproduced from the original LinkedIn
-            recommendations.
-          </p>
-
-          <a
-            href="https://www.linkedin.com/in/matteoarellano"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            View my LinkedIn profile
-            <span aria-hidden="true">↗</span>
+        <div class="evidence-linkedin-link">
+          <a href="https://www.linkedin.com/in/matteoarellano" target="_blank" rel="noopener noreferrer">
+            View the original recommendations on LinkedIn ↗
           </a>
         </div>
+      </div>
+    </section>
 
-        <div class="senja-reviews">
-          <header class="senja-reviews-heading">
-            <div>
-              <span class="achievement-eyebrow">Verified feedback</span>
+    <section class="evidence-direct-reviews">
+      <div class="growth-shell">
+        <header class="evidence-section-heading">
+          <span class="growth-overline">Reviews & appraisals</span>
+          <h2>Additional feedback collected directly.</h2>
+          <p>
+            These reviews were collected through Senja from people who have
+            worked with me on technical, analytical and growth-related work.
+          </p>
+        </header>
 
-              <h3>Reviews collected directly through Senja</h3>
-            </div>
-
-            <p>
-              Additional feedback shared by people who have worked with me on
-              analytics, growth, SEO, data, and technical projects.
-            </p>
-          </header>
-
-          <div class="senja-review-grid">
-            <article
-              class="senja-review-shell"
-              aria-label="Review collected through Senja"
-            >
+        <div class="evidence-senja-grid">
+          {senjaIds.map((id) => (
+            <div class="evidence-senja-card">
               <div
                 class="senja-embed"
-                data-id="ec497f76-377a-46dc-9240-db1d69100c24"
+                data-id={id}
                 data-mode="shadow"
                 data-lazyload="true"
-                style="display: block; width: 100%;"
-              >
+                style="display:block;width:100%;"
+              ></div>
+            </div>
+          ))}
+        </div>
+
+        {senjaIds.map((id) => (
+          <script
+            is:inline
+            src={`https://widget.senja.io/widget/${id}/platform.js`}
+            type="text/javascript"
+            async
+          ></script>
+        ))}
+      </div>
+    </section>
+
+    <section class="evidence-career-section" id="experience">
+      <div class="growth-shell evidence-career-layout">
+        <div class="evidence-career-intro">
+          <span class="growth-overline">Experience</span>
+          <h2>A career that moved from finance into data, technology and growth.</h2>
+          <p>
+            Each move added another way of looking at a business problem. The
+            result is that I can move comfortably between commercial context,
+            quantitative analysis and technical execution.
+          </p>
+        </div>
+
+        <div class="evidence-timeline">
+          {timeline.map((item) => (
+            <article class="evidence-timeline-item">
+              <div class="evidence-timeline-meta">
+                <span>{item.period}</span>
+                <strong>{item.organisation}</strong>
+                <small>{item.location}</small>
+              </div>
+              <div>
+                <h3>{item.role}</h3>
+                <p>{item.copy}</p>
+                <div class="evidence-skill-list">
+                  {item.skills.map((skill) => <span>{skill}</span>)}
+                </div>
               </div>
             </article>
-
-            <!-- The second Senja review will go here -->
-
-            <script
-              src="https://widget.senja.io/widget/86fcd7c9-6eb3-4c3d-b0c2-eb39f1808c23/platform.js"
-              type="text/javascript"
-              async></script>
-            <div
-              class="senja-embed"
-              data-id="86fcd7c9-6eb3-4c3d-b0c2-eb39f1808c23"
-              data-mode="shadow"
-              data-lazyload="false"
-              style="display: block; width: 100%;"
-            >
-            </div>
-
-            <script
-              src="https://widget.senja.io/widget/23825e64-b11f-4de5-854f-47c6093628b5/platform.js"
-              type="text/javascript"
-              async></script>
-            <div
-              class="senja-embed"
-              data-id="23825e64-b11f-4de5-854f-47c6093628b5"
-              data-mode="shadow"
-              data-lazyload="false"
-              style="display: block; width: 100%;"
-            >
-            </div>
-
-            <script
-              src="https://widget.senja.io/widget/86fcd7c9-6eb3-4c3d-b0c2-eb39f1808c23/platform.js"
-              type="text/javascript"
-              async></script>
-            <div
-              class="senja-embed"
-              data-id="86fcd7c9-6eb3-4c3d-b0c2-eb39f1808c23"
-              data-mode="shadow"
-              data-lazyload="false"
-              style="display: block; width: 100%;"
-            >
-            </div>
-
-            <script
-              src="https://widget.senja.io/widget/810b2a8c-4b82-4ec6-9070-8e89eb250eb8/platform.js"
-              type="text/javascript"
-              async></script>
-            <div
-              class="senja-embed"
-              data-id="810b2a8c-4b82-4ec6-9070-8e89eb250eb8"
-              data-mode="shadow"
-              data-lazyload="false"
-              style="display: block; width: 100%;"
-            >
-            </div>
-
-            <!-- The second Senja review will finish here -->
-
-            <script
-              src="https://widget.senja.io/widget/3c50d95c-ed58-44ea-81e0-efc4f589558b/platform.js"
-              type="text/javascript"
-              async></script>
-            <div
-              class="senja-embed"
-              data-id="3c50d95c-ed58-44ea-81e0-efc4f589558b"
-              data-mode="shadow"
-              data-lazyload="false"
-              style="display: block; width: 100%;"
-            >
-            </div>
-          </div>
+          ))}
         </div>
-
-        <script
-          is:inline
-          src="https://widget.senja.io/widget/ec497f76-377a-46dc-9240-db1d69100c24/platform.js"
-          type="text/javascript"
-          async></script>
       </div>
     </section>
 
-    <section
-      class="achievement-section"
-      id="university-diplomas"
-      aria-labelledby="university-diplomas-title"
-    >
-      <div class="achievement-container">
-        <header class="achievement-section-header">
-          <div>
-            <span class="achievement-eyebrow">03 · University diplomas</span>
-            <h2 id="university-diplomas-title">
-              Formal education in business, accounting and finance
-            </h2>
-          </div>
-
-          <p>
-            My university education gave me the financial and business
-            foundation that later shaped my work in analytics, engineering,
-            technical SEO, and growth.
-          </p>
+    <section class="evidence-education-section" id="education">
+      <div class="growth-shell">
+        <header class="evidence-section-heading">
+          <span class="growth-overline">Education</span>
+          <h2>Business foundation, then deeper technical training.</h2>
         </header>
 
-        <div class="diploma-grid">
-          {
-            universityDiplomas.map((diploma) => (
-              <article class="diploma-card">
-                <div class="diploma-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" focusable="false">
-                    <path
-                      d="m3 9 9-4 9 4-9 4-9-4Z"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.8"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d="M7 11.2V15c0 1.4 2.2 3 5 3s5-1.6 5-3v-3.8M21 9v5"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.8"
-                      stroke-linecap="round"
-                    />
-                  </svg>
-                </div>
-
-                <div class="diploma-copy">
-                  <div class="diploma-topline">
-                    <span>{diploma.year}</span>
-                    <strong>{diploma.result}</strong>
-                  </div>
-
-                  <h3>{diploma.degree}</h3>
-                  <p class="diploma-field">{diploma.field}</p>
-                  <p class="diploma-institution">{diploma.institution}</p>
-                  <p>{diploma.description}</p>
-                </div>
-              </article>
-            ))
-          }
+        <div class="evidence-education-grid">
+          {education.map((item) => (
+            <article class="evidence-education-card">
+              <span>{item.year}</span>
+              <h3>{item.title}</h3>
+              <strong>{item.detail}</strong>
+              <p>{item.institution}</p>
+            </article>
+          ))}
         </div>
 
-        <aside class="award-callout">
-          <div class="award-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" focusable="false">
-              <path
-                d="M8 4h8v5a4 4 0 0 1-8 0V4Z"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"></path>
-              <path
-                d="M8 6H5.5v1.5A3.5 3.5 0 0 0 9 11M16 6h2.5v1.5A3.5 3.5 0 0 1 15 11M12 13v4M8.5 20h7M10 17h4"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"></path>
-            </svg>
-          </div>
-
-          <div>
-            <span>University-era achievement</span>
-            <h3>Winner of the Rotterdam100, 2016-2017</h3>
-            <p>
-              Selected for a multidisciplinary talent competition and recognised
-              for professional work ethic, entrepreneurial skills, creativity,
-              perseverance, and the successful development of a Next Economy
-              business case.
-            </p>
-          </div>
-        </aside>
+        <div class="evidence-academic-list">
+          {academicHighlights.map((item) => (
+            <article>
+              <span>{item.year} · {item.category}</span>
+              <h3>{item.title}</h3>
+              <p>{item.institution}</p>
+              <small>{item.description}</small>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
 
-    <section
-      class="achievement-section achievement-section-soft"
-      id="other-studies"
-      aria-labelledby="other-studies-title"
-    >
-      <div class="achievement-container">
-        <header class="achievement-section-header">
-          <div>
-            <span class="achievement-eyebrow">04 · Other studies</span>
-            <h2 id="other-studies-title">
-              Continued learning in data, economics, finance and technology
-            </h2>
-          </div>
-
+    <section class="evidence-cta-section">
+      <div class="growth-shell evidence-cta-card">
+        <div>
+          <span class="growth-overline">Work together</span>
+          <h2>Have a growth problem that needs more than one discipline?</h2>
           <p>
-            These studies sit between formal education and applied work. They
-            helped me build the technical range that now connects business
-            questions with code, data, search, and website performance.
+            Bring the commercial objective or the problem. We can talk through
+            it and see whether my background is useful for what you are trying to do.
           </p>
-        </header>
-
-        <div class="study-grid">
-          {
-            otherStudies.map((study) => (
-              <article class="study-card">
-                <div class="study-topline">
-                  <span>{study.type}</span>
-                  <strong>{study.year}</strong>
-                </div>
-
-                <h3>{study.title}</h3>
-                <p class="study-institution">{study.institution}</p>
-                <p>{study.description}</p>
-
-                <ul aria-label={`${study.title} topics`}>
-                  {study.topics.map((topic) => (
-                    <li>{topic}</li>
-                  ))}
-                </ul>
-              </article>
-            ))
-          }
         </div>
-
-        <div class="certification-panel">
-          <div>
-            <span class="achievement-eyebrow">Technical certifications</span>
-            <h3>Focused courses completed alongside my work</h3>
-            <p>
-              Shorter courses helped me deepen specific skills in machine
-              learning, finance, data modelling, software environments, and
-              computer science.
-            </p>
-          </div>
-
-          <ul>
-            {certifications.map((certification) => <li>{certification}</li>)}
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section class="achievement-container collaboration-banner">
-      <div>
-        <span class="achievement-eyebrow">Credentials and collaboration</span>
-        <h2>
-          If you want to work together, I am happy to share the credentials
-          mentioned here.
-        </h2>
-        <p>
-          Tell me what you are working on and which background or credential is
-          relevant. I can share the supporting material directly and explain how
-          the experience connects to your project.
-        </p>
-      </div>
-
-      <div class="collaboration-actions">
-        <a
-          class="collaboration-primary"
-          href="mailto:matteo.visibility@gmail.com?subject=Project%20and%20credentials"
-        >
-          Contact me
-        </a>
-
-        <a class="collaboration-secondary" href="/about/"> See how I work </a>
+        <a class="growth-primary-button" href="/#availability">Let's talk</a>
       </div>
     </section>
   </main>
 
   <Footer />
 </BaseLayout>
-
-<style>
-  .achievement-page {
-    --achievement-ink: #0b1d31;
-    --achievement-copy: #324c68;
-    --achievement-muted: #60758b;
-    --achievement-line: rgba(15, 76, 129, 0.14);
-    --achievement-blue: #0f4c81;
-    --achievement-blue-2: #1b6bd8;
-    --achievement-soft: #eef7ff;
-    color: var(--achievement-ink);
-  }
-
-  .achievement-container {
-    width: min(1160px, calc(100% - 40px));
-    margin-inline: auto;
-  }
-
-  .achievement-hero {
-    position: relative;
-    overflow: hidden;
-    padding: 92px 0 76px;
-    background:
-      radial-gradient(
-        circle at 86% 16%,
-        rgba(90, 169, 255, 0.2),
-        transparent 30rem
-      ),
-      linear-gradient(180deg, #f7fbff 0%, #ffffff 100%);
-  }
-
-  .achievement-hero::after {
-    content: "";
-    position: absolute;
-    right: -230px;
-    bottom: -350px;
-    width: 650px;
-    height: 650px;
-    border: 1px solid rgba(15, 76, 129, 0.1);
-    border-radius: 999px;
-    box-shadow:
-      0 0 0 60px rgba(90, 169, 255, 0.035),
-      0 0 0 120px rgba(90, 169, 255, 0.02);
-    pointer-events: none;
-  }
-
-  .achievement-hero-grid {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.62fr);
-    gap: 58px;
-    align-items: center;
-  }
-
-  .achievement-kicker,
-  .achievement-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
-    color: var(--achievement-blue-2);
-    font-size: 0.78rem;
-    font-weight: 850;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-
-  .achievement-kicker::before,
-  .achievement-eyebrow::before {
-    content: "";
-    width: 28px;
-    height: 2px;
-    border-radius: 999px;
-    background: currentColor;
-  }
-
-  .achievement-hero h1 {
-    max-width: 900px;
-    margin: 22px 0 0;
-    color: var(--achievement-ink);
-    font-size: clamp(3.1rem, 6.4vw, 6rem);
-    line-height: 0.98;
-    letter-spacing: -0.06em;
-  }
-
-  .achievement-lede {
-    max-width: 790px;
-    margin: 26px 0 0;
-    color: var(--achievement-copy);
-    font-size: clamp(1.08rem, 1.8vw, 1.3rem);
-    line-height: 1.75;
-  }
-
-  .achievement-jump-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 11px;
-    margin-top: 34px;
-  }
-
-  .achievement-jump-links a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-    padding: 10px 15px;
-    border: 1px solid rgba(15, 76, 129, 0.15);
-    border-radius: 999px;
-    color: var(--achievement-blue);
-    background: rgba(255, 255, 255, 0.85);
-    font-size: 0.91rem;
-    font-weight: 780;
-    text-decoration: none;
-    box-shadow: 0 10px 28px rgba(16, 43, 77, 0.055);
-    transition:
-      transform 180ms ease,
-      border-color 180ms ease,
-      background 180ms ease;
-  }
-
-  .achievement-jump-links a:hover {
-    transform: translateY(-2px);
-    border-color: rgba(27, 107, 216, 0.42);
-    background: #ffffff;
-  }
-
-  .identity-card {
-    padding: 30px;
-    border: 1px solid rgba(197, 221, 245, 0.9);
-    border-radius: 30px;
-    background: rgba(255, 255, 255, 0.88);
-    box-shadow: 0 28px 80px rgba(16, 43, 77, 0.13);
-    backdrop-filter: blur(18px);
-  }
-
-  .identity-label {
-    color: var(--achievement-muted);
-    font-size: 0.76rem;
-    font-weight: 850;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-
-  .identity-card dl {
-    display: grid;
-    gap: 0;
-    margin: 20px 0 0;
-  }
-
-  .identity-card dl div {
-    padding: 18px 0;
-    border-top: 1px solid rgba(15, 76, 129, 0.1);
-  }
-
-  .identity-card dl div:first-child {
-    border-top: 0;
-    padding-top: 0;
-  }
-
-  .identity-card dl div:last-child {
-    padding-bottom: 0;
-  }
-
-  .identity-card dt {
-    margin-bottom: 5px;
-    color: var(--achievement-blue-2);
-    font-size: 0.76rem;
-    font-weight: 850;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .identity-card dd {
-    margin: 0;
-    color: #203b57;
-    font-weight: 720;
-    line-height: 1.52;
-  }
-
-  .credential-banner {
-    color: #ffffff;
-    background: linear-gradient(135deg, #0b3157, #155fae);
-  }
-
-  .credential-banner-inner {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    gap: 20px;
-    align-items: center;
-    padding-block: 22px;
-  }
-
-  .credential-banner-icon {
-    display: grid;
-    place-items: center;
-    width: 46px;
-    height: 46px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 15px;
-    background: rgba(255, 255, 255, 0.1);
-  }
-
-  .credential-banner-icon svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  .credential-banner p {
-    margin: 0;
-    color: rgba(255, 255, 255, 0.82);
-    line-height: 1.6;
-  }
-
-  .credential-banner strong {
-    color: #ffffff;
-  }
-
-  .credential-banner a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 44px;
-    padding: 11px 18px;
-    border-radius: 999px;
-    color: var(--achievement-blue);
-    background: #ffffff;
-    font-weight: 850;
-    text-decoration: none;
-    white-space: nowrap;
-  }
-
-  .achievement-section {
-    padding: 104px 0;
-    scroll-margin-top: 100px;
-  }
-
-  .achievement-section-soft {
-    border-block: 1px solid rgba(197, 221, 245, 0.62);
-    background: linear-gradient(
-      180deg,
-      rgba(238, 247, 255, 0.78),
-      rgba(255, 255, 255, 0.94)
-    );
-  }
-
-  .achievement-section-header {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(300px, 0.52fr);
-    gap: 56px;
-    align-items: end;
-    margin-bottom: 48px;
-  }
-
-  .achievement-section-header h2,
-  .collaboration-banner h2 {
-    margin: 14px 0 0;
-    color: var(--achievement-ink);
-    font-size: clamp(2.2rem, 4.6vw, 4.15rem);
-    line-height: 1.05;
-    letter-spacing: -0.05em;
-  }
-
-  .achievement-section-header > p {
-    margin: 0;
-    color: var(--achievement-muted);
-    font-size: 1.03rem;
-    line-height: 1.72;
-  }
-
-  .career-timeline {
-    position: relative;
-    display: grid;
-    gap: 24px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .career-timeline::before {
-    content: "";
-    position: absolute;
-    top: 34px;
-    bottom: 34px;
-    left: 31px;
-    width: 2px;
-    background: linear-gradient(
-      180deg,
-      rgba(27, 107, 216, 0.18),
-      rgba(27, 107, 216, 0.5),
-      rgba(27, 107, 216, 0.12)
-    );
-  }
-
-  .career-item {
-    position: relative;
-    display: grid;
-    grid-template-columns: 64px minmax(0, 1fr);
-    gap: 24px;
-    align-items: start;
-  }
-
-  .career-marker {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    place-items: center;
-    width: 64px;
-    height: 64px;
-    border: 7px solid #ffffff;
-    border-radius: 20px;
-    color: #ffffff;
-    background: linear-gradient(
-      135deg,
-      var(--achievement-blue),
-      var(--achievement-blue-2)
-    );
-    box-shadow:
-      0 14px 34px rgba(27, 107, 216, 0.24),
-      0 0 0 1px rgba(15, 76, 129, 0.09);
-  }
-
-  .career-marker svg {
-    width: 27px;
-    height: 27px;
-  }
-
-  .career-card {
-    padding: 30px;
-    border: 1px solid rgba(15, 76, 129, 0.12);
-    border-radius: 26px;
-    background: rgba(255, 255, 255, 0.92);
-    box-shadow: 0 18px 52px rgba(12, 45, 80, 0.07);
-  }
-
-  .career-card-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 18px;
-    margin-bottom: 16px;
-  }
-
-  .career-period {
-    display: inline-flex;
-    padding: 7px 10px;
-    border-radius: 999px;
-    color: var(--achievement-blue);
-    background: var(--achievement-soft);
-    font-size: 0.8rem;
-    font-weight: 850;
-  }
-
-  .career-location {
-    color: var(--achievement-muted);
-    font-size: 0.86rem;
-    font-weight: 650;
-    text-align: right;
-  }
-
-  .career-card h3 {
-    margin: 0;
-    color: var(--achievement-ink);
-    font-size: clamp(1.35rem, 2.4vw, 1.85rem);
-    line-height: 1.2;
-    letter-spacing: -0.03em;
-  }
-
-  .career-organisation {
-    margin: 7px 0 0;
-    color: var(--achievement-blue-2);
-    font-weight: 800;
-  }
-
-  .career-description {
-    max-width: 940px;
-    margin: 17px 0 0;
-    color: var(--achievement-copy);
-    line-height: 1.72;
-  }
-
-  .career-skills,
-  .study-card ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 20px 0 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .career-skills li,
-  .study-card li {
-    padding: 7px 10px;
-    border: 1px solid rgba(15, 76, 129, 0.1);
-    border-radius: 999px;
-    color: #385775;
-    background: #f7fbff;
-    font-size: 0.8rem;
-    font-weight: 720;
-  }
-
-  .featured-recommendation {
-    position: relative;
-    overflow: hidden;
-    padding: clamp(30px, 5vw, 56px);
-    border-radius: 32px;
-    color: #ffffff;
-    background:
-      radial-gradient(
-        circle at 88% 0%,
-        rgba(117, 191, 255, 0.34),
-        transparent 25rem
-      ),
-      linear-gradient(135deg, #0b3157, #105aa9 68%, #1675d1);
-    box-shadow: 0 30px 80px rgba(12, 63, 118, 0.24);
-  }
-
-  .featured-recommendation::after {
-    content: "“";
-    position: absolute;
-    right: 38px;
-    bottom: -96px;
-    color: rgba(255, 255, 255, 0.08);
-    font-family: Georgia, serif;
-    font-size: 24rem;
-    line-height: 1;
-    pointer-events: none;
-  }
-
-  .featured-recommendation-meta,
-  .recommendation-card header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-  }
-
-  .featured-recommendation-meta {
-    position: relative;
-    z-index: 1;
-    color: rgba(255, 255, 255, 0.74);
-    font-size: 0.86rem;
-  }
-
-  .linkedin-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 11px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 999px;
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.1);
-    font-size: 0.77rem;
-    font-weight: 850;
-  }
-
-  .linkedin-badge-light {
-    color: #0b66c3;
-    border-color: rgba(11, 102, 195, 0.14);
-    background: #eef7ff;
-  }
-
-  .featured-recommendation blockquote {
-    position: relative;
-    z-index: 1;
-    max-width: 970px;
-    margin: 40px 0;
-  }
-
-  .featured-recommendation blockquote p {
-    margin: 0 0 20px;
-    color: #ffffff;
-    font-size: clamp(1.22rem, 2.2vw, 1.58rem);
-    line-height: 1.6;
-    letter-spacing: -0.01em;
-  }
-
-  .featured-recommendation blockquote p:last-child {
-    margin-bottom: 0;
-  }
-
-  .featured-recommendation footer {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    align-items: end;
-    justify-content: space-between;
-    gap: 30px;
-    padding-top: 26px;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-  }
-
-  .featured-recommendation footer div {
-    display: grid;
-    gap: 6px;
-  }
-
-  .featured-recommendation footer strong {
-    font-size: 1.15rem;
-  }
-
-  .featured-recommendation footer span,
-  .featured-recommendation footer small {
-    color: rgba(255, 255, 255, 0.74);
-    line-height: 1.5;
-  }
-
-  .featured-recommendation footer small {
-    max-width: 290px;
-    text-align: right;
-  }
-
-  .recommendation-grid {
-    columns: 2;
-    column-gap: 22px;
-    margin-top: 22px;
-  }
-
-  .recommendation-card {
-    display: inline-block;
-    width: 100%;
-    margin: 0 0 22px;
-    padding: 27px;
-    border: 1px solid rgba(15, 76, 129, 0.13);
-    border-radius: 24px;
-    background: rgba(255, 255, 255, 0.96);
-    box-shadow: 0 16px 44px rgba(21, 65, 106, 0.065);
-    break-inside: avoid;
-  }
-
-  .recommendation-card time {
-    color: var(--achievement-muted);
-    font-size: 0.8rem;
-  }
-
-  .recommendation-card blockquote {
-    margin: 25px 0 27px;
-  }
-
-  .recommendation-card blockquote p {
-    margin: 0 0 16px;
-    color: var(--achievement-copy);
-    line-height: 1.72;
-  }
-
-  .recommendation-card blockquote p:last-child {
-    margin-bottom: 0;
-  }
-
-  .recommendation-card footer {
-    display: grid;
-    gap: 6px;
-    padding-top: 21px;
-    border-top: 1px solid rgba(15, 76, 129, 0.11);
-  }
-
-  .recommendation-card footer strong {
-    font-size: 1.06rem;
-  }
-
-  .recommendation-card footer span,
-  .recommendation-card footer small {
-    color: var(--achievement-muted);
-    line-height: 1.5;
-  }
-
-  .recommendation-card footer span {
-    font-size: 0.89rem;
-  }
-
-  .recommendation-card footer small {
-    margin-top: 4px;
-    font-size: 0.77rem;
-  }
-
-  .source-note {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    margin-top: 18px;
-    padding: 23px 25px;
-    border: 1px solid rgba(15, 76, 129, 0.12);
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.78);
-  }
-
-  .source-note p {
-    margin: 0;
-    color: var(--achievement-muted);
-  }
-
-  .source-note a {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--achievement-blue);
-    font-weight: 850;
-    text-decoration: none;
-    white-space: nowrap;
-  }
-
-  .source-note a:hover {
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  .senja-reviews {
-    margin-top: 56px;
-    padding-top: 50px;
-    border-top: 1px solid var(--achievement-line);
-  }
-
-  .senja-reviews-heading {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.58fr);
-    gap: 42px;
-    align-items: end;
-    margin-bottom: 26px;
-  }
-
-  .senja-reviews-heading h3 {
-    margin: 13px 0 0;
-    color: var(--achievement-ink);
-    font-size: clamp(1.75rem, 3.4vw, 2.7rem);
-    line-height: 1.12;
-    letter-spacing: -0.04em;
-  }
-
-  .senja-reviews-heading > p {
-    margin: 0;
-    color: var(--achievement-muted);
-    line-height: 1.7;
-  }
-
-  .senja-review-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 22px;
-    align-items: start;
-  }
-
-  .senja-review-shell {
-    min-width: 0;
-    overflow: hidden;
-    padding: 14px;
-    border: 1px solid rgba(15, 76, 129, 0.13);
-    border-radius: 28px;
-    background:
-      radial-gradient(
-        circle at 100% 0%,
-        rgba(90, 169, 255, 0.12),
-        transparent 18rem
-      ),
-      rgba(255, 255, 255, 0.96);
-    box-shadow: 0 18px 52px rgba(12, 45, 80, 0.075);
-  }
-
-  .senja-review-shell:only-child {
-    grid-column: 1 / -1;
-    width: min(100%, 760px);
-    justify-self: center;
-  }
-
-  .senja-review-shell .senja-embed {
-    display: block;
-    width: 100%;
-    min-width: 0;
-  }
-
-  .diploma-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
-  }
-
-  .diploma-card {
-    display: grid;
-    grid-template-columns: 68px minmax(0, 1fr);
-    gap: 22px;
-    padding: 30px;
-    border: 1px solid rgba(15, 76, 129, 0.12);
-    border-radius: 27px;
-    background: #ffffff;
-    box-shadow: 0 18px 54px rgba(12, 45, 80, 0.07);
-  }
-
-  .diploma-icon,
-  .award-icon {
-    display: grid;
-    place-items: center;
-    width: 64px;
-    height: 64px;
-    border-radius: 20px;
-    color: #ffffff;
-    background: linear-gradient(
-      135deg,
-      var(--achievement-blue),
-      var(--achievement-blue-2)
-    );
-    box-shadow: 0 14px 32px rgba(27, 107, 216, 0.22);
-  }
-
-  .diploma-icon svg,
-  .award-icon svg {
-    width: 29px;
-    height: 29px;
-  }
-
-  .diploma-topline {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-  }
-
-  .diploma-topline span,
-  .diploma-topline strong {
-    font-size: 0.78rem;
-    font-weight: 850;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  .diploma-topline span {
-    color: var(--achievement-blue-2);
-  }
-
-  .diploma-topline strong {
-    color: #0f766e;
-  }
-
-  .diploma-card h3 {
-    margin: 12px 0 0;
-    font-size: clamp(1.35rem, 2.4vw, 1.8rem);
-    line-height: 1.2;
-    letter-spacing: -0.03em;
-  }
-
-  .diploma-field {
-    margin: 8px 0 0;
-    color: var(--achievement-blue);
-    font-weight: 800;
-  }
-
-  .diploma-institution {
-    margin: 5px 0 0;
-    color: #344f6b;
-    font-weight: 680;
-  }
-
-  .diploma-copy > p:last-child {
-    margin: 16px 0 0;
-    color: var(--achievement-muted);
-    line-height: 1.67;
-  }
-
-  .award-callout {
-    display: grid;
-    grid-template-columns: 74px minmax(0, 1fr);
-    gap: 24px;
-    align-items: center;
-    margin-top: 22px;
-    padding: 28px 30px;
-    border: 1px solid rgba(196, 151, 45, 0.2);
-    border-radius: 25px;
-    background:
-      radial-gradient(
-        circle at 92% 8%,
-        rgba(230, 180, 55, 0.15),
-        transparent 20rem
-      ),
-      #fffaf0;
-  }
-
-  .award-icon {
-    color: #ffffff;
-    background: linear-gradient(135deg, #9a6d09, #d29a22);
-    box-shadow: 0 14px 32px rgba(154, 109, 9, 0.2);
-  }
-
-  .award-callout span {
-    color: #8a620b;
-    font-size: 0.75rem;
-    font-weight: 850;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .award-callout h3 {
-    margin: 7px 0 0;
-    font-size: clamp(1.3rem, 2.2vw, 1.7rem);
-    letter-spacing: -0.025em;
-  }
-
-  .award-callout p {
-    margin: 11px 0 0;
-    color: #6d5b35;
-    line-height: 1.65;
-  }
-
-  .study-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 19px;
-  }
-
-  .study-card {
-    padding: 28px;
-    border: 1px solid rgba(15, 76, 129, 0.12);
-    border-radius: 25px;
-    background: rgba(255, 255, 255, 0.96);
-    box-shadow: 0 16px 48px rgba(12, 45, 80, 0.065);
-  }
-
-  .study-topline {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-  }
-
-  .study-topline span {
-    color: var(--achievement-blue-2);
-    font-size: 0.75rem;
-    font-weight: 850;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .study-topline strong {
-    color: var(--achievement-muted);
-    font-size: 0.82rem;
-  }
-
-  .study-card h3 {
-    margin: 15px 0 0;
-    font-size: clamp(1.3rem, 2.3vw, 1.7rem);
-    line-height: 1.22;
-    letter-spacing: -0.028em;
-  }
-
-  .study-institution {
-    margin: 8px 0 0;
-    color: var(--achievement-blue);
-    font-weight: 780;
-  }
-
-  .study-card > p:not(.study-institution) {
-    margin: 16px 0 0;
-    color: var(--achievement-muted);
-    line-height: 1.68;
-  }
-
-  .certification-panel {
-    display: grid;
-    grid-template-columns: minmax(0, 0.75fr) minmax(320px, 1fr);
-    gap: 34px;
-    align-items: center;
-    margin-top: 22px;
-    padding: 34px;
-    border-radius: 28px;
-    color: #ffffff;
-    background:
-      radial-gradient(
-        circle at 92% 4%,
-        rgba(90, 169, 255, 0.24),
-        transparent 23rem
-      ),
-      linear-gradient(135deg, #0b3157, #105aa9);
-    box-shadow: 0 24px 70px rgba(12, 63, 118, 0.2);
-  }
-
-  .certification-panel .achievement-eyebrow,
-  .certification-panel h3 {
-    color: #ffffff;
-  }
-
-  .certification-panel h3 {
-    margin: 13px 0 0;
-    font-size: clamp(1.65rem, 3vw, 2.45rem);
-    line-height: 1.12;
-    letter-spacing: -0.04em;
-  }
-
-  .certification-panel p {
-    margin: 15px 0 0;
-    color: rgba(255, 255, 255, 0.76);
-    line-height: 1.68;
-  }
-
-  .certification-panel ul {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 11px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .certification-panel li {
-    padding: 15px 16px;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    border-radius: 16px;
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.09);
-    font-size: 0.91rem;
-    font-weight: 720;
-    line-height: 1.4;
-  }
-
-  .collaboration-banner {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 48px;
-    align-items: center;
-    margin-block: 16px 96px;
-    padding: clamp(34px, 5.5vw, 58px);
-    border-radius: 34px;
-    color: #ffffff;
-    background:
-      radial-gradient(
-        circle at 18% 0%,
-        rgba(255, 255, 255, 0.21),
-        transparent 28rem
-      ),
-      linear-gradient(135deg, #0b3157, #1268bf);
-    box-shadow: 0 30px 80px rgba(12, 63, 118, 0.24);
-  }
-
-  .collaboration-banner .achievement-eyebrow,
-  .collaboration-banner h2 {
-    color: #ffffff;
-  }
-
-  .collaboration-banner p {
-    max-width: 800px;
-    margin: 18px 0 0;
-    color: rgba(255, 255, 255, 0.78);
-    font-size: 1.03rem;
-    line-height: 1.7;
-  }
-
-  .collaboration-actions {
-    display: grid;
-    gap: 12px;
-    min-width: 205px;
-  }
-
-  .collaboration-primary,
-  .collaboration-secondary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 50px;
-    padding: 13px 20px;
-    border: 1px solid transparent;
-    border-radius: 999px;
-    font-weight: 850;
-    text-align: center;
-    text-decoration: none;
-  }
-
-  .collaboration-primary {
-    color: var(--achievement-blue);
-    background: #ffffff;
-  }
-
-  .collaboration-secondary {
-    color: #ffffff;
-    border-color: rgba(255, 255, 255, 0.26);
-    background: rgba(255, 255, 255, 0.08);
-  }
-
-  @media (max-width: 980px) {
-    .achievement-hero-grid,
-    .achievement-section-header,
-    .certification-panel,
-    .collaboration-banner {
-      grid-template-columns: 1fr;
-    }
-
-    .achievement-section-header {
-      gap: 24px;
-    }
-
-    .diploma-grid,
-    .study-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .collaboration-actions {
-      display: flex;
-      flex-wrap: wrap;
-      min-width: 0;
-    }
-
-    .senja-reviews-heading {
-      grid-template-columns: 1fr;
-      gap: 18px;
-    }
-  }
-
-  @media (max-width: 760px) {
-    .achievement-container {
-      width: min(100% - 28px, 1160px);
-    }
-
-    .achievement-hero {
-      padding: 66px 0 58px;
-    }
-
-    .achievement-hero-grid {
-      gap: 38px;
-    }
-
-    .achievement-hero h1 {
-      font-size: clamp(2.75rem, 13vw, 4.35rem);
-      line-height: 0.97;
-    }
-
-    .achievement-jump-links,
-    .achievement-jump-links a {
-      width: 100%;
-    }
-
-    .achievement-jump-links a {
-      justify-content: center;
-    }
-
-    .identity-card {
-      padding: 24px;
-      border-radius: 24px;
-    }
-
-    .credential-banner-inner {
-      grid-template-columns: auto minmax(0, 1fr);
-      padding-block: 20px;
-    }
-
-    .credential-banner a {
-      grid-column: 1 / -1;
-      width: 100%;
-    }
-
-    .achievement-section {
-      padding: 76px 0;
-    }
-
-    .career-timeline::before {
-      left: 24px;
-    }
-
-    .career-item {
-      grid-template-columns: 50px minmax(0, 1fr);
-      gap: 14px;
-    }
-
-    .career-marker {
-      width: 50px;
-      height: 50px;
-      border-width: 5px;
-      border-radius: 16px;
-    }
-
-    .career-marker svg {
-      width: 22px;
-      height: 22px;
-    }
-
-    .career-card {
-      padding: 22px;
-      border-radius: 22px;
-    }
-
-    .career-card-top,
-    .featured-recommendation-meta,
-    .recommendation-card header,
-    .study-topline {
-      align-items: flex-start;
-      flex-direction: column;
-    }
-
-    .career-location {
-      text-align: left;
-    }
-
-    .featured-recommendation {
-      border-radius: 24px;
-    }
-
-    .featured-recommendation footer,
-    .source-note {
-      display: grid;
-      align-items: start;
-    }
-
-    .featured-recommendation footer small {
-      max-width: none;
-      text-align: left;
-    }
-
-    .recommendation-grid {
-      columns: 1;
-    }
-
-    .recommendation-card {
-      padding: 23px;
-      border-radius: 21px;
-    }
-
-    .diploma-card {
-      grid-template-columns: 1fr;
-      padding: 24px;
-      border-radius: 23px;
-    }
-
-    .award-callout {
-      grid-template-columns: 1fr;
-      padding: 24px;
-    }
-
-    .study-card {
-      padding: 23px;
-      border-radius: 22px;
-    }
-
-    .certification-panel {
-      padding: 25px;
-      border-radius: 24px;
-    }
-
-    .certification-panel ul {
-      grid-template-columns: 1fr;
-    }
-
-    .collaboration-banner {
-      margin-bottom: 66px;
-      border-radius: 26px;
-    }
-
-    .collaboration-actions,
-    .collaboration-primary,
-    .collaboration-secondary {
-      width: 100%;
-    }
-
-    .senja-reviews {
-      margin-top: 44px;
-      padding-top: 40px;
-    }
-
-    .senja-review-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .senja-review-shell,
-    .senja-review-shell:only-child {
-      width: 100%;
-      grid-column: auto;
-      padding: 9px;
-      border-radius: 22px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .career-item {
-      grid-template-columns: 44px minmax(0, 1fr);
-      gap: 11px;
-    }
-
-    .career-timeline::before {
-      left: 21px;
-    }
-
-    .career-marker {
-      width: 44px;
-      height: 44px;
-    }
-
-    .career-card {
-      padding: 19px;
-    }
-
-    .career-skills li,
-    .study-card li {
-      font-size: 0.75rem;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .achievement-jump-links a {
-      transition: none;
-    }
-
-    .achievement-jump-links a:hover {
-      transform: none;
-    }
-  }
-</style>

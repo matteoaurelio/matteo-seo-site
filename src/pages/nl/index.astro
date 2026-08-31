@@ -1,322 +1,468 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import Header from "../../components/Header.astro";
-import Footer from "../../components/Footer.astro";
+import { getCollection } from "astro:content";
+import { recommendations } from "../../data/achievements";
+import "../../styles/growth-platform.css";
+
+const title = "Technisch groeipartner | Matteo Arellano";
+const description =
+  "Ik help bedrijven nieuwe omzetkansen creëren, conversie verbeteren, gekwalificeerde vraag aantrekken, commerciële inzichten uit data halen en kostbaar werk automatiseren.";
 
 const alternateLanguages = [
+  { hreflang: "en", href: "https://matteoarellano.com/" },
+  { hreflang: "es", href: "https://matteoarellano.com/es/" },
+  { hreflang: "nl", href: "https://matteoarellano.com/nl/" },
+  { hreflang: "x-default", href: "https://matteoarellano.com/" },
+];
+
+const valueOutcomes = [
   {
-    hreflang: "en",
-    href: "https://matteoarellano.com/",
+    label: "Nieuwe omzet",
+    title: "Nieuwe markten, partners en commerciële kansen vinden.",
+    copy: "Bepalen waar de volgende groeibron kan liggen en die vertalen naar een gerichte commerciële route.",
   },
   {
-    hreflang: "es",
-    href: "https://matteoarellano.com/es/",
+    label: "Hogere conversie",
+    title: "Meer van de bestaande vraag omzetten in omzet.",
+    copy: "Funnel-, betaal- en productfrictie vinden die klanten kost en de verbeteringen met de grootste impact prioriteren.",
   },
   {
-    hreflang: "nl",
-    href: "https://matteoarellano.com/nl/",
+    label: "Meer gekwalificeerde vraag",
+    title: "De juiste klanten helpen je te vinden en in actie te komen.",
+    copy: "Search, paid acquisition, landingspagina's en meting verbinden aan echte commerciële resultaten.",
   },
   {
-    hreflang: "x-default",
-    href: "https://matteoarellano.com/",
+    label: "Lagere kosten & minder handwerk",
+    title: "Duur terugkerend werk automatiseren en systemen bouwen die kunnen meegroeien.",
+    copy: "Dataworkflows, API's en automatisering inzetten om operationele frictie en terugkerende kosten te verlagen.",
   },
 ];
 
-const title =
-  "Technische SEO, organische groei en Google Ads | Matteo Arellano";
-const description =
-  "Ik help bedrijven meer organisch verkeer, online verkoop, betere gebruikerservaring en beter meetbare groei te realiseren met technische SEO, organische SEO en Google Ads.";
-const canonical = "https://matteoarellano.com/nl/";
-const photoSrc = "/images/matteo-arellano-headshot.webp";
+const services = [
+  {
+    number: "01",
+    name: "Expansie & partnerships",
+    shortTitle: "Nieuwe commerciële kansen creëren",
+    promise: "Nieuwe markten, partners en klantsegmenten vinden die kunnen uitgroeien tot echte omzet.",
+    description: "Ik spreek prospects, ontdek pijnpunten en koopmotieven, identificeer de juiste bedrijven en vertaal de sterkste kansen naar gerichte outreach, pilots en partnerships.",
+    href: "/services/expansion-partnerships/",
+  },
+  {
+    number: "02",
+    name: "Inzichten & commerciële analyse",
+    shortTitle: "Vinden waar geld wordt verdiend of verloren",
+    promise: "Klant-, omzet-, marge- en operationele data gebruiken om te zien waar waarde wordt gecreëerd, verloren of onbenut blijft.",
+    description: "Ik vertaal rommelige bedrijfsdata naar duidelijke commerciële beslissingen: waar te focussen, wat te stoppen, welke klanten of producten ertoe doen en waar omzet of marge kan verbeteren.",
+    href: "/services/insights-commercial-analysis/",
+  },
+  {
+    number: "03",
+    name: "Product & conversie",
+    shortTitle: "Meer vraag omzetten in omzet",
+    promise: "Meer omzet halen uit de vraag die er al is door de punten in de klantreis te verbeteren waar mensen afhaken.",
+    description: "Ik analyseer funnels, betalingen, gebruikersgedrag en technische frictie om te vinden waar conversie verloren gaat, de impact te kwantificeren en de belangrijkste fixes te prioriteren.",
+    href: "/services/product-conversion/",
+  },
+  {
+    number: "04",
+    name: "Acquisitie & zichtbaarheid",
+    shortTitle: "Meer gekwalificeerde vraag aantrekken",
+    promise: "Meer van de juiste klanten bereiken via search, paid acquisition, sterkere landingspagina's en betere digitale zichtbaarheid.",
+    description: "SEO is één onderdeel van het systeem. Ik verbind vindbaarheid, vraag, landingservaring en meting zodat zichtbaarheid leidt tot echte commerciële resultaten.",
+    href: "/services/acquisition-visibility/",
+  },
+  {
+    number: "05",
+    name: "Data & automatisering",
+    shortTitle: "Kosten en handmatig werk verlagen",
+    promise: "Duur terugkerend werk automatiseren, versnipperde systemen verbinden en dataworkflows bouwen waarmee het bedrijf sneller kan bewegen.",
+    description: "Ik gebruik Python, SQL, API's en cloud-datatools om repetitieve processen te vervangen, operationele kosten te verlagen en informatie schaalbaar bruikbaar te maken.",
+    href: "/services/data-automation/",
+  },
+];
+
+const featuredRecommendationNames = ["Oscar Flores", "Jose Laguna", "Lucas Zarpellon"];
+const featuredRecommendations = featuredRecommendationNames
+  .map((name) => recommendations.find((item) => item.name === name))
+  .filter(Boolean);
+
+const companies = [
+  { name: "Distribusion Technologies", logo: "/images/experience/DISTRIBUSION_TECHNOLOGIES.png" },
+  { name: "Cargill", logo: "/images/experience/CARGILL_LOGO.webp" },
+  { name: "European Investment Bank", logo: "/images/experience/EIB_BANK.png" },
+  { name: "European Investment Fund", logo: "/images/experience/eif.png" },
+  { name: "PIA Group Netherlands", logo: "/images/experience/PIA_GROUP_NEDERLAND.avif" },
+];
+
+const fieldNotes = (await getCollection("journal", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const calNamespace = "homepage-discovery-nl";
+const calElementId = `cal-inline-${calNamespace}`;
+const calLink = "matteo-arellano-seo-visibility/20min";
 ---
 
 <BaseLayout
   title={title}
   description={description}
-  canonical={canonical}
+  canonical="https://matteoarellano.com/nl/"
   lang="nl"
   alternateLanguages={alternateLanguages}
+  image="/images/matteo-arellano-visibility-signup.jpg"
 >
-  <Header />
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="Homepage van Matteo Arellano">
+        <span class="brand-mark">MA</span>
+        <span class="brand-copy">
+          <strong>Matteo Arellano</strong>
+          <small>Technical Growth Partner</small>
+        </span>
+      </a>
 
-  <main class="commercial-page">
-    <section class="commercial-hero">
-      <div class="commercial-container commercial-hero-grid">
-        <div class="commercial-copy">
-          <span class="commercial-kicker"
-            >Technische SEO · Organische SEO · Google Ads</span
-          >
+      <nav class="desktop-nav" aria-label="Hoofdnavigatie">
+        <div class="nav-dropdown">
+          <a class="nav-dropdown-trigger" href="/services/">
+            Diensten <span aria-hidden="true">▾</span>
+          </a>
+          <div class="nav-dropdown-menu" aria-label="Submenu diensten">
+            {services.map((service) => <a href={service.href}>{service.name}</a>)}
+            <a class="nav-menu-all" href="/services/">Alle diensten →</a>
+          </div>
+        </div>
+        <a href="/achievements/#recommendations">Aanbevelingen</a>
+        <a href="/about/">Over mij</a>
+      </nav>
 
-          <h1>
-            Ik help bedrijven online zichtbaarheid omzetten in verkeer, verkoop
-            en gekwalificeerde leads.
-          </h1>
+      <div class="desktop-language language-switcher" aria-label="Taalkeuze">
+        <span class="language-label">Taal</span>
+        <div class="language-options">
+          <a class="language-link" href="/">EN</a>
+          <a class="language-link" href="/es/">ES</a>
+          <a class="language-link is-active" href="/nl/" aria-current="page">NL</a>
+        </div>
+      </div>
 
-          <p>
-            Ik werk met bedrijven die willen begrijpen wat hun online groei
-            blokkeert: technische SEO-problemen, lage zichtbaarheid in Google,
-            onduidelijke campagnes, incomplete meting of pagina’s die niet goed
-            genoeg converteren.
-          </p>
+      <a class="nav-audit header-cta" href="/#availability">Laten we praten</a>
 
-          <div class="commercial-actions">
-            <a
-              class="commercial-primary"
-              href="/free-visibility-check/#calendar"
-            >
-              Plan een eerste review
-            </a>
-            <a class="commercial-secondary" href="/blog/">
-              Bekijk artikelen en cases
-            </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-panel" aria-label="Navigatiemenu openen">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-panel" id="nav-panel">
+        <nav class="panel-nav" aria-label="Mobiele navigatie">
+          <details class="panel-dropdown">
+            <summary class="panel-dropdown-summary">
+              <span class="panel-dropdown-label">Diensten</span>
+              <span class="panel-dropdown-icon" aria-hidden="true">
+                <svg viewBox="0 0 20 20" focusable="false">
+                  <path d="M5 7.5L10 12.5L15 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </span>
+            </summary>
+            <div class="panel-subnav" aria-label="Submenu diensten">
+              {services.map((service) => <a href={service.href}>{service.name}</a>)}
+              <a href="/services/">Alle diensten →</a>
+            </div>
+          </details>
+          <a href="/achievements/#recommendations">Aanbevelingen</a>
+          <a href="/about/">Over mij</a>
+        </nav>
+
+        <div class="panel-language language-switcher" aria-label="Taalkeuze">
+          <span class="language-label">Taal</span>
+          <div class="language-options">
+            <a class="language-link" href="/">EN</a>
+            <a class="language-link" href="/es/">ES</a>
+            <a class="language-link is-active" href="/nl/" aria-current="page">NL</a>
           </div>
         </div>
 
-        <aside
-          class="commercial-profile-card"
-          aria-label="Profiel van Matteo Arellano"
-        >
-          <img
-            src={photoSrc}
-            alt="Matteo Arellano, consultant voor technische SEO en organische groei"
-            width="900"
-            height="900"
-          />
+        <a class="nav-audit panel-audit" href="/#availability">Laten we praten</a>
+      </div>
+    </div>
+  </header>
 
-          <div class="commercial-profile-copy">
+  <main class="growth-home">
+    <section class="growth-hero">
+      <div class="growth-shell growth-hero-grid">
+        <div class="growth-hero-copy">
+          <span class="growth-overline">Technisch groeipartner</span>
+          <h1>Ik help bedrijven nieuwe manieren vinden om te groeien — en die om te zetten in omzet.</h1>
+          <p class="growth-hero-lede">
+            Van nieuwe markten en partnerships tot conversie, acquisitie, data en automatisering: ik help teams commerciële kansen te vinden, te begrijpen wat groei afremt en de volgende stap te bouwen.
+          </p>
+
+          <div class="growth-hero-actions">
+            <a class="growth-primary-button" href="/services/">Bekijk hoe ik kan helpen</a>
+            <a class="growth-secondary-link" href="/#availability">Een kans bespreken →</a>
+          </div>
+
+          <div class="growth-hero-principle">
+            <span>Hoe ik werk</span>
+            <strong>Begin bij het commerciële resultaat: meer omzet, hogere conversie, lagere kosten of snellere uitvoering. Gebruik daarna de juiste middelen om daar te komen.</strong>
+          </div>
+        </div>
+
+        <aside class="growth-portrait-card" aria-label="Over Matteo Arellano">
+          <div class="growth-portrait-image">
+            <img src="/images/matteo-arellano-visibility-signup.jpg" alt="Matteo Arellano" />
+          </div>
+          <div class="growth-portrait-copy">
+            <span>Business + technologie</span>
             <strong>Matteo Arellano</strong>
-            <span>Technical SEO & AI Visibility</span>
             <p>
-              Ervaring in banking, finance, data, analytics engineering en
-              SEO-projecten met klanten in grondtransport in LATAM, de VS en
-              Europa.
+              Growth partner op het snijvlak van commerciële vraagstukken, analytics en technische uitvoering. Oprichter van Yeelen.
             </p>
+            <div class="growth-portrait-links">
+              <a href="https://www.linkedin.com/in/matteoarellano" target="_blank" rel="noreferrer">LinkedIn</a>
+              <a href="mailto:matteo.visibility@gmail.com">E-mail</a>
+              <a href="/about/">Over mij</a>
+            </div>
           </div>
         </aside>
       </div>
     </section>
 
-    <section class="commercial-section">
-      <div class="commercial-container commercial-split">
+    <section class="growth-value-strip" aria-label="Commerciële resultaten">
+      <div class="growth-shell growth-value-strip-grid">
+        {valueOutcomes.map((item, index) => (
+          <article class="growth-value-strip-item">
+            <span>{String(index + 1).padStart(2, "0")} · {item.label}</span>
+            <h2>{item.title}</h2>
+            <p>{item.copy}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="growth-services-section" id="services">
+      <div class="growth-shell">
+        <header class="growth-section-heading">
+          <span class="growth-overline">Hoe ik kan helpen</span>
+          <h2>Vijf manieren waarop ik bedrijven help commerciële waarde te creëren.</h2>
+          <p>
+            Elke dienst heeft een duidelijk eindresultaat. Het werk kan commerciële, analytische en technische gebieden combineren wanneer dat nodig is om het resultaat te bereiken.
+          </p>
+        </header>
+
+        <div class="growth-service-grid">
+          {services.map((service, index) => (
+            <article class:list={["growth-service-card", index === 0 && "growth-service-card--featured"]}>
+              <div class="growth-service-card-top">
+                <span>{service.number}</span>
+                <span>{service.name}</span>
+              </div>
+              <h3>{service.shortTitle}</h3>
+              <p class="growth-service-promise">{service.promise}</p>
+              <p class="growth-service-description">{service.description}</p>
+              <a href={service.href}>Bekijk {service.name} <span>→</span></a>
+            </article>
+          ))}
+        </div>
+
+        <div class="growth-section-footer-link">
+          <a href="/services/">Bekijk alle diensten →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="growth-recommendations-section" id="recommendations">
+      <div class="growth-shell">
+        <header class="growth-section-heading growth-section-heading--compact">
+          <span class="growth-overline">Aanbevelingen & beoordelingen</span>
+          <h2>Wat mensen met wie ik heb gewerkt over mij zeggen.</h2>
+          <p>
+            Het sterkste bewijs van hoe ik werk komt van mensen die mij hebben meegemaakt in echte teams, complexe problemen en veeleisende projecten.
+          </p>
+        </header>
+
+        <div class="growth-recommendation-grid">
+          {featuredRecommendations.map((item) => item && (
+            <article class="growth-recommendation-card">
+              <span class="growth-quote-mark" aria-hidden="true">“</span>
+              <blockquote>{item.quote}</blockquote>
+              <footer>
+                <strong>{item.name}</strong>
+                <span>{item.headline}</span>
+              </footer>
+            </article>
+          ))}
+        </div>
+
+        <a class="growth-recommendations-link" href="/achievements/#recommendations">
+          Lees alle aanbevelingen, beoordelingen en carrièrebewijzen →
+        </a>
+      </div>
+    </section>
+
+    <section class="growth-partner-section">
+      <div class="growth-shell growth-partner-grid">
         <div>
-          <span class="commercial-eyebrow">Wat ik help bereiken</span>
-          <h2>
-            Meer duidelijkheid, meer zichtbaarheid en betere groeibeslissingen.
-          </h2>
+          <span class="growth-overline">Hoe ik samenwerk</span>
+          <h2>Van een groeidoel naar een concrete volgende actie.</h2>
         </div>
-
-        <div class="commercial-card-grid">
-          <div class="commercial-card">
-            <h3>Meer gekwalificeerd verkeer</h3>
-            <p>
-              Ik identificeer technische, content- en zoekintentie-kansen zodat
-              je website beter zichtbaar kan worden voor relevante
-              zoekopdrachten.
-            </p>
-          </div>
-
-          <div class="commercial-card">
-            <h3>Meer sales en leads</h3>
-            <p>
-              Ik bekijk SEO niet als los verkeer. Ik verbind zichtbaarheid met
-              formulieren, boekingen, conversies, campagnes en echte
-              business-signalen.
-            </p>
-          </div>
-
-          <div class="commercial-card">
-            <h3>Betere gebruikerservaring</h3>
-            <p>
-              Ik analyseer snelheid, Core Web Vitals, sitestructuur, belangrijke
-              pagina’s en frictiepunten die gebruikers en zoekmachines kunnen
-              raken.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="commercial-section commercial-soft">
-      <div class="commercial-container">
-        <div class="commercial-section-header">
-          <span class="commercial-eyebrow">Hoe ik werk</span>
-          <h2>Een methode gebaseerd op data, context en echte prioriteiten.</h2>
-          <p>
-            Ik begin niet met loze rankingbeloftes. Ik begin met het begrijpen
-            van het bedrijf, de beschikbare data en het verschil tussen urgente
-            problemen en ruis.
-          </p>
-        </div>
-
-        <div class="commercial-process">
-          <div>
+        <div class="growth-partner-steps">
+          <article>
             <span>01</span>
-            <h3>Diagnose</h3>
-            <p>
-              Ik review Search Console, PageSpeed Insights, sitestructuur,
-              analytics, commerciële pagina’s, content en de belangrijkste
-              frictiepunten.
-            </p>
-          </div>
-
-          <div>
+            <h3>Het commerciële doel bepalen</h3>
+            <p>Meer omzet, hogere conversie, lagere kosten, een nieuwe markt of een betere beslissing — maak het gewenste eindresultaat expliciet.</p>
+          </article>
+          <article>
             <span>02</span>
-            <h3>Prioritering</h3>
-            <p>
-              Niet alles heeft dezelfde impact. Ik rangschik problemen op
-              risico, kans, technische moeilijkheid en relatie met verkoop of
-              leads.
-            </p>
-          </div>
-
-          <div>
+            <h3>Vinden wat het blokkeert</h3>
+            <p>Prospectgesprekken, klantgedrag, marktsignalen en data gebruiken om de echte beperking of kans te identificeren.</p>
+          </article>
+          <article>
             <span>03</span>
-            <h3>Uitvoering of begeleiding</h3>
-            <p>
-              Ik kan helpen met audits, aanbevelingen, documentatie voor
-              developers, campagnebegeleiding of doorlopende consulting.
-            </p>
-          </div>
-
-          <div>
-            <span>04</span>
-            <h3>Meting</h3>
-            <p>
-              Ik verbind zichtbaarheid met bruikbare KPI’s: organisch verkeer,
-              leads, sales, conversies, paginaprestaties en kwaliteit van de
-              vraag.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="commercial-section">
-      <div class="commercial-container commercial-why-grid">
-        <div class="commercial-proof">
-          <span class="commercial-eyebrow">Waarom met mij werken</span>
-          <h2>Ik combineer SEO, data, analytics en business-denken.</h2>
-
-          <p>
-            Voordat ik mij specialiseerde in technische SEO en organische groei,
-            werkte ik in banking, finance, data en analytics engineering.
-            Daardoor kijk ik naar een website niet alleen als een verzameling
-            pagina’s, maar als een systeem voor meting, acquisitie en conversie.
-          </p>
-
-          <p>
-            Op dit moment werk ik met echte klanten in de grondtransportsector
-            in LATAM, de Verenigde Staten en Europa. Die ervaring heeft mij
-            geleerd te werken met complexe websites, meerdere markten, veel
-            pagina’s, technische teams en concrete commerciële doelen.
-          </p>
-        </div>
-
-        <div class="commercial-values">
-          <div>
-            <h3>Professioneel en helder</h3>
-            <p>
-              Ik werk met directe communicatie, actiegerichte deliverables en
-              begrijpelijke prioriteiten.
-            </p>
-          </div>
-
-          <div>
-            <h3>Empathisch en betrokken</h3>
-            <p>
-              Ik wil het bedrijf, de context, de beperkingen en wat er echt op
-              het spel staat begrijpen.
-            </p>
-          </div>
-
-          <div>
-            <h3>Geen overdreven beloftes</h3>
-            <p>
-              SEO is een langetermijnspel. Het draait om zichtbaarheid,
-              structuur, positionering, luisteren naar klanten en constante
-              verbetering.
-            </p>
-          </div>
-
-          <div>
-            <h3>Geen lange verplichtingen</h3>
-            <p>
-              We kunnen starten met één proefmaand om elkaar te leren kennen,
-              prioriteiten te bepalen en te zien of verdere samenwerking logisch
-              is.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="commercial-section commercial-soft">
-      <div class="commercial-container">
-        <div class="commercial-section-header">
-          <span class="commercial-eyebrow">Diensten</span>
-          <h2>Waar ik bij kan helpen.</h2>
-        </div>
-
-        <div class="commercial-services">
-          <article>
-            <h3>Technische SEO</h3>
-            <p>
-              Technische audits, indexatie, crawlbaarheid, Core Web Vitals,
-              redirects, migraties, sitearchitectuur, interne links en
-              documentatie voor developers.
-            </p>
-          </article>
-
-          <article>
-            <h3>Organische SEO</h3>
-            <p>
-              Contentstrategie, topic clusters, servicepagina’s, FAQs,
-              zoekintentie, pagina-optimalisatie en organische groeistructuur.
-            </p>
-          </article>
-
-          <article>
-            <h3>Google Ads en paid campaigns</h3>
-            <p>
-              Consulting of beheer van Google Ads-campagnes, campagnestructuur,
-              meting, conversies, zoektermen en aansluiting op commerciële
-              doelen.
-            </p>
-          </article>
-
-          <article>
-            <h3>Analytics en meting</h3>
-            <p>
-              Review van GA4, events, conversies, funnels, datakwaliteit en de
-              verbinding tussen verkeer, leads, sales en beslissingen.
-            </p>
+            <h3>De volgende stap bouwen</h3>
+            <p>De bevindingen vertalen naar outreach, een productwijziging, experiment, partnership, automatisering of een andere meetbare actie.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="commercial-container commercial-cta">
-      <span class="commercial-eyebrow">Begin met duidelijkheid</span>
-      <h2>Wil je weten wat je online groei blokkeert?</h2>
-      <p>
-        We kunnen starten met een eerste review om je situatie te begrijpen,
-        prioritaire problemen te vinden en te bepalen of één proefmaand
-        samenwerken zinvol is.
-      </p>
+    <section class="growth-calendar-band" id="availability">
+      <div class="growth-shell">
+        <section class="discovery-calendar" aria-labelledby="homepage-discovery-nl-title">
+          <div class="discovery-calendar-copy">
+            <span class="growth-overline">Samen praten en ontdekken</span>
+            <h2 id="homepage-discovery-nl-title">Werk je aan iets dat je wilt laten groeien, oplossen of beter begrijpen?</h2>
+            <p>Vertel me waar je aan werkt. We kunnen 20 minuten gebruiken om het probleem te begrijpen, ideeën uit te wisselen en te kijken of ik op een nuttige manier kan bijdragen.</p>
+            <div class="discovery-calendar-note">
+              <strong>20 minuten · geen voorbereid briefing nodig</strong>
+              <span>We beginnen met de businessvraag, niet met een vooraf bepaalde oplossing.</span>
+            </div>
+          </div>
+          <div class="discovery-calendar-embed" aria-label="Boek een gesprek van 20 minuten met Matteo Arellano">
+            <div id={calElementId} class="cal-inline"></div>
+          </div>
+        </section>
+      </div>
+    </section>
 
-      <div class="commercial-actions">
-        <a class="commercial-primary" href="/free-visibility-check/#calendar">
-          Plan een eerste review
-        </a>
-        <a
-          class="commercial-secondary"
-          href="mailto:matteo.visibility@gmail.com"
-        >
-          Stuur mij een e-mail
-        </a>
+    <section class="growth-companies-section" aria-labelledby="companies-heading-nl">
+      <div class="growth-shell">
+        <header class="growth-companies-heading">
+          <span class="growth-overline">Ervaring</span>
+          <h2 id="companies-heading-nl">Bedrijven en teams waarmee ik heb gewerkt.</h2>
+        </header>
+        <div class="growth-company-grid">
+          {companies.map((company) => (
+            <div class="growth-company-logo" title={company.name}>
+              <img src={company.logo} alt={`${company.name} logo`} loading="lazy" />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   </main>
 
-  <Footer />
+  <footer class="site-footer growth-site-footer">
+    <div class="container growth-footer-grid">
+      <div class="growth-footer-brand">
+        <a class="growth-footer-name" href="/">Matteo Arellano</a>
+        <p>Technical Growth Partner voor expansie, commerciële analyse, product, acquisitie, data en automatisering.</p>
+        <div class="growth-footer-socials">
+          <a href="mailto:matteo.visibility@gmail.com">E-mail</a>
+          <a href="https://www.linkedin.com/in/matteoarellano" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+      </div>
+
+      <div class="growth-footer-notes">
+        <span class="growth-footer-label">Field Notes</span>
+        <div class="growth-footer-note-list">
+          {fieldNotes.map((entry) => (
+            <a href={`/journal/${entry.id}/`}>
+              <strong>{entry.data.title}</strong>
+              <span>{entry.data.description}</span>
+            </a>
+          ))}
+        </div>
+        <a class="growth-footer-all-notes" href="/journal/">Bekijk alle Field Notes →</a>
+      </div>
+
+      <nav class="growth-footer-nav" aria-label="Footernavigatie">
+        <span class="growth-footer-label">Ontdek</span>
+        <a href="/services/">Diensten</a>
+        <a href="/achievements/#recommendations">Aanbevelingen</a>
+        <a href="/about/">Over mij</a>
+        <a href="https://lab.matteoarellano.com/" target="_blank" rel="noreferrer">Lab & experimenten</a>
+        <a href="/privacy-policy/">Privacy</a>
+      </nav>
+    </div>
+
+    <div class="container growth-footer-bottom">
+      <span>© {new Date().getFullYear()} Matteo Arellano</span>
+      <span>Eerst het businessprobleem. Daarna de tools.</span>
+    </div>
+  </footer>
 </BaseLayout>
+
+<script is:inline define:vars={{ calNamespace, calElementId, calLink }}>
+  (function (C, A, L) {
+    const push = function (api, args) { api.q.push(args); };
+    const d = C.document;
+    C.Cal = C.Cal || function () {
+      const cal = C.Cal;
+      const args = arguments;
+      if (!cal.loaded) {
+        cal.ns = {};
+        cal.q = cal.q || [];
+        const script = d.createElement("script");
+        script.src = A;
+        script.async = true;
+        d.head.appendChild(script);
+        cal.loaded = true;
+      }
+      if (args[0] === L) {
+        const api = function () { push(api, arguments); };
+        const ns = args[1];
+        api.q = api.q || [];
+        if (typeof ns === "string") {
+          cal.ns[ns] = cal.ns[ns] || api;
+          push(cal.ns[ns], args);
+          push(cal, ["initNamespace", ns]);
+        } else {
+          push(cal, args);
+        }
+        return;
+      }
+      push(cal, args);
+    };
+  })(window, "https://app.cal.com/embed/embed.js", "init");
+
+  Cal("init", calNamespace, { origin: "https://cal.com" });
+  Cal.ns[calNamespace]("inline", {
+    elementOrSelector: `#${calElementId}`,
+    calLink,
+    config: { layout: "month_view" },
+  });
+  Cal.ns[calNamespace]("ui", {
+    theme: "light",
+    styles: { branding: { brandColor: "#0b5cad" } },
+    hideEventTypeDetails: true,
+    layout: "month_view",
+  });
+
+  const toggle = document.querySelector(".nav-toggle");
+  const panel = document.querySelector("#nav-panel");
+  function closePanel() {
+    if (!toggle || !panel) return;
+    toggle.setAttribute("aria-expanded", "false");
+    panel.classList.remove("is-open");
+    document.body.classList.remove("nav-open");
+    panel.querySelectorAll("details").forEach((details) => details.removeAttribute("open"));
+  }
+  if (toggle && panel) {
+    toggle.addEventListener("click", () => {
+      const isOpen = toggle.getAttribute("aria-expanded") === "true";
+      toggle.setAttribute("aria-expanded", String(!isOpen));
+      panel.classList.toggle("is-open", !isOpen);
+      document.body.classList.toggle("nav-open", !isOpen);
+      if (isOpen) panel.querySelectorAll("details").forEach((details) => details.removeAttribute("open"));
+    });
+    panel.querySelectorAll("a").forEach((link) => link.addEventListener("click", closePanel));
+  }
+</script>

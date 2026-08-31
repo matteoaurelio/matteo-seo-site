@@ -1,0 +1,565 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+import DiscoveryCalendar from "../../../components/DiscoveryCalendar.astro";
+import { getGrowthService } from "../../../data/growthServices";
+import "../../../styles/growth-platform.css";
+
+const service = getGrowthService("acquisition-visibility");
+
+if (!service) {
+  throw new Error("Growth service not found: acquisition-visibility");
+}
+
+const canonical = "https://matteoarellano.com/services/acquisition-visibility/";
+const title = "Acquisition & Visibility | Matteo Arellano";
+const description = service.heroLede;
+
+const capabilities = [
+  {
+    number: "01",
+    title: "Technical SEO & search visibility",
+    copy: "Remove the technical and structural issues that stop high-intent customers from finding the business through search.",
+    href: "/free-visibility-check/",
+    linkLabel: "Get a Free Technical visibility check",
+    icon: "search",
+  },
+  {
+    number: "02",
+    title: "AI visibility & discoverability",
+    copy: "Make the business easier for AI search and answer engines to understand, reference and surface when customers research solutions.",
+    icon: "spark",
+  },
+  {
+    number: "03",
+    title: "Google Ads & high-intent demand",
+    copy: "Reach people already searching for what you sell, control spend tightly and measure whether paid demand becomes real business.",
+    href: "/services/google-ads/",
+    linkLabel: "Explore Google Ads",
+    icon: "ads",
+  },
+  {
+    number: "04",
+    title: "Keyword & customer-demand research",
+    copy: "Understand the language customers use, the problems they are trying to solve and where commercially useful demand already exists.",
+    icon: "demand",
+  },
+  {
+    number: "05",
+    title: "Landing pages & conversion copy",
+    copy: "Match the promise on the page to the intent behind the visit, make the value obvious and give people a clear next action.",
+    href: "/services/product-copy-landing-pages/",
+    linkLabel: "Explore landing pages",
+    icon: "page",
+  },
+  {
+    number: "06",
+    title: "Acquisition measurement & attribution",
+    copy: "Connect search, campaigns and landing-page activity to qualified leads, customers and revenue instead of reporting clicks in isolation.",
+    icon: "measure",
+  },
+];
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: service.name,
+  serviceType: service.name,
+  url: canonical,
+  description,
+  provider: {
+    "@type": "Person",
+    "@id": "https://matteoarellano.com/#person",
+    name: "Matteo Arellano",
+    url: "https://matteoarellano.com/",
+  },
+  areaServed: "Global",
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://matteoarellano.com/",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Services",
+      item: "https://matteoarellano.com/services/",
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: service.name,
+      item: canonical,
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  image="/images/matteo-arellano-visibility-signup.jpg"
+>
+  <Header />
+
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify([serviceSchema, breadcrumbSchema])}
+  />
+
+  <main class="growth-detail-page acquisition-page">
+    <section class="growth-detail-hero growth-detail-hero--commercial">
+      <div class="growth-shell growth-detail-hero-grid">
+        <div class="growth-detail-hero-copy">
+          <a class="growth-back-link" href="/services/">← All services</a>
+          <div class="growth-detail-kicker">
+            <span class="growth-service-number">{service.number}</span>
+            <span class="growth-overline">{service.name}</span>
+          </div>
+          <h1>{service.heroTitle}</h1>
+          <p class="growth-detail-lede">{service.heroLede}</p>
+
+          <div class="growth-detail-actions">
+            <a class="growth-primary-button" href="#availability"
+              >Discuss an opportunity</a
+            >
+            <a class="growth-secondary-link" href="#how-i-help"
+              >See how I can help →</a
+            >
+          </div>
+        </div>
+
+        <aside
+          class="growth-detail-profile growth-detail-profile--dark"
+          aria-label="Matteo Arellano"
+        >
+          <img
+            src="/images/matteo-arellano-visibility-signup.jpg"
+            alt="Matteo Arellano"
+          />
+          <div>
+            <span>Technical Growth Partner</span>
+            <strong>Matteo Arellano</strong>
+            <p>
+              I connect acquisition, landing experience and measurement so
+              visibility has a clear path to leads, customers and revenue.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section
+      class="growth-commercial-outcomes"
+      aria-label="Commercial outcomes for Acquisition & Visibility"
+    >
+      <div class="growth-shell growth-commercial-outcome-grid">
+        {
+          service.heroOutcomes.map((item, index) => (
+            <article class="growth-commercial-outcome-card">
+              <span class="growth-commercial-outcome-number">0{index + 1}</span>
+              <h2>{item.title}</h2>
+              <p>{item.copy}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section
+      class="growth-detail-section growth-detail-section--soft"
+      id="how-i-help"
+    >
+      <div class="growth-shell growth-detail-two-column">
+        <header class="growth-detail-section-intro">
+          <span class="growth-overline">The commercial value</span>
+          <h2>{service.valueTitle}</h2>
+          <p>{service.valueCopy}</p>
+        </header>
+
+        <div class="growth-value-list">
+          {
+            service.valuePoints.map((item, index) => (
+              <article class="growth-value-item">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <p>{item}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="growth-detail-section acquisition-capabilities-section">
+      <div class="growth-shell">
+        <header
+          class="growth-detail-wide-heading acquisition-capabilities-heading"
+        >
+          <span class="growth-overline">How we can get there</span>
+          <h2>Bring in more of the right demand — and make it convert.</h2>
+          <p>
+            I use the parts of acquisition that fit the problem. The specialist
+            services already built out in more depth are directly linked below.
+          </p>
+        </header>
+
+        <div class="acquisition-capability-grid">
+          {
+            capabilities.map((item) => {
+              const Wrapper = item.href ? "a" : "article";
+              return (
+                <Wrapper
+                  class:list={[
+                    "acquisition-capability-card",
+                    item.href && "acquisition-capability-card--linked",
+                  ]}
+                  href={item.href}
+                >
+                  <div class="acquisition-capability-top">
+                    <span class="acquisition-capability-number">
+                      {item.number}
+                    </span>
+                    <span
+                      class="acquisition-capability-icon"
+                      aria-hidden="true"
+                    >
+                      {item.icon === "search" && (
+                        <svg viewBox="0 0 48 48" role="img">
+                          <circle cx="20" cy="20" r="11" />
+                          <path d="m28.5 28.5 9 9" />
+                          <path d="M15 20h10M20 15v10" opacity=".45" />
+                        </svg>
+                      )}
+                      {item.icon === "spark" && (
+                        <svg viewBox="0 0 48 48" role="img">
+                          <path d="M24 7c1.6 8.1 5.9 12.4 14 14-8.1 1.6-12.4 5.9-14 14-1.6-8.1-5.9-12.4-14-14 8.1-1.6 12.4-5.9 14-14Z" />
+                          <path
+                            d="M37 6c.6 3.3 2.4 5.1 5.7 5.7-3.3.7-5.1 2.4-5.7 5.7-.7-3.3-2.4-5-5.7-5.7C34.6 11 36.3 9.3 37 6Z"
+                            opacity=".55"
+                          />
+                        </svg>
+                      )}
+                      {item.icon === "ads" && (
+                        <svg
+                          class="google-ads-mark"
+                          viewBox="0 0 48 48"
+                          role="img"
+                          aria-label="Google Ads"
+                        >
+                          <path
+                            class="ads-blue"
+                            d="M17.3 7.7a6 6 0 0 1 8.2 2.2l15 26a6 6 0 1 1-10.4 6l-15-26a6 6 0 0 1 2.2-8.2Z"
+                          />
+                          <path
+                            class="ads-green"
+                            d="M31.1 7.7a6 6 0 0 1 2.2 8.2L20.5 38a6 6 0 1 1-10.4-6l12.8-22.1a6 6 0 0 1 8.2-2.2Z"
+                          />
+                          <circle
+                            class="ads-yellow"
+                            cx="15.2"
+                            cy="37.8"
+                            r="6"
+                          />
+                        </svg>
+                      )}
+                      {item.icon === "demand" && (
+                        <svg viewBox="0 0 48 48" role="img">
+                          <circle cx="18" cy="18" r="8" />
+                          <path d="m24 24 7 7" />
+                          <path d="M31 36h4v5h-4zM38 30h4v11h-4zM24 33h4v8h-4z" />
+                        </svg>
+                      )}
+                      {item.icon === "page" && (
+                        <svg viewBox="0 0 48 48" role="img">
+                          <rect x="7" y="8" width="34" height="29" rx="3" />
+                          <path d="M7 15h34" />
+                          <circle cx="12" cy="11.5" r="1" />
+                          <circle cx="16" cy="11.5" r="1" />
+                          <path d="M15 22h18M15 27h13" />
+                          <path d="m30 29 8 4-4 2-2 5-2-11Z" />
+                        </svg>
+                      )}
+                      {item.icon === "measure" && (
+                        <svg viewBox="0 0 48 48" role="img">
+                          <path d="M9 38V24M18 38V17M27 38V27M36 38V10" />
+                          <path d="m8 17 9-6 9 6 10-9" />
+                          <circle cx="8" cy="17" r="2" />
+                          <circle cx="17" cy="11" r="2" />
+                          <circle cx="26" cy="17" r="2" />
+                          <circle cx="36" cy="8" r="2" />
+                        </svg>
+                      )}
+                    </span>
+                  </div>
+
+                  <div class="acquisition-capability-body">
+                    <h3>{item.title}</h3>
+                    <p>{item.copy}</p>
+                  </div>
+
+                  {item.href ? (
+                    <span class="acquisition-capability-link">
+                      {item.linkLabel} <span aria-hidden="true">→</span>
+                    </span>
+                  ) : (
+                    <span class="acquisition-capability-note">
+                      Available as part of a broader engagement
+                    </span>
+                  )}
+                </Wrapper>
+              );
+            })
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="growth-detail-section growth-detail-section--dark">
+      <div class="growth-shell">
+        <header
+          class="growth-detail-wide-heading growth-detail-wide-heading--light"
+        >
+          <span class="growth-overline">How I work</span>
+          <h2>{service.approachTitle}</h2>
+        </header>
+
+        <div class="growth-approach-grid growth-approach-grid--commercial">
+          {
+            service.approach.map((step, index) => (
+              <article class="growth-approach-card">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <h3>{step.title}</h3>
+                <p>{step.copy}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="growth-detail-section growth-detail-section--outcomes">
+      <div class="growth-shell growth-outcomes-layout">
+        <div>
+          <span class="growth-overline">End state</span>
+          <h2>{service.outcomesTitle}</h2>
+          <ul class="growth-outcome-list">
+            {service.outcomes.map((outcome) => <li>{outcome}</li>)}
+          </ul>
+        </div>
+
+        <aside
+          class="growth-capabilities-card growth-capabilities-card--commercial"
+        >
+          <span class="growth-overline">Capabilities I can bring in</span>
+          <div class="growth-tool-list">
+            {service.tools.map((tool) => <span>{tool}</span>)}
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="growth-calendar-band" id="availability">
+      <div class="growth-shell">
+        <DiscoveryCalendar
+          namespace={`discovery-${service.slug}`}
+          title={service.calendarTitle}
+          copy={service.calendarCopy}
+        />
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .acquisition-capabilities-section {
+    background:
+      radial-gradient(
+        circle at 92% 8%,
+        rgba(32, 169, 215, 0.08),
+        transparent 24rem
+      ),
+      #fff;
+  }
+
+  .acquisition-capabilities-heading {
+    max-width: 900px;
+    margin-bottom: 46px;
+  }
+
+  .acquisition-capability-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .acquisition-capability-card {
+    min-height: 330px;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    border: 1px solid #d7e4ec;
+    border-radius: 20px;
+    color: inherit;
+    background:
+      radial-gradient(
+        circle at 100% 0%,
+        rgba(38, 169, 211, 0.09),
+        transparent 13rem
+      ),
+      #fff;
+    box-shadow: 0 14px 38px rgba(19, 47, 72, 0.045);
+    text-decoration: none;
+    transition:
+      transform 180ms ease,
+      border-color 180ms ease,
+      box-shadow 180ms ease,
+      background 180ms ease;
+  }
+
+  .acquisition-capability-card--linked {
+    border-color: #b8d8e9;
+    background:
+      linear-gradient(145deg, rgba(233, 247, 253, 0.7), #fff 58%), #fff;
+  }
+
+  .acquisition-capability-card--linked:hover {
+    transform: translateY(-5px);
+    border-color: #5fb7df;
+    box-shadow: 0 24px 52px rgba(22, 76, 116, 0.12);
+  }
+
+  .acquisition-capability-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .acquisition-capability-number {
+    color: #78a9c3;
+    font-size: 0.72rem;
+    font-weight: 850;
+    letter-spacing: 0.09em;
+  }
+
+  .acquisition-capability-icon {
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    border: 1px solid #d3e4ee;
+    border-radius: 15px;
+    background: #f6fbfe;
+  }
+
+  .acquisition-capability-icon svg {
+    width: 31px;
+    height: 31px;
+    overflow: visible;
+    fill: none;
+    stroke: #0b69b7;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .acquisition-capability-icon .google-ads-mark {
+    stroke: none;
+  }
+
+  .google-ads-mark .ads-blue {
+    fill: #4285f4;
+  }
+
+  .google-ads-mark .ads-green {
+    fill: #34a853;
+  }
+
+  .google-ads-mark .ads-yellow {
+    fill: #fbbc04;
+  }
+
+  .acquisition-capability-body {
+    margin-top: 48px;
+  }
+
+  .acquisition-capability-body h3 {
+    max-width: 300px;
+    margin: 0;
+    color: #102f49;
+    font-size: 1.35rem;
+    line-height: 1.26;
+    letter-spacing: -0.025em;
+  }
+
+  .acquisition-capability-body p {
+    margin: 14px 0 0;
+    color: #5f7589;
+    font-size: 0.9rem;
+    line-height: 1.62;
+  }
+
+  .acquisition-capability-link,
+  .acquisition-capability-note {
+    margin-top: auto;
+    padding-top: 28px;
+    font-size: 0.78rem;
+    font-weight: 820;
+  }
+
+  .acquisition-capability-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #0b5cad;
+  }
+
+  .acquisition-capability-link > span {
+    font-size: 1rem;
+    transition: transform 180ms ease;
+  }
+
+  .acquisition-capability-card--linked:hover
+    .acquisition-capability-link
+    > span {
+    transform: translateX(4px);
+  }
+
+  .acquisition-capability-note {
+    color: #91a1af;
+    font-weight: 700;
+  }
+
+  @media (max-width: 980px) {
+    .acquisition-capability-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 620px) {
+    .acquisition-capability-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .acquisition-capability-card {
+      min-height: 300px;
+      padding: 26px;
+    }
+
+    .acquisition-capability-body {
+      margin-top: 36px;
+    }
+  }
+</style>

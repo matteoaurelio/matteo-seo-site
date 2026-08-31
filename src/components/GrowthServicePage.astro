@@ -1,0 +1,269 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "./Header.astro";
+import Footer from "./Footer.astro";
+import DiscoveryCalendar from "./DiscoveryCalendar.astro";
+import type { GrowthService } from "../data/growthServices";
+import "../styles/growth-platform.css";
+
+interface Props {
+  service: GrowthService;
+}
+
+const { service } = Astro.props;
+const canonical = `https://matteoarellano.com/services/${service.slug}/`;
+const title = `${service.name} | Matteo Arellano`;
+const description = service.heroLede;
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: service.name,
+  serviceType: service.name,
+  url: canonical,
+  description,
+  provider: {
+    "@type": "Person",
+    "@id": "https://matteoarellano.com/#person",
+    name: "Matteo Arellano",
+    url: "https://matteoarellano.com/",
+  },
+  areaServed: "Global",
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://matteoarellano.com/",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Services",
+      item: "https://matteoarellano.com/services/",
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: service.name,
+      item: canonical,
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  image="/images/matteo-arellano-visibility-signup.jpg"
+>
+  <Header />
+
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify([serviceSchema, breadcrumbSchema])}
+  />
+
+  <main class="growth-detail-page">
+    <section class="growth-detail-hero growth-detail-hero--commercial">
+      <div class="growth-shell growth-detail-hero-grid">
+        <div class="growth-detail-hero-copy">
+          <a class="growth-back-link" href="/services/">← All services</a>
+          <div class="growth-detail-kicker">
+            <span class="growth-service-number">{service.number}</span>
+            <span class="growth-overline">{service.name}</span>
+          </div>
+          <h1>{service.heroTitle}</h1>
+          <p class="growth-detail-lede">{service.heroLede}</p>
+
+          <div class="growth-detail-actions">
+            <a class="growth-primary-button" href="#availability"
+              >Discuss an opportunity</a
+            >
+            <a class="growth-secondary-link" href="#how-i-help">
+              See how I can help →
+            </a>
+          </div>
+        </div>
+
+        <aside
+          class="growth-detail-profile growth-detail-profile--dark"
+          aria-label="Matteo Arellano"
+        >
+          <img
+            src="/images/matteo-arellano-visibility-signup.jpg"
+            alt="Matteo Arellano"
+          />
+          <div>
+            <span>Technical Growth Partner</span>
+            <strong>Matteo Arellano</strong>
+            <p>
+              Commercial thinking, analytics and technical execution — used
+              together when that is what the growth problem requires.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section
+      class="growth-commercial-outcomes"
+      aria-label={`Commercial outcomes for ${service.name}`}
+    >
+      <div class="growth-shell growth-commercial-outcome-grid">
+        {
+          service.heroOutcomes.map((item, index) => (
+            <article class="growth-commercial-outcome-card">
+              <span class="growth-commercial-outcome-number">0{index + 1}</span>
+              <h2>{item.title}</h2>
+              <p>{item.copy}</p>
+              {item.evidence && (
+                <strong class="growth-evidence-badge">{item.evidence}</strong>
+              )}
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section
+      class="growth-detail-section growth-detail-section--soft"
+      id="how-i-help"
+    >
+      <div class="growth-shell growth-detail-two-column">
+        <header class="growth-detail-section-intro">
+          <span class="growth-overline">The commercial value</span>
+          <h2>{service.valueTitle}</h2>
+          <p>{service.valueCopy}</p>
+        </header>
+
+        <div class="growth-value-list">
+          {
+            service.valuePoints.map((item, index) => (
+              <article class="growth-value-item">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <p>{item}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="growth-detail-section">
+      <div class="growth-shell">
+        <header class="growth-detail-wide-heading">
+          <span class="growth-overline">Scope</span>
+          <h2>{service.workTitle}</h2>
+          <p>
+            The exact scope depends on the commercial problem. These are the
+            areas I can bring together when they are useful.
+          </p>
+        </header>
+
+        <div class="growth-work-grid">
+          {
+            service.workAreas.map((item, index) => {
+              const relatedLink = service.relatedLinks?.find(
+                (link) => link.label === item,
+              );
+
+              const Wrapper = relatedLink ? "a" : "article";
+
+              return (
+                <Wrapper
+                  class:list={[
+                    "growth-work-card",
+                    relatedLink && "growth-work-card--linked",
+                  ]}
+                  href={relatedLink?.href}
+                >
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+
+                  <strong>{item}</strong>
+
+                  {relatedLink && (
+                    <small class="growth-work-link">Explore service →</small>
+                  )}
+                </Wrapper>
+              );
+            })
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="growth-detail-section growth-detail-section--dark">
+      <div class="growth-shell">
+        <header
+          class="growth-detail-wide-heading growth-detail-wide-heading--light"
+        >
+          <span class="growth-overline">How I work</span>
+          <h2>{service.approachTitle}</h2>
+        </header>
+
+        <div class="growth-approach-grid growth-approach-grid--commercial">
+          {
+            service.approach.map((step, index) => (
+              <article class="growth-approach-card">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <h3>{step.title}</h3>
+                <p>{step.copy}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="growth-detail-section growth-detail-section--outcomes">
+      <div class="growth-shell growth-outcomes-layout">
+        <div>
+          <span class="growth-overline">End state</span>
+          <h2>{service.outcomesTitle}</h2>
+          <ul class="growth-outcome-list">
+            {service.outcomes.map((outcome) => <li>{outcome}</li>)}
+          </ul>
+        </div>
+
+        <aside
+          class="growth-capabilities-card growth-capabilities-card--commercial"
+        >
+          <span class="growth-overline">Capabilities I can bring in</span>
+          <div class="growth-tool-list">
+            {service.tools.map((tool) => <span>{tool}</span>)}
+          </div>
+
+          {
+            service.relatedLinks && service.relatedLinks.length > 0 && (
+              <div class="growth-related-links">
+                <strong>Related specialist pages</strong>
+                {service.relatedLinks.map((link) => (
+                  <a href={link.href}>{link.label} →</a>
+                ))}
+              </div>
+            )
+          }
+        </aside>
+      </div>
+    </section>
+
+    <section class="growth-calendar-band">
+      <div class="growth-shell">
+        <DiscoveryCalendar
+          namespace={`discovery-${service.slug}`}
+          title={service.calendarTitle}
+          copy={service.calendarCopy}
+        />
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
