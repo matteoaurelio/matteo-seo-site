@@ -1,0 +1,763 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import "../../styles/growth-platform.css";
+import "../../styles/payment-solutions.css";
+
+const title = "Payment Solutions Architecture & Operations | Matteo Arellano";
+const description =
+  "Payment solutions architecture and operations across acceptance, local payment methods, PSP integrations, routing, 3DS, observability and payment conversion in LATAM, MENA and Europe.";
+const canonical = "https://matteoarellano.com/payment-solutions/";
+const credentialUrl =
+  "https://credentials.cfainstitute.org/7fc77ff8-8d42-4028-8c24-ce908fea0340#acc.3EFWRhOZ";
+
+const emailSubject = "Payment performance problem";
+const emailBody = `Hi Matteo,
+
+We are seeing a payment issue and would like your view.
+
+Market / region:
+Current PSP or payment stack:
+What we are seeing:
+
+Would you be open to taking a look?`;
+
+const mailtoHref = `mailto:matteo.visibility@gmail.com?subject=${encodeURIComponent(
+  emailSubject,
+)}&body=${encodeURIComponent(emailBody)}`;
+
+const solutionAreas = [
+  {
+    number: "01",
+    title: "Acceptance & conversion",
+    summary: "Improve the share of legitimate customers who successfully complete payment.",
+    items: [
+      "Authorization & approval rates",
+      "3DS and authentication",
+      "Fraud-rule friction",
+      "Issuer / acquirer behaviour",
+    ],
+  },
+  {
+    number: "02",
+    title: "Integrations & routing",
+    summary: "Design and troubleshoot the technical path between checkout, PSPs and payment outcomes.",
+    items: [
+      "PSP / API integrations",
+      "Routing & currency logic",
+      "Wallet configuration",
+      "Payment states & webhooks",
+    ],
+  },
+  {
+    number: "03",
+    title: "Local & cross-border payments",
+    summary: "Build payment setups around how customers actually pay in each market.",
+    items: [
+      "Local payment methods",
+      "Local vs international acquiring",
+      "Market-specific PSP setup",
+      "Currency & authentication design",
+    ],
+  },
+  {
+    number: "04",
+    title: "Observability & operations",
+    summary: "Create the visibility needed to know what is failing, where and why.",
+    items: [
+      "Payment monitoring",
+      "Logs & transaction tracing",
+      "Refunds & expirations",
+      "Reconciliation & fulfilment",
+    ],
+  },
+];
+
+const impact = [
+  {
+    value: "+18pp",
+    label: "card approval improvement",
+    copy: "Approval moved from roughly 57% to 75% after payment-risk and authentication changes.",
+  },
+  {
+    value: "94%",
+    label: "suspected failures correctly reclassified",
+    copy: "Transaction-level investigation separated reconciliation issues from genuine payment failures.",
+  },
+  {
+    value: "~60%",
+    label: "expirations isolated to one payment-timing issue",
+    copy: "A major local-method expiration pattern was traced to payment and reservation timers falling out of sync.",
+  },
+  {
+    value: "Cross-market",
+    label: "routing failures turned into reusable rules",
+    copy: "Currency and acquiring issues were converted into repeatable configuration and monitoring logic.",
+  },
+];
+
+const problemAreas = [
+  {
+    number: "01",
+    id: "acceptance",
+    question: "Low payment acceptance?",
+    headline: "Improve approval and reduce avoidable payment failures.",
+    copy: "I investigate acceptance across the full flow rather than treating PSP declines as the answer. I connect issuer responses, acquiring, routing, 3DS, fraud rules, currencies, checkout behaviour and the integration itself to find what is actually suppressing conversion.",
+    focus: [
+      "Approval or authorization rates are falling",
+      "One market, issuer group or payment method underperforms",
+      "3DS or fraud controls create unnecessary friction",
+      "Decline reasons are too generic to act on",
+    ],
+    tools: [
+      "Adyen",
+      "dLocal",
+      "Checkout.com",
+      "MercadoPago",
+      "PayPal",
+      "BigQuery",
+      "Google Cloud Logging",
+      "New Relic",
+      "Looker Studio",
+      "SQL / Python",
+    ],
+    deliverable: "Root cause, quantified impact, recommended changes and a measurement plan for acceptance improvement.",
+  },
+  {
+    number: "02",
+    id: "local-methods",
+    question: "Expanding into a new market?",
+    headline: "Launch payment methods and acquiring that fit the market.",
+    copy: "I help design market-specific payment setups across local methods, PSPs, acquiring, currencies, wallets and authentication. The objective is not to add more methods. It is to improve successful payment completion with the right architecture for local behaviour.",
+    focus: [
+      "You are launching in a new country",
+      "Local cards fail through international acquiring",
+      "Customers expect Pix, OXXO, wallets or another local method",
+      "Currencies or provider capabilities do not match the market",
+    ],
+    tools: [
+      "Pix",
+      "OXXO",
+      "MercadoPago",
+      "Aplazo",
+      "Apple Pay",
+      "Google Pay",
+      "PayPal",
+      "Adyen",
+      "dLocal",
+      "3DS2",
+    ],
+    deliverable: "A market-specific payment design covering methods, providers, acquiring, currencies, authentication, integration requirements and monitoring.",
+  },
+  {
+    number: "03",
+    id: "observability",
+    question: "Need to know what is actually happening?",
+    headline: "Make payment performance measurable from checkout to fulfilment.",
+    copy: "I combine PSP data with application logs, transaction data, analytics and session behaviour so teams can distinguish payment failures from integration, fulfilment, reconciliation or customer-experience problems.",
+    focus: [
+      "Payments expire without a clear explanation",
+      "Refunds increase after apparently successful payments",
+      "Teams disagree about where the failure occurs",
+      "PSP dashboards do not explain the customer outcome",
+    ],
+    tools: [
+      "BigQuery",
+      "Google Cloud Logging",
+      "New Relic",
+      "Looker Studio / Data Studio",
+      "Amplitude",
+      "PSP portals",
+      "SQL",
+      "Python",
+      "Transaction reconciliation",
+    ],
+    deliverable: "A clear operating view of approval, declines, 3DS, expirations, refunds and payment-to-fulfilment status, with anomalies routed to the right owner.",
+  },
+  {
+    number: "04",
+    id: "integrations",
+    question: "Need to design or fix an integration?",
+    headline: "Improve the technical payment flow, not only the reporting around it.",
+    copy: "Depending on the problem, I help design, configure, troubleshoot and technically support implementation across payment APIs, payment states, wallets, authentication, routing, expiry logic, error handling, logging and reconciliation.",
+    focus: [
+      "A wallet or payment method fails after launch",
+      "Payment states do not match booking or fulfilment states",
+      "Routing or currency logic needs redesign",
+      "Engineering needs a payment-focused problem owner",
+    ],
+    tools: [
+      "PSP APIs",
+      "Integration data",
+      "Webhooks & payment states",
+      "3DS / 3DS2",
+      "Wallet configuration",
+      "Routing rules",
+      "Application logs",
+      "SQL / Python",
+    ],
+    deliverable: "A technically grounded integration design or diagnosis that engineering, payment operations and commercial teams can execute against.",
+  },
+];
+
+const cases = [
+  {
+    region: "LATAM",
+    sector: "Ground transportation",
+    metric: "+18pp",
+    title: "Card approval recovery",
+    copy: "Connected payment-risk and authentication behaviour to a material approval gap, then supported the changes that moved card acceptance from roughly 57% to 75%.",
+    tags: ["Acceptance", "3DS", "Risk", "PSP configuration"],
+  },
+  {
+    region: "Brazil",
+    sector: "Ground transportation",
+    metric: "~60%",
+    title: "Pix expiration leak",
+    copy: "Traced a large share of payment expirations to Pix QR timing and reservation windows falling out of sync, defining both configuration and UX fixes.",
+    tags: ["Pix", "Expiry", "Integration", "Checkout"],
+  },
+  {
+    region: "MENA",
+    sector: "Ground transportation",
+    metric: "Local acquiring",
+    title: "Local-card acceptance strategy",
+    copy: "Connected weak local-card acceptance to issuer constraints and international acquiring, then structured an immediate alternative-method path and a local-acquiring solution.",
+    tags: ["Acquiring", "Issuer behaviour", "3DS2", "Local methods"],
+  },
+  {
+    region: "International",
+    sector: "Digital commerce",
+    metric: "Cross-market",
+    title: "Currency-routing failures",
+    copy: "Identified a structural mismatch between offered currencies and local acquiring capabilities, then translated it into reusable configuration rules and monitoring logic.",
+    tags: ["Routing", "Currencies", "PSP", "Automation"],
+  },
+];
+
+const logos = [
+  { src: "/images/payment-solutions/visa_logo.webp", alt: "Visa" },
+  { src: "/images/payment-solutions/mastercard.svg", alt: "Mastercard" },
+  { src: "/images/payment-solutions/maestro.webp", alt: "Maestro" },
+  { src: "/images/payment-solutions/adyen_logo.webp", alt: "Adyen" },
+  { src: "/images/payment-solutions/dlocal_logo.png", alt: "dLocal" },
+  { src: "/images/payment-solutions/paypal_logo.png", alt: "PayPal" },
+  { src: "/images/payment-solutions/oxxo_pay.jpeg", alt: "OXXO Pay" },
+  { src: "/images/payment-solutions/pix_logo.webp", alt: "Pix" },
+];
+
+const regions = [
+  {
+    name: "LATAM",
+    eyebrow: "Mexico · Brazil · Colombia",
+    image: "/images/payment-solutions/latam.webp",
+    copy: "Local methods, local acquiring, international cards, currencies, issuer behaviour and PSP routing.",
+  },
+  {
+    name: "MENA",
+    eyebrow: "Regional payment architecture",
+    image: "/images/payment-solutions/africa.jpg",
+    copy: "Acceptance, 3DS2, international versus local acquiring, issuer constraints and regional PSP strategy.",
+  },
+  {
+    name: "Europe & international",
+    eyebrow: "Cross-border digital commerce",
+    image: "/images/payment-solutions/european_union.webp",
+    copy: "Cards, wallets, multi-currency flows, PSP integrations and international payment operations.",
+  },
+];
+
+const faqs = [
+  {
+    question: "Can you help if our payment acceptance rate is low?",
+    answer:
+      "Yes. I investigate acceptance across the full payment flow, including issuer responses, acquiring, PSP configuration, routing, fraud rules, 3DS, currencies, checkout behaviour and integration issues. The objective is to isolate the root cause and identify changes that can be measured against approval and conversion.",
+  },
+  {
+    question: "Can you help us integrate a local payment method?",
+    answer:
+      "Yes. I can help assess whether a local payment method makes commercial and technical sense, define the payment flow, evaluate provider and acquiring implications, support configuration or integration troubleshooting, and establish monitoring after launch.",
+  },
+  {
+    question: "Can you help with PSP routing and multi-provider setups?",
+    answer:
+      "Yes. Routing problems can involve provider capabilities, acquiring geography, currency, payment method, issuer behaviour, fallback logic and the integration itself. I can analyse existing behaviour and help design clearer routing rules and controls.",
+  },
+  {
+    question: "Can you work directly with our engineering team?",
+    answer:
+      "Yes. My work frequently sits between payment operations, analytics and engineering. I work with logs, APIs and integration behaviour, payment configuration, transaction data and technical incident evidence so engineering teams have a clear problem definition and implementation path.",
+  },
+  {
+    question: "Can you tell whether declines come from the PSP, acquirer, issuer, 3DS or fraud rules?",
+    answer:
+      "Often, yes. That requires combining PSP responses with issuer and acquiring behaviour, 3DS results, routing, fraud configuration, currencies and transaction-level segmentation rather than relying on a single dashboard or decline code.",
+  },
+  {
+    question: "Can you help with refunds or successful payments that do not complete fulfilment?",
+    answer:
+      "Yes. I have investigated payment incidents where the payment state, booking or fulfilment system and reconciliation layer told different stories. I trace the transaction across systems to establish what actually happened and where the process failed.",
+  },
+  {
+    question: "Do you only work with large companies?",
+    answer:
+      "No. I can work with large platforms, growing companies and smaller businesses that need specialist payment knowledge without building a full internal payments team. The scope can range from a focused diagnostic to a broader architecture or operational improvement project.",
+  },
+  {
+    question: "Which regions have you worked with?",
+    answer:
+      "My payment work has covered LATAM, MENA, Europe and international digital commerce, with particularly deep hands-on work in Latin American markets.",
+  },
+  {
+    question: "Which payment providers and methods have you worked with?",
+    answer:
+      "Experience includes Adyen, dLocal, Checkout.com, PayPal, MercadoPago, Pix, OXXO, Apple Pay, Google Pay, cards, 3DS and 3DS2, plus local-method and acquiring analysis for additional markets.",
+  },
+  {
+    question: "What is your professional background?",
+    answer:
+      "My background combines finance, data engineering, analytics, digital commerce and payment operations. I passed all three CFA Program examinations and was previously a CFA charterholder. I also worked in European institutional finance before moving deeply into technical analytics, B2B digital commerce and payment-performance work across more than 50 partner companies.",
+  },
+];
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": `${canonical}#webpage`,
+      url: canonical,
+      name: title,
+      description,
+      about: { "@id": "https://matteoarellano.com/#person" },
+    },
+    {
+      "@type": "Person",
+      "@id": "https://matteoarellano.com/#person",
+      name: "Matteo Arellano",
+      url: "https://matteoarellano.com/",
+      sameAs: ["https://www.linkedin.com/in/matteoarellano", credentialUrl],
+      jobTitle: "Payment Solutions Architect",
+      knowsAbout: [
+        "Payment acceptance",
+        "Payment architecture",
+        "Payment operations",
+        "Payment integrations",
+        "Payment routing",
+        "Local payment methods",
+        "Acquiring",
+        "3-D Secure",
+        "Payment observability",
+        "Adyen",
+        "dLocal",
+        "Checkout.com",
+        "Pix",
+        "OXXO",
+        "MercadoPago",
+        "PayPal",
+        "BigQuery",
+        "Google Cloud Logging",
+        "New Relic",
+        "SQL",
+        "Python",
+      ],
+    },
+    {
+      "@type": "Service",
+      "@id": `${canonical}#service`,
+      name: "Payment Solutions Architecture & Operations",
+      provider: { "@id": "https://matteoarellano.com/#person" },
+      description,
+      areaServed: ["LATAM", "MENA", "Europe", "International"],
+      serviceType: [
+        "Payment acceptance optimization",
+        "Payment architecture",
+        "Payment integration support",
+        "PSP routing analysis",
+        "Local payment method strategy",
+        "Payment observability",
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: { "@type": "Answer", text: faq.answer },
+      })),
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  image="/images/payment-solutions/pexels-ian-panelo-6564830.jpg"
+>
+  <Header />
+
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={JSON.stringify(structuredData)}
+  />
+
+  <main class="payments-page">
+    <section class="payments-hero">
+      <div class="growth-shell payments-hero-grid">
+        <div class="payments-hero-copy">
+          <span class="growth-overline">Payment Solutions Architecture &amp; Operations</span>
+          <h1>Improve payment acceptance, integrations and conversion.</h1>
+          <p class="payments-hero-lede">
+            I diagnose underperforming payment flows, design better payment
+            architecture and help implement the fix across PSPs, routing, 3DS,
+            local methods, acquiring and checkout.
+          </p>
+
+          <div class="payments-hero-meta" aria-label="Regions served">
+            <span>LATAM</span>
+            <span>MENA</span>
+            <span>Europe</span>
+            <span>International</span>
+          </div>
+
+          <div class="payments-hero-actions">
+            <a class="payments-primary-button" href={mailtoHref}>Discuss a payment issue</a>
+            <a class="payments-text-link" href="#solutions">See where I can help ↓</a>
+          </div>
+        </div>
+
+        <aside class="payments-hero-solutions" aria-label="Payment solution areas">
+          <div class="payments-hero-solutions-head">
+            <span>Where I help</span>
+            <strong>Four areas where I improve payment performance.</strong>
+          </div>
+
+          <div class="payments-hero-solutions-list">
+            {solutionAreas.map((area) => (
+              <a href={`#${area.number === "01" ? "acceptance" : area.number === "02" ? "integrations" : area.number === "03" ? "local-methods" : "observability"}`}>
+                <span>{area.number}</span>
+                <div>
+                  <strong>{area.title}</strong>
+                  <small>{area.summary}</small>
+                </div>
+                <em aria-hidden="true">↗</em>
+              </a>
+            ))}
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="payments-impact-section" aria-labelledby="impact-title">
+      <div class="growth-shell">
+        <header class="payments-impact-head">
+          <span class="growth-overline">Selected impact</span>
+          <h2 id="impact-title">Measured improvements from payment-performance work.</h2>
+        </header>
+
+        <div class="payments-impact-grid">
+          {impact.map((item) => (
+            <article class="payments-impact-card">
+              <strong>{item.value}</strong>
+              <h3>{item.label}</h3>
+              <p>{item.copy}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="payments-solutions-section" id="solutions">
+      <div class="growth-shell">
+        <header class="payments-section-heading">
+          <span class="growth-overline">Payment solutions</span>
+          <h2>Where I help improve payment performance.</h2>
+          <p>
+            I work across the commercial, operational and technical layers of a
+            payment system. The scope depends on the problem, not on a fixed package.
+          </p>
+        </header>
+
+        <div class="payments-solution-grid">
+          {solutionAreas.map((area) => (
+            <article class="payments-solution-column">
+              <div class="payments-solution-title">
+                <span>{area.number}</span>
+                <h3>{area.title}</h3>
+              </div>
+              <p>{area.summary}</p>
+              <ul>
+                {area.items.map((item) => <li>{item}</li>)}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="payments-problems-section" id="problems">
+      <div class="growth-shell">
+        <header class="payments-section-heading">
+          <span class="growth-overline">Start with the problem</span>
+          <h2>What do you need to improve?</h2>
+          <p>
+            Each engagement starts with the business symptom and follows it through
+            the payment stack until the technical cause and action path are clear.
+          </p>
+        </header>
+
+        <div class="payments-problem-list">
+          {problemAreas.map((area) => (
+            <article class="payments-problem" id={area.id}>
+              <div class="payments-problem-index">
+                <span>{area.number}</span>
+                <p>{area.question}</p>
+              </div>
+
+              <div class="payments-problem-main">
+                <h3>{area.headline}</h3>
+                <p class="payments-problem-copy">{area.copy}</p>
+
+                <div class="payments-problem-detail-grid">
+                  <div>
+                    <h4>What I look at</h4>
+                    <ul>
+                      {area.focus.map((signal) => <li>{signal}</li>)}
+                    </ul>
+                  </div>
+                  <div>
+                    <h4>Tools & systems</h4>
+                    <div class="payments-chip-list">
+                      {area.tools.map((tool) => <span>{tool}</span>)}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="payments-problem-outcome">
+                  <span>Output</span>
+                  <p>{area.deliverable}</p>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="payments-cases-section">
+      <div class="growth-shell">
+        <header class="payments-section-heading">
+          <span class="growth-overline">Selected payment work</span>
+          <h2>Problems I have diagnosed and moved toward resolution.</h2>
+          <p>
+            Client names and transaction volumes are intentionally omitted. The
+            focus is the payment mechanics and the measurable impact.
+          </p>
+        </header>
+
+        <div class="payments-case-grid">
+          {cases.map((item) => (
+            <article class="payments-case-card">
+              <div class="payments-case-meta">
+                <span>{item.region}</span>
+                <small>{item.sector}</small>
+              </div>
+              <strong class="payments-case-metric">{item.metric}</strong>
+              <h3>{item.title}</h3>
+              <p>{item.copy}</p>
+              <div class="payments-case-tags">
+                {item.tags.map((tag) => <span>{tag}</span>)}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="payments-ecosystem-section">
+      <div class="growth-shell">
+        <div class="payments-ecosystem-head">
+          <div>
+            <span class="growth-overline">Payment ecosystem</span>
+            <h2>Providers, methods and networks I have worked with.</h2>
+          </div>
+          <p>
+            Experience across payment configuration, integration behaviour,
+            acceptance, routing, authentication, transaction analytics and operations.
+          </p>
+        </div>
+
+        <div class="payments-logo-grid" aria-label="Payment providers and methods">
+          {logos.map((logo) => (
+            <div class="payments-logo-item">
+              <img src={logo.src} alt={logo.alt} loading="lazy" />
+            </div>
+          ))}
+        </div>
+
+        <p class="payments-ecosystem-note">
+          Also including Checkout.com, MercadoPago, Apple Pay, Google Pay, Aplazo,
+          cards and 3DS / 3DS2. Logos indicate hands-on exposure, not employment or partnership.
+        </p>
+      </div>
+    </section>
+
+    <section class="payments-regions-section">
+      <div class="growth-shell">
+        <header class="payments-section-heading payments-section-heading--regions">
+          <span class="growth-overline">Cross-market experience</span>
+          <h2>Payment solutions across different market conditions.</h2>
+          <p>
+            Acquiring, issuer behaviour, payment methods, currencies and customer
+            expectations change by market. I use that context when diagnosing or
+            designing payment flows.
+          </p>
+        </header>
+
+        <div class="payments-region-grid">
+          {regions.map((region) => (
+            <article class="payments-region-card">
+              <div class="payments-region-image">
+                <img src={region.image} alt="" loading="lazy" />
+              </div>
+              <div class="payments-region-copy">
+                <span>{region.eyebrow}</span>
+                <h3>{region.name}</h3>
+                <p>{region.copy}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="payments-credibility-section">
+      <div class="growth-shell payments-credibility-layout">
+        <div class="payments-credibility-intro">
+          <span class="growth-overline">Background</span>
+          <h2>Payments, finance, data and technical execution.</h2>
+          <p>
+            Payment performance sits between commercial economics and technical
+            systems. My background lets me work across both sides of that problem.
+          </p>
+          <div class="payments-credibility-links">
+            <a href={credentialUrl} target="_blank" rel="noopener noreferrer">
+              Verify former CFA charterholder credential ↗
+            </a>
+            <a href="/achievements/#recommendations">Read professional recommendations →</a>
+          </div>
+        </div>
+
+        <div class="payments-credibility-grid">
+          <article>
+            <span>Finance</span>
+            <h3>Former CFA charterholder</h3>
+            <p>
+              Passed all three CFA Program examinations. Earlier experience in
+              European institutional finance across risk, credit, financial analysis
+              and complex transactions.
+            </p>
+          </article>
+          <article>
+            <span>Technology</span>
+            <h3>Data and engineering depth</h3>
+            <p>
+              Python, SQL, APIs, data engineering, BigQuery, application logs, cloud
+              infrastructure and analytical systems used to trace behaviour beyond a dashboard.
+            </p>
+          </article>
+          <article>
+            <span>Digital commerce</span>
+            <h3>50+ B2B partner companies supported</h3>
+            <p>
+              Growth, conversion and payment-performance work across global travel
+              technology and ground-transportation businesses of different sizes.
+            </p>
+          </article>
+          <article>
+            <span>Payments</span>
+            <h3>Architecture and operations</h3>
+            <p>
+              PSPs, acquiring, routing, authentication, local methods, wallets,
+              transaction analytics, incident diagnosis and payment reliability.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="payments-fit-section">
+      <div class="growth-shell payments-fit-grid">
+        <div>
+          <span class="growth-overline">Who I can support</span>
+          <h2>From focused diagnostics to cross-market payment projects.</h2>
+        </div>
+        <div class="payments-fit-list">
+          <article>
+            <strong>Large digital platforms</strong>
+            <p>Complex stacks, multiple markets, high transaction volume and difficult-to-isolate performance issues.</p>
+          </article>
+          <article>
+            <strong>Growing companies</strong>
+            <p>New markets, additional PSPs, local methods, monitoring or a more deliberate payment architecture.</p>
+          </article>
+          <article>
+            <strong>Smaller businesses</strong>
+            <p>Specialist payment knowledge for a defined problem without building a full internal payments team.</p>
+          </article>
+          <article>
+            <strong>Ground transportation &amp; digital commerce</strong>
+            <p>Particularly relevant where payment success must also connect reliably to booking, fulfilment, refunds and reconciliation.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="payments-faq-section" id="faq">
+      <div class="growth-shell payments-faq-layout">
+        <header class="payments-faq-intro">
+          <span class="growth-overline">FAQ</span>
+          <h2>Payment solutions FAQ.</h2>
+          <p>Clear answers for teams deciding whether I can help with a payment performance, architecture or integration problem.</p>
+        </header>
+
+        <div class="payments-faq-list">
+          {faqs.map((faq, index) => (
+            <details class="payments-faq-item" open={index === 0}>
+              <summary>
+                <span>{faq.question}</span>
+                <span class="payments-faq-icon" aria-hidden="true">+</span>
+              </summary>
+              <p>{faq.answer}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="payments-cta-section">
+      <div class="growth-shell">
+        <div class="payments-cta-card">
+          <div>
+            <span class="growth-overline">Payment performance</span>
+            <h2>Improve payment performance with a clear root cause and action plan.</h2>
+            <p>
+              Send me the market, payment stack and what you are seeing. I will reply
+              with whether I can help and what I would look at first.
+            </p>
+          </div>
+          <a class="payments-primary-button payments-primary-button--light" href={mailtoHref}>
+            Discuss a payment issue
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
