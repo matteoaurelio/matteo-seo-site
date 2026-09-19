@@ -31,7 +31,8 @@ const solutionAreas = [
   {
     number: "01",
     title: "Acceptance & conversion",
-    summary: "Improve the share of legitimate customers who successfully complete payment.",
+    summary:
+      "Improve the share of legitimate customers who successfully complete payment.",
     items: [
       "Authorization & approval rates",
       "3DS and authentication",
@@ -42,7 +43,8 @@ const solutionAreas = [
   {
     number: "02",
     title: "Integrations & routing",
-    summary: "Design and troubleshoot the technical path between checkout, PSPs and payment outcomes.",
+    summary:
+      "Design and troubleshoot the technical path between checkout, PSPs and payment outcomes.",
     items: [
       "PSP / API integrations",
       "Routing & currency logic",
@@ -53,7 +55,8 @@ const solutionAreas = [
   {
     number: "03",
     title: "Local & cross-border payments",
-    summary: "Build payment setups around how customers actually pay in each market.",
+    summary:
+      "Build payment setups around how customers actually pay in each market.",
     items: [
       "Local payment methods",
       "Local vs international acquiring",
@@ -64,7 +67,8 @@ const solutionAreas = [
   {
     number: "04",
     title: "Observability & operations",
-    summary: "Create the visibility needed to know what is failing, where and why.",
+    summary:
+      "Create the visibility needed to know what is failing, where and why.",
     items: [
       "Payment monitoring",
       "Logs & transaction tracing",
@@ -122,7 +126,8 @@ const problemAreas = [
       "Looker Studio",
       "SQL / Python",
     ],
-    deliverable: "Root cause, quantified impact, recommended changes and a measurement plan for acceptance improvement.",
+    deliverable:
+      "Root cause, quantified impact, recommended changes and a measurement plan for acceptance improvement.",
   },
   {
     number: "02",
@@ -148,13 +153,15 @@ const problemAreas = [
       "dLocal",
       "3DS2",
     ],
-    deliverable: "A market-specific payment design covering methods, providers, acquiring, currencies, authentication, integration requirements and monitoring.",
+    deliverable:
+      "A market-specific payment design covering methods, providers, acquiring, currencies, authentication, integration requirements and monitoring.",
   },
   {
     number: "03",
     id: "observability",
     question: "Need to know what is actually happening?",
-    headline: "Make payment performance measurable from checkout to fulfilment.",
+    headline:
+      "Make payment performance measurable from checkout to fulfilment.",
     copy: "I combine PSP data with application logs, transaction data, analytics and session behaviour so teams can distinguish payment failures from integration, fulfilment, reconciliation or customer-experience problems.",
     focus: [
       "Payments expire without a clear explanation",
@@ -173,13 +180,15 @@ const problemAreas = [
       "Python",
       "Transaction reconciliation",
     ],
-    deliverable: "A clear operating view of approval, declines, 3DS, expirations, refunds and payment-to-fulfilment status, with anomalies routed to the right owner.",
+    deliverable:
+      "A clear operating view of approval, declines, 3DS, expirations, refunds and payment-to-fulfilment status, with anomalies routed to the right owner.",
   },
   {
     number: "04",
     id: "integrations",
     question: "Need to design or fix an integration?",
-    headline: "Improve the technical payment flow, not only the reporting around it.",
+    headline:
+      "Improve the technical payment flow, not only the reporting around it.",
     copy: "Depending on the problem, I help design, configure, troubleshoot and technically support implementation across payment APIs, payment states, wallets, authentication, routing, expiry logic, error handling, logging and reconciliation.",
     focus: [
       "A wallet or payment method fails after launch",
@@ -197,7 +206,8 @@ const problemAreas = [
       "Application logs",
       "SQL / Python",
     ],
-    deliverable: "A technically grounded integration design or diagnosis that engineering, payment operations and commercial teams can execute against.",
+    deliverable:
+      "A technically grounded integration design or diagnosis that engineering, payment operations and commercial teams can execute against.",
   },
 ];
 
@@ -290,12 +300,14 @@ const faqs = [
       "Yes. My work frequently sits between payment operations, analytics and engineering. I work with logs, APIs and integration behaviour, payment configuration, transaction data and technical incident evidence so engineering teams have a clear problem definition and implementation path.",
   },
   {
-    question: "Can you tell whether declines come from the PSP, acquirer, issuer, 3DS or fraud rules?",
+    question:
+      "Can you tell whether declines come from the PSP, acquirer, issuer, 3DS or fraud rules?",
     answer:
       "Often, yes. That requires combining PSP responses with issuer and acquiring behaviour, 3DS results, routing, fraud configuration, currencies and transaction-level segmentation rather than relying on a single dashboard or decline code.",
   },
   {
-    question: "Can you help with refunds or successful payments that do not complete fulfilment?",
+    question:
+      "Can you help with refunds or successful payments that do not complete fulfilment?",
     answer:
       "Yes. I have investigated payment incidents where the payment state, booking or fulfilment system and reconciliation layer told different stories. I trace the transaction across systems to establish what actually happened and where the process failed.",
   },
@@ -410,7 +422,9 @@ const structuredData = {
     <section class="payments-hero">
       <div class="growth-shell payments-hero-grid">
         <div class="payments-hero-copy">
-          <span class="growth-overline">Payment Solutions Architecture &amp; Operations</span>
+          <span class="growth-overline"
+            >Payment Solutions Architecture &amp; Operations</span
+          >
           <h1>Improve payment acceptance, integrations and conversion.</h1>
           <p class="payments-hero-lede">
             I diagnose underperforming payment flows, design better payment
@@ -426,28 +440,39 @@ const structuredData = {
           </div>
 
           <div class="payments-hero-actions">
-            <a class="payments-primary-button" href={mailtoHref}>Discuss a payment issue</a>
-            <a class="payments-text-link" href="#solutions">See where I can help ↓</a>
+            <a class="payments-primary-button" href={mailtoHref}
+              >Discuss a payment issue</a
+            >
+            <a class="payments-text-link" href="#solutions"
+              >See where I can help ↓</a
+            >
           </div>
         </div>
 
-        <aside class="payments-hero-solutions" aria-label="Payment solution areas">
+        <aside
+          class="payments-hero-solutions"
+          aria-label="Payment solution areas"
+        >
           <div class="payments-hero-solutions-head">
             <span>Where I help</span>
             <strong>Four areas where I improve payment performance.</strong>
           </div>
 
           <div class="payments-hero-solutions-list">
-            {solutionAreas.map((area) => (
-              <a href={`#${area.number === "01" ? "acceptance" : area.number === "02" ? "integrations" : area.number === "03" ? "local-methods" : "observability"}`}>
-                <span>{area.number}</span>
-                <div>
-                  <strong>{area.title}</strong>
-                  <small>{area.summary}</small>
-                </div>
-                <em aria-hidden="true">↗</em>
-              </a>
-            ))}
+            {
+              solutionAreas.map((area) => (
+                <a
+                  href={`#${area.number === "01" ? "acceptance" : area.number === "02" ? "integrations" : area.number === "03" ? "local-methods" : "observability"}`}
+                >
+                  <span>{area.number}</span>
+                  <div>
+                    <strong>{area.title}</strong>
+                    <small>{area.summary}</small>
+                  </div>
+                  <em aria-hidden="true">↗</em>
+                </a>
+              ))
+            }
           </div>
         </aside>
       </div>
@@ -457,17 +482,21 @@ const structuredData = {
       <div class="growth-shell">
         <header class="payments-impact-head">
           <span class="growth-overline">Selected impact</span>
-          <h2 id="impact-title">Measured improvements from payment-performance work.</h2>
+          <h2 id="impact-title">
+            Measured improvements from payment-performance work.
+          </h2>
         </header>
 
         <div class="payments-impact-grid">
-          {impact.map((item) => (
-            <article class="payments-impact-card">
-              <strong>{item.value}</strong>
-              <h3>{item.label}</h3>
-              <p>{item.copy}</p>
-            </article>
-          ))}
+          {
+            impact.map((item) => (
+              <article class="payments-impact-card">
+                <strong>{item.value}</strong>
+                <h3>{item.label}</h3>
+                <p>{item.copy}</p>
+              </article>
+            ))
+          }
         </div>
       </div>
     </section>
@@ -479,23 +508,28 @@ const structuredData = {
           <h2>Where I help improve payment performance.</h2>
           <p>
             I work across the commercial, operational and technical layers of a
-            payment system. The scope depends on the problem, not on a fixed package.
+            payment system. The scope depends on the problem, not on a fixed
+            package.
           </p>
         </header>
 
         <div class="payments-solution-grid">
-          {solutionAreas.map((area) => (
-            <article class="payments-solution-column">
-              <div class="payments-solution-title">
-                <span>{area.number}</span>
-                <h3>{area.title}</h3>
-              </div>
-              <p>{area.summary}</p>
-              <ul>
-                {area.items.map((item) => <li>{item}</li>)}
-              </ul>
-            </article>
-          ))}
+          {
+            solutionAreas.map((area) => (
+              <article class="payments-solution-column">
+                <div class="payments-solution-title">
+                  <span>{area.number}</span>
+                  <h3>{area.title}</h3>
+                </div>
+                <p>{area.summary}</p>
+                <ul>
+                  {area.items.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              </article>
+            ))
+          }
         </div>
       </div>
     </section>
@@ -506,45 +540,52 @@ const structuredData = {
           <span class="growth-overline">Start with the problem</span>
           <h2>What do you need to improve?</h2>
           <p>
-            Each engagement starts with the business symptom and follows it through
-            the payment stack until the technical cause and action path are clear.
+            Each engagement starts with the business symptom and follows it
+            through the payment stack until the technical cause and action path
+            are clear.
           </p>
         </header>
 
         <div class="payments-problem-list">
-          {problemAreas.map((area) => (
-            <article class="payments-problem" id={area.id}>
-              <div class="payments-problem-index">
-                <span>{area.number}</span>
-                <p>{area.question}</p>
-              </div>
+          {
+            problemAreas.map((area) => (
+              <article class="payments-problem" id={area.id}>
+                <div class="payments-problem-index">
+                  <span>{area.number}</span>
+                  <p>{area.question}</p>
+                </div>
 
-              <div class="payments-problem-main">
-                <h3>{area.headline}</h3>
-                <p class="payments-problem-copy">{area.copy}</p>
+                <div class="payments-problem-main">
+                  <h3>{area.headline}</h3>
+                  <p class="payments-problem-copy">{area.copy}</p>
 
-                <div class="payments-problem-detail-grid">
-                  <div>
-                    <h4>What I look at</h4>
-                    <ul>
-                      {area.focus.map((signal) => <li>{signal}</li>)}
-                    </ul>
-                  </div>
-                  <div>
-                    <h4>Tools & systems</h4>
-                    <div class="payments-chip-list">
-                      {area.tools.map((tool) => <span>{tool}</span>)}
+                  <div class="payments-problem-detail-grid">
+                    <div>
+                      <h4>What I look at</h4>
+                      <ul>
+                        {area.focus.map((signal) => (
+                          <li>{signal}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <h4>Tools & systems</h4>
+                      <div class="payments-chip-list">
+                        {area.tools.map((tool) => (
+                          <span>{tool}</span>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div class="payments-problem-outcome">
-                  <span>Output</span>
-                  <p>{area.deliverable}</p>
+                  <div class="payments-problem-outcome">
+                    <span>Output</span>
+                    <p>{area.deliverable}</p>
+                  </div>
                 </div>
-              </div>
-            </article>
-          ))}
+              </article>
+            ))
+          }
         </div>
       </div>
     </section>
@@ -561,20 +602,24 @@ const structuredData = {
         </header>
 
         <div class="payments-case-grid">
-          {cases.map((item) => (
-            <article class="payments-case-card">
-              <div class="payments-case-meta">
-                <span>{item.region}</span>
-                <small>{item.sector}</small>
-              </div>
-              <strong class="payments-case-metric">{item.metric}</strong>
-              <h3>{item.title}</h3>
-              <p>{item.copy}</p>
-              <div class="payments-case-tags">
-                {item.tags.map((tag) => <span>{tag}</span>)}
-              </div>
-            </article>
-          ))}
+          {
+            cases.map((item) => (
+              <article class="payments-case-card">
+                <div class="payments-case-meta">
+                  <span>{item.region}</span>
+                  <small>{item.sector}</small>
+                </div>
+                <strong class="payments-case-metric">{item.metric}</strong>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+                <div class="payments-case-tags">
+                  {item.tags.map((tag) => (
+                    <span>{tag}</span>
+                  ))}
+                </div>
+              </article>
+            ))
+          }
         </div>
       </div>
     </section>
@@ -584,54 +629,68 @@ const structuredData = {
         <div class="payments-ecosystem-head">
           <div>
             <span class="growth-overline">Payment ecosystem</span>
-            <h2>Providers, methods and networks I have worked with.</h2>
+            <h2>
+              Payment providers, methods and networks I’ve encountered through
+              my work.
+            </h2>
           </div>
           <p>
             Experience across payment configuration, integration behaviour,
-            acceptance, routing, authentication, transaction analytics and operations.
+            acceptance, routing, authentication, transaction analytics and
+            operations.
           </p>
         </div>
 
-        <div class="payments-logo-grid" aria-label="Payment providers and methods">
-          {logos.map((logo) => (
-            <div class="payments-logo-item">
-              <img src={logo.src} alt={logo.alt} loading="lazy" />
-            </div>
-          ))}
+        <div
+          class="payments-logo-grid"
+          aria-label="Payment providers and methods"
+        >
+          {
+            logos.map((logo) => (
+              <div class="payments-logo-item">
+                <img src={logo.src} alt={logo.alt} loading="lazy" />
+              </div>
+            ))
+          }
         </div>
 
         <p class="payments-ecosystem-note">
-          Also including Checkout.com, MercadoPago, Apple Pay, Google Pay, Aplazo,
-          cards and 3DS / 3DS2. Logos indicate hands-on exposure, not employment or partnership.
+          Also including Checkout.com, MercadoPago, Apple Pay, Google Pay,
+          Aplazo, cards and 3DS / 3DS2. Logos indicate hands-on exposure, not
+          employment or partnership.
         </p>
       </div>
     </section>
 
     <section class="payments-regions-section">
       <div class="growth-shell">
-        <header class="payments-section-heading payments-section-heading--regions">
+        <header
+          class="payments-section-heading payments-section-heading--regions"
+        >
           <span class="growth-overline">Cross-market experience</span>
           <h2>Payment solutions across different market conditions.</h2>
           <p>
-            Acquiring, issuer behaviour, payment methods, currencies and customer
-            expectations change by market. I use that context when diagnosing or
-            designing payment flows.
+            Acquiring, issuer behaviour, payment methods, currencies and
+            customer expectations change by market. I use that context when
+            diagnosing or designing payment flows.
           </p>
         </header>
 
         <div class="payments-region-grid">
-          {regions.map((region) => (
-            <article class="payments-region-card">
-              <div class="payments-region-image">
-                <img src={region.image} alt="" loading="lazy" />
-              </div>
-              <div class="payments-region-copy">
-                <span>{region.eyebrow}</span>
-                <h3>{region.name}</h3>
-                <p>{region.copy}</p>
-              </div>
-            </article>
-          ))}
+          {
+            regions.map((region) => (
+              <article class="payments-region-card">
+                <div class="payments-region-image">
+                  <img src={region.image} alt="" loading="lazy" />
+                </div>
+                <div class="payments-region-copy">
+                  <span>{region.eyebrow}</span>
+                  <h3>{region.name}</h3>
+                  <p>{region.copy}</p>
+                </div>
+              </article>
+            ))
+          }
         </div>
       </div>
     </section>
@@ -643,13 +702,16 @@ const structuredData = {
           <h2>Payments, finance, data and technical execution.</h2>
           <p>
             Payment performance sits between commercial economics and technical
-            systems. My background lets me work across both sides of that problem.
+            systems. My background lets me work across both sides of that
+            problem.
           </p>
           <div class="payments-credibility-links">
             <a href={credentialUrl} target="_blank" rel="noopener noreferrer">
               Verify former CFA charterholder credential ↗
             </a>
-            <a href="/achievements/#recommendations">Read professional recommendations →</a>
+            <a href="/achievements/#recommendations"
+              >Read professional recommendations →</a
+            >
           </div>
         </div>
 
@@ -659,24 +721,26 @@ const structuredData = {
             <h3>Former CFA charterholder</h3>
             <p>
               Passed all three CFA Program examinations. Earlier experience in
-              European institutional finance across risk, credit, financial analysis
-              and complex transactions.
+              European institutional finance across risk, credit, financial
+              analysis and complex transactions.
             </p>
           </article>
           <article>
             <span>Technology</span>
             <h3>Data and engineering depth</h3>
             <p>
-              Python, SQL, APIs, data engineering, BigQuery, application logs, cloud
-              infrastructure and analytical systems used to trace behaviour beyond a dashboard.
+              Python, SQL, APIs, data engineering, BigQuery, application logs,
+              cloud infrastructure and analytical systems used to trace
+              behaviour beyond a dashboard.
             </p>
           </article>
           <article>
             <span>Digital commerce</span>
             <h3>50+ B2B partner companies supported</h3>
             <p>
-              Growth, conversion and payment-performance work across global travel
-              technology and ground-transportation businesses of different sizes.
+              Growth, conversion and payment-performance work across global
+              travel technology and ground-transportation businesses of
+              different sizes.
             </p>
           </article>
           <article>
@@ -700,19 +764,31 @@ const structuredData = {
         <div class="payments-fit-list">
           <article>
             <strong>Large digital platforms</strong>
-            <p>Complex stacks, multiple markets, high transaction volume and difficult-to-isolate performance issues.</p>
+            <p>
+              Complex stacks, multiple markets, high transaction volume and
+              difficult-to-isolate performance issues.
+            </p>
           </article>
           <article>
             <strong>Growing companies</strong>
-            <p>New markets, additional PSPs, local methods, monitoring or a more deliberate payment architecture.</p>
+            <p>
+              New markets, additional PSPs, local methods, monitoring or a more
+              deliberate payment architecture.
+            </p>
           </article>
           <article>
             <strong>Smaller businesses</strong>
-            <p>Specialist payment knowledge for a defined problem without building a full internal payments team.</p>
+            <p>
+              Specialist payment knowledge for a defined problem without
+              building a full internal payments team.
+            </p>
           </article>
           <article>
             <strong>Ground transportation &amp; digital commerce</strong>
-            <p>Particularly relevant where payment success must also connect reliably to booking, fulfilment, refunds and reconciliation.</p>
+            <p>
+              Particularly relevant where payment success must also connect
+              reliably to booking, fulfilment, refunds and reconciliation.
+            </p>
           </article>
         </div>
       </div>
@@ -723,19 +799,26 @@ const structuredData = {
         <header class="payments-faq-intro">
           <span class="growth-overline">FAQ</span>
           <h2>Payment solutions FAQ.</h2>
-          <p>Clear answers for teams deciding whether I can help with a payment performance, architecture or integration problem.</p>
+          <p>
+            Clear answers for teams deciding whether I can help with a payment
+            performance, architecture or integration problem.
+          </p>
         </header>
 
         <div class="payments-faq-list">
-          {faqs.map((faq, index) => (
-            <details class="payments-faq-item" open={index === 0}>
-              <summary>
-                <span>{faq.question}</span>
-                <span class="payments-faq-icon" aria-hidden="true">+</span>
-              </summary>
-              <p>{faq.answer}</p>
-            </details>
-          ))}
+          {
+            faqs.map((faq, index) => (
+              <details class="payments-faq-item" open={index === 0}>
+                <summary>
+                  <span>{faq.question}</span>
+                  <span class="payments-faq-icon" aria-hidden="true">
+                    +
+                  </span>
+                </summary>
+                <p>{faq.answer}</p>
+              </details>
+            ))
+          }
         </div>
       </div>
     </section>
@@ -745,13 +828,19 @@ const structuredData = {
         <div class="payments-cta-card">
           <div>
             <span class="growth-overline">Payment performance</span>
-            <h2>Improve payment performance with a clear root cause and action plan.</h2>
+            <h2>
+              Improve payment performance with a clear root cause and action
+              plan.
+            </h2>
             <p>
-              Send me the market, payment stack and what you are seeing. I will reply
-              with whether I can help and what I would look at first.
+              Send me the market, payment stack and what you are seeing. I will
+              reply with whether I can help and what I would look at first.
             </p>
           </div>
-          <a class="payments-primary-button payments-primary-button--light" href={mailtoHref}>
+          <a
+            class="payments-primary-button payments-primary-button--light"
+            href={mailtoHref}
+          >
             Discuss a payment issue
           </a>
         </div>
