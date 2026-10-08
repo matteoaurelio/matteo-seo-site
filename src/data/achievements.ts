@@ -34,6 +34,24 @@ What sets Matteo apart is his diagnostic ability and communication. He breaks up
 
 Matteo raises the standard of any team he joins. Any company working on growth, analytics, or e-commerce performance would be fortunate to have him.`,
   },
+
+  {
+    name: "Sana Shakeel",
+    headline: "Fraud Strategy | Payments | Data Science & AI",
+    date: "8 October 2026",
+    relationship:
+      "Worked with Matteo in different teams at Distribusion Technologies",
+    source: "LinkedIn",
+    featured: true,
+    quote: `Working with Matteo has always been a positive and motivating experience. He combines strong knowledge of product, payments, and technology with a proactive, detail-oriented approach. He quickly identifies gaps, connects the right data points, and focuses on practical ways to improve payment performance, conversion, and customer experience.
+
+Collaborating with him on improving the Mexico market was particularly valuable. He consistently looks for ways to improve the existing setup, brings together data from different sources, and helps turn findings into clear, actionable recommendations. His knowledge of modern AI and technology stacks also stands out, especially in the way he uses technology to build solutions that create real value. His Streamlit dashboard, for example, inspired me to think differently about my own tool-building capabilities.
+
+What stands out just as much is his growth mindset and the way he works with others. Matteo is approachable, supportive, reflective, and brings very positive energy to discussions. He is naturally curious, digs deeply into problems that others might overlook, and has a strong understanding of different customer challenges and stages of the payment lifecycle. He is also generous with his knowledge and shows strong leadership qualities through the way he takes initiative, stays engaged, and keeps momentum around key payment and product topics.
+
+I look forward to collaborating with him further at Distribusion, and I am confident that his expertise, initiative, and innovative thinking can bring significant value as we continue to grow across new and emerging markets.`,
+  },
+
   {
     name: "Shalini Kanojia",
     headline: "Senior Finance and Data Analytics Engineer",
