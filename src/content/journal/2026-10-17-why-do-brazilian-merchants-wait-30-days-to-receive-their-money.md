@@ -9,7 +9,7 @@ tags:
   - analytics
   - working capital management
   - finance
-draft: true
+draft: false
 ---
 Imagine you own a small retail business in São Paulo.
 
