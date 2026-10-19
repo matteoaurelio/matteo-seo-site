@@ -5,7 +5,15 @@ description: "From delegated authentication to 3D Secure and payment passkeys,
   banks and merchants face a difficult question: how do you make online payments
   easier without accepting unacceptabl"
 pubDate: 2026-10-18
-draft: true
+draft: false
+tags:
+  - payments
+  - risk-management
+  - 3DS
+  - Visa
+  - MasterCard
+  - Adyen
+  - conversion rate lift
 ---
 Imagine you're purchasing a flight ticket online.
 
