@@ -51,14 +51,13 @@ What stands out just as much is his growth mindset and the way he works with oth
 
 I look forward to collaborating with him further at Distribusion, and I am confident that his expertise, initiative, and innovative thinking can bring significant value as we continue to grow across new and emerging markets.`,
   },
-
   {
-    name: "Shalini Kanojia",
-    headline: "Senior Finance and Data Analytics Engineer",
-    date: "16 October 2024",
-    relationship: "Worked with Matteo on the same team",
+    name: "Angélica García Patiño",
+    headline: "Payments Optimization & Fraud at Distribusion Technologies",
+    date: "16 October 2026",
+    relationship: "Worked with Matteo on different teams",
     source: "LinkedIn",
-    quote: `Matteo has outstanding skills in data and analytics, with expertise in Python. We both work on an ML project where we build, train, test, and deploy statistical models in production, continuously improving model performance and make a significant impact on your project. He is an excellent Python trainer and has strong problem-solving skills, which he applies to tackle complex business challenges. Matteo has great potential, and I am grateful to work with him.`,
+    quote: `I've had the pleasure of working with Matteo at Distribusion, where he often brought payment issues from different markets to our team. What stands out most about him is his passion for the work and his curiosity about other areas. He's always willing to share useful ideas and offer his help so we can solve problems together, even going the extra mile to find the root cause of an issue. He's very supportive: he listens, steps in when needed and helps unblock things whenever he can. His collaboration makes a real difference!`,
   },
   {
     name: "Abhishek Agarwal",
@@ -68,6 +67,15 @@ I look forward to collaborating with him further at Distribusion, and I am confi
     relationship: "Worked with Matteo on the same team",
     source: "LinkedIn",
     quote: `Matteo has been a great person to work with who always endeavors to drive new innovations and get into the "Why" of a question. I have worked with him on multiple deployments, and its always a learning experience with him.`,
+  },
+
+  {
+    name: "Shalini Kanojia",
+    headline: "Senior Finance and Data Analytics Engineer",
+    date: "16 October 2024",
+    relationship: "Worked with Matteo on the same team",
+    source: "LinkedIn",
+    quote: `Matteo has outstanding skills in data and analytics, with expertise in Python. We both work on an ML project where we build, train, test, and deploy statistical models in production, continuously improving model performance and make a significant impact on your project. He is an excellent Python trainer and has strong problem-solving skills, which he applies to tackle complex business challenges. Matteo has great potential, and I am grateful to work with him.`,
   },
   {
     name: "Jose Laguna",
