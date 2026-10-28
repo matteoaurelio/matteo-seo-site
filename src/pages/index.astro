@@ -299,12 +299,26 @@ const companies = [
         <div class="growth-company-grid">
           {
             companies.map((company) => (
-              <div class="growth-company-logo" title={company.name}>
-                <img
-                  src={company.logo}
-                  alt={`${company.name} logo`}
-                  loading="lazy"
-                />
+              <div
+                class:list={[
+                  "growth-company-logo",
+                  company.name === "WeGoZero" &&
+                    "growth-company-logo--wegozero",
+                ]}
+                title={company.name}
+              >
+                {company.name === "WeGoZero" ? (
+                  <div class="wegozero-lockup">
+                    <img src={company.logo} alt="" loading="lazy" />
+                    <span>WeGoZero</span>
+                  </div>
+                ) : (
+                  <img
+                    src={company.logo}
+                    alt={`${company.name} logo`}
+                    loading="lazy"
+                  />
+                )}
               </div>
             ))
           }
