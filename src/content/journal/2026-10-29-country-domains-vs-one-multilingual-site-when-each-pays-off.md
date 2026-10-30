@@ -13,106 +13,137 @@ tags:
   - domain consolidation
 draft: false
 ---
-This week I worked with a company in the transportation sector that has to two very different audiences: customers in its home market, and visitors arriving from abroad. 
+This week, together with my team, I worked with a client that sells to two very different audiences: customers in its home market, and customers arriving from abroad. The client will stay anonymous, so the examples in this article use a hypothetical hotel group instead of the real business. The lesson is the same.
 
-Over the years, the company had registered a long list of country-code domains, one for each of the main countries its international customers come from. The logic was easy to follow. A traveler in Denmark would find the Danish domain, a traveler in France the French one, and each market would feel it had a local site.
+Over the years, the client had registered a long list of country-code domains, one for each of the main countries its international customers come from. The logic was easy to follow. A customer in Denmark would find the Danish domain, a customer in France the French one, and each market would feel it had a local site.
 
-Together with my team, we recommended a different approach, and the team agreed to move in that direction: a single international version of the website, offered in several languages, for every customer outside the home market. One site with a language layer, instead of a site per country.
+We recommended a different approach, and the client agreed to move in that direction: one international version of the website, available in several languages, for every customer outside the home market. In other words, one site with several languages instead of one site per country.
 
-The conversation was a good reminder that international SEO decisions are rarely about search engines alone. They depend on what the business actually sells, who buys it, and how much operational weight the organization can carry. Below I explain how search engines decide which country or language a page is for, what a portfolio of country domains really costs, how automatic translation fits in, and how to tell when separate domains are worth it.
+The conversation was a good reminder that international SEO decisions are rarely only about search engines. They depend on what the business sells, who buys it and how much work the organization can realistically maintain.
+
+In this article I explain:
+
+- how search engines decide which country or language a page is for
+- what a collection of country domains really costs
+- how automatic translation fits in
+- when separate country domains are worth it
 
 ## How search engines decide which country a page is for
 
-When someone searches, **Google tries to show the version of a page that matches their language and location.** It relies on a handful of signals, and the strongest country signal is the domain itself.
+When someone searches, Google tries to show the version of a page that matches their language and location. It uses several signals to decide, and the strongest country signal is the domain.
 
-A country-code top-level domain (ccTLD) is a domain ending tied to one country, such as .de for Germany or .fr for France. Google's documentation treats it as a clear geotargeting signal, but lists real costs: **it is more expensive, needs more infrastructure, sometimes has strict registration rules, and can only target a single country.**
+**Country domains.** A country-code top-level domain (ccTLD) is a domain ending linked to one country, such as .de for Germany or .fr for France. Google treats it as a clear sign that the site is meant for that country. But Google's own documentation also lists the downsides: country domains cost more, need more infrastructure, sometimes have strict registration rules and can only target one country.
 
-The alternative is to keep everything on one generic domain and separate the versions inside it, usually with subdirectories such as example.com/de/. Everything lives on the same host, which Google describes as easy to set up and cheap to maintain. The tradeoff is that the URL alone says less about who the page is for.
+**One domain with sections.** The alternative is to keep everything on one domain and create a section for each version, for example example.com/de/ for German. Everything lives in one place, so Google describes this option as easy to set up and cheap to maintain. The downside is that the address alone tells visitors less about who the page is for.
 
-Whichever structure you choose, the mechanism that connects language versions is **hreflang**. It is an annotation, placed in the *page's HTML, in HTTP headers or in an XML sitemap*, that tells Google several URLs are versions of the same content in different languages or for different regions. Google then points each searcher to the most suitable version. Two details matter in practice. Every version must reference every other version, because one-sided annotations are ignored. And an `x-default` value names the page to show when no language matches, typically a language selector.
+**hreflang tags.** Whatever structure you choose, you need a way to tell Google which pages are translations of each other. That is the job of hreflang, a small tag in the page's code or in the sitemap. It says, for example, "this English page and this Spanish page contain the same content." Google then shows each person the version that fits them best.
 
-Two less obvious points came up while I researched this. 
+Two details are easy to get wrong:
 
-- First, not every country-code domain sends a country signal. Google treats some of them, including .co, .io, .me and .tv, as generic domains because people use them that way. A company that registered one of those to target the matching country may not be getting the signal it paid for. 
-- Second, the manual country-targeting setting that Search Console used to offer was retired in 2022. Geography is now inferred from the domain, hreflang and on-page cues such as local addresses, phone numbers, currency and language.
+- Every version has to point to every other version. If the English page points to the Spanish page but not the other way around, Google ignores the tags.
+- An x-default tag tells Google which page to show when none of the languages match. This is usually a page where visitors choose their language.
+
+Two less obvious points came up while I researched this.
+
+First, not every country domain works as a country signal. Google treats some of them, including .co, .io, .me and .tv, as generic domains, because people use them that way. A company that bought one of these to target the matching country may not get the benefit it expected.
+
+Second, Google Search Console used to have a setting for choosing a target country manually. It was removed in 2022. Google now works out the country from the domain, the hreflang tags and clues on the page, such as local addresses, phone numbers, currency and language.
 
 ## What a domain for every country really costs
 
 Registering a domain is cheap. Running it as a real website is not.
 
-Each country domain is, in practice, a separate site. It needs its own content, technical upkeep, Search Console property and monitoring. When the company changes a fare rule, updates luggage policy or redesigns checkout, the change has to land correctly everywhere. The common failure mode is predictable: one or two sites get the attention, and the rest slowly turn into outdated copies.
+Each country domain is, in practice, a separate website. It needs its own content, technical maintenance and monitoring. Imagine our hotel group changes its cancellation policy or redesigns its booking page. That change now has to be made correctly on every site. What usually happens is predictable: one or two sites get the attention, and the others slowly become outdated copies.
 
-The SEO cost is less visible. Each domain has to earn its own reputation. A link from a travel blog to the German site does nothing directly for the French one. 
+The SEO cost is less visible. Each domain has to build its own reputation with search engines. A link from a travel blog to the Danish site does nothing directly for the French one.
 
-> ### Splitting a brand across many domains splits the authority it has earned, while a single domain lets every link and mention strengthen the whole site.
+Splitting a brand across many domains splits the reputation it has earned. A single domain lets every link and mention strengthen the whole site.
 
-There is also a duplication problem. If several domains show essentially the same content in the same language, search engines have to choose one, and it may not be the one the business wanted. Google's advice in that situation is to pick a preferred version, which raises the obvious question of why the others need to exist.
+There is also a duplication problem. If several domains show almost the same content in the same language, search engines have to choose which one to show, and it may not be the one the business wants. Google's advice in that case is to pick a preferred version. That raises an obvious question: why keep the others?
 
-Finally, many companies buy country domains defensively, so nobody else can use them, and simply redirect them to the main site. That is a legitimate brand-protection measure, but it is not an SEO strategy. A domain that only redirects sends no country signal of its own.
+Finally, many companies buy country domains only to protect their brand, so nobody else can use them, and redirect them to the main site. That is a sensible precaution, but it is not an SEO strategy. A domain that only redirects sends no country signal of its own.
 
 ## The recommendation: one international site, many languages
 
-The question I kept coming back to was simple: does the product change depending on the customer's country?
+The question we kept coming back to was simple: does the product change depending on the customer's country?
 
-For a transport company, it mostly does not. A seat on a domestic route is the same seat whether the buyer lives in Madrid, Chicago or Seoul. The schedule, the terminal and the fare are the same. What changes is the language the customer reads, and possibly the currency they want to see and the cards they pay with.
+For many businesses, it does not. In our hypothetical hotel group, a room is the same room whether the guest lives in Madrid, Chicago or Seoul. The price, the location and the services are the same. What changes is the language the customer reads, and perhaps the currency they want to see and the way they prefer to pay.
 
-When the offer is identical and only the language differs, country targeting solves the wrong problem. Language targeting solves the right one. So I proposed splitting the audience in two: the home market, served by the existing main site, and everyone else, served by one international version with a language selector, a separate URL for each language and hreflang connecting them.
+When the product is the same and only the language changes, targeting countries solves the wrong problem. Targeting languages solves the right one.
 
-The arguments that carried the decision were operational as much as technical:
+So we proposed splitting the audience in two:
 
-- **One codebase and one content workflow.** A schedule change or new policy is published once, not many times.
-- **One domain building authority.** Links and mentions from every market strengthen the same site.
-- **New languages become a content task.** Adding one no longer means launching and maintaining another website.
+- **Home market customers** keep using the existing main site.
+- **Everyone else** uses one international version, with a language selector, a separate address for each language and hreflang tags connecting them.
 
-Two implementation details deserve care. First, visitors should not be pushed into a language based on their IP address. *Google advises against automatic locale redirects, partly because they stop users and crawlers from seeing every version*, and Googlebot mostly crawls from the United States. A visible language selector with a sensible default works better. Second, consolidating domains is a migration. Any country domain that has been indexed or has earned links should be redirected page by page, with permanent (301) redirects to the closest equivalent page in the right language, rather than all pointing at the home page.
+The arguments that convinced the client were practical as much as technical:
+
+- **One website to maintain.** A new policy or price change is published once, not many times.
+- **One domain building reputation.** Links and mentions from every country strengthen the same site.
+- **Adding a language is simple.** It becomes a translation task, not a new website project.
+
+Two implementation details need care.
+
+First, don't send visitors to a language automatically based on where they are. Google advises against it, because it can stop both people and search engines from seeing all the versions. Google's crawler mostly visits from the United States, so it might only ever see one of them. A visible language selector works better.
+
+Second, moving from many domains to one is a migration. If a country domain already appears in Google or has links from other sites, each of its pages should be permanently redirected (a 301 redirect) to the matching page in the right language. Sending everything to the home page throws away what those pages have earned.
 
 ## Automatic translation: useful, with limits
 
-The plan relies on translating pages automatically, which deserves an honest look. For years, machine-translated pages were treated as a search risk.
+The plan relies on automatic translation, which deserves an honest look. For years, machine-translated pages were seen as a risk for search rankings.
 
-Google's position has shifted. Its scaled content abuse policy, introduced in March 2024, targets large numbers of pages produced mainly to manipulate rankings rather than help users, however they are made. Automated translation is named as one way such content can be produced, but the test is the value to the reader, not the method. Google has also removed older guidance that told site owners to block automatically translated pages from search. Translation that helps someone complete a real task is acceptable. Translation used to spin out thousands of thin pages is not.
+Google's position has changed. In March 2024 it introduced a policy against "scaled content abuse": publishing large numbers of pages mainly to rank in search rather than to help people. Automatic translation is mentioned as one way to produce such pages, but what matters is whether the content is useful, not how it was made. Google has also removed older advice that told websites to hide automatically translated pages from search.
 
-For a ticketing site, that line maps neatly onto the content. Most pages are functional: route listings, schedules, search forms and checkout steps. Good machine translation handles these well, and a traveler reading them in their own language is clearly better served. A smaller set of text carries legal or financial weight: fare and refund conditions, terms of carriage, payment error messages, anything a customer might rely on in a dispute. That text deserves review by a native speaker, once per language and again whenever the source changes.
+In practice, translation that helps someone complete a real task is fine. Translation used to create thousands of low-value pages is not.
 
-There is also an important technical requirement. For Google to find your website in different languages, each translation should have its own URL. For example, an English page could be available at `example.com/en/services`, while its Spanish translation would be at `example.com/es/servicios`.
+For most booking websites, this is easy to apply. Most pages are practical: room descriptions, availability, search forms and checkout steps. Good machine translation handles these well, and a visitor reading them in their own language is clearly better served.
 
-Some websites use translation widgets that change the text directly in the visitor's browser without creating separate pages. While this allows someone to read the content in their preferred language, Google may only discover and index the original version. As a result, the Spanish translation might not appear when someone searches in Spanish.
+A smaller set of text carries legal or financial weight: cancellation and refund conditions, terms and conditions, payment error messages, anything a customer might rely on in a dispute. That text should be checked by a native speaker, once for each language and again whenever the original changes.
 
-To make each language discoverable, the website should provide a separate, accessible page for every translation, with its own translated title and meta description. It should also use hreflang tags, which tell Google which language and regional audience each version is intended for. For example, these tags help Google understand that the English and Spanish pages contain equivalent content and show the appropriate version to users searching in each language.
+There is also an important technical requirement. For Google to find your website in different languages, each translation needs its own URL. For example, an English page could be at example.com/en/services, while its Spanish translation would be at example.com/es/servicios.
+
+Some websites use translation widgets that change the text directly in the visitor's browser without creating separate pages. This lets someone read the content in their preferred language, but Google may only discover and index the original version. As a result, the Spanish translation might not appear when someone searches in Spanish.
+
+To make each language discoverable, the website should provide a separate, accessible page for every translation, with its own translated title and meta description. It should also use hreflang tags, so Google understands that the English and Spanish pages contain the same content and can show the right version to people searching in each language.
 
 ## When a domain per country is worth it, and when it is not
 
-Country domains are not a mistake in themselves. They make sense when the business in each country is genuinely different. The question to ask is whether the country changes the offer, or only the language.
+Country domains are not a mistake in themselves. They make sense when the business really is different in each country. The question to ask is: does the country change what you sell, or only the language you sell it in?
 
 
 | If this is true | It points toward |
-| -------------------------------------------------------------------------------- | ----------------------------------------- |
-| Prices, products or availability differ by country | Country domains or country subdirectories |
-| Each country has its own legal entity, regulation or tax rules shown on the site | Country domains |
-| Local teams produce and maintain distinct content for their market | Country domains |
-| The product is the same everywhere and only the language changes | One site, language subdirectories |
-| Customers come from many countries to buy in a single market | One site, language subdirectories |
-| Nobody is available to maintain separate sites | One site, language subdirectories |
-| The goal is to add new languages quickly | One site, language subdirectories |
+| ---------------------------------------------------------------------------- | ----------------------------------- |
+| Prices, products or availability differ by country | Country domains or country sections |
+| Each country has its own company, regulations or tax rules shown on the site | Country domains |
+| Local teams create and maintain their own content for each market | Country domains |
+| The product is the same everywhere and only the language changes | One site with language sections |
+| Customers come from many countries to buy in a single market | One site with language sections |
+| Nobody is available to maintain separate sites | One site with language sections |
+| The goal is to add new languages quickly | One site with language sections |
 
 
-Two rules of thumb cover most cases. If you would not staff a country site with people producing real local content, you probably should not build one. And if language is the actual difference, target languages, not countries. Many businesses land in between: one generic domain organized by language, with country-specific sections only for the few markets where the offer really differs.
+Two rules of thumb cover most cases:
+
+- If nobody will produce real local content for a country site, you probably should not build one.
+- If language is the real difference, target languages, not countries.
+
+Many businesses end up somewhere in between: one domain organized by language, with country-specific sections only for the few markets where the offer really differs.
 
 ## What I took from it
 
 The most valuable part of the conversation was not about SEO itself, but about reconsidering the original problem.
 
-The company had purchased multiple country-specific domains to appear more local in different markets. But was this really what international customers needed?
+The client had bought multiple country domains to appear more local in different markets. But was this really what international customers needed?
 
-A customer from another country is primarily concerned with understanding the information, finding the right service and paying without difficulties. Providing the website in their language, explaining the service clearly and supporting familiar payment methods can make a much bigger difference than having a local domain.
+A customer from another country mainly wants to understand the information, find the right service and pay without difficulty. Offering the website in their language, explaining the service clearly and supporting familiar payment methods can make a much bigger difference than a local domain.
 
-This discussion also highlighted something I have encountered in other technical projects: **complexity often grows through a series of decisions that seem reasonable individually.** Each new domain had a purpose when it was purchased. But managing them together introduced additional maintenance work without a clear understanding of the benefits.
+The discussion also highlighted something I have seen in other technical projects: complexity often grows through a series of decisions that each seem reasonable on their own. Every new domain had a purpose when it was bought. But managing them together created extra maintenance work, without a clear picture of the benefits.
 
-Sometimes, the most valuable technical contribution is identifying what can be simplified. Making that case requires understanding not only the technology, but also the costs, operational implications and customer experience.
+Sometimes the most valuable technical contribution is identifying what can be simplified. Making that case requires understanding not only the technology, but also the costs, the operational impact and the customer experience.
 
-We have agreed on a direction, but the implementation will be the real test. The next steps include deciding which languages to prioritize, ensuring important legal and commercial information is translated accurately, redirecting existing pages correctly, and measuring whether the changes improve international visibility and bookings.
+We have agreed on a direction, but the implementation will be the real test. The next steps include deciding which languages to prioritize, making sure important legal and commercial information is translated accurately, redirecting existing pages correctly, and measuring whether the changes improve international visibility and sales.
 
-As the project develops, I hope to share more about the implementation, the challenges we encounter and, eventually, what the data tells us about the results.
+As the project develops, I hope to share more about the implementation, the challenges we run into and, eventually, what the data tells us about the results.
 
 ## Sources
 
