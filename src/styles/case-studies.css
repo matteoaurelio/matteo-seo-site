@@ -800,7 +800,7 @@
 
 /* Comparison table */
 .cs-compare {
-  margin: 44px 0 0;
+  margin: 44px 0 32px;
 }
 
 .cs-table-wrap {
@@ -886,6 +886,189 @@
   text-decoration: none;
 }
 
+/* ---------- Additions: status, currency flow, lists, FAQ, topics ---------- */
+
+.cs-status-badge {
+  display: inline-block;
+  margin: 0 0 10px;
+  padding: 3px 10px;
+  border: 1px solid #f0d9b5;
+  border-radius: 999px;
+  background: #fdf6ea;
+  color: #8a5a12;
+  font-size: 0.74rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+}
+
+.cs-facts-line .cs-status-badge {
+  margin: 0;
+}
+
+.cs-note .cs-note-open {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--cs-line);
+}
+
+.cs-article code {
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: var(--cs-soft);
+  color: var(--cs-ink);
+  font-size: 0.92em;
+}
+
+.cs-currency-flow {
+  margin: 32px 0;
+}
+
+.cs-currency-flow figcaption {
+  margin-bottom: 14px;
+  color: var(--cs-ink);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.cs-currency-flow figcaption span {
+  color: var(--cs-muted);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+.cs-currency-flow ol {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cs-currency-flow li {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  padding: 20px;
+  border: 1px solid var(--cs-line);
+  border-radius: 14px;
+  background: var(--cs-paper);
+}
+
+.cs-currency-flow li:nth-child(2) {
+  border-color: var(--cs-accent);
+  box-shadow: 0 0 0 3px rgba(11, 92, 173, 0.08);
+}
+
+.cs-currency-flow li:not(:last-child)::after {
+  content: "→";
+  position: absolute;
+  top: 50%;
+  right: -11px;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--cs-paper);
+  color: var(--cs-muted);
+  font-size: 0.85rem;
+  transform: translateY(-50%);
+}
+
+.cs-currency-kind {
+  color: var(--cs-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.cs-currency-flow strong {
+  color: var(--cs-ink);
+  font-size: 1.6rem;
+  line-height: 1.1;
+}
+
+.cs-currency-flow small {
+  color: var(--cs-copy);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.cs-plain-list {
+  margin: 0 0 1.2em;
+  padding-left: 22px;
+}
+
+.cs-plain-list li {
+  margin-bottom: 8px;
+}
+
+.cs-compare .cs-table-narrow {
+  min-width: 0;
+}
+
+.cs-compare tr.is-highlight th,
+.cs-compare tr.is-highlight td {
+  background: var(--cs-soft);
+}
+
+.cs-faq details {
+  border-bottom: 1px solid var(--cs-line);
+}
+
+.cs-faq details:first-of-type {
+  border-top: 1px solid var(--cs-ink);
+}
+
+.cs-faq summary {
+  position: relative;
+  padding: 18px 40px 18px 0;
+  color: var(--cs-ink);
+  font-weight: 650;
+  line-height: 1.5;
+  list-style: none;
+  cursor: pointer;
+}
+
+.cs-faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.cs-faq summary::after {
+  content: "+";
+  position: absolute;
+  top: 14px;
+  right: 4px;
+  color: var(--cs-accent);
+  font-size: 1.4rem;
+  font-weight: 300;
+  transition: transform 0.25s var(--cs-ease);
+}
+
+.cs-faq details[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.cs-faq details p {
+  margin: 0 0 18px !important;
+}
+
+.cs-article > .cs-topics {
+  margin-top: 56px;
+}
+
+.cs-topics h2 {
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
 /* ---------- Responsive ---------- */
 
 @media (max-width: 720px) {
@@ -956,6 +1139,19 @@
 
   .cs-steps li {
     padding-left: 44px;
+  }
+
+  .cs-currency-flow ol {
+    grid-template-columns: 1fr;
+  }
+
+  .cs-currency-flow li:not(:last-child)::after {
+    content: "↓";
+    top: auto;
+    right: auto;
+    bottom: -16px;
+    left: 20px;
+    transform: none;
   }
 }
 

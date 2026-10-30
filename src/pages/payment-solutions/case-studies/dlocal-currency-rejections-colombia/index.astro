@@ -1,0 +1,810 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import Header from "../../../../components/Header.astro";
+import Footer from "../../../../components/Footer.astro";
+import CaseStudyHero from "../../../../components/CaseStudyHero.astro";
+import { getPaymentCaseStudy } from "../../../../data/paymentCaseStudies";
+import "../../../../styles/growth-platform.css";
+import "../../../../styles/case-studies.css";
+
+const slug = "dlocal-currency-rejections-colombia";
+const study = getPaymentCaseStudy(slug);
+if (!study) throw new Error(`Case study not found: ${slug}`);
+
+const site = "https://matteoarellano.com";
+const hub = `${site}/payment-solutions/case-studies/`;
+const canonical = `${hub}${slug}/`;
+const title = "dLocal Currency Rejections in Colombia: Error 5004 and How to Fix It | Case Study";
+const description = study.summary;
+
+const publishedLabel = new Date(`${study.published}T00:00:00Z`).toLocaleDateString("en-GB", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+});
+
+const contents = [
+  { id: "example", label: "The example: a language school with a currency selector" },
+  { id: "local", label: "Why dLocal works with local currencies" },
+  { id: "three-currencies", label: "Three currencies that are often mixed up" },
+  { id: "docs", label: "What dLocal's documentation says" },
+  { id: "diagnose", label: "How to diagnose the problem: five checks" },
+  { id: "solve", label: "How to solve it: five options" },
+  { id: "providers", label: "How other providers handle currency in Colombia" },
+  { id: "south-america", label: "The same rule in other South American markets" },
+  { id: "bre-b", label: "Looking ahead: Bre-B" },
+  { id: "conclusion", label: "Conclusion and next steps" },
+  { id: "faq", label: "Frequently asked questions" },
+];
+
+const docFacts = [
+  {
+    label: "The currency field",
+    value: "A three-letter ISO 4217 code in capital letters, for example COP",
+  },
+  { label: "Currency for Colombia", value: "COP, with 0 decimals in the amount" },
+  {
+    label: "Customer document in Colombia",
+    value: "Required: CC (cédula de ciudadanía) or NIT, 6 to 11 digits",
+  },
+  {
+    label: "Charging the customer in USD",
+    value: "Possible with the field currency_to_charge = USD, but only where dLocal makes it available. Example: debit cards in Argentina",
+  },
+  { label: "Error when the currency is not accepted", value: "HTTP 400, code 5004: \"Currency not allowed for this country.\"" },
+  {
+    label: "Exchange rates from dLocal",
+    value: "An endpoint that returns rates only from USD to a local currency",
+  },
+];
+
+const checks = [
+  {
+    title: "Is it a refused request or a declined payment?",
+    body: [
+      "This is the first thing I check, because the two need different fixes. dLocal returns two kinds of failure. An API error, with an HTTP 400 status and a code in the 5000 range, means that dLocal refused the request before it reached a bank. A payment with the status REJECTED and a code in the 300 range means that the request was valid, but the bank, the card network or a risk check declined it.",
+      "Error 5004, \"Currency not allowed for this country\", is in the first group. It is a configuration problem, not a customer problem. That is useful: when you fix the configuration, you fix it for every payment at once.",
+    ],
+  },
+  {
+    title: "Is the country and currency combination allowed?",
+    body: [
+      "Log the country and currency of every request, and compare them with dLocal's country reference. For Colombia, the documented currency is COP. If you want to use USD, ask your dLocal account manager whether USD is enabled for Colombia on your account. Do not assume that a currency that works in one country works in another.",
+    ],
+  },
+  {
+    title: "Is the amount in the right format?",
+    body: [
+      "dLocal's country reference lists 0 decimals for COP. A price converted from EUR 49.99 can produce an amount such as 228,431.57 COP. Round converted amounts to whole pesos before you send them, and apply the same rule to Chile (CLP) and Paraguay (PYG), which also use 0 decimals.",
+    ],
+  },
+  {
+    title: "Does the customer have a valid document number?",
+    body: [
+      "In Colombia, dLocal requires the customer's document: a CC or a NIT with 6 to 11 digits. A missing document can produce error 5001 (\"Missing parameter\"), and an invalid one can produce status code 342 (\"Invalid document\"). This is not a currency problem, but it often appears at the same time, so check it in the same review. Customers who are foreign residents often have a cédula de extranjería (CE). Other providers in Colombia accept this document, so ask dLocal how to handle it.",
+    ],
+  },
+  {
+    title: "Does the payment method support the currency?",
+    body: [
+      "Local payment methods in Colombia work in COP only. dLocal's examples for PSE (bank transfer), Nequi (wallet) and Efecty (cash) all use COP. If a payment method is not available for a combination, dLocal can return error 5010 (\"Method not available\").",
+    ],
+  },
+];
+
+const options = [
+  {
+    name: "Convert to the local currency at checkout",
+    sees: "The final amount in COP before paying",
+    risk: "The business, from the moment of conversion",
+    effort: "Medium",
+  },
+  {
+    name: "Set prices in local currency",
+    sees: "A local price, for example COP 189,900",
+    risk: "The business",
+    effort: "Medium (one price list per market)",
+  },
+  {
+    name: "Charge in USD where it is allowed",
+    sees: "A price in USD; the bank converts it",
+    risk: "The customer (and their bank's fees)",
+    effort: "Low, but depends on availability",
+  },
+  {
+    name: "Route by currency and card origin",
+    sees: "No change",
+    risk: "Depends on the route",
+    effort: "High (a second provider)",
+  },
+  {
+    name: "Validate before sending, and monitor",
+    sees: "No failed payments",
+    risk: "No change",
+    effort: "Low",
+  },
+];
+
+const providers = [
+  { name: "dLocal", currencies: "COP (USD charging only where dLocal makes it available)" },
+  { name: "EBANX", currencies: "COP" },
+  { name: "PayU Latam (through PaymentsOS)", currencies: "COP and USD; instalments only in COP" },
+  { name: "Wompi (Bancolombia)", currencies: "COP and USD" },
+  { name: "PPRO (local acquiring)", currencies: "COP" },
+];
+
+const markets = [
+  { country: "Argentina", currency: "ARS", decimals: "2", document: "DNI, CUIT or CUIL", note: "USD possible for debit cards (currency_to_charge)" },
+  { country: "Bolivia", currency: "BOB", decimals: "2", document: "CI or NIT", note: "" },
+  { country: "Brazil", currency: "BRL", decimals: "2", document: "CPF or CNPJ", note: "Full CPF validation" },
+  { country: "Chile", currency: "CLP", decimals: "0", document: "CI or RUT", note: "Whole numbers only" },
+  { country: "Colombia", currency: "COP", decimals: "0", document: "CC or NIT", note: "Whole numbers only" },
+  { country: "Ecuador", currency: "USD", decimals: "2", document: "CI", note: "USD is the official currency" },
+  { country: "Paraguay", currency: "PYG", decimals: "0", document: "CI", note: "Whole numbers only" },
+  { country: "Peru", currency: "PEN", decimals: "2", document: "DNI or RUC", note: "" },
+  { country: "Uruguay", currency: "UYU", decimals: "2", document: "CI or RUT", note: "" },
+];
+
+const faqs = [
+  {
+    question: "What does dLocal error 5004 mean?",
+    answer:
+      "Error 5004 (HTTP 400) means \"Currency not allowed for this country\". dLocal refused the request because the currency you sent is not allowed for the country of the payment. The request did not reach a bank. Send the local currency of the country (COP for Colombia), or USD only if dLocal has made it available for that country and your account.",
+  },
+  {
+    question: "Which currency should I send to dLocal for payments in Colombia?",
+    answer:
+      "Send COP. dLocal's country reference lists COP as the currency for Colombia, with 0 decimals, so send the amount as a whole number of pesos.",
+  },
+  {
+    question: "Can I charge customers in Colombia in USD with dLocal?",
+    answer:
+      "dLocal has a field, currency_to_charge, that charges the customer in USD, but only where dLocal makes it available. The documented example is debit cards in Argentina. dLocal's Colombia page lists only COP, so confirm with your dLocal account manager before you build on it.",
+  },
+  {
+    question: "Is the customer's ID number required for payments in Colombia?",
+    answer:
+      "Yes. dLocal requires a document for Colombia: a CC (cédula de ciudadanía) or a NIT, with 6 to 11 digits. A missing document can cause error 5001, and an invalid one can cause status code 342.",
+  },
+  {
+    question: "Will a different payment provider solve the currency problem?",
+    answer:
+      "Usually not. Every provider checked for this article processes local payments in Colombia in COP; some also accept USD. The rule comes from local processing itself, so the solution is in how your checkout handles currencies.",
+  },
+];
+
+const sources = [
+  { name: "dLocal Docs — Create payment (currency and currency_to_charge)", url: "https://docs.dlocal.com/reference/create-payment" },
+  { name: "dLocal Docs — Payments HTTP errors (5001, 5004, 5010)", url: "https://docs.dlocal.com/reference/http-errors-payments" },
+  { name: "dLocal Docs — Payment status codes (300 range, 342)", url: "https://docs.dlocal.com/reference/payment-status-codes" },
+  { name: "dLocal Docs — Country reference", url: "https://docs.dlocal.com/reference/country-reference" },
+  { name: "dLocal Docs — Colombia (COP, PSE, Nequi, Efecty, Bre-B)", url: "https://docs.dlocal.com/docs/colombia" },
+  { name: "dLocal Docs — Argentina (USD for debit cards)", url: "https://docs.dlocal.com/docs/argentina" },
+  { name: "dLocal Docs — Get an exchange rate", url: "https://docs.dlocal.com/api-documentation/payins-api-reference/currency-exchange" },
+  { name: "dLocal — Payins (local currency and settlement)", url: "https://www.dlocal.com/our-solution/payins/" },
+  {
+    name: "dLocal Go Help Center — Exchange rates and who pays them",
+    url: "https://helpcenter.dlocalgo.com/en/articles/7169372-what-is-the-exchange-rate-and-how-dlocal-go-apply-it",
+  },
+  {
+    name: "EBANX Docs — Colombia country overview",
+    url: "https://docs.ebanx.com/docs/pay-in/processing/payment-methods/country-specific/colombia/colombia-country-overview",
+  },
+  {
+    name: "Nexio Docs — PayU Colombia/LATAM through PaymentsOS",
+    url: "https://docs.nexiopay.com/docs/payu-colombialatam-via-paymentsos-integration-guide",
+  },
+  { name: "Yuno Docs — Wompi", url: "https://docs.y.uno/docs/wompi" },
+  { name: "PPRO Developer Hub — Colombia local acquiring", url: "https://developerhub.ppro.com/global-api/docs/colombia-local-acquiring" },
+  { name: "Finextra — Nuvei begins direct local acquiring in Colombia", url: "https://www.finextra.com/pressarticle/99723/nuvei-begins-direct-local-acquiring-in-colombia" },
+  { name: "Rapyd — Why localising payments matters", url: "https://rapyd.net/?p=38657" },
+  { name: "Rapyd — LATAM payments playbook (2026)", url: "https://www.rapyd.net/wp-content/uploads/2026/05/latam-payments-playbook.pdf" },
+  {
+    name: "Vanguardia — Bre-B after one year (October 2026)",
+    url: "https://www.vanguardia.com/economia/2026/10/06/bre-b-mueve-casi-264-billones-en-un-ano-asi-cambio-la-forma-de-transferir-dinero-en-colombia/",
+  },
+  {
+    name: "El Heraldo — Bre-B mass operation from 6 October 2025",
+    url: "https://www.elheraldo.co/economia/2025/09/19/las-llaves-de-bre-b-del-banco-de-la-republica-empezaran-su-funcion-oficial-desde-el-6-de-octubre/",
+  },
+];
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": `${canonical}#article`,
+      headline: study.title,
+      description,
+      url: canonical,
+      mainEntityOfPage: canonical,
+      inLanguage: "en",
+      datePublished: study.published,
+      dateModified: study.updated ?? study.published,
+      author: { "@id": `${site}/#person` },
+      publisher: { "@id": `${site}/#person` },
+      image: `${site}/images/case-studies/lofoten-coast-og.jpg`,
+      isPartOf: { "@id": `${hub}#page` },
+      proficiencyLevel: "Expert",
+      about: [
+        { "@type": "Organization", name: "dLocal", url: "https://www.dlocal.com/" },
+        { "@type": "Thing", name: "Multi-currency payments" },
+        { "@type": "Thing", name: "Local acquiring" },
+      ],
+      mentions: [
+        { "@type": "Organization", name: "EBANX" },
+        { "@type": "Organization", name: "PayU Latam" },
+        { "@type": "Organization", name: "Wompi" },
+        { "@type": "Organization", name: "PPRO" },
+        { "@type": "Thing", name: "Bre-B" },
+        { "@type": "Thing", name: "PSE" },
+      ],
+      spatialCoverage: [
+        { "@type": "Country", name: "Colombia" },
+        { "@type": "Place", name: "South America" },
+      ],
+      keywords: (study.tags ?? study.technologies).join(", "),
+      citation: sources.map((source) => source.url),
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: { "@type": "Answer", text: faq.answer },
+      })),
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${canonical}#breadcrumb`,
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${site}/` },
+        { "@type": "ListItem", position: 2, name: "Payment solutions", item: `${site}/payment-solutions/` },
+        { "@type": "ListItem", position: 3, name: "Case studies", item: hub },
+        { "@type": "ListItem", position: 4, name: study.title, item: canonical },
+      ],
+    },
+  ],
+};
+
+const emailHref = `mailto:matteo.visibility@gmail.com?subject=${encodeURIComponent(
+  "Currency rejections with dLocal",
+)}`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  image="/images/case-studies/lofoten-coast-og.jpg"
+>
+  <Header />
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+  <main class="cs-page">
+    <CaseStudyHero
+      crumbLabel="Case studies"
+      crumbHref="/payment-solutions/case-studies/"
+      title={study.title}
+      titleId="article-title"
+      variant="article"
+    >
+      {study.region} · {study.country} · <time datetime={study.published}>{publishedLabel}</time> ·
+      {study.readingMinutes} min read
+    </CaseStudyHero>
+
+    <article class="cs-article" aria-labelledby="article-title">
+      <p class="cs-dek">
+        Many online businesses let customers choose their currency. When those
+        businesses process payments locally in Latin America with dLocal, this
+        can fail completely. In the case behind this article, dLocal rejected
+        every currency that the checkout offered to customers in Colombia. This
+        case study explains why it happens, what dLocal's documentation says,
+        and what online businesses can do about it.
+      </p>
+
+      <dl class="cs-facts-line">
+        <div><dt>Region</dt><dd>{study.region} · {study.country} · South America</dd></div>
+        <div><dt>Topics</dt><dd>{study.technologies.join(", ")}</dd></div>
+        <div><dt>My role</dt><dd>{study.role}</dd></div>
+        <div><dt>Status</dt><dd><span class="cs-status-badge">{study.status}</span></dd></div>
+      </dl>
+
+      <aside class="cs-note" aria-label="About this case study">
+        <strong>About this case study</strong>
+        <p>
+          This case study is based on a payment investigation for a company
+          that I do not name. To protect that company, the example in this
+          article is <em>{study.illustration}</em>. The real company is in a
+          <strong>different industry</strong>. The example has the same
+          characteristics that caused the problem: a checkout with a currency
+          selector, and dLocal as the provider for local payments in Latin
+          America. The article contains no client names, figures or internal
+          details.
+        </p>
+        <p class="cs-note-open">
+          <strong>Important:</strong> at the time of writing, the problem in the
+          real case is not fully solved. This article shares the diagnosis, the
+          official documentation and the options. I will update it when the
+          solution is in place.
+        </p>
+      </aside>
+
+      <section class="cs-summary" aria-labelledby="summary-title">
+        <h2 id="summary-title">Summary</h2>
+        <ul>
+          <li>
+            dLocal processes payments in the local currency of each country.
+            For Colombia, its documentation lists one currency: the Colombian
+            peso (COP).
+          </li>
+          <li>
+            If your checkout sends dLocal the currency that the customer
+            selected, for example EUR or GBP, dLocal can refuse the request
+            before any bank sees it. The error is 5004: "Currency not allowed
+            for this country."
+          </li>
+          <li>
+            This is not a bank decline. It is a configuration problem, so it
+            can be fixed for all payments at once.
+          </li>
+          <li>
+            The fix starts by separating three currencies: the currency you
+            show, the currency you charge and the currency you receive.
+          </li>
+          <li>
+            Two related checks: send COP amounts as whole numbers, and always
+            send the customer's document number, which is required in Colombia.
+          </li>
+        </ul>
+      </section>
+
+      <nav class="cs-toc" aria-labelledby="toc-title">
+        <h2 id="toc-title">In this article</h2>
+        <ol>
+          {contents.map((item) => <li><a href={`#${item.id}`}>{item.label}</a></li>)}
+        </ol>
+      </nav>
+
+      <!-- 1 -->
+      <section id="example" aria-labelledby="example-title">
+        <h2 id="example-title">The example: a language school with a currency selector</h2>
+        <p>
+          In this example, an online language school sells course packages to
+          students in many countries. The website has a currency selector:
+          students can see prices in USD, EUR, GBP, MXN or BRL. For students in
+          Latin America, the school uses dLocal to accept local cards and local
+          payment methods.
+        </p>
+        <p>
+          A student in Bogotá selects EUR and pays with a Colombian card. The
+          website sends the payment to dLocal with the country CO and the
+          currency EUR, and dLocal refuses it. Whatever currency the student
+          selects, the result is the same. In the real case behind this
+          article, this happened with every currency that the checkout offered.
+        </p>
+        <p class="cs-bridge">
+          To understand why, it is useful to look at how dLocal works, and how
+          it differs from a global payment provider.
+        </p>
+      </section>
+
+      <!-- 2 -->
+      <section id="local" aria-labelledby="local-title">
+        <h2 id="local-title">Why dLocal works with local currencies</h2>
+        <p>
+          dLocal is a payment provider for emerging markets. Its model is local
+          processing: the customer pays in the local currency with local
+          payment methods, dLocal collects the money in that country, converts
+          it, and pays the business in the currency that the business chooses,
+          for example USD, EUR or GBP.
+        </p>
+        <p>
+          Local processing has a clear advantage in Latin America. Many local
+          cards are not enabled for international payments, and payments
+          processed across borders are declined more often. Rapyd, another
+          payment provider, reports that approval rates for local cards can
+          rise from 20–45% with offshore processing to 80% or more with local
+          processing. The exact numbers depend on the market and the business,
+          but the direction is consistent across the industry.
+        </p>
+        <p>
+          The consequence is simple: local processing means paying in the local
+          currency. In Colombia, local cards, PSE bank transfers, the Nequi
+          wallet and Efecty cash payments all work in Colombian pesos.
+        </p>
+        <p class="cs-bridge">
+          This is the core of the problem. A checkout that lets the customer
+          choose the currency is built on a different model.
+        </p>
+      </section>
+
+      <!-- 3 -->
+      <section id="three-currencies" aria-labelledby="three-title">
+        <h2 id="three-title">Three currencies that are often mixed up</h2>
+        <p>
+          Every international payment involves three currencies. In many
+          checkouts they are the same, so the system stores only one. With
+          local processing, they must be separate.
+        </p>
+
+        <figure class="cs-currency-flow" aria-labelledby="flow-title">
+          <figcaption id="flow-title">One payment, three currencies <span>(example)</span></figcaption>
+          <ol>
+            <li>
+              <span class="cs-currency-kind">1 · Display currency</span>
+              <strong>EUR</strong>
+              <small>What the customer sees. The customer chooses it.</small>
+            </li>
+            <li>
+              <span class="cs-currency-kind">2 · Processing currency</span>
+              <strong>COP</strong>
+              <small>What is sent to dLocal and charged. The country decides it.</small>
+            </li>
+            <li>
+              <span class="cs-currency-kind">3 · Settlement currency</span>
+              <strong>USD</strong>
+              <small>What the business receives. The contract decides it.</small>
+            </li>
+          </ol>
+        </figure>
+
+        <p>
+          The display currency (also called the presentment currency) can be
+          anything you want to show. The processing currency must follow the
+          rules of the country: COP for Colombia, or USD only if dLocal has made
+          it available. The settlement currency is agreed in your contract with
+          dLocal.
+        </p>
+        <p class="cs-bridge">
+          If the system has only one currency field, it sends the display
+          currency to dLocal. This is what happened in the example. The next
+          section shows the rules that dLocal documents.
+        </p>
+      </section>
+
+      <!-- 4 -->
+      <section id="docs" aria-labelledby="docs-title">
+        <h2 id="docs-title">What dLocal's documentation says</h2>
+        <p>
+          The following points come from dLocal's official API documentation.
+          Together, they explain the rejections.
+        </p>
+        <figure class="cs-facts" aria-labelledby="docs-facts-title">
+          <figcaption id="docs-facts-title">dLocal: currency rules for Colombia</figcaption>
+          <dl>
+            {
+              docFacts.map((fact) => (
+                <div>
+                  <dt>{fact.label}</dt>
+                  <dd>{fact.value}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </figure>
+        <p class="cs-bridge">
+          With these rules in mind, it is possible to diagnose the problem step
+          by step.
+        </p>
+      </section>
+
+      <!-- 5 -->
+      <section id="diagnose" aria-labelledby="diagnose-title">
+        <h2 id="diagnose-title">How to diagnose the problem: five checks</h2>
+        <p>
+          When payments to a market fail, I use the same five checks, in this
+          order. The first check decides who must fix the problem. The other
+          four find the exact cause.
+        </p>
+        {
+          checks.map((check, index) => (
+            <div class="cs-point">
+              <h3>
+                <span class="cs-point-number">Check {index + 1}</span>
+                {check.title}
+              </h3>
+              {check.body.map((paragraph) => <p>{paragraph}</p>)}
+            </div>
+          ))
+        }
+        <p class="cs-bridge">
+          When these checks show a currency problem, there are five ways to
+          solve it. Most businesses combine two or three of them.
+        </p>
+      </section>
+
+      <!-- 6 -->
+      <section id="solve" aria-labelledby="solve-title">
+        <h2 id="solve-title">How to solve it: five options</h2>
+
+        <div class="cs-point">
+          <h3><span class="cs-point-number">Option 1</span> Convert to the local currency at checkout</h3>
+          <p>
+            This is the most common solution. Keep the currency selector for
+            browsing. When the customer pays with a Colombian card or a local
+            payment method, convert the price to COP, show the final amount
+            clearly ("You will pay COP 228,432"), and send COP to dLocal.
+          </p>
+          <p>
+            Two details matter. First, the exchange rate: dLocal's exchange
+            rate endpoint only converts from USD to a local currency, so a price
+            in EUR needs another rate source, or a base price in USD. Second,
+            keep a record of the original price, the rate and the COP amount for
+            each order. You will need them for refunds and accounting.
+          </p>
+          <p class="cs-bridge">If you sell a lot in one market, you can go one step further.</p>
+        </div>
+
+        <div class="cs-point">
+          <h3><span class="cs-point-number">Option 2</span> Set prices in the local currency</h3>
+          <p>
+            For important markets, create a price list in COP, with local price
+            points such as COP 189,900 instead of an exact conversion. Customers
+            see a familiar price and no conversion surprise. The trade-off is
+            the exchange rate risk. dLocal Go explains it simply: when a price
+            is set in USD, the customer carries the conversion cost; when it is
+            set in the local currency, the business does.
+          </p>
+          <p class="cs-bridge">Some businesses prefer to keep prices in USD. That is possible in some cases.</p>
+        </div>
+
+        <div class="cs-point">
+          <h3><span class="cs-point-number">Option 3</span> Charge in USD where it is allowed</h3>
+          <p>
+            dLocal has a field, <code>currency_to_charge</code>, that charges
+            the customer in USD. The documentation says to check availability
+            by country, and the documented example is debit cards in Argentina.
+            dLocal's Colombia page lists only COP, so confirm with your account
+            manager before you design around this option. Also remember that
+            the customer's bank converts the amount and may add its own fees.
+          </p>
+          <p class="cs-bridge">
+            Some customers really need to pay in a foreign currency. For them,
+            routing is the answer.
+          </p>
+        </div>
+
+        <div class="cs-point">
+          <h3><span class="cs-point-number">Option 4</span> Route by currency and card origin</h3>
+          <p>
+            Build a simple capability table: for each provider, country, payment
+            method and currency, is the combination allowed? Before sending a
+            payment, check the table. A Colombian card goes to local processing
+            in COP. A customer who wants to pay in EUR with a European card goes
+            to a global provider that supports EUR. The first six to eight
+            digits of a card number (the BIN) tell you the country where the
+            card was issued.
+          </p>
+          <p class="cs-bridge">Whatever option you choose, the last one is always needed.</p>
+        </div>
+
+        <div class="cs-point">
+          <h3><span class="cs-point-number">Option 5</span> Validate before you send, and monitor</h3>
+          <p>
+            Do not use the payment provider as your validator. Check the
+            country, currency, amount format and document before you send the
+            request. Track error 5004 as its own number, and create an alert
+            when it rises. Test every combination of country, currency and
+            payment method in dLocal's sandbox before you launch a market.
+          </p>
+        </div>
+
+        <figure class="cs-compare" aria-labelledby="compare-title">
+          <figcaption id="compare-title">The five options compared</figcaption>
+          <div class="cs-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Option</th>
+                  <th scope="col">What the customer sees</th>
+                  <th scope="col">Who carries the exchange rate risk</th>
+                  <th scope="col">Effort</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  options.map((option) => (
+                    <tr>
+                      <th scope="row">{option.name}</th>
+                      <td>{option.sees}</td>
+                      <td>{option.risk}</td>
+                      <td>{option.effort}</td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        </figure>
+
+        <p class="cs-bridge">
+          These options all work with dLocal. To see whether the problem is
+          specific to dLocal, it is useful to compare other providers.
+        </p>
+      </section>
+
+      <!-- 7 -->
+      <section id="providers" aria-labelledby="providers-title">
+        <h2 id="providers-title">How other providers handle currency in Colombia</h2>
+        <p>
+          The short answer: every provider checked for this article processes
+          local payments in Colombia in COP. Some also accept USD.
+        </p>
+        <figure class="cs-compare" aria-labelledby="providers-table-title">
+          <figcaption id="providers-table-title">Currencies for Colombia, as documented</figcaption>
+          <div class="cs-table-wrap">
+            <table class="cs-table-narrow">
+              <thead>
+                <tr>
+                  <th scope="col">Provider</th>
+                  <th scope="col">Currencies for Colombia</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  providers.map((provider) => (
+                    <tr>
+                      <th scope="row">{provider.name}</th>
+                      <td>{provider.currencies}</td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        </figure>
+        <p>
+          Global providers are also moving to local processing in Colombia.
+          Nuvei, for example, started direct local acquiring in the country in
+          2024. The lesson is clear: changing provider does not remove the rule.
+          It is a property of local processing in Colombia, not a limitation of
+          one provider. The solution is in how your checkout handles
+          currencies.
+        </p>
+        <p class="cs-bridge">
+          The same rule applies in the rest of South America, with a few
+          differences.
+        </p>
+      </section>
+
+      <!-- 8 -->
+      <section id="south-america" aria-labelledby="sa-title">
+        <h2 id="sa-title">The same rule in other South American markets</h2>
+        <p>
+          dLocal's country reference shows one processing currency per country,
+          and a document requirement in all of them.
+        </p>
+        <figure class="cs-compare" aria-labelledby="markets-title">
+          <figcaption id="markets-title">South America in dLocal's country reference</figcaption>
+          <div class="cs-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Country</th>
+                  <th scope="col">Currency</th>
+                  <th scope="col">Decimals</th>
+                  <th scope="col">Customer document</th>
+                  <th scope="col">Note</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  markets.map((market) => (
+                    <tr class:list={[market.country === "Colombia" && "is-highlight"]}>
+                      <th scope="row">{market.country}</th>
+                      <td>{market.currency}</td>
+                      <td>{market.decimals}</td>
+                      <td>{market.document}</td>
+                      <td>{market.note}</td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        </figure>
+        <p>Three patterns stand out:</p>
+        <ul class="cs-plain-list">
+          <li>Each country has one processing currency. Ecuador is the exception that proves the rule: its official currency is the US dollar.</li>
+          <li>Chile, Colombia and Paraguay use 0 decimals. A converter that always produces two decimals needs a rule per country.</li>
+          <li>Every country requires a customer document, each with its own format.</li>
+        </ul>
+        <p class="cs-bridge">
+          Looking ahead, a change in Colombia makes local currency even more
+          important.
+        </p>
+      </section>
+
+      <!-- 9 -->
+      <section id="bre-b" aria-labelledby="breb-title">
+        <h2 id="breb-title">Looking ahead: Bre-B, Colombia's instant payment system</h2>
+        <p>
+          Colombia's central bank started the mass operation of Bre-B, its
+          instant payment system, on 6 October 2025. In its first year, Bre-B
+          reached 36.1 million clients and 1,796 million transactions. dLocal
+          already lists Bre-B among its payment methods in Colombia.
+        </p>
+        <p>
+          Like Pix in Brazil, Bre-B confirms payments in seconds, and it works
+          in COP. For a business that already processes in COP, adding Bre-B
+          later is a small step. For a business whose checkout cannot handle
+          COP, it is out of reach.
+        </p>
+        <p class="cs-bridge">This brings the article back to its main point.</p>
+      </section>
+
+      <!-- 10 -->
+      <section id="conclusion" aria-labelledby="conclusion-title">
+        <h2 id="conclusion-title">Conclusion and next steps</h2>
+        <p class="cs-takeaway">
+          Your checkout can show many currencies. A payment request for a local
+          market can use only the currencies that the market allows. Separate
+          the currency you show from the currency you charge, and check every
+          combination of country, currency and payment method before you send
+          it.
+        </p>
+        <p>For the real case, the next steps that I recommend are:</p>
+        <ol class="cs-plain-list cs-plain-list--numbered">
+          <li>Confirm with dLocal which currencies are enabled for the account in each country, including USD.</li>
+          <li>Add a processing currency to the order model, separate from the display currency.</li>
+          <li>Choose between option 1 (convert at checkout) and option 2 (local price lists) for the largest markets.</li>
+          <li>Add validation and monitoring for error 5004 before the next market launch.</li>
+        </ol>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq" class="cs-faq" aria-labelledby="faq-title">
+        <h2 id="faq-title">Frequently asked questions</h2>
+        {
+          faqs.map((faq) => (
+            <details>
+              <summary>{faq.question}</summary>
+              <p>{faq.answer}</p>
+            </details>
+          ))
+        }
+      </section>
+
+      <section class="cs-topics" aria-labelledby="topics-title">
+        <h2 id="topics-title">Topics</h2>
+        <ul class="cs-item-tags">
+          {(study.tags ?? []).map((tag) => <li>{tag}</li>)}
+        </ul>
+      </section>
+
+      <section class="cs-contact" aria-label="Contact">
+        <p>
+          Do you process payments in Latin America with dLocal or another local
+          provider, and do you see refused requests or low approval rates? I
+          can help you find the cause.
+        </p>
+        <div class="cs-closing-links">
+          <a href={emailHref}>matteo.visibility@gmail.com</a>
+          <a href="/payment-solutions/">How I help with payments →</a>
+        </div>
+      </section>
+
+      <section class="cs-sources" aria-labelledby="sources-title">
+        <h2 id="sources-title">Sources</h2>
+        <ol>
+          {
+            sources.map((source) => (
+              <li>
+                <a href={source.url} target="_blank" rel="noopener noreferrer">{source.name}</a>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <a class="cs-back" href="/payment-solutions/case-studies/">← All case studies</a>
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>

@@ -22,6 +22,10 @@ export type PaymentCaseStudy = {
   published: string; // ISO date
   updated?: string; // ISO date
   readingMinutes: number;
+  /** Shown when a case is still open, e.g. "Open: investigation ongoing". */
+  status?: string;
+  /** Extra search topics, shown on the article and used in structured data. */
+  tags?: string[];
 };
 
 export const paymentCaseStudies: PaymentCaseStudy[] = [
@@ -37,14 +41,51 @@ export const paymentCaseStudies: PaymentCaseStudy[] = [
     role: "Integration support",
     published: "2026-10-30",
     readingMinutes: 11,
+    tags: ["OXXO Pay", "Cash payments Mexico", "Payment webhooks", "Refunds", "SPEI", "CoDi", "DiMo", "Spin by OXXO"],
+  },
+  {
+    slug: "dlocal-currency-rejections-colombia",
+    title: "How to fix currency rejections when you process payments with dLocal in Colombia and South America",
+    summary:
+      "A checkout offered many currencies, and dLocal rejected all of them for customers in Colombia. This case study explains why, what dLocal's documentation says, and the options that online businesses use.",
+    region: "LATAM",
+    country: "Colombia",
+    technologies: ["dLocal", "Multi-currency", "Local acquiring", "FX"],
+    illustration: "a fictional online language school",
+    role: "Payment investigation",
+    published: "2026-10-30",
+    readingMinutes: 14,
+    status: "Open: investigation ongoing",
+    tags: [
+      "dLocal",
+      "dLocal error 5004",
+      "Colombia",
+      "COP",
+      "South America",
+      "Presentment currency",
+      "Settlement currency",
+      "Local acquiring",
+      "PSE",
+      "Nequi",
+      "Bre-B",
+    ],
   },
 ];
 
 /** Every region and technology that appears in at least one case, in a stable order. */
-export const caseRegions = [...new Set(paymentCaseStudies.map((item) => item.region))].sort();
+const byName = (a: string, b: string) => a.localeCompare(b, "en", { sensitivity: "base" });
+
+export const caseRegions = [...new Set(paymentCaseStudies.map((item) => item.region))].sort(byName);
 export const caseTechnologies = [
   ...new Set(paymentCaseStudies.flatMap((item) => item.technologies)),
-].sort();
+].sort(byName);
+
+/** Newest first; cases published on the same day keep the order of this file, newest last. */
+export const sortedPaymentCaseStudies = () =>
+  paymentCaseStudies
+    .map((item, index) => ({ item, index }))
+    .sort((a, b) => b.item.published.localeCompare(a.item.published) || b.index - a.index)
+    .map(({ item }) => item);
 
 export const slugify = (value: string) =>
   value

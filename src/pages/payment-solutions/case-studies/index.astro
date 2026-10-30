@@ -4,7 +4,7 @@ import Header from "../../../components/Header.astro";
 import Footer from "../../../components/Footer.astro";
 import CaseStudyHero from "../../../components/CaseStudyHero.astro";
 import {
-  paymentCaseStudies,
+  sortedPaymentCaseStudies,
   caseRegions,
   caseTechnologies,
   slugify,
@@ -18,7 +18,7 @@ const title = "Payment Case Studies | Matteo Arellano";
 const description =
   "Anonymised payment case studies: what went wrong, why it went wrong and how to solve it. Filter by region and payment technology.";
 
-const cases = [...paymentCaseStudies].sort((a, b) => b.published.localeCompare(a.published));
+const cases = sortedPaymentCaseStudies();
 
 const countBy = (test: (item: (typeof cases)[number]) => boolean) => cases.filter(test).length;
 
@@ -182,6 +182,7 @@ const structuredData = {
               <a href={`/payment-solutions/case-studies/${item.slug}/`}>
                 <span class="cs-item-number">{String(cases.length - index).padStart(2, "0")}</span>
                 <div class="cs-item-body">
+                  {item.status && <p class="cs-status-badge">{item.status}</p>}
                   <h3>{item.title}</h3>
                   <p class="cs-item-summary">{item.summary}</p>
                   <ul class="cs-item-tags" aria-label="Region and technology">
