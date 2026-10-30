@@ -1,0 +1,215 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+import CaseStudyLandscape from "../../../components/CaseStudyLandscape.astro";
+import {
+  paymentCaseStudies,
+  caseRegions,
+  caseTechnologies,
+  slugify,
+} from "../../../data/paymentCaseStudies";
+import "../../../styles/growth-platform.css";
+import "../../../styles/case-studies.css";
+
+const site = "https://matteoarellano.com";
+const canonical = `${site}/payment-solutions/case-studies/`;
+const title = "Payment Case Studies | Matteo Arellano";
+const description =
+  "Anonymised payment case studies: what broke, why it broke and what to do about it. Filter by region and payment technology.";
+
+const cases = [...paymentCaseStudies].sort((a, b) => b.published.localeCompare(a.published));
+
+const formatDate = (iso: string) =>
+  new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-GB", {
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": `${canonical}#page`,
+      url: canonical,
+      name: title,
+      description,
+      inLanguage: "en",
+      isPartOf: { "@id": `${site}/#website` },
+      author: { "@id": `${site}/#person` },
+      breadcrumb: { "@id": `${canonical}#breadcrumb` },
+      mainEntity: {
+        "@type": "ItemList",
+        numberOfItems: cases.length,
+        itemListElement: cases.map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          url: `${canonical}${item.slug}/`,
+          name: item.title,
+        })),
+      },
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${canonical}#breadcrumb`,
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${site}/` },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Payment solutions",
+          item: `${site}/payment-solutions/`,
+        },
+        { "@type": "ListItem", position: 3, name: "Case studies", item: canonical },
+      ],
+    },
+  ],
+};
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} image="/images/card-preview.jpg">
+  <Header />
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+  <main class="cs-page">
+    <section class="cs-hero" aria-labelledby="cs-title">
+      <CaseStudyLandscape />
+      <div class="cs-hero-inner">
+        <a class="cs-crumb" href="/payment-solutions/">Payment solutions</a>
+        <h1 id="cs-title">Case studies</h1>
+        <span class="cs-rule" aria-hidden="true"></span>
+        <p class="cs-pill">Anonymised · insight-led</p>
+      </div>
+    </section>
+
+    <section class="cs-shell cs-intro">
+      <p>
+        Real payment problems, told without the client. Each case explains
+        what broke, why it broke and what I would do about it. Where the real
+        business could be recognised, the example moves to a different
+        industry with the same mechanics, and the case says so.
+      </p>
+    </section>
+
+    <nav class="cs-shell cs-filters" aria-label="Filter case studies" data-cs-filters hidden>
+      <div class="cs-filter-row" role="group" aria-label="Filter by region">
+        <span class="cs-filter-label">Region</span>
+        <button type="button" data-cs-filter="region" data-value="all" aria-pressed="true">All</button>
+        {
+          caseRegions.map((region) => (
+            <button type="button" data-cs-filter="region" data-value={slugify(region)} aria-pressed="false">
+              {region}
+            </button>
+          ))
+        }
+      </div>
+      <div class="cs-filter-row" role="group" aria-label="Filter by technology">
+        <span class="cs-filter-label">Technology</span>
+        <button type="button" data-cs-filter="tech" data-value="all" aria-pressed="true">All</button>
+        {
+          caseTechnologies.map((tech) => (
+            <button type="button" data-cs-filter="tech" data-value={slugify(tech)} aria-pressed="false">
+              {tech}
+            </button>
+          ))
+        }
+      </div>
+    </nav>
+
+    <section class="cs-shell" aria-label="Case studies">
+      <ol class="cs-list">
+        {
+          cases.map((item, index) => (
+            <li
+              class="cs-item"
+              data-cs-item
+              data-region={slugify(item.region)}
+              data-tech={item.technologies.map(slugify).join(" ")}
+            >
+              <a href={`/payment-solutions/case-studies/${item.slug}/`}>
+                <span class="cs-item-number">{String(cases.length - index).padStart(2, "0")}</span>
+                <div class="cs-item-body">
+                  <h2>{item.title}</h2>
+                  <p class="cs-item-summary">{item.summary}</p>
+                  <p class="cs-item-meta">
+                    {item.region} · {item.country} · {item.technologies.join(" · ")} ·{" "}
+                    <time datetime={item.published}>{formatDate(item.published)}</time>
+                  </p>
+                </div>
+                <span class="cs-item-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+
+      <p class="cs-empty" data-cs-empty hidden>
+        No case studies match these filters yet.
+        <button type="button" data-cs-reset>Clear filters</button>
+      </p>
+      <p class="cs-status" role="status" aria-live="polite" data-cs-status></p>
+    </section>
+
+    <section class="cs-shell cs-closing">
+      <p>Have a payment problem that sounds familiar?</p>
+      <div class="cs-closing-links">
+        <a href="mailto:matteo.visibility@gmail.com?subject=Payment%20problem">matteo.visibility@gmail.com</a>
+        <a href="/payment-solutions/">How I help with payments →</a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<script>
+  const filters = document.querySelector<HTMLElement>("[data-cs-filters]");
+  const items = Array.from(document.querySelectorAll<HTMLElement>("[data-cs-item]"));
+  const empty = document.querySelector<HTMLElement>("[data-cs-empty]");
+  const status = document.querySelector<HTMLElement>("[data-cs-status]");
+  const state: Record<string, string> = { region: "all", tech: "all" };
+
+  // Filters appear only with JavaScript; without it every case is listed.
+  filters?.removeAttribute("hidden");
+
+  function render() {
+    let visible = 0;
+    items.forEach((item) => {
+      const regionOk = state.region === "all" || item.dataset.region === state.region;
+      const techOk =
+        state.tech === "all" || (item.dataset.tech ?? "").split(" ").includes(state.tech);
+      item.hidden = !(regionOk && techOk);
+      if (!item.hidden) visible += 1;
+    });
+
+    document.querySelectorAll<HTMLButtonElement>("[data-cs-filter]").forEach((button) => {
+      const group = button.dataset.csFilter ?? "";
+      button.setAttribute("aria-pressed", String(state[group] === button.dataset.value));
+    });
+
+    if (empty) empty.hidden = visible > 0;
+    if (status) {
+      status.textContent =
+        state.region === "all" && state.tech === "all"
+          ? ""
+          : `${visible} of ${items.length} case ${items.length === 1 ? "study" : "studies"} shown.`;
+    }
+  }
+
+  document.addEventListener("click", (event) => {
+    const target = event.target as HTMLElement;
+    const button = target.closest<HTMLButtonElement>("[data-cs-filter]");
+    if (button) {
+      state[button.dataset.csFilter ?? ""] = button.dataset.value ?? "all";
+      render();
+    }
+    if (target.closest("[data-cs-reset]")) {
+      state.region = "all";
+      state.tech = "all";
+      render();
+    }
+  });
+</script>
