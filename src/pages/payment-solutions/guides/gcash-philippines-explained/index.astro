@@ -1,0 +1,1143 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import Header from "../../../../components/Header.astro";
+import Footer from "../../../../components/Footer.astro";
+import CaseStudyHero from "../../../../components/CaseStudyHero.astro";
+import { getPaymentGuide } from "../../../../data/paymentGuides";
+import "../../../../styles/growth-platform.css";
+import "../../../../styles/case-studies.css";
+
+const slug = "gcash-philippines-explained";
+const guide = getPaymentGuide(slug);
+if (!guide) throw new Error(`Guide not found: ${slug}`);
+
+const site = "https://matteoarellano.com";
+const canonical = `${site}/payment-solutions/guides/${slug}/`;
+const title = "How GCash Works: Accepting GCash Payments and Fixing Failures | Guide";
+const description = guide.summary;
+
+const publishedLabel = new Date(`${guide.published}T00:00:00Z`).toLocaleDateString("en-GB", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+});
+
+/* ---------- Key facts ---------- */
+
+const facts = [
+  { label: "What it is", value: "A mobile wallet (e-money) app for the Philippines" },
+  { label: "Operator", value: "G-Xchange, Inc., a subsidiary of Mynt (Globe Fintech Innovations)" },
+  { label: "Regulator", value: "Bangko Sentral ng Pilipinas (BSP), the central bank" },
+  { label: "Launched", value: "October 2004, as an SMS money-transfer service" },
+  { label: "Monthly active users", value: "40.4 million (March 2026), about 55% of Filipino adults" },
+  { label: "Merchants", value: "2.1 million QR Ph merchants (March 2026)" },
+  { label: "Currency", value: "Philippine peso (PHP) only" },
+];
+
+/* ---------- History ---------- */
+
+const timeline = [
+  {
+    year: "2004",
+    text: "Globe Telecom launches GCash as an SMS service to send money by text message. At the time, about 80% of Filipinos had no bank account. It was Globe's answer to Smart Padala, a rival service from Smart Communications.",
+  },
+  {
+    year: "2009",
+    text: "The central bank publishes its first rules for electronic money (BSP Circular 649). Non-bank companies that issue e-money, including Globe's G-Xchange for GCash, must register with the BSP.",
+  },
+  {
+    year: "2012",
+    text: "GCash becomes a smartphone app, with money transfers, mobile load and bill payments.",
+  },
+  {
+    year: "2015",
+    text: "Mynt is created as the parent company of GCash, a partnership of Globe Telecom, Ayala Corporation and Ant Financial (now Ant Group, the company behind Alipay).",
+  },
+  {
+    year: "2019",
+    text: "The BSP creates QR Ph, one national QR code standard, so that any bank or wallet app can pay any participating merchant.",
+  },
+  {
+    year: "2021",
+    text: "Through Alipay+, GCash users start to pay at merchants abroad, beginning with Japan. By 2026, GCash is accepted at Alipay+ merchants in more than 45 markets.",
+  },
+  {
+    year: "2026",
+    text: "Mynt lists on the Philippine Stock Exchange on 20 October 2026, under the ticker GCASH.",
+  },
+];
+
+/* ---------- Terms ---------- */
+
+const terms = [
+  {
+    term: "E-money and e-wallet",
+    meaning: "E-money is money stored electronically by a licensed company. An e-wallet is the app where a person keeps it.",
+    example: "Ana puts ₱2,000 in cash into her GCash wallet at a partner store. Her app now shows a balance of ₱2,000 in e-money.",
+  },
+  {
+    term: "EMI (electronic money issuer)",
+    meaning: "A company licensed by the BSP to issue e-money. GCash's operator, G-Xchange, is an EMI, not a bank.",
+    example: "Money in GCash is not a bank deposit, so it is not covered by the deposit insurance (PDIC) that protects bank accounts.",
+  },
+  {
+    term: "Verification level (KYC)",
+    meaning: "How well GCash knows the user. Basic users registered with a mobile number only; Fully Verified users also submitted a government ID and a selfie.",
+    example: "A Basic user can hold at most ₱10,000. A Fully Verified user can hold up to ₱100,000.",
+  },
+  {
+    term: "Wallet and transaction limits",
+    meaning: "Caps on how much a user can hold, receive and spend. They depend on the verification level and reset on the first day of each month.",
+    example: "Ben has a Basic account. He tries to pay ₱12,000 for a phone. The payment cannot succeed, because his wallet cannot even hold that amount.",
+  },
+  {
+    term: "OTP",
+    meaning: "A one-time password: a short code sent by SMS to the user's registered mobile number to confirm that it is really them.",
+    example: "Carla starts a payment on a laptop. GCash sends a 6-digit code to her phone, and she types it in to continue.",
+  },
+  {
+    term: "MPIN",
+    meaning: "The user's personal PIN for GCash, like a bank card PIN. It is entered to approve a payment.",
+    example: "After the OTP, Carla enters her MPIN. If she enters it wrong too many times, her access can be locked for a while.",
+  },
+  {
+    term: "Cash-in",
+    meaning: "Adding money to a GCash wallet: at a partner store, from a bank account, or from another GCash user.",
+    example: "Dan's balance is too low for a ₱1,500 order. He cashes in ₱1,000 from his bank, then pays.",
+  },
+  {
+    term: "Payment gateway",
+    meaning: "A company that connects your website to many payment methods, including GCash, through one integration. It collects the money and pays it to your bank account.",
+    example: "PayMongo, Xendit, Adyen and Checkout.com are gateways that offer GCash.",
+  },
+  {
+    term: "Redirect and deep link",
+    meaning: "A redirect sends the customer from your page to a GCash page. A deep link opens the GCash app directly on the phone.",
+    example: "On a laptop, Eva sees a GCash web page. On her phone, the GCash app opens instead.",
+  },
+  {
+    term: "Webhook",
+    meaning: "A message that the gateway sends to your server when the payment status changes. It is the reliable signal that a payment succeeded or failed.",
+    example: "Twenty seconds after Eva approves, your server receives a message: \"payment succeeded, order 4512\".",
+  },
+  {
+    term: "Expiry",
+    meaning: "The time the customer has to approve the payment. After it, the payment request is closed and a new one is needed.",
+    example: "With one gateway the limit is 15 minutes. Fely leaves to cash in at a store and comes back after 25 minutes: the request has expired.",
+  },
+  {
+    term: "Settlement and MDR",
+    meaning: "Settlement is when the gateway pays the money to your bank account. MDR (merchant discount rate) is the fee deducted per payment.",
+    example: "A customer pays ₱1,000. With a 2.23% MDR, the fee is ₱22.30 plus VAT, and the rest is settled to you some days later.",
+  },
+  {
+    term: "Void and refund",
+    meaning: "A void cancels a payment before it is finalised. A refund sends money back after the payment succeeded.",
+    example: "Gio returns a jacket. The shop refunds ₱1,800 to his GCash wallet through the gateway.",
+  },
+  {
+    term: "QR Ph, InstaPay and PESONet",
+    meaning: "The Philippines' national payment rails. QR Ph is the shared QR code standard, InstaPay moves money in real time, and PESONet moves larger amounts in batches.",
+    example: "A café shows one QR Ph code. Customers pay it with GCash, Maya or a bank app, and the money moves through InstaPay.",
+  },
+];
+
+/* ---------- Infrastructure ---------- */
+
+const parties = [
+  {
+    kind: "1 · Customer",
+    name: "GCash app",
+    detail: "On the customer's phone. Logs in with a mobile number, OTP and MPIN. Has a balance and limits.",
+  },
+  {
+    kind: "2 · Wallet",
+    name: "GCash (G-Xchange)",
+    detail: "Holds the e-money, checks balance, limits and security, and approves or declines.",
+  },
+  {
+    kind: "3 · Gateway",
+    name: "PayMongo, Xendit, Adyen…",
+    detail: "Creates the payment request, receives GCash's answer and informs you. Settles the money to your bank.",
+  },
+  {
+    kind: "4 · Your business",
+    name: "Website and server",
+    detail: "Shows the checkout, sends the customer to GCash, waits for the webhook and confirms the order.",
+  },
+];
+
+const routes = [
+  {
+    name: "Payment gateway",
+    examples: "PayMongo, Xendit, HitPay, Maya Business",
+    bestFor: "Most Philippine businesses, online stores, payment links",
+    notes: "Self-service onboarding. Plugins for Shopify and WooCommerce. Settles in PHP to a Philippine bank account.",
+  },
+  {
+    name: "Global payment provider",
+    examples: "Adyen, Checkout.com, Antom (Alipay+)",
+    bestFor: "International companies that already use one provider in many countries",
+    notes: "One contract for many markets. Some routes go through Alipay+ and require Alipay+ and GCash logos at checkout.",
+  },
+  {
+    name: "Direct with GCash",
+    examples: "GCash for Business, GCash API",
+    bestFor: "Large merchants and selected partners",
+    notes: "GCash for Business offers QR codes, terminals and online gateways after merchant onboarding. API access is reported to be limited to selected partners, through a GCash account manager.",
+  },
+];
+
+/* ---------- Code examples (simplified) ---------- */
+
+const codeCreate = `POST /payment_requests        (Xendit, simplified)
+
+{
+  "reference_id": "ORDER-2026-004512",
+  "type": "PAY",
+  "country": "PH",
+  "currency": "PHP",
+  "request_amount": 2499,
+  "capture_method": "AUTOMATIC",
+  "channel_code": "GCASH",
+  "channel_properties": {
+    "success_return_url": "https://www.example.com/order/4512/thanks",
+    "failure_return_url": "https://www.example.com/order/4512/retry"
+  }
+}`;
+
+const codeResponse = `{
+  "payment_request_id": "pr-7c1e…",
+  "reference_id": "ORDER-2026-004512",
+  "status": "REQUIRES_ACTION",
+  "actions": [
+    {
+      "type": "REDIRECT_CUSTOMER",
+      "descriptor": "WEB_URL",
+      "value": "https://…"
+    }
+  ]
+}`;
+
+const codeWebhookSuccess = `{
+  "event": "payment.capture",
+  "data": {
+    "payment_request_id": "pr-7c1e…",
+    "reference_id": "ORDER-2026-004512",
+    "status": "SUCCEEDED",
+    "currency": "PHP",
+    "channel_code": "GCASH"
+  }
+}`;
+
+const codeWebhookFailure = `{
+  "event": "payment.failure",
+  "data": {
+    "payment_request_id": "pr-9d4a…",
+    "reference_id": "ORDER-2026-004513",
+    "status": "FAILED",
+    "failure_code": "USER_DID_NOT_AUTHORIZE"
+  }
+}`;
+
+/* ---------- Provider facts ---------- */
+
+const providerFacts = [
+  { label: "Currency", xendit: "PHP only", adyen: "PHP only", paymongo: "PHP only" },
+  { label: "Amount per payment", xendit: "₱1 to ₱100,000", adyen: "Not stated on the page", paymongo: "Below ₱100,000 (error AMOUNT_EXCEED_LIMIT above it)" },
+  { label: "Time to approve", xendit: "15 minutes", adyen: "30 minutes by default", paymongo: "Payment must be created within 1 hour of approval" },
+  { label: "Desktop and mobile", xendit: "Web URL on desktop, deep link on mobile", adyen: "Redirect to GCash; recurring on web uses a QR code", paymongo: "Checkout URL" },
+  { label: "Refunds", xendit: "Full and partial, up to 180 days", adyen: "Full, partial and multiple partial", paymongo: "Full and partial, up to 180 days" },
+  { label: "Settlement", xendit: "T+2 calendar days", adyen: "Per contract", paymongo: "2 to 7 days" },
+];
+
+/* ---------- Limits ---------- */
+
+const limits = [
+  { profile: "Basic", wallet: "₱10,000", incoming: "₱5,000", outgoingMonth: "₱5,000" },
+  { profile: "Fully Verified", wallet: "₱100,000", incoming: "₱100,000", outgoingMonth: "No monthly cap (₱100,000 per day)" },
+  { profile: "GCash Plus", wallet: "₱500,000", incoming: "₱500,000", outgoingMonth: "No monthly cap (₱100,000 per day)" },
+];
+
+/* ---------- Mistakes ---------- */
+
+const mistakes = [
+  {
+    title: "Treating the return page as proof of payment",
+    text: "The customer can reach your \"thank you\" page without a completed payment, or never reach it after a completed one, for example when the phone switches apps. Only the webhook, or a status check with the gateway, confirms a payment.",
+  },
+  {
+    title: "Ignoring the customer's limits",
+    text: "A Basic user cannot pay more than their small monthly limit, and Xendit and PayMongo do not accept GCash payments above ₱100,000. If your average order is high, many \"failed\" payments are limits, not technical errors.",
+  },
+  {
+    title: "A checkout that is longer than the expiry",
+    text: "If approving takes longer than the expiry (15 to 30 minutes with common gateways), the request closes. This happens when customers leave to cash in at a store or wait for an OTP.",
+  },
+  {
+    title: "Not testing on real phones",
+    text: "GCash approval happens on the phone. Teams that test only on desktop miss problems with deep links, in-app browsers (for example inside a social media app) and customers who return to a different browser tab.",
+  },
+  {
+    title: "Retrying by creating many new requests",
+    text: "When a customer clicks \"Pay\" several times, the system can create several payment requests for one order. Without a clear link between order and request, you risk double charges and confusing records.",
+  },
+  {
+    title: "Saving only \"failed\", not the reason",
+    text: "A failure code tells you who can fix the problem: the customer, GCash, the gateway or you. Without the code, every failure looks the same and nobody can act.",
+  },
+  {
+    title: "No alternative when GCash fails",
+    text: "When GCash is down or in maintenance, a checkout without Maya, QR Ph, cards or bank transfer loses the sale. GCash publishes maintenance windows in advance, usually at night.",
+  },
+  {
+    title: "Pricing in another currency",
+    text: "GCash payments are in pesos only. A checkout that sends USD or EUR to a GCash request will be refused before the customer sees anything.",
+  },
+  {
+    title: "Unclear refund promises",
+    text: "Support teams often promise an instant refund. In reality, the refund window, the timing and partial refunds depend on the gateway. Customers then contact GCash, and GCash sends them back to the merchant.",
+  },
+  {
+    title: "Forgetting the branding rules",
+    text: "Some routes, for example GCash through Alipay+ at Checkout.com, require specific GCash and Alipay+ logos at checkout. A missing logo can delay approval or go-live.",
+  },
+];
+
+/* ---------- Failure codes ---------- */
+
+const codes = [
+  { code: "USER_DID_NOT_AUTHORIZE", source: "Xendit", meaning: "The customer did not approve within the time limit.", owner: "Customer", action: "Let the customer try again with a new request; send a reminder if the order is still valid." },
+  { code: "USER_DECLINED_PAYMENT", source: "Xendit", meaning: "The customer cancelled the payment in GCash.", owner: "Customer", action: "Show other payment methods." },
+  { code: "INSUFFICIENT_BALANCE", source: "Xendit", meaning: "Not enough money in the wallet.", owner: "Customer", action: "Explain how to cash in, or offer another method." },
+  { code: "AMOUNT_EXCEED_LIMIT", source: "PayMongo", meaning: "The amount is above GCash's limit.", owner: "You and customer", action: "Keep GCash for payments below ₱100,000; offer bank transfer or card above it." },
+  { code: "ACCOUNT_ACCESS_BLOCKED", source: "Xendit", meaning: "GCash restricted the customer's account.", owner: "Customer and GCash", action: "Ask the customer to contact GCash; offer another method." },
+  { code: "CLOSED", source: "PayMongo", meaning: "The checkout expired, or GCash returned a general error.", owner: "Unclear", action: "Create a new checkout; if it repeats, check timing and escalate." },
+  { code: "PAYMENT_REQUEST_EXPIRED", source: "Xendit", meaning: "The request expired before the payment.", owner: "You", action: "Shorten the checkout; create a new request for a retry." },
+  { code: "CHANNEL_UNAVAILABLE, SYSTEM_ERROR", source: "Xendit, PayMongo", meaning: "GCash or the connection to it has a problem.", owner: "GCash or gateway", action: "Retry later; check the gateway's status page; show alternatives." },
+  { code: "INVALID_MERCHANT_SETTINGS, PARAM_MISSING", source: "Xendit, PayMongo", meaning: "The account or the request is configured wrongly.", owner: "You or gateway", action: "Fix the request or ask the gateway to check your settings." },
+  { code: "FAILURE_DETAILS_UNAVAILABLE", source: "Xendit", meaning: "GCash said \"failed\" without a reason.", owner: "Unknown", action: "Escalate with the request ID, time and amount." },
+];
+
+/* ---------- Diagnosis method ---------- */
+
+const diagnosisSteps = [
+  {
+    title: "Split the journey into stages",
+    text: "Count how many payments reach each stage: request created, customer sent to GCash, customer approved, webhook received, order confirmed. A drop between two stages shows where the problem is. A drop before approval is usually the customer; a drop after approval is usually a system.",
+  },
+  {
+    title: "Save every failure code and group them by owner",
+    text: "Use a table like the one above. If most failures belong to the customer (balance, limits, no approval), improve the messages and offer alternatives. If most belong to a system, escalate.",
+  },
+  {
+    title: "Look for a pattern in time",
+    text: "Plot failures by hour. A spike at night may match a GCash maintenance window. A short spike during the day may match a gateway incident. For example, Xendit reported intermittent GCash timeouts for 38 minutes on 15 June 2026.",
+  },
+  {
+    title: "Look for a pattern in amount",
+    text: "Plot failures by order amount. If failures rise above ₱5,000 or ₱10,000, many of your customers may have Basic accounts and hit their limits. If they rise near ₱100,000, you are at the payment limit.",
+  },
+  {
+    title: "Look for a pattern in device",
+    text: "Compare desktop, mobile browser and in-app browsers. If one device type fails much more, the problem is usually the redirect or deep link, not GCash.",
+  },
+  {
+    title: "Close every open payment",
+    text: "Some payments stay without a final status, and some channels do not send a failure webhook at all. Run a regular job that asks the gateway for the status of every payment that is still open after the expiry, and updates the order.",
+  },
+  {
+    title: "Give the customer a clear next step",
+    text: "Write one message per type of failure: \"Your GCash balance is too low: cash in or choose another method\", \"Your approval time expired: try again\". A specific message turns a failure into a second attempt.",
+  },
+  {
+    title: "Escalate with evidence",
+    text: "When you contact the gateway, send the payment request IDs, times, amounts and codes. \"GCash is failing\" cannot be investigated; \"40 requests with FAILURE_DETAILS_UNAVAILABLE between 14:10 and 14:30\" can.",
+  },
+];
+
+/* ---------- What people ask ---------- */
+
+const faqs = [
+  {
+    question: "Is GCash a bank?",
+    answer:
+      "No. GCash is operated by G-Xchange, Inc., an electronic money issuer (EMI) regulated by the Bangko Sentral ng Pilipinas. Money in a GCash wallet is e-money, not a bank deposit, so it is not covered by PDIC deposit insurance.",
+  },
+  {
+    question: "How can a business accept GCash payments on its website?",
+    answer:
+      "Most businesses use a payment gateway that supports GCash, such as PayMongo or Xendit, or a global provider such as Adyen or Checkout.com. The gateway gives you an API, plugins or payment links. Direct GCash API access is reported to be limited to selected partners, through a GCash account manager.",
+  },
+  {
+    question: "How much does it cost to accept GCash?",
+    answer:
+      "It depends on the gateway and your contract. As an example, PayMongo's public price for GCash in October 2026 is 2.23% per successful payment, with 12% VAT added to the fee. There are usually no setup or monthly fees for standard accounts.",
+  },
+  {
+    question: "What is the maximum amount for a GCash payment?",
+    answer:
+      "Through Xendit and PayMongo, a single GCash payment can be up to ₱100,000. The customer's own limits can be lower: a Basic account can hold at most ₱10,000 and spend ₱5,000 per month, while a Fully Verified account can hold ₱100,000.",
+  },
+  {
+    question: "Why does a GCash payment fail?",
+    answer:
+      "The most common reasons are a low balance, the customer's wallet or monthly limits, an OTP that does not arrive, the approval time expiring, a weak internet connection, and GCash or gateway maintenance. GCash also notes that it is currently unavailable for online payments with some merchants.",
+  },
+  {
+    question: "My GCash wallet was deducted, but the merchant did not receive the payment. What happens?",
+    answer:
+      "GCash asks the customer to report it in the app (Transactions, then Get Help). For QR payments, GCash says the merchant and its bank review the claim within 6 to 10 business days for GCash merchants, or 10 to 12 for other QR Ph merchants. If the refund is approved, the money returns within 24 to 72 hours after confirmation.",
+  },
+  {
+    question: "How long does a GCash refund take?",
+    answer:
+      "It depends on the gateway. PayMongo, for example, says GCash refunds can be made up to 180 days after the payment and reflect in the customer's wallet within 24 hours. Xendit allows full and partial GCash refunds within 180 days.",
+  },
+  {
+    question: "Does GCash support subscriptions and recurring payments?",
+    answer:
+      "Some providers support it. Adyen supports recurring GCash payments, and Xendit offers a separate recurring channel that needs an extra activation. The customer approves the link to their GCash account once, and later payments do not need a new approval.",
+  },
+  {
+    question: "What is the difference between GCash, QR Ph and InstaPay?",
+    answer:
+      "GCash is a wallet. QR Ph is the national QR code standard that lets any participating wallet or bank app pay a merchant's code. InstaPay is the real-time payment rail that moves the money between institutions. A GCash user who scans a QR Ph code at a non-GCash merchant uses all three.",
+  },
+  {
+    question: "Can foreigners and Filipinos abroad use GCash?",
+    answer:
+      "Yes, with conditions. GCash Overseas lets users register with international mobile numbers in a list of supported countries, and the limits table includes a profile for tourists (GTourist). GCash users can also pay at Alipay+ merchants in more than 45 markets.",
+  },
+];
+
+const sources = [
+  { name: "GCash Help Center — Wallet and transaction limits", url: "https://help.gcash.com/hc/articles/360021112894" },
+  { name: "GCash Help Center — Online payment or subscription error", url: "https://help.gcash.com/hc/en-us/articles/31317899325721-Pay-online-Transaction-declined" },
+  { name: "GCash Help Center — QR code payment not received", url: "https://help.gcash.com/hc/articles/31316001083289" },
+  { name: "GCash Help Center — Can't log in (MPIN and OTP)", url: "https://help.gcash.com/hc/articles/900006273543" },
+  { name: "GCash Help Center — GCash for Business products", url: "https://help.gcash.com/hc/en-us/articles/48775169516313" },
+  { name: "Xendit Docs — GCash", url: "https://docs.xendit.co/docs/gcash" },
+  { name: "Xendit Docs — Payment requests and statuses", url: "https://docsv2.xendit.co/docs/guest-checkout" },
+  { name: "Xendit Docs — Error and failure codes", url: "https://docs.xendit.co/docs/error-scenarios" },
+  { name: "Xendit Docs — E-wallet void and refund", url: "https://docs.xendit.co/ewallet/payment-flows/void-and-refund" },
+  { name: "Adyen Docs — GCash", url: "https://docs.adyen.com/payment-methods/gcash" },
+  { name: "PayMongo Docs — Accepting GCash payments", url: "https://developers.paymongo.com/v1/docs/accepting-gcash-payments" },
+  { name: "PayMongo Docs — E-wallet errors", url: "https://docs.paymongo.com/docs/payment-acceptance-errors-ewallet" },
+  { name: "PayMongo Docs — Refunding transactions", url: "https://developers.paymongo.com/docs/refunding-transactions" },
+  { name: "PayMongo — Pricing", url: "https://paymongo.com/pricing" },
+  { name: "Checkout.com Docs — GCash for API only", url: "https://www.checkout.com/docs/payments/add-payment-methods/gcash/api-only" },
+  { name: "BSP Circular No. 649 (2009) — E-money rules", url: "https://elibrary.judiciary.gov.ph/thebookshelf/showdocs/10/45715" },
+  { name: "The Philippine Star (2009) — BSP tightens rules on e-money", url: "https://www.philstar.com/business/2009/03/09/446483/bsp-tightens-rules-e-money" },
+  { name: "Mondaq — BSP Circular No. 1166 (2023) updates e-money rules", url: "https://mondaq.com/financial-services/1319408/safe-emoney-bsp-updates-e-money-regulations-increases-prudential-and-capitalization-requirements" },
+  { name: "Wikipedia — GCash", url: "https://en.wikipedia.org/wiki/GCash" },
+  { name: "SunStar — GCash: 20 years of financial inclusion", url: "https://www.sunstar.com.ph/cebu/feature/gcash-20-years-of-transformative-financial-inclusion-in-the-philippines" },
+  { name: "Manila Bulletin — The GCash story", url: "https://mb.com.ph/2022/12/5/mga-kuwentong-ayala-the-gcash-story" },
+  { name: "BDO Securities — About Mynt (IPO, March 2026 figures)", url: "https://www.bdo.com.ph/bdo-securities/ipo-mynt" },
+  { name: "Electronic Payments International — Mynt files for IPO", url: "https://www.electronicpaymentsinternational.com/news/gcash-parent-mynt-files-for-philippine-ipo/" },
+  { name: "TechRepublic — GCash parent Mynt's IPO", url: "https://www.techrepublic.com/article/news-gcash-mynt-ipo-digital-lending-apac/" },
+  { name: "TransFi — QR Ph explained", url: "https://www.transfi.com/blog/qr-ph-explained-how-p2p-and-p2m-qr-payments-work-for-individuals-and-merchants" },
+  { name: "The Philippine Star (2026) — BSP rolls out new payment tools", url: "https://www.philstar.com/banat/banat/opinyon/2026/07/30/2545627/bsp-rolls-out-new-payment-tools" },
+  { name: "Newsbytes.PH — GCash expands cross-border payments via Alipay+", url: "https://newsbytes.ph/?p=102783" },
+  { name: "IsDown — Xendit GCash disruption, 15 June 2026", url: "https://isdown.app/status/xendit/incidents/606894-ewallet-gcash-philippines-disruption" },
+  { name: "HashMicro — GCash API access and gateway routes", url: "https://www.hashmicro.com/ph/blog/gcash-api-integration-philippines/" },
+];
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": `${canonical}#article`,
+      headline: guide.title,
+      description,
+      url: canonical,
+      mainEntityOfPage: canonical,
+      inLanguage: "en",
+      datePublished: guide.published,
+      dateModified: guide.updated ?? guide.published,
+      author: { "@id": `${site}/#person` },
+      publisher: { "@id": `${site}/#person` },
+      image: `${site}/images/case-studies/lofoten-coast-og.jpg`,
+      audience: { "@type": "BusinessAudience", audienceType: guide.audience },
+      proficiencyLevel: "Beginner",
+      about: [
+        { "@type": "Product", name: "GCash", category: "Mobile wallet" },
+        { "@type": "Country", name: "Philippines" },
+        { "@type": "Thing", name: "Payment failure diagnosis" },
+      ],
+      keywords: guide.tags.join(", "),
+      citation: sources.map((source) => source.url),
+    },
+    {
+      "@type": "DefinedTermSet",
+      "@id": `${canonical}#terms`,
+      name: "GCash and Philippine payments: terms explained",
+      hasDefinedTerm: terms.map((item) => ({
+        "@type": "DefinedTerm",
+        name: item.term,
+        description: item.meaning,
+      })),
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: { "@type": "Answer", text: faq.answer },
+      })),
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${canonical}#breadcrumb`,
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${site}/` },
+        { "@type": "ListItem", position: 2, name: "Payment solutions", item: `${site}/payment-solutions/` },
+        { "@type": "ListItem", position: 3, name: "Case studies", item: `${site}/payment-solutions/case-studies/` },
+        { "@type": "ListItem", position: 4, name: guide.title, item: canonical },
+      ],
+    },
+  ],
+};
+
+const emailHref = `mailto:matteo.visibility@gmail.com?subject=${encodeURIComponent("GCash payments")}`;
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} image="/images/case-studies/lofoten-coast-og.jpg">
+  <Header />
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+  <main class="cs-page">
+    <CaseStudyHero
+      crumbLabel="Guides"
+      crumbHref="/payment-solutions/case-studies/#guides"
+      title={guide.title}
+      titleId="article-title"
+      variant="article"
+    >
+      Guide · Philippines · <time datetime={guide.published}>{publishedLabel}</time> · {guide.readingMinutes} min read
+    </CaseStudyHero>
+
+    <article class="cs-article" aria-labelledby="article-title">
+      <p class="cs-dek">
+        GCash is how most Filipinos pay online. For a business, it is also a
+        payment method where failures are common and hard to explain. This
+        guide explains GCash from the start: why it exists, how the money and
+        the messages move, how an integration works, and how to find out why a
+        payment failed.
+      </p>
+
+      <dl class="cs-facts-line">
+        <div><dt>For</dt><dd>{guide.audience}</dd></div>
+        <div><dt>Market</dt><dd>Philippines (PHP)</dd></div>
+        <div><dt>Level</dt><dd>From zero</dd></div>
+      </dl>
+
+      <aside class="cs-note" aria-label="About this guide">
+        <strong>About this guide</strong>
+        <p>
+          This guide uses GCash's Help Center, the documentation of payment
+          gateways that offer GCash (Xendit, PayMongo, Adyen, Checkout.com),
+          central bank rules and public company data, as of October 2026. The
+          API examples are simplified, and field names differ between
+          providers. Limits and prices change, so always check the current
+          sources. I am not affiliated with GCash or with any gateway.
+        </p>
+      </aside>
+
+      <section class="cs-summary" aria-labelledby="summary-title">
+        <h2 id="summary-title">Summary</h2>
+        <ul>
+          <li>GCash started in 2004 as a way to send money by SMS to people without bank accounts. Today it is the Philippines' largest wallet, with about 40 million monthly users.</li>
+          <li>GCash is a wallet tied to a person's mobile number, with verification levels and limits. This design explains many payment failures.</li>
+          <li>Most businesses accept GCash through a payment gateway. The customer is sent to GCash to approve, and the gateway confirms the result with a webhook.</li>
+          <li>Failures are hard to diagnose because four parties are involved, the approval happens on the customer's phone, and some failure codes do not give a reason.</li>
+          <li>The solution is a method: measure each stage, save every code, look for patterns in time, amount and device, close open payments and escalate with evidence.</li>
+        </ul>
+      </section>
+
+      <nav class="cs-toc" aria-labelledby="toc-title">
+        <h2 id="toc-title">In this guide</h2>
+        <ol>
+          <li><a href="#what">What GCash is</a></li>
+          <li><a href="#origin">What GCash was created for</a></li>
+          <li><a href="#terms">Fourteen terms, with examples</a></li>
+          <li><a href="#infrastructure">How the infrastructure works</a></li>
+          <li><a href="#integration">How the integration works, step by step</a></li>
+          <li><a href="#mistakes">Ten mistakes companies make</a></li>
+          <li><a href="#why-hard">Why failures are hard to diagnose</a></li>
+          <li><a href="#solve">How to diagnose and solve failures</a></li>
+          <li><a href="#faq">What people ask about GCash</a></li>
+        </ol>
+      </nav>
+
+      <!-- 1. What -->
+      <section id="what" aria-labelledby="what-title">
+        <h2 id="what-title">What GCash is</h2>
+        <p>
+          GCash is a mobile wallet. A person installs the app, registers with a
+          Philippine mobile number and adds money to it. With that money, the
+          person can send money to family, pay bills, buy mobile load, pay in
+          shops with a QR code and pay online. Over the years, GCash also added
+          savings, loans, insurance and investments, so today it calls itself a
+          "finance super app".
+        </p>
+        <figure class="cs-facts" aria-labelledby="facts-title">
+          <figcaption id="facts-title">GCash: key facts</figcaption>
+          <dl>
+            {
+              facts.map((fact) => (
+                <div>
+                  <dt>{fact.label}</dt>
+                  <dd>{fact.value}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </figure>
+        <p>
+          Two facts from Mynt's stock market listing are important for any
+          business. About 78% of GCash users live outside Metro Manila, and 92%
+          belong to lower-income groups. In practice, this means many customers
+          pay with small balances, on mobile networks, and sometimes with
+          limited accounts. Keep this in mind; it returns in the section on
+          failures.
+        </p>
+        <p class="cs-bridge">To understand why GCash works the way it does, we need to go back to why it was created.</p>
+      </section>
+
+      <!-- 2. Origin -->
+      <section id="origin" aria-labelledby="origin-title">
+        <h2 id="origin-title">What GCash was created for</h2>
+        <p>
+          GCash was not created for online shopping. It was created to move
+          money between people who had a mobile phone but no bank account.
+        </p>
+        <ol class="cs-timeline">
+          {
+            timeline.map((item) => (
+              <li>
+                <span class="cs-timeline-year">{item.year}</span>
+                <p>{item.text}</p>
+              </li>
+            ))
+          }
+        </ol>
+        <p>
+          This origin explains three things that still matter today. First,
+          the account is tied to a <strong>mobile number</strong>, so security
+          depends on SMS codes reaching that phone. Second, GCash is
+          <strong>regulated as e-money</strong>, so the central bank requires
+          identity checks and limits. Third, the wallet was built for
+          <strong>small, everyday amounts</strong>, and the limits reflect that.
+          A card network was designed for buying; GCash was designed for
+          sending. Online payments were added later, on top.
+        </p>
+        <p class="cs-bridge">Before we look at how payments work, here are the terms you will meet in every conversation about GCash.</p>
+      </section>
+
+      <!-- 3. Terms -->
+      <section id="terms" aria-labelledby="terms-title">
+        <h2 id="terms-title">Fourteen terms, with examples</h2>
+        <dl class="cs-terms">
+          {
+            terms.map((item) => (
+              <div>
+                <dt>{item.term}</dt>
+                <dd>
+                  <p>{item.meaning}</p>
+                  <p class="cs-term-example"><span>Example</span>{item.example}</p>
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+        <p>
+          The limits deserve a closer look, because they cause many failures
+          that look technical but are not. These are GCash's published limits
+          for the three most common profiles:
+        </p>
+        <figure class="cs-compare">
+          <figcaption>GCash limits by profile (selection)</figcaption>
+          <div class="cs-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Profile</th>
+                  <th scope="col">Maximum balance</th>
+                  <th scope="col">Money in, per month</th>
+                  <th scope="col">Money out</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  limits.map((row) => (
+                    <tr>
+                      <th scope="row">{row.profile}</th>
+                      <td>{row.wallet}</td>
+                      <td>{row.incoming}</td>
+                      <td>{row.outgoingMonth}</td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        </figure>
+        <p>
+          GCash also has profiles for minors (GCash Jr.) and for premium users
+          (GCash Platinum). When a user reaches a limit, some services stop
+          until the first day of the next month, or until the user upgrades.
+        </p>
+        <p class="cs-bridge">With these terms, we can follow a payment through the system.</p>
+      </section>
+
+      <!-- 4. Infrastructure -->
+      <section id="infrastructure" aria-labelledby="infrastructure-title">
+        <h2 id="infrastructure-title">How the infrastructure works</h2>
+        <p>
+          An online GCash payment involves four parties. Each one sees only its
+          own part of the payment, which is important later.
+        </p>
+        <figure class="cs-parties" aria-labelledby="parties-title">
+          <figcaption id="parties-title">The four parties in an online GCash payment</figcaption>
+          <ol>
+            {
+              parties.map((party) => (
+                <li>
+                  <span class="cs-currency-kind">{party.kind}</span>
+                  <strong>{party.name}</strong>
+                  <small>{party.detail}</small>
+                </li>
+              ))
+            }
+          </ol>
+        </figure>
+        <p>
+          Two things move between these parties, and they move separately.
+        </p>
+        <ul class="cs-plain-list">
+          <li>
+            <strong>Messages</strong> move in seconds: your server asks the
+            gateway for a payment, the gateway asks GCash, GCash asks the
+            customer, and the answers travel back the same way.
+          </li>
+          <li>
+            <strong>Money</strong> moves more slowly: GCash deducts the
+            customer's balance immediately, the gateway collects the money, and
+            pays it to your bank account days later (settlement), minus its fee.
+          </li>
+        </ul>
+        <p>
+          Around this online flow, the Philippines has national payment rails
+          that GCash also uses. <strong>InstaPay</strong> moves money between
+          banks and wallets in real time, for example when a customer cashes
+          in from a bank. <strong>QR Ph</strong> lets one QR code accept
+          payments from any participating wallet or bank app. In July 2026, the
+          central bank and the payment industry also launched InstaPay
+          Cash-In, InstaPay for Business and Direct Debit PH, which make it
+          easier to move money from a bank into a wallet.
+        </p>
+        <p>
+          Finally, GCash is connected to <strong>Alipay+</strong>, the network
+          of Ant Group. Through it, GCash users can pay at Alipay+ merchants
+          abroad, and international merchants can accept GCash through
+          providers connected to Alipay+.
+        </p>
+        <p class="cs-bridge">Now that the parties are clear, we can follow one integration from the first decision to the first refund.</p>
+      </section>
+
+      <!-- 5. Integration -->
+      <section id="integration" aria-labelledby="integration-title">
+        <h2 id="integration-title">How the integration works, step by step</h2>
+        <p>
+          The example in this section is an online shop that sells phone
+          accessories. A customer orders a case and a charger for ₱2,499 and
+          chooses GCash.
+        </p>
+
+        <div class="cs-point" id="step-1">
+          <h3><span class="cs-point-number">Step 1</span> Choose your route to GCash</h3>
+          <p>There are three main routes. Most businesses choose the first one.</p>
+          <figure class="cs-compare">
+            <figcaption>Three ways to accept GCash</figcaption>
+            <div class="cs-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Route</th>
+                    <th scope="col">Examples</th>
+                    <th scope="col">Best for</th>
+                    <th scope="col">What to know</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    routes.map((route) => (
+                      <tr>
+                        <th scope="row">{route.name}</th>
+                        <td>{route.examples}</td>
+                        <td>{route.bestFor}</td>
+                        <td>{route.notes}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+            </div>
+          </figure>
+          <p class="cs-bridge">Whichever route you choose, the provider first needs to know your business.</p>
+        </div>
+
+        <div class="cs-point" id="step-2">
+          <h3><span class="cs-point-number">Step 2</span> Complete onboarding</h3>
+          <p>
+            The provider checks your business (KYB, "know your business"). A
+            Philippine business usually provides its registration documents,
+            tax registration and a bank account for settlement. After approval,
+            GCash must be activated as a payment method. PayMongo, for example,
+            says to expect about five business days for GCash activation,
+            while test payments are possible immediately.
+          </p>
+          <p class="cs-bridge">While onboarding runs, engineers can build with test keys. The first thing they build is the payment request.</p>
+        </div>
+
+        <div class="cs-point" id="step-3">
+          <h3><span class="cs-point-number">Step 3</span> Create the payment request</h3>
+          <p>
+            Your server tells the gateway: this order, this amount, in pesos,
+            with GCash, and where to send the customer afterwards. The example
+            follows Xendit's documentation; other gateways use similar fields.
+          </p>
+          <figure class="cs-code">
+            <figcaption>Create a GCash payment request</figcaption>
+            <pre><code>{codeCreate}</code></pre>
+          </figure>
+          <p>
+            Three details matter. The <code>currency</code> must be PHP. The
+            <code>reference_id</code> must be your own order number, so you can
+            connect every answer to the right order. And the two return
+            addresses decide where the customer lands, but they do not prove
+            anything (see step 6).
+          </p>
+          <p class="cs-bridge">The gateway answers immediately, but the answer is not "paid". It is "the customer must act".</p>
+        </div>
+
+        <div class="cs-point" id="step-4">
+          <h3><span class="cs-point-number">Step 4</span> Send the customer to GCash</h3>
+          <figure class="cs-code">
+            <figcaption>The gateway's answer (simplified)</figcaption>
+            <pre><code>{codeResponse}</code></pre>
+          </figure>
+          <p>
+            The status <code>REQUIRES_ACTION</code> means the customer must
+            approve. Your checkout sends the customer to the address in the
+            answer. On a computer, this is a web page. On a phone, Xendit uses a
+            deep link that opens the GCash app.
+          </p>
+          <p class="cs-bridge">From this moment, the payment happens outside your website, on the customer's phone.</p>
+        </div>
+
+        <div class="cs-point" id="step-5">
+          <h3><span class="cs-point-number">Step 5</span> The customer approves in GCash</h3>
+          <p>According to Adyen's description of the flow, the customer:</p>
+          <ol class="cs-plain-list cs-plain-list--numbered">
+            <li>logs in to GCash with their mobile number;</li>
+            <li>enters the one-time password (OTP) received by SMS;</li>
+            <li>enters their MPIN;</li>
+            <li>confirms the payment and returns to your site;</li>
+            <li>receives an SMS confirmation from GCash.</li>
+          </ol>
+          <p>
+            Each of these steps can fail: the OTP arrives late, the MPIN is
+            wrong, the balance is too low, or the time runs out. The time limit
+            depends on the provider: 15 minutes with Xendit and 30 minutes by
+            default with Adyen. With PayMongo's older Sources flow, your system
+            must create the payment within one hour of the customer's approval,
+            or the money returns to the customer.
+          </p>
+          <p class="cs-bridge">When the customer is done, two signals come back: the customer's browser and the webhook. Only one of them is reliable.</p>
+        </div>
+
+        <div class="cs-point" id="step-6">
+          <h3><span class="cs-point-number">Step 6</span> Wait for the webhook</h3>
+          <p>
+            The webhook is the gateway's message to your server. It says what
+            really happened. Here is a success and a failure:
+          </p>
+          <figure class="cs-code">
+            <figcaption>Webhook: payment succeeded (simplified)</figcaption>
+            <pre><code>{codeWebhookSuccess}</code></pre>
+          </figure>
+          <figure class="cs-code">
+            <figcaption>Webhook: payment failed (simplified)</figcaption>
+            <pre><code>{codeWebhookFailure}</code></pre>
+          </figure>
+          <p>A good webhook handler:</p>
+          <ol class="cs-plain-list cs-plain-list--numbered">
+            <li>checks that the message really comes from the gateway (Xendit, for example, sends a callback token that you compare with your own);</li>
+            <li>finds the order with the <code>reference_id</code>;</li>
+            <li>processes each event only once, even if it arrives twice;</li>
+            <li>saves the status and, for failures, the <code>failure_code</code>;</li>
+            <li>answers the gateway quickly.</li>
+          </ol>
+          <p>
+            Xendit also notes that some channels do not send a failure
+            notification at all. That is why step 8 exists.
+          </p>
+          <p class="cs-bridge">Once the order is confirmed, the next event in its life may be a refund.</p>
+        </div>
+
+        <div class="cs-point" id="step-7">
+          <h3><span class="cs-point-number">Step 7</span> Handle refunds</h3>
+          <p>
+            Refunds are created through the gateway and return the money to
+            the customer's GCash wallet. With Xendit and PayMongo, GCash refunds
+            are possible for up to 180 days, and partial refunds are allowed.
+            PayMongo says the refund reflects in the customer's wallet within 24
+            hours. Your support team should know these rules, because customers
+            who ask GCash about a refund are sent back to the merchant.
+          </p>
+          <p class="cs-bridge">Refunds and payments both end in the same place: your bank account and your books.</p>
+        </div>
+
+        <div class="cs-point" id="step-8">
+          <h3><span class="cs-point-number">Step 8</span> Close open payments and reconcile</h3>
+          <p>
+            Every day, compare three lists: your orders, the gateway's payments
+            and the money received in your bank. In addition, run a job that
+            checks every payment that is still open after its expiry, asks the
+            gateway for the final status, and updates the order. Settlement
+            timing depends on the provider: Xendit lists T+2 calendar days for
+            GCash, and PayMongo 2 to 7 days.
+          </p>
+          <figure class="cs-compare">
+            <figcaption>GCash rules at three providers (as published, October 2026)</figcaption>
+            <div class="cs-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Rule</th>
+                    <th scope="col">Xendit</th>
+                    <th scope="col">Adyen</th>
+                    <th scope="col">PayMongo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    providerFacts.map((row) => (
+                      <tr>
+                        <th scope="row">{row.label}</th>
+                        <td>{row.xendit}</td>
+                        <td>{row.adyen}</td>
+                        <td>{row.paymongo}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+            </div>
+          </figure>
+          <p class="cs-bridge">The steps are simple on paper. In practice, companies make the same mistakes again and again.</p>
+        </div>
+      </section>
+
+      <!-- 6. Mistakes -->
+      <section id="mistakes" aria-labelledby="mistakes-title">
+        <h2 id="mistakes-title">Ten mistakes companies make</h2>
+        <ol class="cs-steps">
+          {
+            mistakes.map((mistake) => (
+              <li>
+                <h3>{mistake.title}</h3>
+                <p>{mistake.text}</p>
+              </li>
+            ))
+          }
+        </ol>
+        <p class="cs-bridge">Most of these mistakes have one thing in common: they make failures harder to see. The next section explains why failures are hard to see in the first place.</p>
+      </section>
+
+      <!-- 7. Why hard -->
+      <section id="why-hard" aria-labelledby="why-hard-title">
+        <h2 id="why-hard-title">Why GCash failures are hard to diagnose</h2>
+
+        <div class="cs-point">
+          <h3><span class="cs-point-number">Reason 1</span> Four parties, four sets of records</h3>
+          <p>
+            The customer sees their app, GCash sees its ledger, the gateway sees
+            its requests, and you see your orders. Nobody sees everything. You
+            usually see only what the gateway tells you.
+          </p>
+        </div>
+
+        <div class="cs-point">
+          <h3><span class="cs-point-number">Reason 2</span> The important part happens on the customer's phone</h3>
+          <p>
+            The OTP, the MPIN, the balance check and the confirmation happen
+            outside your website. If an OTP does not arrive because of a weak
+            signal or a full SMS inbox, which GCash's own help pages mention,
+            your system only sees a payment that was never approved.
+          </p>
+        </div>
+
+        <div class="cs-point">
+          <h3><span class="cs-point-number">Reason 3</span> Abandonment looks like failure</h3>
+          <p>
+            A customer who changes their mind and a customer who tried but
+            could not pay can produce the same result: an expired request. If
+            you count both as "failed payments", the number is too high and the
+            causes are mixed.
+          </p>
+        </div>
+
+        <div class="cs-point">
+          <h3><span class="cs-point-number">Reason 4</span> Some codes do not explain anything</h3>
+          <p>
+            Codes such as <code>FAILURE_DETAILS_UNAVAILABLE</code> (Xendit) mean
+            that GCash reported a failure without a reason. PayMongo's
+            <code>CLOSED</code> can mean an expired checkout or a general error
+            from GCash. With these codes, you need patterns, not single cases.
+          </p>
+        </div>
+
+        <div class="cs-point">
+          <h3><span class="cs-point-number">Reason 5</span> Timing creates contradictions</h3>
+          <p>
+            A customer can see "deducted" in GCash while your order still says
+            "pending". GCash's Help Center has whole articles for this
+            situation: "wallet deducted, but the merchant did not receive the
+            payment". Usually the payment is still processing, or it will be
+            reversed, but until the final status arrives both sides tell a
+            different story.
+          </p>
+        </div>
+
+        <div class="cs-point">
+          <h3><span class="cs-point-number">Reason 6</span> Short incidents and planned maintenance</h3>
+          <p>
+            GCash announces maintenance windows on its Help Center, usually at
+            night. Gateways also have short incidents with their GCash
+            connection. A 30-minute problem on a busy evening can look like a
+            sudden drop in conversion, with no error in your own systems.
+          </p>
+        </div>
+        <p class="cs-bridge">None of these reasons can be removed. But each one can be measured, and measured problems can be solved.</p>
+      </section>
+
+      <!-- 8. Solve -->
+      <section id="solve" aria-labelledby="solve-title">
+        <h2 id="solve-title">How to diagnose and solve GCash failures</h2>
+        <p>
+          The first tool is a table that connects each failure code to its
+          meaning and to the party that can fix it.
+        </p>
+        <figure class="cs-compare">
+          <figcaption>Common GCash failure codes at two gateways, and who can fix them</figcaption>
+          <div class="cs-table-wrap">
+            <table class="cs-table-codes">
+              <thead>
+                <tr>
+                  <th scope="col">Code</th>
+                  <th scope="col">What it means</th>
+                  <th scope="col">Who can fix it</th>
+                  <th scope="col">What you do</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  codes.map((row) => (
+                    <tr>
+                      <th scope="row">{row.code.split(", ").map((code) => <code>{code}</code>)}<small>{row.source}</small></th>
+                      <td>{row.meaning}</td>
+                      <td>{row.owner}</td>
+                      <td>{row.action}</td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        </figure>
+        <p>
+          With that table in place, follow these eight steps. They work for
+          one bad day and for a problem that has lasted months.
+        </p>
+        <ol class="cs-steps">
+          {
+            diagnosisSteps.map((step) => (
+              <li>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+              </li>
+            ))
+          }
+        </ol>
+        <p class="cs-takeaway">
+          A GCash failure is rarely "GCash is broken". It is usually one of
+          four things: the customer's balance or limits, the time to approve,
+          the device and redirect, or a short incident. Measure the stages,
+          keep the codes, and the cause becomes visible.
+        </p>
+        <p class="cs-bridge">These are also the questions that customers and businesses ask most often about GCash.</p>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq" class="cs-faq" aria-labelledby="faq-title">
+        <h2 id="faq-title">What people ask about GCash</h2>
+        <p>
+          The questions below are the ones that appear most often in GCash's
+          Help Center, in gateway documentation and in public discussions by
+          customers and merchants.
+        </p>
+        {
+          faqs.map((faq) => (
+            <details>
+              <summary>{faq.question}</summary>
+              <p>{faq.answer}</p>
+            </details>
+          ))
+        }
+      </section>
+
+      <section class="cs-topics" aria-labelledby="topics-title">
+        <h2 id="topics-title">Topics</h2>
+        <ul class="cs-item-tags">
+          {guide.tags.map((tag) => <li>{tag}</li>)}
+        </ul>
+      </section>
+
+      <section class="cs-contact" aria-label="Contact">
+        <p>
+          Are GCash payments failing at your checkout, and nobody can say why?
+          I can help your team measure the problem, read the codes and find
+          the cause.
+        </p>
+        <div class="cs-closing-links">
+          <a href={emailHref}>matteo.visibility@gmail.com</a>
+          <a href="/payment-solutions/guides/dlocal-integration-step-by-step/">Next guide: how a dLocal integration works →</a>
+        </div>
+      </section>
+
+      <section class="cs-sources" aria-labelledby="sources-title">
+        <h2 id="sources-title">Sources</h2>
+        <ol>
+          {
+            sources.map((source) => (
+              <li>
+                <a href={source.url} target="_blank" rel="noopener noreferrer">{source.name}</a>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <a class="cs-back" href="/payment-solutions/case-studies/">← All case studies and guides</a>
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>

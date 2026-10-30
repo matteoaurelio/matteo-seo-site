@@ -38,6 +38,36 @@ export const paymentGuides: PaymentGuide[] = [
       "Latin America",
     ],
   },
+  {
+    slug: "gcash-philippines-explained",
+    title: "How GCash works: a step-by-step guide to accepting GCash payments and fixing failed payments in the Philippines",
+    summary:
+      "What GCash is, why it was created, how the infrastructure and the integration work, the mistakes companies make, and a method to diagnose failed GCash payments, with terms explained through examples.",
+    audience: "Managers, product and payment teams",
+    published: "2026-10-30",
+    readingMinutes: 22,
+    tags: [
+      "GCash",
+      "Philippines",
+      "E-wallet",
+      "QR Ph",
+      "InstaPay",
+      "Payment gateway",
+      "Payment failures",
+      "Webhooks",
+      "Wallet limits",
+      "KYC",
+      "Alipay+",
+      "Southeast Asia",
+    ],
+  },
 ];
 
 export const getPaymentGuide = (slug: string) => paymentGuides.find((guide) => guide.slug === slug);
+
+/** Newest first; for equal dates, the guide added later comes first. */
+export const sortedPaymentGuides = () =>
+  paymentGuides
+    .map((guide, index) => ({ guide, index }))
+    .sort((a, b) => b.guide.published.localeCompare(a.guide.published) || b.index - a.index)
+    .map(({ guide }) => guide);

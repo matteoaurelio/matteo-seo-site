@@ -9,7 +9,7 @@ import {
   caseTechnologies,
   slugify,
 } from "../../../data/paymentCaseStudies";
-import { paymentGuides } from "../../../data/paymentGuides";
+import { sortedPaymentGuides } from "../../../data/paymentGuides";
 import "../../../styles/growth-platform.css";
 import "../../../styles/case-studies.css";
 
@@ -20,6 +20,7 @@ const description =
   "Anonymised payment case studies and step-by-step payment guides: what went wrong, why, and how to solve it. Filter by region and payment technology.";
 
 const cases = sortedPaymentCaseStudies();
+const paymentGuides = sortedPaymentGuides();
 
 const countBy = (test: (item: (typeof cases)[number]) => boolean) => cases.filter(test).length;
 
