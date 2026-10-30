@@ -12,7 +12,7 @@ tags:
   - SEO development
   - Web Development
   - Sustainable Business    Copy tags
-draft: true
+draft: false
 ---
 One of the things I enjoy most about working independently is the opportunity to enter industries I know relatively little about, understand how they operate, and find practical ways to contribute.
 
