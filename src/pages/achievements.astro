@@ -2,40 +2,126 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import { recommendations, achievements } from "../data/achievements";
+import {
+  recommendations,
+  achievements,
+  recommendationAreas,
+  recommendationStrengths,
+  toIsoDate,
+  assertVerbatimExcerpts,
+} from "../data/achievements";
+import { referenceLetters } from "../data/referenceLetters";
+import { languageLevels } from "../data/languages";
 import "../styles/growth-platform.css";
-import "../styles/profile-growth.css";
+import "../styles/recommendations.css";
+
+// Every excerpt shown on this page must be copied exactly from a recommendation.
+assertVerbatimExcerpts();
+
+const site = "https://matteoarellano.com";
+const canonical = `${site}/achievements/`;
+const personId = `${site}/#person`;
 
 const title = "Recommendations, Experience & Education | Matteo Arellano";
 const description =
-  "Professional recommendations, selected commercial and technical outcomes, career experience and education from Matteo Arellano, Technical Growth Partner.";
-const canonical = "https://matteoarellano.com/achievements/";
+  "Written recommendations from colleagues in payments, product, data engineering and finance, plus client reviews, selected outcomes, career history and education of Matteo Arellano.";
 
-const featuredRecommendation =
-  recommendations.find((recommendation) => recommendation.featured) ?? recommendations[0];
-const remainingRecommendations = recommendations.filter(
-  (recommendation) => recommendation !== featuredRecommendation,
-);
+/* ---------- Recommendations ---------- */
+
+const formatDate = (iso: string) =>
+  new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+
+const initials = (name: string) => {
+  const parts = name.replace(/\./g, "").split(/\s+/).filter(Boolean);
+  const first = parts[0]?.[0] ?? "";
+  const last = parts.length > 1 ? parts[parts.length - 1][0] : "";
+  return (first + last).toUpperCase();
+};
+
+const toParagraphs = (text: string) =>
+  text
+    .split(/\n\s*\n/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean);
+
+const items = recommendations
+  .map((recommendation) => {
+    const iso = toIsoDate(recommendation.date);
+    const paragraphs = toParagraphs(recommendation.quote);
+    return {
+      ...recommendation,
+      iso,
+      year: iso.slice(0, 4),
+      displayDate: formatDate(iso),
+      paragraphs,
+      // Short recommendations are shown in full; longer ones open on demand.
+      collapsible: paragraphs.length > 1 || recommendation.quote.length > 340,
+    };
+  })
+  .sort((a, b) => b.iso.localeCompare(a.iso));
+
+const total = items.length;
+// The first recommendation flagged `featured` in the data file leads the page.
+const featuredSource = recommendations.find((item) => item.featured);
+const featured = items.find((item) => item.id === featuredSource?.id) ?? items[0];
+const years = [...new Set(items.map((item) => item.year))];
+const byYear = years.map((year) => ({
+  year,
+  entries: items.filter((item) => item.year === year),
+}));
+const firstYear = years[years.length - 1];
+const lastYear = years[0];
+const latest = items[0];
+
+const areaFilters = recommendationAreas.map((area) => ({
+  ...area,
+  count: items.filter((item) => item.areas.includes(area.id)).length,
+}));
+
+const themes = recommendationStrengths
+  .map((strength) => ({
+    ...strength,
+    count: items.filter((item) => item.strengths.includes(strength.id)).length,
+  }))
+  .sort((a, b) => b.count - a.count);
+
+/* ---------- Reviews collected through Senja (newest first) ---------- */
+
+const senjaIds = [
+  "cc7b3961-aeba-4266-b424-045b7162ef1b",
+  "ec497f76-377a-46dc-9240-db1d69100c24",
+  "86fcd7c9-6eb3-4c3d-b0c2-eb39f1808c23",
+  "23825e64-b11f-4de5-854f-47c6093628b5",
+  "810b2a8c-4b82-4ec6-9070-8e89eb250eb8",
+  "3c50d95c-ed58-44ea-81e0-efc4f589558b",
+];
+
+/* ---------- Outcomes, experience, education ---------- */
 
 const outcomes = [
   {
     number: "42%",
-    label: "conversion improvement",
+    label: "Conversion improvement",
     copy: "Behavioural analysis and funnel work used to identify friction and improve a digital customer journey.",
   },
   {
     number: "90%",
-    label: "lower cloud-processing cost",
+    label: "Lower cloud-processing cost",
     copy: "A technical redesign using more efficient data-processing technologies materially reduced recurring processing cost.",
   },
   {
     number: "30+",
-    label: "analytical models",
+    label: "Analytical models",
     copy: "Financial and operational models built to give management clearer information for decisions and controls.",
   },
   {
     number: "Global",
-    label: "cross-functional experience",
+    label: "Cross-functional experience",
     copy: "Work across finance, risk, data engineering, analytics, product growth and commercial problems in international teams.",
   },
 ];
@@ -77,6 +163,12 @@ const timeline = [
 
 const education = [
   {
+    year: "2021",
+    title: "Data Scientist Track",
+    detail: "Python, statistics, data processing and applied data science",
+    institution: "Dataquest",
+  },
+  {
     year: "2018",
     title: "MSc Business Administration",
     detail: "Accounting & Financial Management · Cum laude",
@@ -88,54 +180,156 @@ const education = [
     detail: "International Business Administration",
     institution: "Rotterdam School of Management, Erasmus University",
   },
-  {
-    year: "2021",
-    title: "Data Scientist Track",
-    detail: "Python, statistics, data processing and applied data science",
-    institution: "Dataquest",
-  },
 ];
 
 const academicHighlights = achievements.filter((item) =>
   ["Award", "Academic result", "Recommendation letter"].includes(item.category),
 );
 
-const senjaIds = [
-  "ec497f76-377a-46dc-9240-db1d69100c24",
-  "86fcd7c9-6eb3-4c3d-b0c2-eb39f1808c23",
-  "23825e64-b11f-4de5-854f-47c6093628b5",
-  "810b2a8c-4b82-4ec6-9070-8e89eb250eb8",
-  "3c50d95c-ed58-44ea-81e0-efc4f589558b",
+const languageCount = languageLevels.reduce((sum, level) => sum + level.languages.length, 0);
+
+const sections = [
+  { id: "recommendations", label: "Recommendations", count: total },
+  { id: "letters", label: "Letters", count: referenceLetters.length },
+  { id: "reviews", label: "Reviews", count: senjaIds.length },
+  { id: "outcomes", label: "Outcomes" },
+  { id: "experience", label: "Experience" },
+  { id: "languages", label: "Languages", count: languageCount },
+  { id: "education", label: "Education" },
 ];
 
-const profileSchema = {
+/** Two-digit section number, so the kickers always match the index. */
+const num = (id: string) =>
+  String(sections.findIndex((section) => section.id === id) + 1).padStart(2, "0");
+
+const contactEmail = "matteo.visibility@gmail.com";
+const letterRequestHref = (letter: (typeof referenceLetters)[number]) =>
+  `mailto:${contactEmail}?subject=${encodeURIComponent(
+    `Reference letter request: ${letter.author}`,
+  )}&body=${encodeURIComponent(
+    `Hi Matteo,\n\nCould you share the full reference letter from ${letter.author} (${letter.organisation})?\n\nWhat it is for:\n`,
+  )}`;
+
+/* ---------- Structured data ---------- */
+
+const rsm = {
+  "@type": "CollegeOrUniversity",
+  name: "Rotterdam School of Management, Erasmus University",
+};
+
+const structuredData = {
   "@context": "https://schema.org",
-  "@type": "ProfilePage",
-  url: canonical,
-  name: title,
-  description,
-  mainEntity: {
-    "@type": "Person",
-    "@id": "https://matteoarellano.com/#person",
-    name: "Matteo Arellano",
-    url: "https://matteoarellano.com/",
-    sameAs: ["https://www.linkedin.com/in/matteoarellano"],
-    jobTitle: "Technical Growth Partner",
-    knowsAbout: [
-      "Business development",
-      "Partnerships",
-      "Commercial analysis",
-      "Product analytics",
-      "Conversion optimization",
-      "Technical SEO",
-      "Google Ads",
-      "Data engineering",
-      "Python",
-      "SQL",
-      "BigQuery",
-      "Automation",
-    ],
-  },
+  "@graph": [
+    {
+      "@type": "ProfilePage",
+      "@id": `${canonical}#profilepage`,
+      url: canonical,
+      name: title,
+      description,
+      inLanguage: "en",
+      dateModified: latest.iso,
+      isPartOf: { "@id": `${site}/#website` },
+      breadcrumb: { "@id": `${canonical}#breadcrumb` },
+      mainEntity: { "@id": personId },
+      hasPart: [
+        { "@id": `${canonical}#recommendation-list` },
+        { "@id": `${canonical}#reference-letters` },
+      ],
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${canonical}#breadcrumb`,
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${site}/` },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Recommendations & experience",
+          item: canonical,
+        },
+      ],
+    },
+    {
+      "@type": "Person",
+      "@id": personId,
+      name: "Matteo Arellano",
+      url: `${site}/`,
+      alumniOf: rsm,
+      hasCredential: education
+        .filter((item) => item.institution.startsWith("Rotterdam"))
+        .map((item) => ({
+          "@type": "EducationalOccupationalCredential",
+          name: `${item.title} (${item.detail})`,
+          credentialCategory: "degree",
+          recognizedBy: rsm,
+        })),
+      award: achievements
+        .filter((item) => item.category === "Award")
+        .map((item) => `${item.title} (${item.year})`),
+      knowsLanguage: languageLevels.flatMap((level) =>
+        level.languages.map((language) => ({
+          "@type": "Language",
+          name: language.name,
+          alternateName: language.code,
+        })),
+      ),
+    },
+    {
+      "@type": "ItemList",
+      "@id": `${canonical}#reference-letters`,
+      name: "Reference letters for Matteo Arellano (published excerpts)",
+      numberOfItems: referenceLetters.length,
+      itemListElement: referenceLetters.map((letter, index) => {
+        const names = letter.author.split(" & ");
+        const roles = letter.authorRole.split(" · ");
+        return {
+          "@type": "ListItem",
+          position: index + 1,
+          item: {
+            "@type": "Review",
+            "@id": `${canonical}#letter-${letter.id}`,
+            url: `${canonical}#letter-${letter.id}`,
+            name: `${letter.kind} from ${letter.author}`,
+            itemReviewed: { "@id": personId },
+            author: names.map((name, i) => ({
+              "@type": "Person",
+              name,
+              jobTitle: roles[i] ?? roles[0],
+            })),
+            datePublished: letter.iso,
+            description: letter.context,
+            reviewBody: [letter.pull, ...letter.passages].join(" "),
+          },
+        };
+      }),
+    },
+    {
+      "@type": "ItemList",
+      "@id": `${canonical}#recommendation-list`,
+      name: "Written recommendations for Matteo Arellano",
+      numberOfItems: total,
+      itemListOrder: "https://schema.org/ItemListOrderDescending",
+      itemListElement: items.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "Review",
+          "@id": `${canonical}#rec-${item.id}`,
+          url: `${canonical}#rec-${item.id}`,
+          itemReviewed: { "@id": personId },
+          author: {
+            "@type": "Person",
+            name: item.name,
+            description: item.headline,
+            ...(item.profileUrl ? { sameAs: item.profileUrl } : {}),
+          },
+          datePublished: item.iso,
+          description: item.relationship,
+          reviewBody: item.paragraphs.join("\n\n"),
+        },
+      })),
+    },
+  ],
 };
 ---
 
@@ -150,214 +344,580 @@ const profileSchema = {
   <script
     is:inline
     type="application/ld+json"
-    set:html={JSON.stringify(profileSchema)}
+    set:html={JSON.stringify(structuredData)}
   />
 
-  <main class="evidence-page">
-    <section class="evidence-hero">
-      <div class="growth-shell evidence-hero-grid">
-        <div>
-          <span class="growth-overline">Recommendations & experience</span>
-          <h1>Evidence from the people, teams and problems I have worked with.</h1>
-          <p>
-            My background is broad by design: commercial growth, finance,
-            analytics, data engineering and product work. This page brings
-            together the recommendations, outcomes and experience behind that
-            range.
+  <main class="rec-page">
+    <!-- ============ Hero ============ -->
+    <section class="rec-hero" aria-labelledby="rec-title">
+      <div class="rec-shell rec-hero-grid">
+        <div class="rec-hero-copy">
+          <p class="rec-kicker">Recommendations &amp; experience</p>
+          <h1 id="rec-title">Recommendations from the people I have worked with.</h1>
+          <p class="rec-lede">
+            {total} written recommendations from colleagues across payments,
+            product, data engineering and finance, published in full and
+            unedited. Below them: signed reference letters, reviews collected
+            directly, selected outcomes, my career path, languages and
+            education.
           </p>
         </div>
-        <aside class="evidence-hero-note">
-          <span>What people consistently mention</span>
-          <strong>Problem solving · analytical depth · communication · initiative</strong>
-          <p>
-            The pattern matters more than any individual job title: I am most
-            useful when the problem is important, ambiguous and crosses functions.
-          </p>
-        </aside>
+
+        <dl class="rec-facts">
+          <div>
+            <dt>Written recommendations</dt>
+            <dd>{total}</dd>
+          </div>
+          <div>
+            <dt>Period covered</dt>
+            <dd>{firstYear}–{lastYear}</dd>
+          </div>
+          <div>
+            <dt>Most recent</dt>
+            <dd><time datetime={latest.iso}>{latest.displayDate}</time></dd>
+          </div>
+          <div>
+            <dt>Signed reference letters</dt>
+            <dd>{referenceLetters.length}</dd>
+          </div>
+          <div>
+            <dt>Original source</dt>
+            <dd>
+              <a
+                href="https://www.linkedin.com/in/matteoarellano"
+                target="_blank"
+                rel="noopener noreferrer">LinkedIn ↗</a
+              >
+            </dd>
+          </div>
+        </dl>
       </div>
     </section>
 
-    <section class="evidence-outcomes-section">
-      <div class="growth-shell">
-        <header class="evidence-section-heading">
-          <span class="growth-overline">Selected outcomes</span>
-          <h2>Results from different parts of my career.</h2>
-          <p>
-            These are deliberately varied. They show the range from customer
-            conversion to technical efficiency and management information.
-          </p>
-        </header>
-        <div class="evidence-outcome-grid">
-          {outcomes.map((item) => (
-            <article class="evidence-outcome-card">
-              <strong>{item.number}</strong>
-              <span>{item.label}</span>
-              <p>{item.copy}</p>
-            </article>
-          ))}
-        </div>
+    <!-- ============ On-this-page index ============ -->
+    <nav class="rec-index" aria-label="On this page">
+      <div class="rec-shell">
+        <ol>
+          {
+            sections.map((section, index) => (
+              <li>
+                <a href={`#${section.id}`} data-index-link={section.id}>
+                  <span class="rec-index-number">{String(index + 1).padStart(2, "0")}</span>
+                  {section.label}
+                  {section.count && <span class="rec-index-count">{section.count}</span>}
+                </a>
+              </li>
+            ))
+          }
+        </ol>
       </div>
-    </section>
+    </nav>
 
-    <section class="evidence-recommendations-section" id="recommendations">
-      <div class="growth-shell">
-        <header class="evidence-section-heading evidence-section-heading--light">
-          <span class="growth-overline">Professional recommendations</span>
-          <h2>What people I have worked with say.</h2>
+    <!-- ============ Recommendations ============ -->
+    <section class="rec-section" id="recommendations" aria-labelledby="recommendations-title">
+      <div class="rec-shell">
+        <header class="rec-section-head">
+          <div>
+            <p class="rec-kicker"><span>{num("recommendations")}</span> Recommendations</p>
+            <h2 id="recommendations-title">In their own words.</h2>
+          </div>
           <p>
-            These are recommendations from colleagues who saw my work directly
-            across growth, finance, analytics, data engineering and complex
-            cross-functional projects.
+            Every recommendation below was written by a colleague who saw my
+            work directly. The text is reproduced exactly as published, with
+            the reviewer's own title and relationship to me.
           </p>
         </header>
 
-        <article class="evidence-featured-quote">
-          <span class="evidence-quote-mark" aria-hidden="true">“</span>
-          <blockquote>
-            {featuredRecommendation.quote.split("\n\n").map((paragraph) => (
-              <p>{paragraph}</p>
-            ))}
-          </blockquote>
-          <footer>
-            <strong>{featuredRecommendation.name}</strong>
-            <span>{featuredRecommendation.headline}</span>
-            <small>{featuredRecommendation.relationship}</small>
-          </footer>
-        </article>
-
-        <div class="evidence-recommendation-grid">
-          {remainingRecommendations.map((recommendation) => (
-            <article class="evidence-recommendation-card">
-              <blockquote>
-                {recommendation.quote.split("\n\n").map((paragraph) => (
-                  <p>{paragraph}</p>
-                ))}
-              </blockquote>
-              <footer>
-                <strong>{recommendation.name}</strong>
-                <span>{recommendation.headline}</span>
-                <small>{recommendation.date}</small>
-              </footer>
-            </article>
-          ))}
-        </div>
-
-        <div class="evidence-linkedin-link">
-          <a href="https://www.linkedin.com/in/matteoarellano" target="_blank" rel="noopener noreferrer">
-            View the original recommendations on LinkedIn ↗
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section class="evidence-direct-reviews">
-      <div class="growth-shell">
-        <header class="evidence-section-heading">
-          <span class="growth-overline">Reviews & appraisals</span>
-          <h2>Additional feedback collected directly.</h2>
-          <p>
-            These reviews were collected through Senja from people who have
-            worked with me on technical, analytical and growth-related work.
-          </p>
-        </header>
-
-        <div class="evidence-senja-grid">
-          {senjaIds.map((id) => (
-            <div class="evidence-senja-card">
-              <div
-                class="senja-embed"
-                data-id={id}
-                data-mode="shadow"
-                data-lazyload="true"
-                style="display:block;width:100%;"
-              ></div>
+        <!-- Featured -->
+        <figure class="rec-featured" aria-labelledby="featured-name">
+          <p class="rec-featured-label">Featured recommendation</p>
+          <blockquote class="rec-featured-quote">
+            <p class="rec-featured-pull">{featured.highlight}</p>
+            <div class="rec-featured-body">
+              {featured.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
             </div>
-          ))}
-        </div>
+          </blockquote>
+          <figcaption class="rec-person">
+            <span class="rec-avatar" aria-hidden="true">
+              {featured.photo ? <img src={featured.photo} alt="" width="56" height="56" loading="lazy" /> : initials(featured.name)}
+            </span>
+            <span class="rec-person-text">
+              <strong id="featured-name">{featured.name}</strong>
+              <span>{featured.headline}</span>
+              <small>
+                {featured.relationship} · <time datetime={featured.iso}>{featured.displayDate}</time>
+              </small>
+            </span>
+          </figcaption>
+        </figure>
 
-        {senjaIds.map((id) => (
-          <script
-            is:inline
-            src={`https://widget.senja.io/widget/${id}/platform.js`}
-            type="text/javascript"
-            async
-          ></script>
-        ))}
-      </div>
-    </section>
+        <!-- Recurring themes -->
+        <section class="rec-themes" aria-labelledby="themes-title">
+          <header class="rec-subhead">
+            <h3 id="themes-title">What comes up repeatedly</h3>
+            <p>Counted across all {total} recommendations. Select a theme to see who mentions it.</p>
+          </header>
+          <ul class="rec-theme-grid">
+            {
+              themes.map((theme) => (
+                <li class="rec-theme">
+                  <p class="rec-theme-count">
+                    <strong>{theme.count}</strong>
+                    <span>of {total}</span>
+                  </p>
+                  <h4>{theme.label}</h4>
+                  <blockquote>
+                    <p>“…{theme.example.text}…”</p>
+                    <footer>— {theme.example.by}</footer>
+                  </blockquote>
+                  <button
+                    type="button"
+                    class="rec-theme-button"
+                    data-filter-type="strength"
+                    data-filter-value={theme.id}
+                    data-filter-label={theme.label.toLowerCase()}
+                    hidden
+                  >
+                    Show these {theme.count} <span aria-hidden="true">↓</span>
+                  </button>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
 
-    <section class="evidence-career-section" id="experience">
-      <div class="growth-shell evidence-career-layout">
-        <div class="evidence-career-intro">
-          <span class="growth-overline">Experience</span>
-          <h2>A career that moved from finance into data, technology and growth.</h2>
-          <p>
-            Each move added another way of looking at a business problem. The
-            result is that I can move comfortably between commercial context,
-            quantitative analysis and technical execution.
+        <!-- Archive -->
+        <section class="rec-archive" id="all-recommendations" aria-labelledby="archive-title">
+          <header class="rec-subhead rec-archive-head">
+            <div>
+              <h3 id="archive-title">All recommendations</h3>
+              <p>Newest first, grouped by year.</p>
+            </div>
+
+            <div class="rec-controls" data-rec-controls hidden>
+              <div class="rec-chips" role="group" aria-label="Filter recommendations by area">
+                <button type="button" class="rec-chip" aria-pressed="true" data-filter-type="all">
+                  All <span>{total}</span>
+                </button>
+                {
+                  areaFilters.map((area) => (
+                    <button
+                      type="button"
+                      class="rec-chip"
+                      aria-pressed="false"
+                      data-filter-type="area"
+                      data-filter-value={area.id}
+                      data-filter-label={area.label.toLowerCase()}
+                    >
+                      {area.label} <span>{area.count}</span>
+                    </button>
+                  ))
+                }
+              </div>
+              <button type="button" class="rec-expand-all" data-expand-all aria-expanded="false">
+                Expand all
+              </button>
+            </div>
+          </header>
+
+          <p class="rec-status" role="status" aria-live="polite" data-rec-status></p>
+
+          {
+            byYear.map((group) => (
+              <section class="rec-year" data-rec-year aria-labelledby={`year-${group.year}`}>
+                <h3 class="rec-year-label" id={`year-${group.year}`}>
+                  {group.year}
+                </h3>
+                <ol class="rec-list">
+                  {group.entries.map((item) => (
+                    <li
+                      class="rec-item"
+                      id={`rec-${item.id}`}
+                      data-rec-item
+                      data-areas={item.areas.join(" ")}
+                      data-strengths={item.strengths.join(" ")}
+                    >
+                      <article aria-labelledby={`rec-${item.id}-name`}>
+                        <header class="rec-person rec-person--compact">
+                          <span class="rec-avatar" aria-hidden="true">
+                            {item.photo ? (
+                              <img src={item.photo} alt="" width="44" height="44" loading="lazy" />
+                            ) : (
+                              initials(item.name)
+                            )}
+                          </span>
+                          <div class="rec-person-text">
+                            <h4 id={`rec-${item.id}-name`}>
+                              {item.profileUrl ? (
+                                <a href={item.profileUrl} target="_blank" rel="noopener noreferrer">
+                                  {item.name}
+                                </a>
+                              ) : (
+                                item.name
+                              )}
+                              <a class="rec-permalink" href={`#rec-${item.id}`} aria-label={`Link to ${item.name}'s recommendation`}>
+                                #
+                              </a>
+                            </h4>
+                            <span>{item.headline}</span>
+                            <small>
+                              {item.relationship}
+                              {item.organisation && !item.relationship.includes(item.organisation) && (
+                                <> · {item.organisation}</>
+                              )}
+                            </small>
+                          </div>
+                          <time class="rec-date" datetime={item.iso}>
+                            {item.displayDate}
+                          </time>
+                        </header>
+
+                        <blockquote class="rec-quote">
+                          {item.collapsible ? (
+                            <>
+                              <p class="rec-quote-highlight">{item.highlight}</p>
+                              <details class="rec-more" data-rec-details>
+                                <summary>
+                                  <span class="rec-more-open">Read the full recommendation</span>
+                                  <span class="rec-more-close">Show less</span>
+                                </summary>
+                                <div class="rec-more-body">
+                                  {item.paragraphs.map((paragraph) => (
+                                    <p>{paragraph}</p>
+                                  ))}
+                                </div>
+                              </details>
+                            </>
+                          ) : (
+                            item.paragraphs.map((paragraph) => (
+                              <p class="rec-quote-highlight">{paragraph}</p>
+                            ))
+                          )}
+                        </blockquote>
+
+                        {item.featured && item.id === featured.id && (
+                          <p class="rec-tag">Featured above</p>
+                        )}
+                      </article>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+            ))
+          }
+
+          <p class="rec-empty" data-rec-empty hidden>
+            No recommendations match this filter.
+            <button type="button" data-filter-type="all">Show all</button>
           </p>
-        </div>
 
-        <div class="evidence-timeline">
-          {timeline.map((item) => (
-            <article class="evidence-timeline-item">
-              <div class="evidence-timeline-meta">
-                <span>{item.period}</span>
-                <strong>{item.organisation}</strong>
-                <small>{item.location}</small>
-              </div>
-              <div>
-                <h3>{item.role}</h3>
-                <p>{item.copy}</p>
-                <div class="evidence-skill-list">
-                  {item.skills.map((skill) => <span>{skill}</span>)}
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
+          <p class="rec-source-note">
+            Originals are published on
+            <a href="https://www.linkedin.com/in/matteoarellano" target="_blank" rel="noopener noreferrer">
+              my LinkedIn profile ↗</a
+            >. Spelling and wording are left exactly as written.
+          </p>
+        </section>
       </div>
     </section>
 
-    <section class="evidence-education-section" id="education">
-      <div class="growth-shell">
-        <header class="evidence-section-heading">
-          <span class="growth-overline">Education</span>
-          <h2>Business foundation, then deeper technical training.</h2>
+    <!-- ============ Reference letters ============ -->
+    <section class="rec-section rec-section--wash" id="letters" aria-labelledby="letters-title">
+      <div class="rec-shell">
+        <header class="rec-section-head">
+          <div>
+            <p class="rec-kicker"><span>{num("letters")}</span> Reference letters</p>
+            <h2 id="letters-title">Signed letters, summarised.</h2>
+          </div>
+          <p>
+            Formal letters from a team lead, a colleague and an award jury. The
+            originals carry signatures and personal contact details, so I do
+            not publish them. The passages below are quoted exactly, and the
+            full letters are available on request.
+          </p>
         </header>
 
-        <div class="evidence-education-grid">
-          {education.map((item) => (
-            <article class="evidence-education-card">
-              <span>{item.year}</span>
-              <h3>{item.title}</h3>
-              <strong>{item.detail}</strong>
-              <p>{item.institution}</p>
-            </article>
-          ))}
-        </div>
+        <ol class="rec-letters">
+          {
+            referenceLetters.map((letter) => (
+              <li class="rec-letter" id={`letter-${letter.id}`}>
+                <figure class="rec-letter-sheet">
+                  <div class="rec-letter-paper">
+                    <p class="rec-letter-letterhead">{letter.organisation}</p>
+                    <p class="rec-letter-date">
+                      <time datetime={letter.iso}>{letter.date}</time>
+                    </p>
+                    <p class="rec-letter-salutation">{letter.salutation}</p>
+                    <span class="rec-letter-lines" aria-hidden="true">
+                      <i /><i />
+                    </span>
+                    <blockquote class="rec-letter-pull">
+                      <p>{letter.pull}</p>
+                    </blockquote>
+                    <span class="rec-letter-lines" aria-hidden="true">
+                      <i /><i /><i />
+                    </span>
+                    <figcaption class="rec-letter-sign">
+                      <strong>{letter.author}</strong>
+                      <span>{letter.authorRole}</span>
+                    </figcaption>
+                    <span class="rec-letter-stamp">Excerpt · original on file</span>
+                  </div>
+                </figure>
 
-        <div class="evidence-academic-list">
-          {academicHighlights.map((item) => (
-            <article>
-              <span>{item.year} · {item.category}</span>
-              <h3>{item.title}</h3>
-              <p>{item.institution}</p>
-              <small>{item.description}</small>
-            </article>
-          ))}
-        </div>
+                <div class="rec-letter-info">
+                  <p class="rec-letter-kind">
+                    {letter.kind} · <time datetime={letter.iso}>{letter.date}</time>
+                  </p>
+                  <h3>{letter.author}</h3>
+                  <p class="rec-letter-role">
+                    {letter.authorRole}
+                    <br />
+                    {letter.organisation}
+                  </p>
+                  <p class="rec-letter-context">{letter.context}</p>
+
+                  <h4 class="rec-letter-label">What the letter speaks to</h4>
+                  <ul class="rec-letter-tags">
+                    {letter.confirms.map((item) => <li>{item}</li>)}
+                  </ul>
+
+                  <details class="rec-more rec-letter-more">
+                    <summary>
+                      <span class="rec-more-open">Read {letter.passages.length} more passages</span>
+                      <span class="rec-more-close">Hide passages</span>
+                    </summary>
+                    <div class="rec-more-body">
+                      {letter.passages.map((passage) => (
+                        <blockquote>
+                          <p>{passage}</p>
+                        </blockquote>
+                      ))}
+                    </div>
+                  </details>
+
+                  <a class="rec-letter-request" href={letterRequestHref(letter)}>
+                    Request the full letter <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
       </div>
     </section>
 
-    <section class="evidence-cta-section">
-      <div class="growth-shell evidence-cta-card">
-        <div>
-          <span class="growth-overline">Work together</span>
-          <h2>Have a growth problem that needs more than one discipline?</h2>
+    <!-- ============ Reviews (Senja) ============ -->
+    <section class="rec-section" id="reviews" aria-labelledby="reviews-title">
+      <div class="rec-shell">
+        <header class="rec-section-head">
+          <div>
+            <p class="rec-kicker"><span>{num("reviews")}</span> Reviews</p>
+            <h2 id="reviews-title">Feedback collected directly.</h2>
+          </div>
           <p>
-            Bring the commercial objective or the problem. We can talk through
-            it and see whether my background is useful for what you are trying to do.
+            Reviews gathered through Senja from people I have worked with on
+            technical, analytical and growth-related work. The most recent
+            review appears first.
+          </p>
+        </header>
+
+        <div class="rec-senja-grid" data-senja-root>
+          {
+            senjaIds.map((id, index) => (
+              <div class="rec-senja-card">
+                {index === 0 && <p class="rec-senja-new">Latest</p>}
+                <div
+                  class="senja-embed"
+                  data-id={id}
+                  data-mode="shadow"
+                  data-lazyload="false"
+                  style="display:block;width:100%;"
+                />
+              </div>
+            ))
+          }
+        </div>
+        <noscript>
+          <p class="rec-source-note">These reviews are displayed with JavaScript through Senja.</p>
+        </noscript>
+      </div>
+    </section>
+
+    <!-- ============ Outcomes ============ -->
+    <section class="rec-section rec-section--dark" id="outcomes" aria-labelledby="outcomes-title">
+      <div class="rec-shell">
+        <header class="rec-section-head">
+          <div>
+            <p class="rec-kicker"><span>{num("outcomes")}</span> Selected outcomes</p>
+            <h2 id="outcomes-title">Results from different parts of my career.</h2>
+          </div>
+          <p>
+            Deliberately varied: from customer conversion to technical
+            efficiency and management information.
+          </p>
+        </header>
+
+        <ul class="rec-outcomes">
+          {
+            outcomes.map((item) => (
+              <li>
+                <strong>{item.number}</strong>
+                <h3>{item.label}</h3>
+                <p>{item.copy}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ Experience ============ -->
+    <section class="rec-section" id="experience" aria-labelledby="experience-title">
+      <div class="rec-shell">
+        <header class="rec-section-head">
+          <div>
+            <p class="rec-kicker"><span>{num("experience")}</span> Experience</p>
+            <h2 id="experience-title">From finance into data, technology and growth.</h2>
+          </div>
+          <p>
+            Each move added another way of looking at a business problem, so I
+            can work comfortably between commercial context, quantitative
+            analysis and technical execution.
+          </p>
+        </header>
+
+        <ol class="rec-timeline">
+          {
+            timeline.map((item) => (
+              <li class="rec-timeline-item">
+                <div class="rec-timeline-period">
+                  <span>{item.period}</span>
+                  <small>{item.location}</small>
+                </div>
+                <div class="rec-timeline-body">
+                  <h3>{item.organisation}</h3>
+                  <p class="rec-timeline-role">{item.role}</p>
+                  <p>{item.copy}</p>
+                  <ul class="rec-skills" aria-label={`Skills used at ${item.organisation}`}>
+                    {item.skills.map((skill) => <li>{skill}</li>)}
+                  </ul>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ Languages ============ -->
+    <section class="rec-section rec-section--wash" id="languages" aria-labelledby="languages-title">
+      <div class="rec-shell">
+        <header class="rec-section-head">
+          <div>
+            <p class="rec-kicker"><span>{num("languages")}</span> Languages</p>
+            <h2 id="languages-title">{languageCount} languages, from native to elementary.</h2>
+          </div>
+          <p>
+            Native in Spanish and Catalan and advanced professional in English
+            and Dutch, with conversational French and Portuguese and elementary
+            Norwegian.
+          </p>
+        </header>
+
+        <ol class="rec-languages">
+          {
+            languageLevels.map((level) => (
+              <li class="rec-language-level">
+                <div class="rec-language-head">
+                  <span class="rec-meter" aria-hidden="true">
+                    {[1, 2, 3, 4].map((step) => (
+                      <i class:list={[step <= level.step && "is-on"]} />
+                    ))}
+                  </span>
+                  <h3>{level.label}</h3>
+                  {level.note && <p>{level.note}</p>}
+                </div>
+                <ul class="rec-language-list">
+                  {level.languages.map((language) => (
+                    <li>
+                      <strong>{language.name}</strong>
+                      {language.endonym !== language.name && (
+                        <span lang={language.code}>{language.endonym}</span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ Education ============ -->
+    <section class="rec-section" id="education" aria-labelledby="education-title">
+      <div class="rec-shell">
+        <header class="rec-section-head">
+          <div>
+            <p class="rec-kicker"><span>{num("education")}</span> Education</p>
+            <h2 id="education-title">A business foundation, then deeper technical training.</h2>
+          </div>
+        </header>
+
+        <ol class="rec-education">
+          {
+            education.map((item) => (
+              <li>
+                <span class="rec-education-year">{item.year}</span>
+                <div>
+                  <h3>{item.title}</h3>
+                  <p>{item.detail}</p>
+                  <small>{item.institution}</small>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+
+        <details class="rec-disclosure">
+          <summary>
+            <span>Academic results, awards &amp; letters</span>
+            <span class="rec-disclosure-count">{academicHighlights.length}</span>
+          </summary>
+          <ul class="rec-academic">
+            {
+              academicHighlights.map((item) => (
+                <li>
+                  <span class="rec-academic-meta">
+                    {item.year} · {item.category}
+                  </span>
+                  <h3>{item.title}</h3>
+                  <p>{item.institution}</p>
+                  <small>{item.description}</small>
+                  {item.title.includes("Rotterdam100") && (
+                    <a class="rec-academic-link" href="#letter-rotterdam100">
+                      Read the award letter summary ↑
+                    </a>
+                  )}
+                </li>
+              ))
+            }
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <!-- ============ CTA ============ -->
+    <section class="rec-cta" aria-labelledby="cta-title">
+      <div class="rec-shell rec-cta-inner">
+        <div>
+          <p class="rec-kicker">Work together</p>
+          <h2 id="cta-title">Have a problem that needs more than one discipline?</h2>
+          <p>
+            Bring the commercial objective or the problem. We can talk it
+            through and see whether my background is useful for what you are
+            trying to do.
           </p>
         </div>
         <a class="growth-primary-button" href="/#availability">Let's talk</a>
@@ -367,3 +927,143 @@ const profileSchema = {
 
   <Footer />
 </BaseLayout>
+
+<script>
+  const archive = document.querySelector<HTMLElement>("#all-recommendations");
+  const items = Array.from(document.querySelectorAll<HTMLElement>("[data-rec-item]"));
+  const years = Array.from(document.querySelectorAll<HTMLElement>("[data-rec-year]"));
+  const details = Array.from(document.querySelectorAll<HTMLDetailsElement>("[data-rec-details]"));
+  const statusEl = document.querySelector<HTMLElement>("[data-rec-status]");
+  const emptyEl = document.querySelector<HTMLElement>("[data-rec-empty]");
+  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>(".rec-chip"));
+  const expandAll = document.querySelector<HTMLButtonElement>("[data-expand-all]");
+
+  // Controls only appear when JavaScript is available; without it every
+  // recommendation is simply listed.
+  document.querySelector("[data-rec-controls]")?.removeAttribute("hidden");
+  document.querySelectorAll(".rec-theme-button").forEach((button) => button.removeAttribute("hidden"));
+
+  function applyFilter(type: string, value?: string, label?: string) {
+    let visible = 0;
+
+    items.forEach((item) => {
+      const list = type === "area" ? item.dataset.areas : item.dataset.strengths;
+      const match = type === "all" || (list ?? "").split(" ").includes(value ?? "");
+      item.hidden = !match;
+      if (match) visible += 1;
+    });
+
+    years.forEach((year) => {
+      year.hidden = !year.querySelector("[data-rec-item]:not([hidden])");
+    });
+
+    chips.forEach((chip) => {
+      const active =
+        type === "area"
+          ? chip.dataset.filterValue === value
+          : type === "all" && chip.dataset.filterType === "all";
+      chip.setAttribute("aria-pressed", String(active));
+    });
+
+    if (emptyEl) emptyEl.hidden = visible > 0;
+
+    if (statusEl) {
+      statusEl.textContent =
+        type === "all"
+          ? ""
+          : type === "strength"
+            ? `Showing ${visible} of ${items.length} recommendations that mention ${label}.`
+            : `Showing ${visible} of ${items.length} recommendations about ${label}.`;
+    }
+  }
+
+  document.addEventListener("click", (event) => {
+    const button = (event.target as HTMLElement).closest<HTMLButtonElement>("button[data-filter-type]");
+    if (!button) return;
+
+    const { filterType = "all", filterValue, filterLabel } = button.dataset;
+    applyFilter(filterType, filterValue, filterLabel);
+
+    if (button.classList.contains("rec-theme-button") || button.closest("[data-rec-empty]")) {
+      archive?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
+
+  expandAll?.addEventListener("click", () => {
+    const open = expandAll.getAttribute("aria-expanded") !== "true";
+    details.forEach((item) => {
+      if (!item.closest("[hidden]")) item.open = open;
+    });
+    expandAll.setAttribute("aria-expanded", String(open));
+    expandAll.textContent = open ? "Collapse all" : "Expand all";
+  });
+
+  // Deep links (#rec-name) show and open the recommendation they point to.
+  function openFromHash() {
+    const target = location.hash.startsWith("#rec-")
+      ? document.getElementById(location.hash.slice(1))
+      : null;
+    if (!target) return;
+    if (target.hidden) applyFilter("all");
+    const detail = target.querySelector<HTMLDetailsElement>("[data-rec-details]");
+    if (detail) detail.open = true;
+    target.scrollIntoView({ block: "start" });
+  }
+  window.addEventListener("hashchange", openFromHash);
+  openFromHash();
+
+  // Highlight the current section in the on-page index.
+  const indexLinks = new Map(
+    Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-index-link]")).map((link) => [
+      link.dataset.indexLink,
+      link,
+    ]),
+  );
+
+  if ("IntersectionObserver" in window) {
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          indexLinks.forEach((link) => link.removeAttribute("aria-current"));
+          indexLinks.get(entry.target.id)?.setAttribute("aria-current", "true");
+        });
+      },
+      { rootMargin: "-35% 0px -60% 0px" },
+    );
+    indexLinks.forEach((_, id) => {
+      const section = id ? document.getElementById(id) : null;
+      if (section) sectionObserver.observe(section);
+    });
+  }
+
+  // Load the Senja widgets only when the reviews come close to the viewport.
+  const senjaRoot = document.querySelector<HTMLElement>("[data-senja-root]");
+  let senjaLoaded = false;
+
+  function loadSenja() {
+    if (senjaLoaded || !senjaRoot) return;
+    senjaLoaded = true;
+    senjaRoot.querySelectorAll<HTMLElement>(".senja-embed").forEach((embed) => {
+      const script = document.createElement("script");
+      script.src = `https://widget.senja.io/widget/${embed.dataset.id}/platform.js`;
+      script.async = true;
+      document.body.appendChild(script);
+    });
+  }
+
+  if (senjaRoot && "IntersectionObserver" in window) {
+    const senjaObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          loadSenja();
+          senjaObserver.disconnect();
+        }
+      },
+      { rootMargin: "800px 0px" },
+    );
+    senjaObserver.observe(senjaRoot);
+  } else {
+    loadSenja();
+  }
+</script>
