@@ -2,7 +2,7 @@
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import Header from "../../../components/Header.astro";
 import Footer from "../../../components/Footer.astro";
-import CaseStudyLandscape from "../../../components/CaseStudyLandscape.astro";
+import CaseStudyHero from "../../../components/CaseStudyHero.astro";
 import {
   paymentCaseStudies,
   caseRegions,
@@ -16,9 +16,23 @@ const site = "https://matteoarellano.com";
 const canonical = `${site}/payment-solutions/case-studies/`;
 const title = "Payment Case Studies | Matteo Arellano";
 const description =
-  "Anonymised payment case studies: what broke, why it broke and what to do about it. Filter by region and payment technology.";
+  "Anonymised payment case studies: what went wrong, why it went wrong and how to solve it. Filter by region and payment technology.";
 
 const cases = [...paymentCaseStudies].sort((a, b) => b.published.localeCompare(a.published));
+
+const countBy = (test: (item: (typeof cases)[number]) => boolean) => cases.filter(test).length;
+
+const regionFilters = caseRegions.map((region) => ({
+  label: region,
+  value: slugify(region),
+  count: countBy((item) => item.region === region),
+}));
+
+const techFilters = caseTechnologies.map((tech) => ({
+  label: tech,
+  value: slugify(tech),
+  count: countBy((item) => item.technologies.includes(tech)),
+}));
 
 const formatDate = (iso: string) =>
   new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-GB", {
@@ -69,57 +83,93 @@ const structuredData = {
 };
 ---
 
-<BaseLayout title={title} description={description} canonical={canonical} image="/images/card-preview.jpg">
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  image="/images/case-studies/lofoten-coast-og.jpg"
+>
   <Header />
 
   <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
   <main class="cs-page">
-    <section class="cs-hero" aria-labelledby="cs-title">
-      <CaseStudyLandscape />
-      <div class="cs-hero-inner">
-        <a class="cs-crumb" href="/payment-solutions/">Payment solutions</a>
-        <h1 id="cs-title">Case studies</h1>
-        <span class="cs-rule" aria-hidden="true"></span>
-        <p class="cs-pill">Anonymised · insight-led</p>
-      </div>
-    </section>
+    <CaseStudyHero
+      crumbLabel="Payment solutions"
+      crumbHref="/payment-solutions/"
+      title="Case studies"
+      titleId="cs-title"
+    >
+      Anonymised · insight-led
+    </CaseStudyHero>
 
     <section class="cs-shell cs-intro">
       <p>
-        Real payment problems, told without the client. Each case explains
-        what broke, why it broke and what I would do about it. Where the real
-        business could be recognised, the example moves to a different
-        industry with the same mechanics, and the case says so.
+        Real payment problems, without client names. Each case study explains
+        what went wrong, why it went wrong and how to solve it. When the real
+        company could be identified, the example uses a different industry
+        with the same characteristics, and the case study says so.
       </p>
     </section>
 
-    <nav class="cs-shell cs-filters" aria-label="Filter case studies" data-cs-filters hidden>
-      <div class="cs-filter-row" role="group" aria-label="Filter by region">
-        <span class="cs-filter-label">Region</span>
-        <button type="button" data-cs-filter="region" data-value="all" aria-pressed="true">All</button>
-        {
-          caseRegions.map((region) => (
-            <button type="button" data-cs-filter="region" data-value={slugify(region)} aria-pressed="false">
-              {region}
-            </button>
-          ))
-        }
-      </div>
-      <div class="cs-filter-row" role="group" aria-label="Filter by technology">
-        <span class="cs-filter-label">Technology</span>
-        <button type="button" data-cs-filter="tech" data-value="all" aria-pressed="true">All</button>
-        {
-          caseTechnologies.map((tech) => (
-            <button type="button" data-cs-filter="tech" data-value={slugify(tech)} aria-pressed="false">
-              {tech}
-            </button>
-          ))
-        }
-      </div>
-    </nav>
+    <section class="cs-shell cs-browse" aria-labelledby="browse-title">
+      <h2 class="cs-visually-hidden" id="browse-title">Browse case studies</h2>
 
-    <section class="cs-shell" aria-label="Case studies">
+      <div class="cs-filters" data-cs-filters hidden>
+        <div class="cs-filter-group" role="group" aria-labelledby="filter-region">
+          <span class="cs-filter-label" id="filter-region">Region</span>
+          <div class="cs-chips">
+            <button type="button" class="cs-chip" data-cs-filter="region" data-value="all" aria-pressed="true">
+              All regions
+            </button>
+            {
+              regionFilters.map((filter) => (
+                <button
+                  type="button"
+                  class="cs-chip"
+                  data-cs-filter="region"
+                  data-value={filter.value}
+                  aria-pressed="false"
+                >
+                  {filter.label}
+                  <span class="cs-chip-count" data-cs-count>{filter.count}</span>
+                </button>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="cs-filter-group" role="group" aria-labelledby="filter-tech">
+          <span class="cs-filter-label" id="filter-tech">Technology</span>
+          <div class="cs-chips">
+            <button type="button" class="cs-chip" data-cs-filter="tech" data-value="all" aria-pressed="true">
+              All technologies
+            </button>
+            {
+              techFilters.map((filter) => (
+                <button
+                  type="button"
+                  class="cs-chip"
+                  data-cs-filter="tech"
+                  data-value={filter.value}
+                  aria-pressed="false"
+                >
+                  {filter.label}
+                  <span class="cs-chip-count" data-cs-count>{filter.count}</span>
+                </button>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="cs-filter-footer">
+          <p class="cs-result-count" role="status" aria-live="polite" data-cs-status>
+            Showing {cases.length} {cases.length === 1 ? "case study" : "case studies"}
+          </p>
+          <button type="button" class="cs-clear" data-cs-reset hidden>Clear filters</button>
+        </div>
+      </div>
+
       <ol class="cs-list">
         {
           cases.map((item, index) => (
@@ -132,11 +182,15 @@ const structuredData = {
               <a href={`/payment-solutions/case-studies/${item.slug}/`}>
                 <span class="cs-item-number">{String(cases.length - index).padStart(2, "0")}</span>
                 <div class="cs-item-body">
-                  <h2>{item.title}</h2>
+                  <h3>{item.title}</h3>
                   <p class="cs-item-summary">{item.summary}</p>
-                  <p class="cs-item-meta">
-                    {item.region} · {item.country} · {item.technologies.join(" · ")} ·{" "}
-                    <time datetime={item.published}>{formatDate(item.published)}</time>
+                  <ul class="cs-item-tags" aria-label="Region and technology">
+                    <li>{item.region} · {item.country}</li>
+                    {item.technologies.map((tech) => <li>{tech}</li>)}
+                  </ul>
+                  <p class="cs-item-date">
+                    <time datetime={item.published}>{formatDate(item.published)}</time> ·{" "}
+                    {item.readingMinutes} min read
                   </p>
                 </div>
                 <span class="cs-item-arrow" aria-hidden="true">→</span>
@@ -150,11 +204,10 @@ const structuredData = {
         No case studies match these filters yet.
         <button type="button" data-cs-reset>Clear filters</button>
       </p>
-      <p class="cs-status" role="status" aria-live="polite" data-cs-status></p>
     </section>
 
     <section class="cs-shell cs-closing">
-      <p>Have a payment problem that sounds familiar?</p>
+      <p>Do you have a payment problem like these?</p>
       <div class="cs-closing-links">
         <a href="mailto:matteo.visibility@gmail.com?subject=Payment%20problem">matteo.visibility@gmail.com</a>
         <a href="/payment-solutions/">How I help with payments →</a>
@@ -166,44 +219,83 @@ const structuredData = {
 </BaseLayout>
 
 <script>
+  type Group = "region" | "tech";
+
   const filters = document.querySelector<HTMLElement>("[data-cs-filters]");
   const items = Array.from(document.querySelectorAll<HTMLElement>("[data-cs-item]"));
+  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-cs-filter]"));
   const empty = document.querySelector<HTMLElement>("[data-cs-empty]");
   const status = document.querySelector<HTMLElement>("[data-cs-status]");
-  const state: Record<string, string> = { region: "all", tech: "all" };
+  const clearButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-cs-reset]"));
+  const state: Record<Group, string> = { region: "all", tech: "all" };
 
-  // Filters appear only with JavaScript; without it every case is listed.
+  // The filters only appear when JavaScript runs; without it, every case is listed.
   filters?.removeAttribute("hidden");
 
-  function render() {
+  const matches = (item: HTMLElement, region: string, tech: string) =>
+    (region === "all" || item.dataset.region === region) &&
+    (tech === "all" || (item.dataset.tech ?? "").split(" ").includes(tech));
+
+  function render(updateUrl = true) {
     let visible = 0;
     items.forEach((item) => {
-      const regionOk = state.region === "all" || item.dataset.region === state.region;
-      const techOk =
-        state.tech === "all" || (item.dataset.tech ?? "").split(" ").includes(state.tech);
-      item.hidden = !(regionOk && techOk);
+      item.hidden = !matches(item, state.region, state.tech);
       if (!item.hidden) visible += 1;
     });
 
-    document.querySelectorAll<HTMLButtonElement>("[data-cs-filter]").forEach((button) => {
-      const group = button.dataset.csFilter ?? "";
-      button.setAttribute("aria-pressed", String(state[group] === button.dataset.value));
+    // Counts show how many cases each option would give, combined with the other filter.
+    chips.forEach((chip) => {
+      const group = chip.dataset.csFilter as Group;
+      const value = chip.dataset.value ?? "all";
+      chip.setAttribute("aria-pressed", String(state[group] === value));
+
+      if (value === "all") return;
+      const other: Group = group === "region" ? "tech" : "region";
+      const count = items.filter((item) =>
+        group === "region" ? matches(item, value, state[other]) : matches(item, state[other], value),
+      ).length;
+      const countEl = chip.querySelector<HTMLElement>("[data-cs-count]");
+      if (countEl) countEl.textContent = String(count);
+      chip.disabled = count === 0 && state[group] !== value;
     });
 
+    const filtered = state.region !== "all" || state.tech !== "all";
+    clearButtons.forEach((button) => {
+      if (button.classList.contains("cs-clear")) button.hidden = !filtered;
+    });
     if (empty) empty.hidden = visible > 0;
     if (status) {
-      status.textContent =
-        state.region === "all" && state.tech === "all"
-          ? ""
-          : `${visible} of ${items.length} case ${items.length === 1 ? "study" : "studies"} shown.`;
+      const noun = visible === 1 ? "case study" : "case studies";
+      status.textContent = filtered
+        ? `Showing ${visible} of ${items.length} ${items.length === 1 ? "case study" : "case studies"}`
+        : `Showing ${visible} ${noun}`;
+    }
+
+    if (updateUrl) {
+      const params = new URLSearchParams();
+      if (state.region !== "all") params.set("region", state.region);
+      if (state.tech !== "all") params.set("technology", state.tech);
+      const query = params.toString();
+      history.replaceState(null, "", query ? `?${query}` : location.pathname);
     }
   }
 
+  // Filters can be shared as links, for example ?region=latam&technology=oxxo-pay
+  const params = new URLSearchParams(location.search);
+  const known = (group: Group, value: string | null) =>
+    !!value && chips.some((chip) => chip.dataset.csFilter === group && chip.dataset.value === value);
+  if (known("region", params.get("region"))) state.region = params.get("region")!;
+  if (known("tech", params.get("technology"))) state.tech = params.get("technology")!;
+  render(false);
+
   document.addEventListener("click", (event) => {
     const target = event.target as HTMLElement;
-    const button = target.closest<HTMLButtonElement>("[data-cs-filter]");
-    if (button) {
-      state[button.dataset.csFilter ?? ""] = button.dataset.value ?? "all";
+    const chip = target.closest<HTMLButtonElement>("[data-cs-filter]");
+    if (chip && !chip.disabled) {
+      const group = chip.dataset.csFilter as Group;
+      const value = chip.dataset.value ?? "all";
+      // Selecting an active option again turns it off.
+      state[group] = state[group] === value && value !== "all" ? "all" : value;
       render();
     }
     if (target.closest("[data-cs-reset]")) {

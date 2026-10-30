@@ -27,16 +27,16 @@ export type PaymentCaseStudy = {
 export const paymentCaseStudies: PaymentCaseStudy[] = [
   {
     slug: "oxxo-pay-cash-vouchers-time-limited-inventory",
-    title: "When cash meets a countdown: OXXO Pay and time-limited inventory",
+    title: "How to prevent failed orders when your customers use a cash payment method like OXXO Pay",
     summary:
-      "Why cash vouchers break when what you sell is only held for a limited time, and how to fix the clocks, the confirmations and the refunds.",
+      "OXXO Pay lets customers pay for online orders in cash. When a product is only reserved for a limited time, the payment can arrive too late. This case study explains the problems and how to solve them.",
     region: "LATAM",
     country: "Mexico",
     technologies: ["OXXO Pay", "Cash vouchers", "Webhooks", "Reconciliation"],
     illustration: "a fictional event-ticketing marketplace",
     role: "Integration support",
     published: "2026-10-30",
-    readingMinutes: 9,
+    readingMinutes: 11,
   },
 ];
 

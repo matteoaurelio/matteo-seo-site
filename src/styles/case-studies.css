@@ -1,7 +1,7 @@
 /* =========================================================
    PAYMENT CASE STUDIES (/payment-solutions/case-studies/)
-   Calm, minimal layout: a quiet landscape header, generous
-   whitespace, hairlines, and text-only filters.
+   Calm and minimal: a faded landscape header, generous
+   whitespace, hairlines and soft filter chips.
    ========================================================= */
 
 .cs-page {
@@ -10,6 +10,7 @@
   --cs-muted: var(--growth-muted, #6b7f92);
   --cs-line: var(--growth-border, #dbe6ef);
   --cs-accent: var(--growth-blue, #0b5cad);
+  --cs-soft: var(--growth-soft, #f3f8fc);
   --cs-paper: #ffffff;
   --cs-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 
@@ -22,47 +23,96 @@
   margin-inline: auto;
 }
 
+.cs-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
 .cs-page a:focus-visible,
 .cs-page button:focus-visible {
   outline: 2px solid var(--cs-accent);
-  outline-offset: 4px;
-  border-radius: 3px;
+  outline-offset: 3px;
+  border-radius: 6px;
 }
 
-/* ---------- Hero ---------- */
+.cs-page [id] {
+  scroll-margin-top: 104px;
+}
+
+/* ---------- Hero: faded photo ---------- */
 
 .cs-hero {
   position: relative;
   display: grid;
   place-items: center;
-  min-height: clamp(420px, 62vh, 620px);
+  min-height: clamp(440px, 64vh, 640px);
   overflow: hidden;
   isolation: isolate;
   text-align: center;
 }
 
 .cs-hero--article {
-  min-height: clamp(380px, 52vh, 540px);
+  min-height: clamp(420px, 58vh, 580px);
 }
 
-.cs-landscape {
+.cs-hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+
+.cs-hero-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 62% 40%;
+  opacity: 0.5;
+  filter: saturate(0.8) contrast(0.92);
+  transform: scale(1.03);
+  animation: cs-settle 2.4s var(--cs-ease) both;
+}
+
+/* White veil: soft at the top, clear in the middle, white at the bottom */
+.cs-hero::after {
+  content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
-  width: 100%;
-  height: 100%;
+  background:
+    radial-gradient(ellipse 60% 55% at 50% 50%, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0) 70%),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.55) 0%,
+      rgba(255, 255, 255, 0.15) 38%,
+      rgba(255, 255, 255, 0.35) 70%,
+      #ffffff 100%
+    );
+}
+
+@keyframes cs-settle {
+  from {
+    opacity: 0;
+    transform: scale(1.08);
+  }
+  to {
+    opacity: 0.5;
+    transform: scale(1.03);
+  }
 }
 
 .cs-hero-inner {
   display: grid;
   justify-items: center;
-  gap: 0;
-  width: min(920px, calc(100% - 48px));
-  padding: 64px 0 120px;
+  width: min(940px, calc(100% - 48px));
+  padding: 72px 0 110px;
 }
 
 .cs-crumb {
-  margin-bottom: 26px;
+  margin-bottom: 24px;
   color: var(--cs-copy);
   font-size: 0.76rem;
   font-weight: 700;
@@ -87,10 +137,10 @@
 }
 
 .cs-hero--article h1 {
-  max-width: 22ch;
-  font-size: clamp(1.9rem, 4.2vw, 3.3rem);
-  letter-spacing: 0.01em;
-  line-height: 1.12;
+  max-width: 24ch;
+  font-size: clamp(1.8rem, 3.8vw, 3rem);
+  letter-spacing: -0.01em;
+  line-height: 1.15;
   text-transform: none;
 }
 
@@ -98,105 +148,160 @@
   display: block;
   width: 96px;
   height: 3px;
-  margin: 26px 0 30px;
+  margin: 26px 0 28px;
   border-radius: 2px;
   background: var(--cs-ink);
 }
 
 .cs-pill {
-  margin: 0;
   padding: 10px 20px;
   border-radius: 12px;
-  background: rgba(7, 23, 41, 0.62);
+  background: rgba(7, 23, 41, 0.66);
   color: #fff;
-  font-size: 0.98rem;
-  letter-spacing: 0.01em;
+  font-size: 0.96rem;
+  line-height: 1.5;
   backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 /* ---------- Intro ---------- */
 
 .cs-intro {
-  padding: clamp(64px, 9vw, 112px) 0 clamp(40px, 5vw, 56px);
+  padding: clamp(48px, 7vw, 88px) 0 clamp(36px, 5vw, 56px);
 }
 
 .cs-intro p {
   max-width: 60ch;
   margin: 0 auto;
   color: var(--cs-copy);
-  font-size: clamp(1.08rem, 1.5vw, 1.24rem);
+  font-size: clamp(1.06rem, 1.5vw, 1.2rem);
   line-height: 1.8;
   text-align: center;
 }
 
-/* ---------- Filters: text only ---------- */
+/* ---------- Filters ---------- */
 
 .cs-filters {
   display: grid;
-  gap: 14px;
-  padding: 28px 0;
-  border-top: 1px solid var(--cs-line);
-  border-bottom: 1px solid var(--cs-line);
+  gap: 22px;
+  padding: 28px 30px 22px;
+  border: 1px solid var(--cs-line);
+  border-radius: 20px;
+  background: linear-gradient(180deg, #fbfdff 0%, var(--cs-paper) 100%);
 }
 
 .cs-filters[hidden] {
   display: none;
 }
 
-.cs-filter-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 6px 26px;
+.cs-filter-group {
+  display: grid;
+  grid-template-columns: 130px minmax(0, 1fr);
+  gap: 12px 20px;
+  align-items: start;
 }
 
 .cs-filter-label {
-  min-width: 110px;
+  padding-top: 9px;
   color: var(--cs-muted);
   font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
-.cs-filter-row button {
-  position: relative;
-  padding: 4px 0;
-  border: 0;
-  background: none;
-  color: var(--cs-muted);
+.cs-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cs-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 0 16px;
+  border: 1px solid var(--cs-line);
+  border-radius: 999px;
+  background: var(--cs-paper);
+  color: var(--cs-copy);
   font: inherit;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   cursor: pointer;
-  transition: color 0.3s var(--cs-ease);
+  transition:
+    background-color 0.25s var(--cs-ease),
+    border-color 0.25s var(--cs-ease),
+    color 0.25s var(--cs-ease);
 }
 
-.cs-filter-row button::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -2px;
-  height: 1.5px;
-  background: var(--cs-ink);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.4s var(--cs-ease);
-}
-
-.cs-filter-row button:hover,
-.cs-filter-row button[aria-pressed="true"] {
+.cs-chip:not([aria-pressed="true"]):not(:disabled):hover {
+  border-color: var(--cs-ink);
   color: var(--cs-ink);
 }
 
-.cs-filter-row button[aria-pressed="true"]::after {
-  transform: scaleX(1);
+.cs-chip[aria-pressed="true"] {
+  border-color: var(--cs-ink);
+  background: var(--cs-ink);
+  color: #fff;
+}
+
+.cs-chip:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.cs-chip-count {
+  min-width: 20px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--cs-soft);
+  color: var(--cs-muted);
+  font-size: 0.74rem;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.cs-chip[aria-pressed="true"] .cs-chip-count {
+  background: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.cs-filter-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--cs-line);
+}
+
+.cs-result-count {
+  margin: 0;
+  color: var(--cs-muted);
+  font-size: 0.88rem;
+}
+
+.cs-clear {
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--cs-line);
+  background: none;
+  color: var(--cs-ink);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cs-clear:hover {
+  border-color: var(--cs-ink);
 }
 
 /* ---------- List ---------- */
 
 .cs-list {
-  margin: 0;
+  margin: 12px 0 0;
   padding: 0;
   list-style: none;
 }
@@ -205,9 +310,9 @@
   display: none;
 }
 
-.cs-item a {
+.cs-item > a {
   display: grid;
-  grid-template-columns: 64px minmax(0, 1fr) 32px;
+  grid-template-columns: 56px minmax(0, 1fr) 32px;
   gap: 24px;
   align-items: start;
   padding: 44px 0;
@@ -224,9 +329,9 @@
   letter-spacing: 0.12em;
 }
 
-.cs-item h2 {
+.cs-item h3 {
   margin: 0;
-  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  font-size: clamp(1.3rem, 2.3vw, 1.65rem);
   font-weight: 650;
   line-height: 1.3;
   letter-spacing: -0.015em;
@@ -240,11 +345,27 @@
   line-height: 1.7;
 }
 
-.cs-item-meta {
-  margin: 16px 0 0;
+.cs-item-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cs-item-tags li {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--cs-soft);
+  color: var(--cs-copy);
+  font-size: 0.78rem;
+}
+
+.cs-item-date {
+  margin: 12px 0 0;
   color: var(--cs-muted);
   font-size: 0.84rem;
-  letter-spacing: 0.02em;
 }
 
 .cs-item-arrow {
@@ -256,11 +377,11 @@
     color 0.3s var(--cs-ease);
 }
 
-.cs-item a:hover h2 {
+.cs-item > a:hover h3 {
   color: var(--cs-accent);
 }
 
-.cs-item a:hover .cs-item-arrow {
+.cs-item > a:hover .cs-item-arrow {
   color: var(--cs-ink);
   transform: translateX(6px);
 }
@@ -282,17 +403,6 @@
   cursor: pointer;
 }
 
-.cs-status {
-  margin: 16px 0 0;
-  color: var(--cs-muted);
-  font-size: 0.86rem;
-  text-align: center;
-}
-
-.cs-status:empty {
-  margin: 0;
-}
-
 /* ---------- Closing ---------- */
 
 .cs-closing {
@@ -302,9 +412,10 @@
 
 .cs-closing > p,
 .cs-contact > p {
-  margin: 0 0 18px;
+  max-width: 56ch;
+  margin: 0 auto 18px;
   color: var(--cs-copy);
-  font-size: 1.1rem;
+  font-size: 1.08rem;
 }
 
 .cs-closing-links {
@@ -329,33 +440,37 @@
 /* ---------- Article ---------- */
 
 .cs-article {
-  width: min(700px, calc(100% - 48px));
+  width: min(720px, calc(100% - 48px));
   margin: 0 auto;
-  padding: clamp(64px, 9vw, 104px) 0 clamp(80px, 10vw, 128px);
+  padding: clamp(40px, 6vw, 72px) 0 clamp(80px, 10vw, 128px);
   color: var(--cs-copy);
   font-size: 1.08rem;
   line-height: 1.85;
 }
 
+.cs-article > section {
+  margin-top: clamp(72px, 9vw, 104px);
+}
+
 .cs-article h2 {
-  margin: 72px 0 18px;
+  margin: 0 0 20px;
   color: var(--cs-ink);
-  font-size: clamp(1.45rem, 2.6vw, 1.8rem);
+  font-size: clamp(1.45rem, 2.6vw, 1.85rem);
   font-weight: 680;
   line-height: 1.25;
   letter-spacing: -0.015em;
 }
 
 .cs-article h3 {
-  margin: 44px 0 10px;
+  margin: 0 0 10px;
   color: var(--cs-ink);
-  font-size: 1.14rem;
+  font-size: 1.15rem;
   font-weight: 680;
   line-height: 1.4;
 }
 
 .cs-article p {
-  margin: 0 0 1.25em;
+  margin: 0 0 1.2em;
 }
 
 .cs-article a {
@@ -365,14 +480,14 @@
 
 .cs-dek {
   color: var(--cs-ink);
-  font-size: clamp(1.2rem, 2vw, 1.4rem);
+  font-size: clamp(1.18rem, 2vw, 1.36rem);
   line-height: 1.65;
 }
 
 .cs-facts-line {
   display: flex;
   flex-wrap: wrap;
-  gap: 18px 40px;
+  gap: 18px 44px;
   margin: 36px 0;
   padding: 20px 0;
   border-top: 1px solid var(--cs-line);
@@ -384,7 +499,7 @@
   color: var(--cs-muted);
   font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
@@ -395,10 +510,10 @@
 }
 
 .cs-note {
-  margin: 0 0 48px;
+  margin: 0;
   padding: 24px 28px;
-  border-radius: 14px;
-  background: var(--growth-soft, #f3f8fc);
+  border-radius: 16px;
+  background: var(--cs-soft);
   font-size: 0.98rem;
   line-height: 1.75;
 }
@@ -413,16 +528,8 @@
   margin: 0;
 }
 
-.cs-summary {
-  padding: 8px 0 0;
-}
-
-.cs-summary h2 {
-  margin-top: 0;
-}
-
-.cs-summary ul,
-.cs-steps {
+/* Summary */
+.cs-summary ul {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -437,24 +544,122 @@
 .cs-summary li::before {
   content: "";
   position: absolute;
-  top: 0.8em;
+  top: 0.85em;
   left: 0;
   width: 12px;
   height: 1.5px;
   background: var(--cs-accent);
 }
 
+/* Table of contents */
+.cs-article > .cs-toc {
+  margin-top: 56px;
+  padding: 24px 28px;
+  border: 1px solid var(--cs-line);
+  border-radius: 16px;
+}
+
+.cs-toc h2 {
+  margin-bottom: 12px;
+  font-size: 0.76rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.cs-toc ol {
+  margin: 0;
+  padding-left: 22px;
+  color: var(--cs-muted);
+  font-size: 0.98rem;
+  line-height: 1.9;
+}
+
+.cs-toc a {
+  color: var(--cs-ink);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.25s var(--cs-ease);
+}
+
+.cs-toc a:hover {
+  border-color: var(--cs-ink);
+}
+
+/* Bridge sentences: lead the reader to the next part */
+.cs-bridge {
+  position: relative;
+  margin: 28px 0 0 !important;
+  padding-left: 20px;
+  border-left: 2px solid var(--cs-line);
+  color: var(--cs-ink);
+  font-style: italic;
+}
+
+/* Payment flow */
+.cs-flow {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cs-flow li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 16px;
+  padding-bottom: 18px;
+}
+
+.cs-flow li:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  top: 34px;
+  bottom: 2px;
+  left: 16px;
+  border-left: 1px solid var(--cs-line);
+}
+
+.cs-flow-number {
+  display: grid;
+  place-items: center;
+  width: 33px;
+  height: 33px;
+  border: 1px solid var(--cs-line);
+  border-radius: 50%;
+  background: var(--cs-paper);
+  color: var(--cs-ink);
+  font-size: 0.86rem;
+  font-weight: 650;
+}
+
+.cs-flow li.is-key .cs-flow-number {
+  border-color: var(--cs-accent);
+  background: var(--cs-accent);
+  color: #fff;
+}
+
+.cs-flow li.is-key p {
+  color: var(--cs-ink);
+  font-weight: 600;
+}
+
+.cs-flow p {
+  margin: 3px 0 0;
+}
+
+/* Key facts */
 .cs-facts {
-  margin: 44px 0;
+  margin: 36px 0 0;
 }
 
 .cs-facts figcaption,
-.cs-clocks figcaption {
+.cs-clocks figcaption,
+.cs-compare figcaption {
   margin-bottom: 14px;
   color: var(--cs-ink);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
@@ -478,12 +683,12 @@
   line-height: 1.6;
 }
 
-/* Two clocks diagram */
+/* Two time limits */
 .cs-clocks {
-  margin: 44px 0;
+  margin: 36px 0 0;
   padding: 28px;
   border: 1px solid var(--cs-line);
-  border-radius: 14px;
+  border-radius: 16px;
 }
 
 .cs-clocks figcaption span {
@@ -534,13 +739,7 @@
 .cs-clock-bar--voucher {
   width: 100%;
   color: var(--cs-ink);
-  background: linear-gradient(
-    90deg,
-    #8fb2d1 0,
-    #8fb2d1 14%,
-    #d9a77c 14%,
-    #e6bf9c 100%
-  );
+  background: linear-gradient(90deg, #a9c3da 0, #a9c3da 14%, #e2b48e 14%, #ecd0b4 100%);
 }
 
 .cs-clock-gap {
@@ -550,21 +749,44 @@
   line-height: 1.6;
 }
 
+/* Problems and options */
+.cs-point {
+  margin-top: 44px;
+}
+
+.cs-point-number {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--cs-accent);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Seven steps */
 .cs-steps {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
   counter-reset: step;
 }
 
 .cs-steps li {
   position: relative;
-  margin-bottom: 22px;
-  padding-left: 52px;
+  padding: 22px 0 6px 56px;
+  border-top: 1px solid var(--cs-line);
   counter-increment: step;
+}
+
+.cs-steps li:first-child {
+  border-top-color: var(--cs-ink);
 }
 
 .cs-steps li::before {
   content: counter(step, decimal-leading-zero);
   position: absolute;
-  top: 0.15em;
+  top: 25px;
   left: 0;
   color: var(--cs-muted);
   font-size: 0.86rem;
@@ -572,35 +794,74 @@
   letter-spacing: 0.1em;
 }
 
-.cs-steps strong {
-  color: var(--cs-ink);
+.cs-steps h3 {
+  margin-bottom: 6px;
 }
 
+/* Comparison table */
+.cs-compare {
+  margin: 44px 0 0;
+}
+
+.cs-table-wrap {
+  overflow-x: auto;
+  border-top: 1px solid var(--cs-ink);
+}
+
+.cs-compare table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.cs-compare th,
+.cs-compare td {
+  padding: 14px 16px 14px 0;
+  border-bottom: 1px solid var(--cs-line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.cs-compare thead th {
+  color: var(--cs-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.cs-compare tbody th {
+  color: var(--cs-ink);
+  font-weight: 650;
+}
+
+/* Conclusion */
 .cs-takeaway {
-  margin: 64px 0 !important;
-  padding: 36px 0;
+  margin: 0 !important;
+  padding: 32px 0;
   border-top: 1px solid var(--cs-ink);
   border-bottom: 1px solid var(--cs-line);
   color: var(--cs-ink);
-  font-size: clamp(1.3rem, 2.4vw, 1.6rem);
-  line-height: 1.5;
+  font-size: clamp(1.24rem, 2.3vw, 1.5rem);
+  line-height: 1.55;
+}
+
+.cs-article > .cs-contact {
+  margin-top: 64px;
   text-align: center;
 }
 
-.cs-contact {
-  margin: 0 0 72px;
-  text-align: center;
-}
-
-.cs-sources {
+.cs-article > .cs-sources {
+  margin-top: 72px;
   font-size: 0.9rem;
   line-height: 1.6;
 }
 
 .cs-sources h2 {
-  margin-top: 0;
-  font-size: 0.8rem;
-  letter-spacing: 0.18em;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
@@ -627,6 +888,17 @@
 
 /* ---------- Responsive ---------- */
 
+@media (max-width: 720px) {
+  .cs-filter-group {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .cs-filter-label {
+    padding-top: 0;
+  }
+}
+
 @media (max-width: 640px) {
   .cs-shell,
   .cs-article {
@@ -634,18 +906,34 @@
   }
 
   .cs-hero-inner {
-    padding: 48px 0 96px;
+    padding: 56px 0 96px;
   }
 
   .cs-pill {
     font-size: 0.86rem;
   }
 
-  .cs-filter-label {
-    min-width: 100%;
+  .cs-filters {
+    padding: 22px 18px 18px;
   }
 
-  .cs-item a {
+  .cs-chips {
+    flex-wrap: nowrap;
+    margin-right: -18px;
+    padding-right: 18px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .cs-chips::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cs-chip {
+    flex: 0 0 auto;
+  }
+
+  .cs-item > a {
     grid-template-columns: minmax(0, 1fr);
     gap: 10px;
     padding: 36px 0;
@@ -660,8 +948,14 @@
     gap: 4px;
   }
 
-  .cs-clocks {
+  .cs-clocks,
+  .cs-article > .cs-toc,
+  .cs-note {
     padding: 20px;
+  }
+
+  .cs-steps li {
+    padding-left: 44px;
   }
 }
 
@@ -669,6 +963,11 @@
   .cs-page *,
   .cs-page *::before,
   .cs-page *::after {
+    animation: none !important;
     transition: none !important;
+  }
+
+  .cs-hero-media img {
+    opacity: 0.5;
   }
 }

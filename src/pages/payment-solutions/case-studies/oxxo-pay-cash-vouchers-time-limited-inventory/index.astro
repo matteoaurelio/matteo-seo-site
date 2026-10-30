@@ -2,7 +2,7 @@
 import BaseLayout from "../../../../layouts/BaseLayout.astro";
 import Header from "../../../../components/Header.astro";
 import Footer from "../../../../components/Footer.astro";
-import CaseStudyLandscape from "../../../../components/CaseStudyLandscape.astro";
+import CaseStudyHero from "../../../../components/CaseStudyHero.astro";
 import { getPaymentCaseStudy } from "../../../../data/paymentCaseStudies";
 import "../../../../styles/growth-platform.css";
 import "../../../../styles/case-studies.css";
@@ -14,7 +14,7 @@ if (!study) throw new Error(`Case study not found: ${slug}`);
 const site = "https://matteoarellano.com";
 const hub = `${site}/payment-solutions/case-studies/`;
 const canonical = `${hub}${slug}/`;
-const title = `${study.title} | Payment case study`;
+const title = "How to Prevent Failed Orders with OXXO Pay Cash Payments | Case Study";
 const description = study.summary;
 
 const publishedLabel = new Date(`${study.published}T00:00:00Z`).toLocaleDateString("en-GB", {
@@ -24,34 +24,133 @@ const publishedLabel = new Date(`${study.published}T00:00:00Z`).toLocaleDateStri
   timeZone: "UTC",
 });
 
+const contents = [
+  { id: "why", label: "Why companies offer OXXO Pay" },
+  { id: "how", label: "How an OXXO Pay payment works" },
+  { id: "example", label: "The example: tickets with a time limit" },
+  { id: "problems", label: "Five problems" },
+  { id: "solutions", label: "Seven steps to solve them" },
+  { id: "root-cause", label: "The root cause and three long-term options" },
+  { id: "conclusion", label: "Conclusion" },
+];
+
+const paymentSteps = [
+  "The customer places an order online and chooses OXXO Pay.",
+  "The website shows a payment reference: a number of 14 to 16 digits, or a barcode. The reference has an expiry date.",
+  "The customer goes to an OXXO store and pays the amount in cash at the till.",
+  "The payment provider sends a payment confirmation to the website.",
+  "The website completes the order. The money arrives in the company's bank account some days later.",
+];
+
 const facts = [
-  { label: "Maximum per payment", value: "MXN 10,000" },
+  { label: "Maximum amount per payment", value: "MXN 10,000" },
+  { label: "Fee paid by the customer at the store", value: "MXN 17 with OXXO's own service" },
+  { label: "Fee paid by the business", value: "From 3.9% + VAT with OXXO's own service; different with other providers" },
   {
-    label: "Paid by the customer at the till",
-    value: "A fixed fee: MXN 17 on OXXO's own service",
+    label: "How long a payment reference is valid",
+    value: "Set by the provider and the business: 1 to 7 days with Stripe, 5 days on some platforms, 30 days by default on others",
+  },
+  { label: "Payment confirmation", value: "Almost immediate with some providers; by the next business day with Stripe" },
+  { label: "Refunds and chargebacks", value: "Stripe does not support refunds; customers cannot open a chargeback" },
+];
+
+const problems = [
+  {
+    title: "The payment reference is valid for longer than the reservation",
+    body: [
+      "The payment provider sets the expiry date of the reference. The venue sets the end of the reservation. If the reference is valid for longer than the reservation, the customer can pay for seats that the venue has already released or sold to someone else.",
+      "Making the reservation as long as the reference does not solve this. The seats then stay blocked for days, and many references are never paid. In the work that this case study is based on, many customers chose to pay in cash. For this reason, the difference between the two time limits caused problems often, not only in rare cases.",
+    ],
+    next: "The most serious result of this difference is the second problem.",
   },
   {
-    label: "Paid by the merchant",
-    value: "From 3.9% + VAT on OXXO's own service; varies by provider",
+    title: "The customer pays, but the product cannot be issued",
+    body: [
+      "The customer pays at the store, and the website receives the payment confirmation. However, the ticket cannot be issued, because the reservation has ended, the seats were sold, or the venue's system failed. The customer did everything correctly and has a receipt from the store, but no ticket.",
+    ],
+    next: "In this situation, the business must return the money. This is more difficult than it sounds.",
   },
   {
-    label: "How long a voucher is valid",
-    value: "Set by provider and merchant: 1–7 days on Stripe, 5 days on some platforms, 30 days by default on others",
+    title: "Cash payments are difficult to return",
+    body: [
+      "The product cannot be refunded, so there is no standard refund process. The payment method does not help either. Stripe, for example, does not support refunds for OXXO payments, and asks businesses to create their own process to return money to customers.",
+      "Customers also cannot open a chargeback (a payment dispute through their bank), so every case goes to the business's customer service team. In addition, many customers who pay in cash do not have a bank account where the business can send the money.",
+    ],
+    next: "To solve these cases quickly, the business needs to know exactly when a payment arrives. This leads to the fourth problem.",
   },
   {
-    label: "Payment confirmation",
-    value: "Near real time with some providers; by the next business day on Stripe",
+    title: "Payment confirmations can arrive late, without a clear reason",
+    body: [
+      "The payment confirmation arrives as a webhook: an automatic message from the payment provider to the website. How long this takes depends on the provider. Some providers confirm almost immediately; Stripe confirms by the next business day.",
+      "When a confirmation is late, the business cannot see the difference between \"the customer has not paid yet\" and \"the customer has paid, but the confirmation has not arrived\". In the work that this case study is based on, the provider gave little information about the status of its confirmations. There was no clear signal when confirmations were late or failing, so the team often learned about problems from customer complaints.",
+    ],
+    next: "The last problem is smaller, but customers notice it.",
   },
   {
-    label: "Refunds and chargebacks",
-    value: "No refunds through Stripe; customers cannot file chargebacks",
+    title: "The customer pays an extra fee at the store",
+    body: [
+      "At the store, the customer pays a fixed fee in addition to the price of the product: MXN 17 with OXXO's own service. For a low-priced ticket, this is a large percentage of the price. It is also paid by the customers who have the fewest other ways to pay.",
+    ],
+    next: "These five problems are connected, so the solutions are connected too. The next section describes seven practical steps.",
+  },
+];
+
+const solutions = [
+  {
+    title: "Calculate the payment deadline from the reservation",
+    body: "For each order, set the expiry of the payment reference to the end of the reservation, minus a safety margin. If the reservation is too short for a customer to visit a store, do not offer cash for that product. Alternatively, ask the company that owns the inventory for a longer reservation for cash orders.",
+  },
+  {
+    title: "Show the deadline clearly",
+    body: "Show the exact date, time and time zone of the deadline. For example, Stripe references expire at 23:59 Mexico City time. Explain clearly that the reference is not a ticket, and that the order is complete only after the payment is confirmed.",
+  },
+  {
+    title: "Check availability before you issue the product",
+    body: "When the payment confirmation arrives, check that the seats are still reserved before you issue the ticket. If they are not, apply a solution that you agreed in advance: similar seats, a credit or a refund.",
+  },
+  {
+    title: "Prepare a refund process before launch",
+    body: "The payment provider will not return cash payments for you. Before you launch, decide how you will return money: a credit on your website, a bank transfer through SPEI, or a payment to a digital wallet. Also decide who approves each refund.",
+  },
+  {
+    title: "Do not depend only on payment confirmations",
+    body: "Process each confirmation only once, and verify that it really comes from the provider. Ask the provider regularly about references that will expire soon. Create an alert when no payments arrive during hours when payments normally arrive. Every day, compare the payments you received with your orders.",
+  },
+  {
+    title: "Measure each step of the cash payment process",
+    body: "Track how many references are created, how many are paid, how many are paid before the deadline, how many orders are completed automatically and how many need manual help. Track \"paid but not completed\" as a separate number, and make one person responsible for it.",
+  },
+  {
+    title: "Show the store fee before the customer chooses cash",
+    body: "Show the fee before the customer selects OXXO Pay. For low-priced products, consider paying the fee for the customer.",
+  },
+];
+
+const options = [
+  {
+    name: "Instant bank payments (SPEI, CoDi, DiMo)",
+    helps: "Customers with a bank account",
+    speed: "A few seconds",
+    cost: "Few people use CoDi and DiMo today",
+  },
+  {
+    name: "Cash added to a digital wallet first",
+    helps: "Customers without a bank account",
+    speed: "A few seconds, after the cash deposit",
+    cost: "The customer needs an app and pays a deposit fee",
+  },
+  {
+    name: "A longer reservation, for a fee",
+    helps: "All customers who pay in cash",
+    speed: "No change: the customer still pays at a store",
+    cost: "A fee for the customer; the inventory owner must agree",
   },
 ];
 
 const sources = [
   { name: "Stripe Docs — OXXO payments", url: "https://docs.stripe.com/payments/oxxo" },
   {
-    name: "Stripe Docs — Pagos con OXXO (expiry and confirmation timing)",
+    name: "Stripe Docs — Pagos con OXXO (expiry and confirmation time)",
     url: "https://docs.stripe.com/payments/oxxo?locale=es-419",
   },
   {
@@ -80,13 +179,16 @@ const sources = [
     url: "https://thepaypers.com/payments/expert-views/mexico-2024-analysis-of-payments-and-ecommerce-trends",
   },
   { name: "DPL News — SPEI at 22 years", url: "https://dplnews.com/?p=326663" },
-  { name: "DPL News — Se acerca el SPEI 2.0 (CoDi and DiMo usage)", url: "https://dplnews.com/?p=290343" },
+  { name: "DPL News — Se acerca el SPEI 2.0 (CoDi and DiMo use)", url: "https://dplnews.com/?p=290343" },
   {
     name: "Líder Empresarial — Banxico standardises mobile transfers",
     url: "https://www.liderempresarial.com/banxico-obliga-a-la-banca-a-simplificar-las-transferencias-moviles/",
   },
   { name: "Descubre — Spin by OXXO company profile", url: "https://www.descubre.vc/spin" },
-  { name: "Volaris — Payment options and reservation hold", url: "https://cms.volaris.com/es/informacion-util/opciones-de-pago/" },
+  {
+    name: "Volaris — Payment options and paid reservation",
+    url: "https://cms.volaris.com/es/informacion-util/opciones-de-pago/",
+  },
 ];
 
 const structuredData = {
@@ -104,7 +206,7 @@ const structuredData = {
       dateModified: study.updated ?? study.published,
       author: { "@id": `${site}/#person` },
       publisher: { "@id": `${site}/#person` },
-      image: `${site}/images/card-preview.jpg`,
+      image: `${site}/images/case-studies/lofoten-coast-og.jpg`,
       isPartOf: { "@id": `${hub}#page` },
       about: [
         { "@type": "Thing", name: "OXXO Pay" },
@@ -129,302 +231,359 @@ const structuredData = {
 };
 
 const emailHref = `mailto:matteo.visibility@gmail.com?subject=${encodeURIComponent(
-  "Cash voucher payments (OXXO)",
+  "Cash payments (OXXO Pay)",
 )}`;
 ---
 
-<BaseLayout title={title} description={description} canonical={canonical} image="/images/card-preview.jpg">
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  image="/images/case-studies/lofoten-coast-og.jpg"
+>
   <Header />
 
   <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
   <main class="cs-page">
-    <section class="cs-hero cs-hero--article" aria-labelledby="article-title">
-      <CaseStudyLandscape />
-      <div class="cs-hero-inner">
-        <a class="cs-crumb" href="/payment-solutions/case-studies/">Case studies</a>
-        <h1 id="article-title">{study.title}</h1>
-        <span class="cs-rule" aria-hidden="true"></span>
-        <p class="cs-pill">
-          {study.region} · {study.country} · <time datetime={study.published}>{publishedLabel}</time> ·
-          {study.readingMinutes} min read
-        </p>
-      </div>
-    </section>
+    <CaseStudyHero
+      crumbLabel="Case studies"
+      crumbHref="/payment-solutions/case-studies/"
+      title={study.title}
+      titleId="article-title"
+      variant="article"
+    >
+      {study.region} · {study.country} · <time datetime={study.published}>{publishedLabel}</time> ·
+      {study.readingMinutes} min read
+    </CaseStudyHero>
 
     <article class="cs-article" aria-labelledby="article-title">
       <p class="cs-dek">
-        Cash vouchers bring in customers that cards miss. But when what you
-        sell is only held for a limited time, a payment that arrives on the
-        customer's schedule becomes a liability. Here is where it breaks, and
-        how to design around it.
+        OXXO Pay lets customers in Mexico pay for online orders in cash at a
+        convenience store. For most products, this works well. For products
+        that are only reserved for a limited time, such as tickets or bookings,
+        it can lead to failed orders. This case study explains why this happens
+        and what you can do about it.
       </p>
 
       <dl class="cs-facts-line">
         <div><dt>Region</dt><dd>{study.region} · {study.country}</dd></div>
-        <div><dt>Technology</dt><dd>{study.technologies.join(", ")}</dd></div>
+        <div><dt>Topics</dt><dd>{study.technologies.join(", ")}</dd></div>
         <div><dt>My role</dt><dd>{study.role}</dd></div>
       </dl>
 
-      <aside class="cs-note" aria-label="About this case">
-        <strong>About this case</strong>
+      <aside class="cs-note" aria-label="About this case study">
+        <strong>About this case study</strong>
         <p>
-          It draws on my work on the integration side of an OXXO Pay setup for
-          a business I keep anonymous. To keep it that way, the example below is
-          <em>{study.illustration}</em>, which is <strong>not</strong> the real
-          industry. It shares every mechanic that mattered: inventory held for a
-          limited time, a third party that issues the final product, and a
-          no-refund policy. No client names, figures or internal details
-          appear here. Market data comes from the public sources listed at the
-          end.
+          This case study is based on my work on the integration of OXXO Pay
+          for a company that I do not name. To protect that company, the
+          example in this article is <em>{study.illustration}</em>. The real
+          company is in a <strong>different industry</strong>. The example has
+          the same three characteristics that caused the problems: the product
+          is reserved for a limited time, another company issues the final
+          product, and the product cannot be refunded. The article contains no
+          client names, figures or internal details. All market data comes
+          from public sources, listed at the end.
         </p>
       </aside>
 
-      <section class="cs-summary" aria-labelledby="in-short">
-        <h2 id="in-short">In short</h2>
+      <section class="cs-summary" aria-labelledby="summary-title">
+        <h2 id="summary-title">Summary</h2>
         <ul>
+          <li>Many customers in Mexico pay in cash, so OXXO Pay can increase sales.</li>
           <li>
-            Cash vouchers like OXXO Pay work: cash is still how most Mexicans
-            pay for larger purchases, and many customers choose a voucher when
-            it is offered.
+            Problems start when the payment deadline is later than the
+            reservation deadline. Customers can then pay for a product that is
+            no longer reserved for them.
           </li>
           <li>
-            Trouble starts when the voucher and the inventory hold run on
-            different clocks. Customers can then pay for something that is no
-            longer reserved.
+            Cash payments are difficult to return. For example, Stripe does not
+            support refunds for OXXO payments.
           </li>
           <li>
-            Cash is hard to give back. Stripe, for example, does not support
-            refunds of OXXO payments, so every "paid but not delivered" order
-            needs a remedy you designed yourself.
+            To reduce the problems: calculate the payment deadline from the
+            reservation, check availability before you issue the product,
+            prepare a refund process and monitor payment confirmations.
           </li>
           <li>
-            Fix the clocks, treat payment notifications as fallible and design
-            the refund path before launch. Longer term, move the cash step
-            before the booking, or charge for the hold.
+            To remove the cause, reduce the time between the order and the
+            payment: instant bank payments, cash added to a digital wallet
+            first, or a longer reservation for a fee.
           </li>
         </ul>
       </section>
 
-      <h2>Why businesses offer OXXO Pay</h2>
-      <p>
-        Cash still dominates larger purchases in Mexico. In the 2024 national
-        financial inclusion survey (ENIF), 73.5% of purchases of MXN 501 or
-        more were paid in cash. About three in four adults now hold at least
-        one formal financial product, which still leaves roughly a quarter
-        outside the system, and many people with an account prefer to pay in
-        cash anyway.
-      </p>
-      <p>
-        OXXO, with more than 20,000 convenience stores, is the bridge between
-        that cash and online checkouts. In 2024 it accounted for about half of
-        all voucher and cash-based payments in Mexican digital commerce.
-      </p>
-      <p>
-        The mechanics are simple. At checkout the customer chooses OXXO and
-        receives a 14–16 digit reference or barcode. They pay it at any store
-        till, and the merchant is notified once the payment is processed. No
-        bank account, card or registration is needed.
-      </p>
+      <nav class="cs-toc" aria-labelledby="toc-title">
+        <h2 id="toc-title">In this article</h2>
+        <ol>
+          {contents.map((item) => <li><a href={`#${item.id}`}>{item.label}</a></li>)}
+        </ol>
+      </nav>
 
-      <figure class="cs-facts" aria-labelledby="facts-title">
-        <figcaption id="facts-title">OXXO Pay at a glance</figcaption>
-        <dl>
+      <!-- 1 -->
+      <section id="why" aria-labelledby="why-title">
+        <h2 id="why-title">Why companies offer OXXO Pay</h2>
+        <p>
+          Cash is still the most common way to pay for larger purchases in
+          Mexico. According to the 2024 National Survey of Financial Inclusion
+          (ENIF), 73.5% of purchases of MXN 501 or more were paid in cash.
+          About three in four adults have at least one formal financial
+          product. This means that about one in four adults has none, and many
+          people with a bank account still prefer to pay in cash.
+        </p>
+        <p>
+          OXXO connects these customers with online shops. It has more than
+          20,000 convenience stores in Mexico, and in 2024 it processed about
+          half of all voucher and cash payments in Mexican online commerce. A
+          company that does not offer a cash option can lose these customers.
+        </p>
+        <p class="cs-bridge">
+          To see where the problems start, it is useful to look at how an OXXO
+          Pay payment works, step by step.
+        </p>
+      </section>
+
+      <!-- 2 -->
+      <section id="how" aria-labelledby="how-title">
+        <h2 id="how-title">How an OXXO Pay payment works</h2>
+        <ol class="cs-flow">
           {
-            facts.map((fact) => (
-              <div>
-                <dt>{fact.label}</dt>
-                <dd>{fact.value}</dd>
-              </div>
+            paymentSteps.map((step, index) => (
+              <li class:list={[index === 2 && "is-key"]}>
+                <span class="cs-flow-number">{index + 1}</span>
+                <p>{step}</p>
+              </li>
             ))
           }
-        </dl>
-      </figure>
+        </ol>
 
-      <h2>The example: a seat that is only yours for a while</h2>
-      <p>
-        Picture a marketplace that sells concert tickets from several venues.
-        When a customer picks seats, the marketplace asks the venue's ticketing
-        system to hold them. The venue decides how long the hold lasts,
-        perhaps twenty minutes, perhaps a few hours, and the marketplace cannot
-        extend it. Only the venue's system can issue the actual ticket, and
-        tickets cannot be refunded.
-      </p>
-      <p>
-        Card payments fit this world: they are approved in seconds, well inside
-        the hold. A cash voucher does not. The customer leaves the website with
-        a reference and pays whenever they reach a store.
-      </p>
+        <figure class="cs-facts" aria-labelledby="facts-title">
+          <figcaption id="facts-title">OXXO Pay: key facts</figcaption>
+          <dl>
+            {
+              facts.map((fact) => (
+                <div>
+                  <dt>{fact.label}</dt>
+                  <dd>{fact.value}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </figure>
 
-      <figure class="cs-clocks" aria-labelledby="clocks-title">
-        <figcaption id="clocks-title">Two clocks <span>(illustrative durations)</span></figcaption>
-        <div class="cs-clock">
-          <span class="cs-clock-label">Seat hold, set by the venue</span>
-          <span class="cs-clock-track"><span class="cs-clock-bar cs-clock-bar--hold">2 hours</span></span>
-        </div>
-        <div class="cs-clock">
-          <span class="cs-clock-label">Cash voucher, set by the payment side</span>
-          <span class="cs-clock-track">
-            <span class="cs-clock-bar cs-clock-bar--voucher">3 days</span>
-          </span>
-        </div>
-        <p class="cs-clock-gap">
-          Everything after the hold ends is a window in which the customer can
-          still pay for seats that are no longer reserved.
+        <p class="cs-bridge">
+          Step 3 is the important one. Between step 2 and step 3, time passes:
+          minutes, hours or days. The customer decides when to pay. For a
+          product that can wait in a warehouse, this delay is not a problem.
+          For a product that is only reserved for a limited time, it is. The
+          next section uses an example to show why.
         </p>
-      </figure>
+      </section>
 
-      <h2>Where it breaks</h2>
+      <!-- 3 -->
+      <section id="example" aria-labelledby="example-title">
+        <h2 id="example-title">The example: tickets with a time limit</h2>
+        <p>
+          In this example, a marketplace sells concert tickets for several
+          venues. When a customer selects seats, the marketplace asks the
+          venue's ticket system to reserve them. The venue decides how long the
+          reservation lasts, for example 20 minutes or a few hours, and the
+          marketplace cannot change it. Only the venue's system can issue the
+          ticket, and tickets cannot be refunded.
+        </p>
+        <p>
+          With a card payment, this works well. The bank approves the payment
+          in a few seconds, so the customer pays while the seats are still
+          reserved. With OXXO Pay, the customer receives a reference and pays
+          later, at a store. As a result, there are now two time limits, set by
+          two different systems.
+        </p>
 
-      <h3>1. Two clocks that do not agree</h3>
-      <p>
-        The voucher's expiry is set on the payment side; the hold is set on the
-        inventory side. If the voucher outlives the hold, the customer can pay
-        for seats that have already been released or sold. If the hold is
-        stretched to match a multi-day voucher, inventory sits locked while
-        many vouchers are never paid. Because plenty of customers chose cash,
-        the mismatch was a volume problem, not an edge case.
-      </p>
+        <figure class="cs-clocks" aria-labelledby="clocks-title">
+          <figcaption id="clocks-title">Two time limits <span>(example values)</span></figcaption>
+          <div class="cs-clock">
+            <span class="cs-clock-label">Seat reservation, set by the venue</span>
+            <span class="cs-clock-track"><span class="cs-clock-bar cs-clock-bar--hold">2 hours</span></span>
+          </div>
+          <div class="cs-clock">
+            <span class="cs-clock-label">Payment reference, set by the payment provider</span>
+            <span class="cs-clock-track">
+              <span class="cs-clock-bar cs-clock-bar--voucher">3 days</span>
+            </span>
+          </div>
+          <p class="cs-clock-gap">
+            After the reservation ends, the customer can still pay, but the
+            seats are no longer reserved for them.
+          </p>
+        </figure>
 
-      <h3>2. Paid, but nothing issued</h3>
-      <p>
-        This is the most painful outcome. The payment is accepted at the till
-        and the confirmation arrives, but the ticket is never issued: the hold
-        expired, the seat was sold or the issuing system failed. The customer
-        did everything right and holds a store receipt, but no ticket.
-      </p>
+        <p class="cs-bridge">
+          When these two time limits are not aligned, five problems can appear.
+          Each problem leads to the next one.
+        </p>
+      </section>
 
-      <h3>3. Cash is hard to give back</h3>
-      <p>
-        With a no-refund product there is no standard path for that customer,
-        and the payment method does not offer one either. Stripe does not
-        support refunds of OXXO payments and tells merchants to build a
-        separate process to credit customers. Customers also cannot file
-        chargebacks, so every case lands with your support team. The customer
-        may not even have a bank account to send money to, which is often why
-        they paid in cash.
-      </p>
+      <!-- 4 -->
+      <section id="problems" aria-labelledby="problems-title">
+        <h2 id="problems-title">Five problems</h2>
+        {
+          problems.map((problem, index) => (
+            <div class="cs-point">
+              <h3>
+                <span class="cs-point-number">Problem {index + 1}</span>
+                {problem.title}
+              </h3>
+              {problem.body.map((paragraph) => <p>{paragraph}</p>)}
+              <p class="cs-bridge">{problem.next}</p>
+            </div>
+          ))
+        }
+      </section>
 
-      <h3>4. Not knowing whether a payment is late or missing</h3>
-      <p>
-        Confirmations arrive as webhooks, and their timing depends on the
-        provider: near real time with some, by the next business day with
-        others. When a confirmation is delayed, the business cannot tell "not
-        paid yet" from "paid but not notified". In the work behind this case,
-        the provider gave little visibility into the health of its
-        notifications. There was no clear signal when confirmations were
-        running late or failing, so problems surfaced through customer
-        complaints.
-      </p>
+      <!-- 5 -->
+      <section id="solutions" aria-labelledby="solutions-title">
+        <h2 id="solutions-title">How to solve these problems: seven steps</h2>
+        <ol class="cs-steps">
+          {
+            solutions.map((step) => (
+              <li>
+                <h3>{step.title}</h3>
+                <p>{step.body}</p>
+              </li>
+            ))
+          }
+        </ol>
+        <p class="cs-bridge">
+          These seven steps reduce the number of failed orders. However, they do
+          not remove the cause of the problem: the time between the order and
+          the payment. The next section describes three ways to reduce this
+          time.
+        </p>
+      </section>
 
-      <h3>5. A fee the customer notices</h3>
-      <p>
-        The fixed counter fee is paid by the customer on top of the price. On
-        a low-priced ticket it is a noticeable surcharge, and it falls on the
-        customers with the fewest alternatives.
-      </p>
+      <!-- 6 -->
+      <section id="root-cause" aria-labelledby="root-title">
+        <h2 id="root-title">The root cause: the time between the order and the payment</h2>
+        <p>
+          A cash voucher separates two moments: the moment the customer orders
+          and the moment the customer pays. Between them, hours or days can
+          pass. This is not a problem for a product that can wait. It is a
+          problem for a product that is only reserved for a limited time. There
+          are three ways to reduce this time.
+        </p>
 
-      <h2>What I would recommend</h2>
-      <ol class="cs-steps">
-        <li>
-          <strong>One clock, set by the inventory.</strong> Derive the
-          voucher's expiry from the hold for each order: the hold's end minus
-          a safety margin. If the hold is too short for a realistic store
-          visit, do not offer cash for that item, or ask the inventory owner
-          for a longer hold on cash orders.
-        </li>
-        <li>
-          <strong>Make the deadline unmistakable.</strong> Show the exact time
-          and time zone (Stripe vouchers, for example, expire at 23:59 Mexico
-          City time). Say clearly that the reference is not a ticket until the
-          payment is confirmed.
-        </li>
-        <li>
-          <strong>Re-check before you issue.</strong> When the payment
-          notification arrives, confirm the inventory is still held before
-          issuing. If it is not, apply a pre-agreed remedy automatically:
-          equivalent seats, a credit or a refund.
-        </li>
-        <li>
-          <strong>Build the refund path before launch.</strong> The payment
-          provider will not refund cash for you. Decide in advance between
-          store credit, a bank transfer through SPEI or a payout to a digital
-          wallet, and who approves it.
-        </li>
-        <li>
-          <strong>Treat notifications as fallible.</strong> Process webhooks
-          idempotently and verify their signatures. Poll the provider for
-          references close to expiry, alert when payments stop arriving during
-          hours when they normally do, and reconcile settlements against
-          orders every day.
-        </li>
-        <li>
-          <strong>Measure the cash funnel by stage:</strong> references
-          created, paid, paid before expiry, issued automatically, issued after
-          manual help. "Paid but not issued" deserves its own metric and its
-          own owner.
-        </li>
-        <li>
-          <strong>Be transparent about the fee.</strong> Show it before the
-          customer picks cash, and consider absorbing it on low-priced items.
-        </li>
-      </ol>
+        <div class="cs-point">
+          <h3><span class="cs-point-number">Option 1</span> Instant bank payments: Mexico's version of Pix</h3>
+          <p>
+            In Brazil, Pix confirms bank payments in a few seconds, so the
+            payment happens inside the reservation time. Mexico has similar
+            infrastructure. SPEI, the central bank's instant transfer system,
+            processed more than 7.3 billion transfers in 2025. The central bank
+            also created two simpler services on top of SPEI: CoDi (payments
+            with QR codes) and DiMo (payments with a phone number).
+          </p>
+          <p>
+            However, few people use them: less than 13% of people have used
+            CoDi, and less than 7% have tried DiMo. The central bank now
+            requires banks to make their transfer process more uniform by
+            December 2026. Offering bank payments through SPEI at checkout is a
+            good option today for customers with a bank account. It does not
+            help customers without one.
+          </p>
+          <p class="cs-bridge">
+            For customers without a bank account, a different approach is
+            needed.
+          </p>
+        </div>
 
-      <h2>The insight: cash is not the problem, the delay is</h2>
-      <p>
-        Everything above follows from one structural fact: a voucher separates
-        the moment of commitment from the moment of payment by hours or days.
-        That is harmless for a parcel that can wait in a warehouse. It is hard
-        for inventory that expires. The long-term fix is to close that gap.
-        There are three ways to do it.
-      </p>
+        <div class="cs-point">
+          <h3><span class="cs-point-number">Option 2</span> Customers add cash to a digital wallet before they order</h3>
+          <p>
+            This option changes the order of the steps: the customer pays in
+            cash first and orders second. Digital wallets such as Spin by OXXO,
+            reported to have more than 16 million users, let customers deposit
+            cash at an OXXO store and then pay online immediately with a Visa
+            card. The customer still visits a store, but before the order, so
+            the payment and the ticket happen at the same time.
+          </p>
+          <p>
+            The disadvantage is extra effort for the customer: they need the
+            app, and they pay a small fee for each cash deposit.
+          </p>
+          <p class="cs-bridge">
+            The third option does not change how the customer pays. It changes
+            how the reservation works.
+          </p>
+        </div>
 
-      <h3>An instant rail: Mexico's version of Pix</h3>
-      <p>
-        Brazil closed the gap for banked customers with Pix: payment confirmed
-        in seconds, so it fits inside any hold. Mexico already has the rails.
-        SPEI handled more than 7.3 billion transfers in 2025, and the central
-        bank has built two consumer layers on top of it: CoDi (QR codes) and
-        DiMo (phone numbers). Adoption is the gap. Fewer than 13% of people
-        have used CoDi and fewer than 7% have tried DiMo, and Banxico is now
-        requiring banks to standardise the transfer experience by December
-        2026. Offering pay-by-bank through SPEI at checkout makes sense today
-        for customers with accounts. It does not reach the unbanked.
-      </p>
+        <div class="cs-point">
+          <h3><span class="cs-point-number">Option 3</span> A longer reservation, for a fee</h3>
+          <p>
+            A business can offer a longer reservation for a fee. Some airlines
+            in Mexico already do this. Volaris, for example, lets customers pay
+            a fee to keep a booking and then pay the full amount within 72
+            hours. For the marketplace in this example, a small fee would pay
+            for a reservation that is long enough for a visit to the store. The
+            business receives money for the risk of blocking the seats, and the
+            customer knows that the ticket is guaranteed.
+          </p>
+          <p>
+            This option needs clear terms, a check of consumer protection
+            rules, and agreement from the company that owns the inventory.
+          </p>
+        </div>
 
-      <h3>Move the cash before the booking</h3>
-      <p>
-        For cash customers, reverse the order: fund first, book second.
-        Wallets such as Spin by OXXO, reported at more than 16 million users,
-        let people deposit cash at the same stores and then pay online
-        instantly with a Visa card. The store visit still happens, but before
-        the seat is held, so payment and issuance happen together. The cost is
-        friction: the customer needs the app and pays a small deposit fee.
-      </p>
+        <figure class="cs-compare" aria-labelledby="compare-title">
+          <figcaption id="compare-title">The three options compared</figcaption>
+          <div class="cs-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Option</th>
+                  <th scope="col">Who it helps</th>
+                  <th scope="col">Payment speed</th>
+                  <th scope="col">Main cost</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  options.map((option) => (
+                    <tr>
+                      <th scope="row">{option.name}</th>
+                      <td>{option.helps}</td>
+                      <td>{option.speed}</td>
+                      <td>{option.cost}</td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        </figure>
 
-      <h3>Charge for the hold</h3>
-      <p>
-        A business can earn from its cash customers transparently, and it
-        already happens in Mexico: some airlines sell a paid hold. Volaris,
-        for example, lets customers pay for a reservation hold and then
-        complete payment within 72 hours. Applied to the marketplace, a small
-        fee buys a guaranteed hold long enough for a store visit. The business
-        is paid for the inventory risk, and the customer gets certainty
-        instead of a gamble. This needs clear terms, a check against
-        consumer-protection rules and the inventory owner's agreement to a
-        longer hold.
-      </p>
+        <p class="cs-bridge">
+          The best choice depends on your customers and on your agreement with
+          the company that owns the inventory. In many cases, a combination
+          works best.
+        </p>
+      </section>
 
-      <p class="cs-takeaway">
-        Cash vouchers widen your market. Just do not let a payment that
-        arrives on the customer's schedule decide whether the product still
-        exists.
-      </p>
+      <!-- 7 -->
+      <section id="conclusion" aria-labelledby="conclusion-title">
+        <h2 id="conclusion-title">Conclusion</h2>
+        <p class="cs-takeaway">
+          OXXO Pay helps you sell to customers who pay in cash. If your product
+          is only reserved for a limited time, two rules matter most: the
+          payment deadline must end before the reservation ends, and you must
+          plan in advance how to return money when an order fails.
+        </p>
+      </section>
 
       <section class="cs-contact" aria-label="Contact">
         <p>
-          Running cash vouchers on time-limited inventory and seeing paid but
-          unfulfilled orders? I am happy to look at it with you.
+          Do you use a cash payment method for products with a time limit, and
+          do you see orders that are paid but not completed? I can help you
+          analyse the problem.
         </p>
         <div class="cs-closing-links">
           <a href={emailHref}>matteo.visibility@gmail.com</a>
@@ -438,9 +597,7 @@ const emailHref = `mailto:matteo.visibility@gmail.com?subject=${encodeURICompone
           {
             sources.map((source) => (
               <li>
-                <a href={source.url} target="_blank" rel="noopener noreferrer">
-                  {source.name}
-                </a>
+                <a href={source.url} target="_blank" rel="noopener noreferrer">{source.name}</a>
               </li>
             ))
           }

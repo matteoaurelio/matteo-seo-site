@@ -1,0 +1,40 @@
+---
+/**
+ * Header for the payment case-study pages: a faded, calm landscape photo
+ * with the title on top. The photo is decorative (empty alt text) and is
+ * served in three compressed WebP sizes.
+ */
+interface Props {
+  crumbLabel: string;
+  crumbHref: string;
+  title: string;
+  titleId: string;
+  variant?: "hub" | "article";
+}
+
+const { crumbLabel, crumbHref, title, titleId, variant = "hub" } = Astro.props;
+const base = "/images/case-studies/lofoten-coast";
+---
+
+<section class:list={["cs-hero", variant === "article" && "cs-hero--article"]} aria-labelledby={titleId}>
+  <div class="cs-hero-media" aria-hidden="true">
+    <img
+      src={`${base}-1280.webp`}
+      srcset={`${base}-768.webp 768w, ${base}-1280.webp 1280w, ${base}-1920.webp 1920w`}
+      sizes="100vw"
+      width="1920"
+      height="1081"
+      alt=""
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+    />
+  </div>
+
+  <div class="cs-hero-inner">
+    <a class="cs-crumb" href={crumbHref}>{crumbLabel}</a>
+    <h1 id={titleId}>{title}</h1>
+    <span class="cs-rule" aria-hidden="true"></span>
+    <div class="cs-pill"><slot /></div>
+  </div>
+</section>
