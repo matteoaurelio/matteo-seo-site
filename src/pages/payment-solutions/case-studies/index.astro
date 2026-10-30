@@ -9,14 +9,15 @@ import {
   caseTechnologies,
   slugify,
 } from "../../../data/paymentCaseStudies";
+import { paymentGuides } from "../../../data/paymentGuides";
 import "../../../styles/growth-platform.css";
 import "../../../styles/case-studies.css";
 
 const site = "https://matteoarellano.com";
 const canonical = `${site}/payment-solutions/case-studies/`;
-const title = "Payment Case Studies | Matteo Arellano";
+const title = "Payment Case Studies and Guides | Matteo Arellano";
 const description =
-  "Anonymised payment case studies: what went wrong, why it went wrong and how to solve it. Filter by region and payment technology.";
+  "Anonymised payment case studies and step-by-step payment guides: what went wrong, why, and how to solve it. Filter by region and payment technology.";
 
 const cases = sortedPaymentCaseStudies();
 
@@ -56,13 +57,14 @@ const structuredData = {
       breadcrumb: { "@id": `${canonical}#breadcrumb` },
       mainEntity: {
         "@type": "ItemList",
-        numberOfItems: cases.length,
-        itemListElement: cases.map((item, index) => ({
-          "@type": "ListItem",
-          position: index + 1,
-          url: `${canonical}${item.slug}/`,
-          name: item.title,
-        })),
+        numberOfItems: cases.length + paymentGuides.length,
+        itemListElement: [
+          ...cases.map((item) => ({ url: `${canonical}${item.slug}/`, name: item.title })),
+          ...paymentGuides.map((guide) => ({
+            url: `${site}/payment-solutions/guides/${guide.slug}/`,
+            name: guide.title,
+          })),
+        ].map((entry, index) => ({ "@type": "ListItem", position: index + 1, ...entry })),
       },
     },
     {
@@ -205,6 +207,36 @@ const structuredData = {
         No case studies match these filters yet.
         <button type="button" data-cs-reset>Clear filters</button>
       </p>
+    </section>
+
+    <section class="cs-shell cs-guides" id="guides" aria-labelledby="guides-title">
+      <div class="cs-section-head">
+        <h2 id="guides-title">Guides</h2>
+        <p>How payments work, explained step by step for managers and non-technical teams.</p>
+      </div>
+      <ol class="cs-list">
+        {
+          paymentGuides.map((guide) => (
+            <li class="cs-item">
+              <a href={`/payment-solutions/guides/${guide.slug}/`}>
+                <span class="cs-item-number">Guide</span>
+                <div class="cs-item-body">
+                  <h3>{guide.title}</h3>
+                  <p class="cs-item-summary">{guide.summary}</p>
+                  <ul class="cs-item-tags" aria-label="Topics">
+                    {guide.tags.slice(0, 5).map((tag) => <li>{tag}</li>)}
+                  </ul>
+                  <p class="cs-item-date">
+                    <time datetime={guide.published}>{formatDate(guide.published)}</time> ·{" "}
+                    {guide.readingMinutes} min read · {guide.audience}
+                  </p>
+                </div>
+                <span class="cs-item-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
     </section>
 
     <section class="cs-shell cs-closing">

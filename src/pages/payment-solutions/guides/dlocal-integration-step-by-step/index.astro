@@ -1,0 +1,963 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import Header from "../../../../components/Header.astro";
+import Footer from "../../../../components/Footer.astro";
+import CaseStudyHero from "../../../../components/CaseStudyHero.astro";
+import { getPaymentGuide } from "../../../../data/paymentGuides";
+import "../../../../styles/growth-platform.css";
+import "../../../../styles/case-studies.css";
+
+const slug = "dlocal-integration-step-by-step";
+const guide = getPaymentGuide(slug);
+if (!guide) throw new Error(`Guide not found: ${slug}`);
+
+const site = "https://matteoarellano.com";
+const canonical = `${site}/payment-solutions/guides/${slug}/`;
+const title = "How to Integrate dLocal: Step-by-Step Guide with API Examples | Matteo Arellano";
+const description = guide.summary;
+
+const publishedLabel = new Date(`${guide.published}T00:00:00Z`).toLocaleDateString("en-GB", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+});
+
+/* ---------- The map of the whole process ---------- */
+
+const phases = [
+  {
+    name: "Prepare",
+    who: "Business, finance, legal",
+    steps: ["Agree the contract and complete onboarding", "Get your API keys"],
+  },
+  {
+    name: "Build",
+    who: "Engineering, product",
+    steps: [
+      "Sign every request",
+      "Choose how customers enter card details",
+      "Ask which payment methods are available",
+      "Create a payment",
+      "Read the answer",
+      "Receive notifications",
+      "Handle refunds",
+    ],
+  },
+  {
+    name: "Launch",
+    who: "Engineering, operations, finance",
+    steps: ["Test in the sandbox", "Go live", "Monitor and reconcile"],
+  },
+];
+
+const glossary = [
+  { term: "API", meaning: "A way for two computer systems to talk. Your website sends a message to dLocal, and dLocal answers." },
+  { term: "Endpoint", meaning: "A specific address for one task, like a specific counter in a bank: one for payments, another for refunds." },
+  { term: "Request and response", meaning: "The message you send (the request) and the answer you get back (the response)." },
+  { term: "JSON", meaning: "The text format of the messages: a list of labels and values, such as \"currency\": \"COP\"." },
+  { term: "Sandbox", meaning: "A practice copy of dLocal where nothing is real. You can test without moving real money." },
+  { term: "Webhook (notification)", meaning: "A message that dLocal sends to you when something changes, for example when a payment is completed." },
+  { term: "Token", meaning: "A temporary code that replaces the card number, so your systems never see the real card." },
+  { term: "PCI DSS", meaning: "The card industry's security rules. The more card data you handle, the more of these rules apply to you." },
+];
+
+/* ---------- Code examples (simplified from dLocal's official documentation) ---------- */
+
+const codeHeaders = `POST https://sandbox.dlocal.com/payments
+
+X-Date: 2026-10-30T10:00:00.000Z
+X-Login: your_x_login
+X-Trans-Key: your_x_trans_key
+X-Version: 2.1
+Content-Type: application/json
+Authorization: V2-HMAC-SHA256, Signature: 3b1f7c…e9a2`;
+
+const codeSignature = `import crypto from "node:crypto";
+
+// The signature proves the request comes from you, unchanged.
+// requestBody must be the exact JSON text that you send.
+function signRequest(xLogin, xDate, requestBody, secretKey) {
+  const data = xLogin + xDate + requestBody;
+  const signature = crypto
+    .createHmac("sha256", secretKey)
+    .update(data)
+    .digest("hex");
+  return \`V2-HMAC-SHA256, Signature: \${signature}\`;
+}`;
+
+const codeMethodsRequest = `GET https://sandbox.dlocal.com/payments-methods?country=CO`;
+
+const codeMethodsResponse = `[
+  {
+    "id": "CARD",
+    "type": "CARD",
+    "name": "Credit and debit cards",
+    "allowed_flows": ["DIRECT", "REDIRECT"]
+  },
+  {
+    "id": "EY",
+    "type": "TICKET",
+    "name": "Efecty",
+    "allowed_flows": ["DIRECT", "REDIRECT"]
+  }
+]`;
+
+const codeSmartFields = `// In the customer's browser (simplified)
+const dlocalInstance = dlocal("YOUR_SMART_FIELDS_KEY");
+const fields = dlocalInstance.fields({ locale: "es", country: "CO" });
+
+// One secure field for the card number, expiry date and CVV
+const card = fields.create("card");
+card.mount(document.getElementById("card-field"));
+
+// When the customer clicks "Pay":
+const result = await dlocalInstance.createToken(card, { name: "Laura Gómez" });
+// Send result.token to your server.
+// The token expires after 10 minutes or after one use.`;
+
+const codePayment = `POST https://sandbox.dlocal.com/payments
+
+{
+  "amount": 189900,
+  "currency": "COP",
+  "country": "CO",
+  "payment_method_id": "CARD",
+  "payment_method_flow": "DIRECT",
+  "payer": {
+    "name": "Laura Gómez",
+    "email": "laura@example.com",
+    "document": "1023456789"
+  },
+  "card": {
+    "token": "CV-124c18a5-874d-4982-89d7-b9c256e647b5"
+  },
+  "order_id": "ORDER-2026-000123",
+  "notification_url": "https://www.example.com/dlocal/notifications"
+}`;
+
+const codeResponse = `{
+  "id": "D-4-cf8eef6b-52d5-4320-b5ea-f5e0bbe4343f",
+  "amount": 189900,
+  "currency": "COP",
+  "country": "CO",
+  "payment_method_id": "CARD",
+  "status": "PAID",
+  "status_code": "200",
+  "status_detail": "The payment was paid.",
+  "order_id": "ORDER-2026-000123"
+}`;
+
+const codeRefund = `POST https://sandbox.dlocal.com/refunds
+
+{
+  "payment_id": "D-4-cf8eef6b-52d5-4320-b5ea-f5e0bbe4343f",
+  "amount": 189900,
+  "currency": "COP",
+  "notification_url": "https://www.example.com/dlocal/refunds"
+}`;
+
+const codeSandbox = `{
+  "amount": 189900,
+  "currency": "COP",
+  "country": "CO",
+  "payment_method_id": "CARD",
+  "description": "300",
+  "...": "the other fields as usual"
+}
+// In the sandbox, "description": "300" simulates a REJECTED payment,
+// and "200" simulates a PAID payment.`;
+
+/* ---------- Tables ---------- */
+
+const paymentFields = [
+  { field: "amount", meaning: "How much to charge. For COP, a whole number: dLocal lists 0 decimals for Colombia." },
+  { field: "currency", meaning: "The currency of the amount, as a three-letter code. For local payments in Colombia: COP." },
+  { field: "country", meaning: "The country where the payment is processed, as a two-letter code: CO for Colombia." },
+  { field: "payment_method_id", meaning: "Which payment method: CARD for cards, or the ID of a local method." },
+  { field: "payment_method_flow", meaning: "DIRECT (the payment happens on your page) or REDIRECT (the customer goes to a dLocal page)." },
+  { field: "payer", meaning: "The customer: name, email and document number. The document is required in Colombia (CC or NIT)." },
+  { field: "card.token", meaning: "The temporary card code created by Smart Fields. Your server never sees the card number." },
+  { field: "order_id", meaning: "Your own order number. It connects dLocal's payment to your order." },
+  { field: "notification_url", meaning: "The address where dLocal sends updates about this payment." },
+];
+
+const statuses = [
+  { status: "PAID", code: "200", meaning: "The money was collected. You can deliver the product." },
+  { status: "PENDING", code: "100", meaning: "Not finished yet. For example, the customer must pay cash at a store or complete 3D Secure (code 101)." },
+  { status: "REJECTED", code: "300 to 344", meaning: "Declined. The code says why: 301 rejected by the bank, 302 insufficient amount, 342 invalid document." },
+  { status: "CANCELLED", code: "400", meaning: "The payment was cancelled, for example an unpaid cash payment." },
+  { status: "AUTHORIZED", code: "600", meaning: "The card amount is reserved but not yet collected (used when you capture later)." },
+];
+
+const integrationOptions = [
+  {
+    name: "Redirect",
+    how: "The customer goes to a payment page hosted by dLocal, then comes back.",
+    pci: "Usually the lightest level (SAQ A)",
+    control: "Low: dLocal's page",
+    effort: "1–3 weeks",
+  },
+  {
+    name: "Smart Fields",
+    how: "Secure card fields from dLocal appear inside your own checkout page.",
+    pci: "SAQ A, according to dLocal",
+    control: "High: your page, dLocal's fields",
+    effort: "3–6 weeks",
+  },
+  {
+    name: "Full API",
+    how: "Your systems collect the card data and send it to dLocal.",
+    pci: "Full PCI DSS compliance required",
+    control: "Total",
+    effort: "2–4 months, including PCI work",
+  },
+];
+
+const fees = [
+  { country: "Colombia", cards: "USD 0.20 + 1.99%", other: "Cash and bank transfer: USD 0.20 + 1.99%" },
+  { country: "Brazil", cards: "2.99%", other: "Pix: 0.99%; Boleto: USD 0.50" },
+  { country: "Mexico", cards: "USD 0.20 + 2.49%", other: "Cash: USD 0.20 + 2.99%" },
+  { country: "Chile", cards: "2.99%", other: "Cash and bank transfer: 2.99%" },
+  { country: "Peru", cards: "2.99%", other: "Cash: USD 0.99 + 2.99%" },
+];
+
+const team = [
+  { role: "Product or project manager", task: "Scope, countries, payment methods, timeline and launch decisions." },
+  { role: "Backend engineer", task: "Signing requests, creating payments, notifications, refunds, logs." },
+  { role: "Frontend engineer", task: "Checkout page, Smart Fields, error messages, 3D Secure redirects." },
+  { role: "Finance", task: "Contract, settlement currency, reconciliation, fees and taxes." },
+  { role: "Legal and compliance", task: "Contract review, onboarding documents (KYC), PCI DSS." },
+  { role: "Customer support", task: "Payment questions, refunds, failed payments." },
+];
+
+const questions = [
+  "Which countries and payment methods are in the contract, and which are enabled on our account?",
+  "Which currencies can we send for each country, including USD?",
+  "In which currency, and how often, will dLocal pay us (settlement), and at what exchange rate?",
+  "What are the fees per payment, per refund and per chargeback, and are local taxes added?",
+  "Which integration option will we use, and what PCI DSS level does that mean for us?",
+  "How do we test each country and payment method in the sandbox?",
+  "Who in our team checks notifications, failed payments and reconciliation after launch?",
+];
+
+const faqs = [
+  {
+    question: "How long does a dLocal integration take?",
+    answer:
+      "It depends on the integration option and the number of countries. As an indication, a redirect integration can take one to three weeks, Smart Fields three to six weeks, and a full API integration two to four months including PCI DSS work. Each additional country adds time for its documents, payment methods and testing. The commercial onboarding with dLocal runs in parallel.",
+  },
+  {
+    question: "How much does dLocal cost?",
+    answer:
+      "dLocal's prices for larger businesses are agreed in the contract. dLocal Go, the self-service version, publishes a price list: for example, cards in Colombia at USD 0.20 + 1.99% per paid transaction, a USD 1 refund fee and a USD 5 chargeback fee, with local taxes applied to the fee. Also count the exchange rate, your team's time and PCI DSS compliance.",
+  },
+  {
+    question: "Do I need to be PCI DSS compliant to use dLocal?",
+    answer:
+      "Every business that accepts cards has some PCI DSS obligations. With dLocal's Smart Fields, card details are collected in secure fields hosted by dLocal, which dLocal says makes you eligible for the lightest level, SAQ A. If your own systems handle card numbers (the full API option), you need full PCI DSS compliance.",
+  },
+  {
+    question: "What is a webhook, and why does dLocal need one?",
+    answer:
+      "A webhook is an address on your server where dLocal sends a message when a payment changes status. It is needed because many payments do not finish immediately, for example cash payments or payments that need 3D Secure. dLocal retries a notification up to 12 times, and you should verify its signature before you trust it.",
+  },
+  {
+    question: "Can I test dLocal without real money?",
+    answer:
+      "Yes. dLocal's sandbox is a test environment that works like production but without real payments. You can simulate results by sending a status code in the description field, for example 200 for a paid payment and 300 for a rejected one.",
+  },
+];
+
+const sources = [
+  { name: "dLocal Docs — Get your API credentials", url: "https://docs.dlocal.com/docs/get-api-credentials-new" },
+  { name: "dLocal Docs — Generate a signature", url: "https://docs.dlocal.com/docs/generate-signature" },
+  { name: "dLocal Docs — Payins security", url: "https://docs.dlocal.com/reference/payins-security" },
+  { name: "dLocal Docs — Smart Fields", url: "https://docs.dlocal.com/docs/smart-fields" },
+  { name: "dLocal Docs — The dLocal object (createToken)", url: "https://docs.dlocal.com/reference/the-dlocal-object" },
+  { name: "dLocal Docs — Full API and PCI DSS", url: "https://docs.dlocal.com/docs/full-api" },
+  { name: "dLocal Docs — The Card object", url: "https://docs.dlocal.com/reference/the-card-object" },
+  { name: "dLocal Docs — The Payment Method object", url: "https://docs.dlocal.com/reference/payment-method-object" },
+  { name: "dLocal Docs — Create payment", url: "https://docs.dlocal.com/reference/create-payment" },
+  { name: "dLocal Docs — Card payments", url: "https://docs.dlocal.com/docs/card-payments" },
+  { name: "dLocal Docs — 3D Secure authentication", url: "https://docs.dlocal.com/docs/3d-secure" },
+  { name: "dLocal Docs — Payment status codes", url: "https://docs.dlocal.com/reference/payment-status-codes" },
+  { name: "dLocal Docs — Receive notifications", url: "https://docs.dlocal.com/docs/receive-notifications" },
+  { name: "dLocal Docs — Refunds", url: "https://docs.dlocal.com/docs/refunds" },
+  { name: "dLocal Docs — Make a test payment (sandbox)", url: "https://docs.dlocal.com/guides/getting-started/sandbox-testing" },
+  { name: "dLocal Docs — Enable Live mode", url: "https://docs.dlocal.com/docs/enable-live-mode" },
+  { name: "dLocal Docs — Country reference", url: "https://docs.dlocal.com/reference/country-reference" },
+  { name: "dLocal Go — Price list (PDF)", url: "https://dlocalgo.com/wp-content/uploads/2024/09/pricinglist.pdf" },
+  {
+    name: "dLocal Go Help Center — Exchange rates and who pays them",
+    url: "https://helpcenter.dlocalgo.com/en/articles/7169372-what-is-the-exchange-rate-and-how-dlocal-go-apply-it",
+  },
+];
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": `${canonical}#article`,
+      headline: guide.title,
+      description,
+      url: canonical,
+      mainEntityOfPage: canonical,
+      inLanguage: "en",
+      datePublished: guide.published,
+      dateModified: guide.updated ?? guide.published,
+      author: { "@id": `${site}/#person` },
+      publisher: { "@id": `${site}/#person` },
+      image: `${site}/images/case-studies/lofoten-coast-og.jpg`,
+      audience: { "@type": "BusinessAudience", audienceType: guide.audience },
+      proficiencyLevel: "Beginner",
+      about: [
+        { "@type": "Organization", name: "dLocal", url: "https://www.dlocal.com/" },
+        { "@type": "Thing", name: "Payment API integration" },
+      ],
+      keywords: guide.tags.join(", "),
+      citation: sources.map((source) => source.url),
+    },
+    {
+      "@type": "HowTo",
+      "@id": `${canonical}#howto`,
+      name: "How to integrate dLocal for online payments",
+      description,
+      step: phases
+        .flatMap((phase) => phase.steps)
+        .map((step, index) => ({
+          "@type": "HowToStep",
+          position: index + 1,
+          name: step,
+          url: `${canonical}#step-${index + 1}`,
+        })),
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: { "@type": "Answer", text: faq.answer },
+      })),
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${canonical}#breadcrumb`,
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${site}/` },
+        { "@type": "ListItem", position: 2, name: "Payment solutions", item: `${site}/payment-solutions/` },
+        { "@type": "ListItem", position: 3, name: "Case studies", item: `${site}/payment-solutions/case-studies/` },
+        { "@type": "ListItem", position: 4, name: guide.title, item: canonical },
+      ],
+    },
+  ],
+};
+
+const emailHref = `mailto:matteo.visibility@gmail.com?subject=${encodeURIComponent("dLocal integration")}`;
+
+let stepNumber = 0;
+const nextStep = () => ++stepNumber;
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} image="/images/case-studies/lofoten-coast-og.jpg">
+  <Header />
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+  <main class="cs-page">
+    <CaseStudyHero
+      crumbLabel="Guides"
+      crumbHref="/payment-solutions/case-studies/#guides"
+      title={guide.title}
+      titleId="article-title"
+      variant="article"
+    >
+      Guide · For managers · <time datetime={guide.published}>{publishedLabel}</time> · {guide.readingMinutes} min read
+    </CaseStudyHero>
+
+    <article class="cs-article" aria-labelledby="article-title">
+      <p class="cs-dek">
+        You do not need to be an engineer to understand a payment integration.
+        This guide follows one payment from start to finish, using dLocal's
+        real API, and explains each step in plain language: what happens, who
+        does it, what it costs and what can go wrong.
+      </p>
+
+      <dl class="cs-facts-line">
+        <div><dt>For</dt><dd>{guide.audience}</dd></div>
+        <div><dt>Provider</dt><dd>dLocal (Payins API, version 2.1)</dd></div>
+        <div><dt>Example market</dt><dd>Colombia</dd></div>
+      </dl>
+
+      <aside class="cs-note" aria-label="About this guide">
+        <strong>About this guide</strong>
+        <p>
+          The steps and examples follow dLocal's official documentation as of
+          October 2026. The code is simplified to make it readable; your
+          engineers should always use the current documentation. I am not
+          affiliated with dLocal. The time and effort estimates are my own
+          indications, not dLocal figures.
+        </p>
+      </aside>
+
+      <section class="cs-summary" aria-labelledby="summary-title">
+        <h2 id="summary-title">Summary</h2>
+        <ul>
+          <li>A dLocal integration has three phases: prepare (contract and keys), build (the API work) and launch (testing, going live and monitoring).</li>
+          <li>Technically, it comes down to a few conversations between your server and dLocal: sign the request, create the payment, read the answer, listen for updates, and refund when needed.</li>
+          <li>The biggest decision is how customers enter their card details. It decides your security obligations (PCI DSS), your control over the checkout and the effort.</li>
+          <li>Costs come from three places: dLocal's fees, compliance, and your team's time.</li>
+          <li>Most problems after launch come from the details: currency, document numbers, notifications and reconciliation.</li>
+        </ul>
+      </section>
+
+      <nav class="cs-toc" aria-labelledby="toc-title">
+        <h2 id="toc-title">In this guide</h2>
+        <ol>
+          <li><a href="#map">The whole process on one page</a></li>
+          <li><a href="#words">Eight words you need</a></li>
+          <li><a href="#prepare">Phase 1: Prepare</a></li>
+          <li><a href="#build">Phase 2: Build</a></li>
+          <li><a href="#launch">Phase 3: Launch</a></li>
+          <li><a href="#costs">What it costs</a></li>
+          <li><a href="#team">Who you need</a></li>
+          <li><a href="#questions">Seven questions to ask before you start</a></li>
+          <li><a href="#faq">Frequently asked questions</a></li>
+        </ol>
+      </nav>
+
+      <!-- Map -->
+      <section id="map" aria-labelledby="map-title">
+        <h2 id="map-title">The whole process on one page</h2>
+        <p>
+          Before the details, here is the full picture. The integration has
+          three phases and twelve steps. Different people own different phases.
+        </p>
+        <ol class="cs-phases">
+          {
+            phases.map((phase, phaseIndex) => {
+              const start = phases.slice(0, phaseIndex).reduce((sum, p) => sum + p.steps.length, 0);
+              return (
+                <li>
+                  <span class="cs-phase-name">Phase {phaseIndex + 1}: {phase.name}</span>
+                  <span class="cs-phase-who">{phase.who}</span>
+                  <ol start={start + 1}>
+                    {phase.steps.map((step, index) => (
+                      <li><a href={`#step-${start + index + 1}`}>{step}</a></li>
+                    ))}
+                  </ol>
+                </li>
+              );
+            })
+          }
+        </ol>
+        <p class="cs-bridge">
+          The steps use some technical words. Eight of them are enough to
+          follow the rest of this guide.
+        </p>
+      </section>
+
+      <!-- Glossary -->
+      <section id="words" aria-labelledby="words-title">
+        <h2 id="words-title">Eight words you need</h2>
+        <dl class="cs-glossary">
+          {
+            glossary.map((item) => (
+              <div>
+                <dt>{item.term}</dt>
+                <dd>{item.meaning}</dd>
+              </div>
+            ))
+          }
+        </dl>
+        <p class="cs-bridge">With these words, we can start where every integration starts: the contract.</p>
+      </section>
+
+      <!-- Phase 1 -->
+      <section id="prepare" aria-labelledby="prepare-title">
+        <p class="cs-phase-label">Phase 1</p>
+        <h2 id="prepare-title">Prepare</h2>
+
+        <div class="cs-point" id={`step-${nextStep()}`}>
+          <h3><span class="cs-point-number">Step {stepNumber}</span> Agree the contract and complete onboarding</h3>
+          <p>
+            dLocal works with businesses under a contract. Before any live
+            payment, you agree on the countries, the payment methods, the fees
+            and the currency in which dLocal pays you (the settlement currency).
+            dLocal also checks your business, a process called KYC ("know your
+            customer"). dLocal's documentation is clear: production access is
+            only available after the agreement is signed, KYC is approved and
+            the integration has been tested in the sandbox.
+          </p>
+          <p>
+            <strong>Who:</strong> business, finance and legal.
+            <strong> Tip:</strong> start this early. It runs in parallel with
+            the technical work and is often the slowest part.
+          </p>
+          <p class="cs-bridge">While the contract is being finalised, engineers can already start with test keys.</p>
+        </div>
+
+        <div class="cs-point" id={`step-${nextStep()}`}>
+          <h3><span class="cs-point-number">Step {stepNumber}</span> Get your API keys</h3>
+          <p>
+            Your team creates API credentials in dLocal's Merchant Dashboard,
+            separately for the sandbox and for live payments. Each set has
+            three keys:
+          </p>
+          <ul class="cs-plain-list">
+            <li><strong>x-login</strong> identifies your account, like a username.</li>
+            <li><strong>x-trans-key</strong> works with x-login to prove that it is you, like a password.</li>
+            <li><strong>Secret key</strong> is used to sign every request, like a personal seal. It must never be shared or put in a website's code.</li>
+          </ul>
+          <p>If you use Smart Fields (see step 4), there is a fourth key for the browser: the Smart Fields key.</p>
+          <p class="cs-bridge">With the keys in place, engineering can build. The first thing to build is the signature.</p>
+        </div>
+      </section>
+
+      <!-- Phase 2 -->
+      <section id="build" aria-labelledby="build-title">
+        <p class="cs-phase-label">Phase 2</p>
+        <h2 id="build-title">Build</h2>
+
+        <div class="cs-point" id={`step-${nextStep()}`}>
+          <h3><span class="cs-point-number">Step {stepNumber}</span> Sign every request</h3>
+          <p>
+            Every message to dLocal carries a few headers: labels on the
+            envelope. They say who you are, when you sent it and which version
+            of the API you use. The last one, Authorization, is the seal.
+          </p>
+          <figure class="cs-code">
+            <figcaption>What the envelope looks like</figcaption>
+            <pre><code>{codeHeaders}</code></pre>
+          </figure>
+          <p>
+            The seal is a calculation called HMAC-SHA256. Your server combines
+            your x-login, the date and the exact text of the message, and
+            calculates a code with your secret key. dLocal does the same
+            calculation. If both codes match, dLocal knows that the message
+            comes from you and that nobody changed it on the way.
+          </p>
+          <figure class="cs-code">
+            <figcaption>The signature in code (Node.js, simplified)</figcaption>
+            <pre><code>{codeSignature}</code></pre>
+          </figure>
+          <p>
+            <strong>For managers:</strong> this is a small piece of code, but
+            if it is wrong, nothing works. A common mistake is to sign one
+            version of the message and send a slightly different one.
+          </p>
+          <p class="cs-bridge">Once requests are signed, the team makes its most important decision: how the customer enters card details.</p>
+        </div>
+
+        <div class="cs-point" id={`step-${nextStep()}`}>
+          <h3><span class="cs-point-number">Step {stepNumber}</span> Choose how customers enter card details</h3>
+          <p>
+            Card numbers are sensitive. The more your own systems touch them,
+            the more security rules (PCI DSS) apply to you. dLocal offers three
+            options.
+          </p>
+          <figure class="cs-compare">
+            <figcaption>Three integration options</figcaption>
+            <div class="cs-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Option</th>
+                    <th scope="col">How it works</th>
+                    <th scope="col">Security level (PCI DSS)</th>
+                    <th scope="col">Control of the design</th>
+                    <th scope="col">Effort (my estimate)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    integrationOptions.map((option) => (
+                      <tr>
+                        <th scope="row">{option.name}</th>
+                        <td>{option.how}</td>
+                        <td>{option.pci}</td>
+                        <td>{option.control}</td>
+                        <td>{option.effort}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+            </div>
+          </figure>
+          <p>
+            For most businesses, Smart Fields is the best balance. The card
+            fields look like part of your page, but they are secure frames
+            hosted by dLocal. When the customer clicks "Pay", dLocal turns the
+            card into a token that your server can use once, within 10 minutes.
+          </p>
+          <figure class="cs-code">
+            <figcaption>Smart Fields in the browser (simplified)</figcaption>
+            <pre><code>{codeSmartFields}</code></pre>
+          </figure>
+          <p class="cs-bridge">Now the checkout can collect a card safely. But cards are only one way to pay, so the next step is to ask what else is available.</p>
+        </div>
+
+        <div class="cs-point" id={`step-${nextStep()}`}>
+          <h3><span class="cs-point-number">Step {stepNumber}</span> Ask which payment methods are available</h3>
+          <p>
+            Each country has its own payment methods: cards everywhere, but
+            also cash, bank transfers and wallets. Your server can ask dLocal
+            which methods are available for a country.
+          </p>
+          <figure class="cs-code">
+            <figcaption>Request</figcaption>
+            <pre><code>{codeMethodsRequest}</code></pre>
+          </figure>
+          <figure class="cs-code">
+            <figcaption>Answer (simplified)</figcaption>
+            <pre><code>{codeMethodsResponse}</code></pre>
+          </figure>
+          <p>
+            Each method has an ID (for example CARD or EY for Efecty cash
+            payments), a type and the flows it supports. Your checkout can use
+            this list to show only the methods that work for the customer's
+            country.
+          </p>
+          <p class="cs-bridge">Now everything is ready for the main event: the payment itself.</p>
+        </div>
+
+        <div class="cs-point" id={`step-${nextStep()}`}>
+          <h3><span class="cs-point-number">Step {stepNumber}</span> Create a payment</h3>
+          <p>
+            Your server sends one message to dLocal with everything it needs
+            to know. Here is a card payment from a customer in Colombia, paying
+            COP 189,900 with a Smart Fields token:
+          </p>
+          <figure class="cs-code">
+            <figcaption>Create a payment</figcaption>
+            <pre><code>{codePayment}</code></pre>
+          </figure>
+          <figure class="cs-compare">
+            <figcaption>What each field means</figcaption>
+            <div class="cs-table-wrap">
+              <table class="cs-table-narrow">
+                <thead>
+                  <tr><th scope="col">Field</th><th scope="col">Meaning</th></tr>
+                </thead>
+                <tbody>
+                  {
+                    paymentFields.map((row) => (
+                      <tr>
+                        <th scope="row"><code>{row.field}</code></th>
+                        <td>{row.meaning}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+            </div>
+          </figure>
+          <p>
+            Two details cause many problems. First, the currency must be one
+            that dLocal accepts for the country; for Colombia that is COP. I
+            explain what happens otherwise in
+            <a href="/payment-solutions/case-studies/dlocal-currency-rejections-colombia/">my case study on currency rejections</a>.
+            Second, the document number is required in Colombia. Without it,
+            the payment fails.
+          </p>
+          <p class="cs-bridge">A second after the message is sent, dLocal answers. The answer tells you what to do next.</p>
+        </div>
+
+        <div class="cs-point" id={`step-${nextStep()}`}>
+          <h3><span class="cs-point-number">Step {stepNumber}</span> Read the answer</h3>
+          <figure class="cs-code">
+            <figcaption>dLocal's answer (simplified)</figcaption>
+            <pre><code>{codeResponse}</code></pre>
+          </figure>
+          <p>
+            Three fields matter most. <code>id</code> is dLocal's reference for
+            the payment; save it with your order. <code>status</code> says what
+            happened, and <code>status_code</code> gives the precise reason.
+          </p>
+          <figure class="cs-compare">
+            <figcaption>The main payment statuses</figcaption>
+            <div class="cs-table-wrap">
+              <table>
+                <thead>
+                  <tr><th scope="col">Status</th><th scope="col">Code</th><th scope="col">What it means for you</th></tr>
+                </thead>
+                <tbody>
+                  {
+                    statuses.map((row) => (
+                      <tr>
+                        <th scope="row">{row.status}</th>
+                        <td>{row.code}</td>
+                        <td>{row.meaning}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+            </div>
+          </figure>
+          <p>
+            Some payments need an extra check by the customer's bank, called
+            3D Secure. In that case, the status is PENDING (code 101) and the
+            answer includes an address where the customer confirms the payment
+            with their bank. After that, the customer returns to your site.
+          </p>
+          <p class="cs-bridge">PENDING is the important word here. Many payments finish later, so your system needs a way to hear about it.</p>
+        </div>
+
+        <div class="cs-point" id={`step-${nextStep()}`}>
+          <h3><span class="cs-point-number">Step {stepNumber}</span> Receive notifications</h3>
+          <p>
+            Every time a payment changes status, dLocal sends a message to the
+            notification_url from step 6. The message contains the full
+            payment, so your system can update the order: for example, from
+            "waiting for cash payment" to "paid". If your server does not
+            confirm that it received the message, dLocal tries again, up to 12
+            times.
+          </p>
+          <p>A good notification handler does four things:</p>
+          <ol class="cs-plain-list cs-plain-list--numbered">
+            <li>Checks the signature, to be sure the message really comes from dLocal.</li>
+            <li>Processes each status change only once, even if the same message arrives twice.</li>
+            <li>Updates the order and triggers the next action: confirm, deliver or cancel.</li>
+            <li>Answers dLocal quickly that the message was received.</li>
+          </ol>
+          <p>
+            <strong>For managers:</strong> notifications are invisible to
+            customers, but they decide whether paid orders are delivered. Ask
+            who monitors them, and what happens when they stop arriving.
+          </p>
+          <p class="cs-bridge">Payments go in one direction. Sometimes the money must go back.</p>
+        </div>
+
+        <div class="cs-point" id={`step-${nextStep()}`}>
+          <h3><span class="cs-point-number">Step {stepNumber}</span> Handle refunds</h3>
+          <p>
+            A refund is a new request that refers to the original payment. You
+            can refund all or part of the amount.
+          </p>
+          <figure class="cs-code">
+            <figcaption>Create a refund</figcaption>
+            <pre><code>{codeRefund}</code></pre>
+          </figure>
+          <p>
+            For cards, the money goes back to the card. For other methods, such
+            as cash or bank transfers, dLocal makes a bank transfer to the
+            customer, and may ask the customer by email for their bank details.
+            That is why many refunds are not immediate: they start as PENDING,
+            and the result arrives as a notification. dLocal notes that a
+            refund fee may apply.
+          </p>
+          <p class="cs-bridge">The building is done. Before real customers use it, everything must be tested.</p>
+        </div>
+      </section>
+
+      <!-- Phase 3 -->
+      <section id="launch" aria-labelledby="launch-title">
+        <p class="cs-phase-label">Phase 3</p>
+        <h2 id="launch-title">Launch</h2>
+
+        <div class="cs-point" id={`step-${nextStep()}`}>
+          <h3><span class="cs-point-number">Step {stepNumber}</span> Test in the sandbox</h3>
+          <p>
+            The sandbox works like the real dLocal, at a different address
+            (sandbox.dlocal.com), but no money moves. A useful trick: in the
+            sandbox, the description field decides the result. This lets your
+            team test every situation on purpose, including failures.
+          </p>
+          <figure class="cs-code">
+            <figcaption>Simulating a rejected payment</figcaption>
+            <pre><code>{codeSandbox}</code></pre>
+          </figure>
+          <p>
+            For cash payments and refunds, dLocal provides sandbox tools to
+            change the status by hand, for example to simulate a cash payment
+            that is paid or expires. Test each country, each payment method,
+            and at least one success, one rejection and one refund for each.
+          </p>
+          <p class="cs-bridge">When the tests pass and the contract is signed, you can switch to real payments.</p>
+        </div>
+
+        <div class="cs-point" id={`step-${nextStep()}`}>
+          <h3><span class="cs-point-number">Step {stepNumber}</span> Go live</h3>
+          <p>
+            dLocal activates production when three things are true: the
+            agreement is signed, KYC is approved and the sandbox tests are
+            successful. Then your team replaces the test keys with live keys,
+            changes the address from sandbox.dlocal.com to api.dlocal.com, and
+            checks the approved IP addresses and URLs. A good practice is to
+            start with a small share of traffic or one country, and watch the
+            results closely for the first days.
+          </p>
+          <p class="cs-bridge">Going live is not the end. It is the moment the real work of payments starts.</p>
+        </div>
+
+        <div class="cs-point" id={`step-${nextStep()}`}>
+          <h3><span class="cs-point-number">Step {stepNumber}</span> Monitor and reconcile</h3>
+          <p>After launch, three numbers tell you whether the integration is healthy:</p>
+          <ul class="cs-plain-list">
+            <li><strong>Approval rate:</strong> the share of payments that are PAID, by country and payment method. A sudden drop usually means a technical or configuration problem.</li>
+            <li><strong>Errors before processing:</strong> requests that dLocal refused, for example for a wrong currency or a missing document. These should be close to zero.</li>
+            <li><strong>Reconciliation:</strong> every day, compare your orders, dLocal's payments and the money received. Differences point to missed notifications or unexpected fees.</li>
+          </ul>
+          <p class="cs-bridge">These numbers also show the costs. The next section explains where they come from.</p>
+        </div>
+      </section>
+
+      <!-- Costs -->
+      <section id="costs" aria-labelledby="costs-title">
+        <h2 id="costs-title">What it costs</h2>
+        <p>The total cost has three parts: dLocal's fees, compliance and your team's time.</p>
+
+        <h3>1. dLocal's fees</h3>
+        <p>
+          For larger businesses, dLocal's prices are agreed in the contract.
+          dLocal Go, the self-service version for smaller businesses, publishes
+          a price list, which gives a useful idea of the structure:
+        </p>
+        <figure class="cs-compare">
+          <figcaption>dLocal Go published prices, per paid transaction (examples)</figcaption>
+          <div class="cs-table-wrap">
+            <table>
+              <thead>
+                <tr><th scope="col">Country</th><th scope="col">Cards</th><th scope="col">Other methods</th></tr>
+              </thead>
+              <tbody>
+                {
+                  fees.map((row) => (
+                    <tr>
+                      <th scope="row">{row.country}</th>
+                      <td>{row.cards}</td>
+                      <td>{row.other}</td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        </figure>
+        <p>The same price list also shows the costs that are easy to forget:</p>
+        <ul class="cs-plain-list">
+          <li><strong>Local taxes on the fee:</strong> for example 19% in Colombia, applied to the processing fee.</li>
+          <li><strong>Refunds and chargebacks:</strong> USD 1 per refund and USD 5 per chargeback.</li>
+          <li><strong>Waiting time:</strong> money from cards can be withdrawn after 7 days, and from bank transfers and cash after 3 days. This affects your cash flow.</li>
+          <li><strong>Exchange rate:</strong> customers pay in local currency and you are paid in another currency. If your price is in USD, the customer carries the conversion cost; if it is in local currency, you do.</li>
+        </ul>
+
+        <h3>2. Compliance</h3>
+        <p>
+          With the redirect option or Smart Fields, your PCI DSS work is
+          usually limited to a yearly self-assessment questionnaire. With the
+          full API, your systems handle card numbers, so you need full PCI DSS
+          compliance, including audits and security controls. For most
+          businesses, that is a reason to choose Smart Fields.
+        </p>
+
+        <h3>3. Your team's time</h3>
+        <p>
+          The effort estimates in step 4 cover the first country. Each
+          additional country adds work: its document rules, currency rules,
+          payment methods and tests. After launch, plan ongoing time for
+          monitoring, reconciliation and support. In my experience, this
+          ongoing work is the part that teams underestimate most.
+        </p>
+        <p class="cs-bridge">Time depends on people. The next section shows who is involved.</p>
+      </section>
+
+      <!-- Team -->
+      <section id="team" aria-labelledby="team-title">
+        <h2 id="team-title">Who you need</h2>
+        <figure class="cs-compare">
+          <div class="cs-table-wrap">
+            <table class="cs-table-narrow">
+              <thead><tr><th scope="col">Role</th><th scope="col">Main tasks</th></tr></thead>
+              <tbody>
+                {
+                  team.map((row) => (
+                    <tr>
+                      <th scope="row">{row.role}</th>
+                      <td>{row.task}</td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        </figure>
+        <p>
+          The technical skills are standard for a backend team: working with a
+          REST API and JSON, creating signatures, receiving webhooks, and
+          processing each event only once. The harder skill is the knowledge
+          of each market: which documents, currencies and payment methods each
+          country needs.
+        </p>
+        <p class="cs-bridge">Before the project starts, a few questions save weeks later.</p>
+      </section>
+
+      <!-- Questions -->
+      <section id="questions" aria-labelledby="questions-title">
+        <h2 id="questions-title">Seven questions to ask before you start</h2>
+        <ol class="cs-steps cs-steps--compact">
+          {questions.map((question) => <li><p>{question}</p></li>)}
+        </ol>
+        <p class="cs-takeaway">
+          A dLocal integration is a sequence of simple steps: sign, create,
+          read, listen, refund, test and monitor. The difficulty is not in any
+          single step, but in the details of each market and in what happens
+          after launch.
+        </p>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq" class="cs-faq" aria-labelledby="faq-title">
+        <h2 id="faq-title">Frequently asked questions</h2>
+        {
+          faqs.map((faq) => (
+            <details>
+              <summary>{faq.question}</summary>
+              <p>{faq.answer}</p>
+            </details>
+          ))
+        }
+      </section>
+
+      <section class="cs-topics" aria-labelledby="topics-title">
+        <h2 id="topics-title">Topics</h2>
+        <ul class="cs-item-tags">
+          {guide.tags.map((tag) => <li>{tag}</li>)}
+        </ul>
+      </section>
+
+      <section class="cs-contact" aria-label="Contact">
+        <p>
+          Planning a dLocal integration, or improving one that is already
+          live? I can help your team plan it, review it or find what is not
+          working.
+        </p>
+        <div class="cs-closing-links">
+          <a href={emailHref}>matteo.visibility@gmail.com</a>
+          <a href="/payment-solutions/">How I help with payments →</a>
+        </div>
+      </section>
+
+      <section class="cs-sources" aria-labelledby="sources-title">
+        <h2 id="sources-title">Sources</h2>
+        <ol>
+          {
+            sources.map((source) => (
+              <li>
+                <a href={source.url} target="_blank" rel="noopener noreferrer">{source.name}</a>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <a class="cs-back" href="/payment-solutions/case-studies/">← All case studies and guides</a>
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>

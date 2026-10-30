@@ -1167,3 +1167,206 @@
     opacity: 0.5;
   }
 }
+
+/* =========================================================
+   GUIDES (/payment-solutions/guides/...)
+   Code examples, the process map and the glossary.
+   ========================================================= */
+
+.cs-phase-label {
+  margin: 0 0 6px !important;
+  color: var(--cs-accent);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Code examples */
+.cs-code {
+  margin: 24px 0 28px;
+}
+
+.cs-code figcaption {
+  margin-bottom: 8px;
+  color: var(--cs-muted);
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cs-code pre {
+  margin: 0;
+  padding: 18px 20px;
+  overflow-x: auto;
+  border: 1px solid #1c2e44;
+  border-radius: 14px;
+  background: var(--cs-ink);
+  color: #dbe8f5;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 0.84rem;
+  line-height: 1.7;
+  tab-size: 2;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cs-article .cs-code pre code {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  color: inherit;
+  font-size: inherit;
+  white-space: pre;
+}
+
+/* The whole process on one page */
+.cs-phases {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 28px 0 32px;
+  padding: 0;
+  list-style: none;
+}
+
+.cs-phases > li {
+  padding: 20px 18px 16px;
+  border: 1px solid var(--cs-line);
+  border-top: 2px solid var(--cs-ink);
+  border-radius: 4px 4px 14px 14px;
+  background: linear-gradient(180deg, var(--cs-soft) 0%, var(--cs-paper) 70%);
+}
+
+.cs-phase-name {
+  display: block;
+  color: var(--cs-ink);
+  font-size: 0.98rem;
+  font-weight: 700;
+}
+
+.cs-phase-who {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--cs-muted);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.cs-phases ol {
+  margin: 0;
+  padding-left: 22px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.cs-phases ol li {
+  margin-bottom: 7px;
+  padding-left: 2px;
+}
+
+.cs-phases ol li::marker {
+  color: var(--cs-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.cs-article .cs-phases a {
+  color: var(--cs-copy);
+  text-decoration: none;
+}
+
+.cs-article .cs-phases a:hover {
+  color: var(--cs-accent);
+  text-decoration: underline;
+}
+
+/* Glossary */
+.cs-glossary {
+  margin: 8px 0 28px;
+}
+
+.cs-glossary > div {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  gap: 18px;
+  padding: 14px 0;
+  border-top: 1px solid var(--cs-line);
+}
+
+.cs-glossary > div:first-child {
+  border-top-color: var(--cs-ink);
+}
+
+.cs-glossary dt {
+  color: var(--cs-ink);
+  font-weight: 680;
+  line-height: 1.6;
+}
+
+.cs-glossary dd {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.cs-plain-list--numbered {
+  padding-left: 26px;
+}
+
+.cs-steps--compact li {
+  padding-top: 16px;
+  padding-bottom: 2px;
+}
+
+.cs-steps--compact li::before {
+  top: 19px;
+}
+
+.cs-steps--compact p {
+  margin-bottom: 0.9em;
+}
+
+@media (max-width: 720px) {
+  .cs-phases {
+    grid-template-columns: 1fr;
+  }
+
+  .cs-glossary > div {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .cs-code pre {
+    font-size: 0.78rem;
+    padding: 16px;
+  }
+}
+
+/* Guides list on the hub */
+.cs-guides {
+  margin-top: clamp(56px, 8vw, 96px);
+}
+
+.cs-section-head {
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--cs-ink);
+}
+
+.cs-section-head h2 {
+  margin: 0;
+  color: var(--cs-ink);
+  font-size: clamp(1.3rem, 2.3vw, 1.6rem);
+  font-weight: 680;
+  letter-spacing: -0.015em;
+}
+
+.cs-section-head p {
+  margin: 6px 0 0;
+  color: var(--cs-muted);
+}
+
+.cs-guides .cs-item-number {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}

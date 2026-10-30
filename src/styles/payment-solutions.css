@@ -1343,3 +1343,7 @@
     transition: none;
   }
 }
+
+.payments-cases-link + .payments-cases-link {
+  margin-top: 12px;
+}
