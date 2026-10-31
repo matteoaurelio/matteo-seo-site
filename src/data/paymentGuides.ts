@@ -61,6 +61,29 @@ export const paymentGuides: PaymentGuide[] = [
       "Southeast Asia",
     ],
   },
+  {
+    slug: "adyen-vs-checkout-com-vs-dlocal",
+    title: "Adyen vs Checkout.com vs dLocal: which payment provider fits your business?",
+    summary:
+      "A plain-language comparison of Adyen, Checkout.com and dLocal: pricing models, coverage, in-store payments, payouts and Latin America, with questions for European, US and Latin American businesses.",
+    audience: "Founders, finance leads and product teams",
+    published: "2026-10-31",
+    readingMinutes: 16,
+    tags: [
+      "Adyen",
+      "Checkout.com",
+      "dLocal",
+      "Payment service providers",
+      "Interchange++",
+      "Local acquiring",
+      "Pix",
+      "OXXO",
+      "Payouts",
+      "Latin America",
+      "Europe",
+      "United States",
+    ],
+  },
 ];
 
 export const getPaymentGuide = (slug: string) => paymentGuides.find((guide) => guide.slug === slug);

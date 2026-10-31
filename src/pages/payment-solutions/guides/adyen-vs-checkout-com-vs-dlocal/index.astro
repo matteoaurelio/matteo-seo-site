@@ -1,0 +1,977 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import Header from "../../../../components/Header.astro";
+import Footer from "../../../../components/Footer.astro";
+import CaseStudyHero from "../../../../components/CaseStudyHero.astro";
+import { getPaymentGuide } from "../../../../data/paymentGuides";
+import "../../../../styles/growth-platform.css";
+import "../../../../styles/case-studies.css";
+
+const slug = "adyen-vs-checkout-com-vs-dlocal";
+const guide = getPaymentGuide(slug);
+if (!guide) throw new Error(`Guide not found: ${slug}`);
+
+const site = "https://matteoarellano.com";
+const canonical = `${site}/payment-solutions/guides/${slug}/`;
+const title = "Adyen vs Checkout.com vs dLocal (2026): Plain-Language Comparison | Matteo Arellano";
+const description = "Compare Adyen, Checkout.com and dLocal: pricing models, coverage, in-store, payouts and Latin America. A plain-language guide with FAQs for European, US and Latin American businesses.";
+
+const publishedLabel = new Date(`${guide.published}T00:00:00Z`).toLocaleDateString("en-GB", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+});
+
+const emailHref = "mailto:matteo.visibility@gmail.com?subject=Payment%20provider%20comparison";
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Adyen vs Checkout.com vs dLocal: which payment provider fits your business?",
+      "description": "A plain-language comparison of Adyen, Checkout.com and dLocal: pricing models, coverage, in-store payments, payouts and Latin America, with FAQs for European, US and Latin American businesses.",
+      "datePublished": "2026-10-31",
+      "dateModified": "2026-10-31",
+      "author": {
+        "@type": "Person",
+        "name": "Matteo Arellano",
+        "url": "https://matteoarellano.com/about/"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Matteo Arellano"
+      },
+      "mainEntityOfPage": "https://matteoarellano.com/payment-solutions/guides/adyen-vs-checkout-com-vs-dlocal/",
+      "about": [
+        "Payment service providers",
+        "International payments",
+        "Adyen",
+        "Checkout.com",
+        "dLocal"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://matteoarellano.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Payment solutions",
+          "item": "https://matteoarellano.com/payment-solutions/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Case studies and guides",
+          "item": "https://matteoarellano.com/payment-solutions/case-studies/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Adyen vs Checkout.com vs dLocal",
+          "item": "https://matteoarellano.com/payment-solutions/guides/adyen-vs-checkout-com-vs-dlocal/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "I accept international payments, but too many foreign cards get declined. Can switching provider fix that?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sometimes. A common cause of declines abroad is that the customer's bank sees a cross-border transaction and is more cautious. A provider with local acquiring in that country processes the payment as a domestic one, which often improves approvals. Adyen and Checkout.com acquire locally in many developed markets; dLocal does it in emerging markets. Before you switch, break down your declines by country, card type and decline reason. If they cluster in a few countries, ask each provider for its local acquiring coverage there and for approval data from merchants similar to you."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "I accept international payments, but I can't tell what I'm actually paying. Why is it so complicated?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because each card payment carries three costs: interchange (paid to the customer's bank), scheme fees (paid to Visa or Mastercard) and the provider's own markup. With blended pricing you see one flat rate. With interchange++ you see each part separately. Adyen publishes indicative interchange++ prices; Checkout.com and dLocal quote per merchant. To compare offers fairly, run the same sample of last month's transactions through each proposal, then add currency-conversion spreads, minimums, refund and chargeback fees."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "I'm a small business selling abroad. Are these three right for me?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Probably not yet, with one exception. Adyen and Checkout.com are built for larger merchants, and Adyen may apply a minimum invoice. If your sales are in emerging markets, dLocal Go is a self-service version with published per-country rates in 16 countries. Otherwise, a flat-rate provider is usually simpler until your volume justifies negotiating."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use more than one provider?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, and many large merchants do. A common setup is a global provider for Europe and North America plus dLocal for emerging markets. Some companies add an orchestration layer that sends each payment to the provider with the best approval rate or cost. The tradeoff is more integrations, contracts and reconciliation work."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "I'm a European online store. I accept cards across the EU, but many customers drop out at the bank verification step.",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "That step is 3D Secure, which banks use to meet the Strong Customer Authentication rules of the EU's PSD2 directive. Some friction is unavoidable, but providers differ in how well they request exemptions (for low-value, low-risk or recurring payments) and in how smoothly the check works on mobile. Ask each provider how it decides when to request an exemption, and what share of your transactions it expects to pass without a challenge."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "I'm based in Europe and want to sell in Brazil and Mexico, but I don't have a company there.",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "This is dLocal's core use case: you sell cross-border into its countries and offer local methods such as Pix, OXXO and SPEI without a local entity. With Adyen, some local methods require a local company; its documentation states this for Pix. Checkout.com obtained a Brazilian licence in December 2025 but paused the launch, and its developer documentation describes processing Latin American cards through a partnership with dLocal."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "I run shops and an online store in Europe and want one provider for both.",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Adyen has done this for years, with its own terminals and a single view of online and in-store customers. Checkout.com launched in-person payments in October 2026, starting in the UK and EEA, with a hardware-agnostic approach and Mollie as a partner. If stores are a large part of your business, ask for references with a similar number of locations, and check terminal logistics and support in your countries."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "I accept international payments, but cards from outside Europe cost me much more. Why?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In the European Economic Area, interchange on consumer cards is capped at 0.2% for debit and 0.3% for credit when both the card and the merchant are in the EEA. A card issued in the US or Asia and used at a European merchant is not covered by that cap, so interchange and scheme fees are higher. With interchange++ you see this difference line by line; with blended pricing it is averaged into your rate."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "I'm a US subscription business. I accept international cards, but renewals from abroad fail more often.",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Renewals fail for reasons such as expired or replaced cards, cross-border risk rules and missing authentication. Ask about network tokens and account updater services, which refresh card details automatically, about retry logic, and about local acquiring in your largest foreign markets. Checkout.com lists network tokens and a real-time account updater among its products; ask Adyen for the equivalent in your setup. If your foreign customers are mainly in Latin America, Africa or Asia, compare with dLocal's local processing."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "I'm a US retailer with stores and e-commerce. Which one fits?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Adyen's unified commerce offering is built for this: one platform for terminals, the website and the app. Checkout.com's new in-person product starts in the UK and EEA, with the US to follow. dLocal does not target domestic US payments."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it matter whether a provider holds a US banking licence?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It can. A provider that is its own acquirer connects directly to the card networks instead of relying on a partner bank, which gives it more control over how payments are sent and settled. Adyen has operated a US federal branch since 2021. Checkout.com received a Georgia merchant-acquirer bank charter (MALPB) in January 2026 and says it now operates under it. Ask what share of your volume would run on the provider's own licence."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "I run a US marketplace and need to pay sellers or drivers in Latin America and Africa.",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Payouts are a large part of dLocal's business: about a quarter of its volume in Q2 2026, sent to bank accounts and wallets in its markets. Adyen and Checkout.com also offer payouts and platform products, with broader coverage in developed markets. Compare coverage country by country, payout speed, currency conversion and the identity checks required on the people you pay."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "I accept international cards, but my Brazilian customers want Pix and installments.",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Then you are probably losing sales. Pix is the instant payment system created by Brazil's central bank, and paying by card in installments (parcelado) is a common habit. dLocal offers both to merchants selling cross-border. Adyen supports Pix for merchants with a Brazilian entity and offers card installments in Brazil and Mexico. Ask how each provider charges for installments and whether you receive the full amount upfront or as the installments are paid."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "In Mexico, many of my customers want to pay in cash or by bank transfer.",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "OXXO lets a customer pay an online order in cash at a convenience store; SPEI is Mexico's real-time bank transfer system. dLocal supports both, including through a 2026 partnership with ACI Worldwide. Cash vouchers are confirmed later and some are never paid, so plan your order flow for a delayed confirmation. Ask Adyen and Checkout.com which of these methods they support for your specific setup."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "I'm a Latin American company selling to customers in the US and Europe. Where do I start?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Start with where your company is incorporated, because each provider only signs merchants from certain countries. Adyen has local operations in Mexico and Brazil. Checkout.com operates in 56 countries but has paused its Brazil launch. dLocal's strength is the opposite direction: helping global companies collect money inside emerging markets. Ask each provider directly whether it can contract with your entity."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "My customers are mostly local. Do I need any of these providers?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Maybe not. These three mostly serve companies selling across several countries. Businesses selling only domestically often work with local acquirers and wallets instead. A global provider becomes relevant when you want one platform across several countries, or when you start selling abroad."
+          }
+        }
+      ]
+    }
+  ]
+};
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} image="/images/case-studies/lofoten-coast-og.jpg">
+  <Header />
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+  <main class="cs-page">
+    <CaseStudyHero
+      crumbLabel="Guides"
+      crumbHref="/payment-solutions/case-studies/#guides"
+      title="Adyen vs Checkout.com vs dLocal: which payment provider fits your business?"
+      titleId="article-title"
+      variant="article"
+    >
+      Guide · Provider comparison · <time datetime={guide.published}>{publishedLabel}</time> · {guide.readingMinutes} min read
+    </CaseStudyHero>
+
+    <div class="pc">
+<section class="intro" style="border-top:0">
+  <div class="wrap">
+    <p class="lead">A plain-language comparison for founders, finance leads and product teams who sell across borders. What each provider covers, how it charges, where it is strong, and the questions to ask before you sign.</p>
+    <div class="actions">
+      <a class="btn btn-primary" href={emailHref}>Get help choosing a provider</a>
+      <a class="btn btn-ghost" href="#comparison">Jump to the comparison table</a>
+    </div>
+    <nav class="toc" aria-label="On this page">
+      <a href="#quick-answer">Quick answer</a>
+      <a href="#how-it-works">How a payment works</a>
+      <a href="#comparison">Comparison table</a>
+      <a href="#pros-cons">Strengths and weaknesses</a>
+      <a href="#experiences">What users report</a>
+      <a href="#faq">FAQ by region</a>
+      <a href="#glossary">Glossary</a>
+      <a href="#choose">How to choose</a>
+      <a href="#sources">Sources</a>
+    </nav>
+  </div>
+</section>
+<!-- ============ QUICK ANSWER ============ -->
+<section id="quick-answer">
+  <div class="wrap">
+    <h2>The short answer</h2>
+    <p class="section-intro">All three are serious, regulated providers used by large international companies. They are built for different jobs, so the right choice depends mostly on <strong>where your customers are</strong> and <strong>whether you also sell in physical stores</strong>.</p>
+    <div class="pc-cards">
+      <article class="pc-card a">
+        <h3>Adyen</h3>
+        <p class="fit">Fits companies that sell online and in stores across many developed markets and want one platform for all of it.</p>
+        <p class="watch"><strong>Watch out:</strong> built for larger merchants, and a minimum monthly invoice can apply. Some Latin American methods, such as Pix, require a local company.</p>
+      </article>
+      <article class="pc-card c">
+        <h3>Checkout.com</h3>
+        <p class="fit">Fits digital businesses with high online volume that care most about approval rates and negotiated pricing.</p>
+        <p class="watch"><strong>Watch out:</strong> no public price list. In-store payments only launched in October 2026, and its Brazil launch is on hold.</p>
+      </article>
+      <article class="pc-card d">
+        <h3>dLocal</h3>
+        <p class="fit">Fits companies whose growth is in emerging markets (Latin America, Africa, Asia) and who do not want a local company in every country.</p>
+        <p class="watch"><strong>Watch out:</strong> not designed for domestic payments in Europe or the US. Total cost includes currency conversion and can include setup and minimum fees.</p>
+      </article>
+    </div>
+    <p class="note">In practice, many large merchants use two providers: a global one (Adyen or Checkout.com) for Europe and North America, and dLocal for emerging markets.</p>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how-it-works">
+  <div class="wrap">
+    <h2>How a card payment works, in 30 seconds</h2>
+    <p class="section-intro">Most of the differences between providers come down to which of these steps they control themselves, and in which countries.</p>
+    <div class="flow" role="list">
+      <div class="pc-step" role="listitem"><div class="pc-dot">1</div><div><b>Customer pays</b><span>at your checkout, in an app or at a terminal</span></div></div>
+      <div class="pc-step" role="listitem"><div class="pc-dot">2</div><div><b>Payment provider</b><span>(PSP) receives the details and sends them on</span></div></div>
+      <div class="pc-step" role="listitem"><div class="pc-dot">3</div><div><b>Acquirer</b><span>the licensed institution that collects money for you</span></div></div>
+      <div class="pc-step" role="listitem"><div class="pc-dot">4</div><div><b>Card network</b><span>Visa, Mastercard and others route the request</span></div></div>
+      <div class="pc-step" role="listitem"><div class="pc-dot">5</div><div><b>Customer's bank</b><span>(issuer) approves or declines in about a second</span></div></div>
+    </div>
+    <p class="muted" style="margin-top:18px">Adyen and Checkout.com act as both payment provider and acquirer in many countries. dLocal does the same across its emerging markets through local entities or local partners. When the acquirer is in the customer's own country ("local acquiring"), the bank sees a domestic payment, which often means more approvals.</p>
+  </div>
+</section>
+
+<!-- ============ COMPARISON TABLE ============ -->
+<section id="comparison">
+  <div class="wrap">
+    <h2>Side-by-side comparison</h2>
+    <p class="section-intro">Company-reported figures, checked against each provider's own publications in October 2026.</p>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col"><span class="muted">Feature</span></th>
+            <th scope="col" class="a">Adyen</th>
+            <th scope="col" class="c">Checkout.com</th>
+            <th scope="col" class="d">dLocal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Based in</th>
+            <td class="a" data-label="Adyen">Amsterdam, Netherlands. Publicly listed.</td>
+            <td class="c" data-label="Checkout.com">London, UK. Privately held.</td>
+            <td class="d" data-label="dLocal">Montevideo, Uruguay. Listed on Nasdaq (DLO).</td>
+          </tr>
+          <tr>
+            <th scope="row">Built for</th>
+            <td class="a" data-label="Adyen">One platform for online, in-app and in-store payments, plus marketplaces and platforms.</td>
+            <td class="c" data-label="Checkout.com">Online payments for large digital merchants, with a focus on approval rates.</td>
+            <td class="d" data-label="dLocal">Collecting and sending money in emerging markets with one integration.</td>
+          </tr>
+          <tr>
+            <th scope="row">Where it is strongest</th>
+            <td class="a" data-label="Adyen">Europe, North America and Asia-Pacific. Local acquiring in Mexico and Brazil.</td>
+            <td class="c" data-label="Checkout.com">UK, Europe, Middle East and Asia-Pacific. The US is its fastest-growing region (about 20% of volume).</td>
+            <td class="d" data-label="dLocal">Latin America, Africa, Asia and the Middle East: more than 60 countries.</td>
+          </tr>
+          <tr>
+            <th scope="row">Latest reported scale</th>
+            <td class="a" data-label="Adyen">&euro;803.8bn processed in the first half of 2026.</td>
+            <td class="c" data-label="Checkout.com">Expects about $480bn in payment volume for 2026; 1,700+ enterprise merchants.</td>
+            <td class="d" data-label="dLocal">$17.7bn payment volume in Q2 2026 (up 92% year on year).</td>
+          </tr>
+          <tr>
+            <th scope="row">In-store payments</th>
+            <td class="a" data-label="Adyen"><span class="tag yes">Yes</span><br>Own terminals; a core part of the business ("unified commerce").</td>
+            <td class="c" data-label="Checkout.com"><span class="tag new">New</span><br>Launched October 2026 with Mollie as a partner. UK and EEA first, then the US.</td>
+            <td class="d" data-label="dLocal"><span class="tag no">Not its focus</span><br>Online payments and payouts.</td>
+          </tr>
+          <tr>
+            <th scope="row">Payouts (paying sellers, drivers, freelancers)</th>
+            <td class="a" data-label="Adyen"><span class="tag yes">Yes</span><br>For platforms paying their sellers, and to third parties such as suppliers.</td>
+            <td class="c" data-label="Checkout.com"><span class="tag yes">Yes</span></td>
+            <td class="d" data-label="dLocal"><span class="tag yes">Yes, a major line</span><br>About $4.3bn, or 24% of volume, in Q2 2026.</td>
+          </tr>
+          <tr>
+            <th scope="row">How it charges</th>
+            <td class="a" data-label="Adyen"><strong>Interchange++.</strong> A fixed fee per transaction ($0.13 or &euro;0.11) plus a payment-method fee. Visa and Mastercard: interchange++ plus 0.60%. Published as indicative.</td>
+            <td class="c" data-label="Checkout.com"><strong>Quote-based.</strong> No public rate card; pricing is agreed per merchant.</td>
+            <td class="d" data-label="dLocal"><strong>Custom proposal.</strong> A percentage per transaction, a currency-conversion spread, and possibly setup, monthly and minimum fees.</td>
+          </tr>
+          <tr>
+            <th scope="row">Prices published?</th>
+            <td class="a" data-label="Adyen"><span class="tag yes">Yes, indicative</span></td>
+            <td class="c" data-label="Checkout.com"><span class="tag no">No</span></td>
+            <td class="d" data-label="dLocal"><span class="tag mixed">Partly</span><br>Enterprise: no. dLocal Go (smaller businesses): per-country rates are public.</td>
+          </tr>
+          <tr>
+            <th scope="row">Setup and monthly fees</th>
+            <td class="a" data-label="Adyen">None published. A minimum invoice may apply depending on industry or business model.</td>
+            <td class="c" data-label="Checkout.com">Not published; part of the negotiation.</td>
+            <td class="d" data-label="dLocal">Setup, monthly and negotiated minimum fees can apply (per dLocal's own FAQ).</td>
+          </tr>
+          <tr>
+            <th scope="row">Need a local company in Latin America?</th>
+            <td class="a" data-label="Adyen"><span class="tag mixed">Often</span><br>Adyen's documentation requires a Brazilian entity for Pix.</td>
+            <td class="c" data-label="Checkout.com"><span class="tag mixed">Limited today</span><br>Got a Brazilian licence in Dec 2025 but paused the launch. Its docs describe Latin American cards via a dLocal partnership.</td>
+            <td class="d" data-label="dLocal"><span class="tag yes">No</span><br>Selling cross-border without a local entity is the core of the offer.</td>
+          </tr>
+          <tr>
+            <th scope="row">Key licences</th>
+            <td class="a" data-label="Adyen">European banking licence (2017) and a US federal branch licence (2021).</td>
+            <td class="c" data-label="Checkout.com">10 acquiring licences across 56 countries, plus a US bank charter (MALPB, Georgia, 2026).</td>
+            <td class="d" data-label="dLocal">Processes through its own local entities or local partners, depending on the market.</td>
+          </tr>
+          <tr>
+            <th scope="row">Option for smaller businesses</th>
+            <td class="a" data-label="Adyen"><span class="tag no">Not its focus</span></td>
+            <td class="c" data-label="Checkout.com"><span class="tag no">Not its focus</span></td>
+            <td class="d" data-label="dLocal"><span class="tag yes">dLocal Go</span><br>Self-service, sign up online, 16 countries listed.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted table-foot">Prices are indicative and change; your contract decides what you pay. "Where it is strongest" is my reading of each provider's licences, regions and announcements, not a ranking published by the companies.</p>
+
+    <div class="cta-inline">
+      <p><strong>Comparing proposals from these providers?</strong> I can run your real transaction mix through each offer so you compare total cost, not headline rates.</p>
+      <a class="btn btn-primary" href={emailHref}>Ask me to review your case</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROS / CONS ============ -->
+<section id="pros-cons">
+  <div class="wrap">
+    <h2>Strengths and weaknesses, provider by provider</h2>
+    <p class="section-intro">What each one does well, where it falls short, and who it is usually right for.</p>
+
+    <div class="provider a">
+      <div class="who"><h3>Adyen</h3><p>Usually right for retailers with stores and e-commerce, global brands, and platforms that process payments for other businesses.</p></div>
+      <div class="pros"><h4>Does well</h4><ul>
+        <li>One platform and one contract for online, in-app and in-store payments, so reporting and customer data sit in one place.</li>
+        <li>Holds its own banking licences in Europe and the US, so it is the acquirer itself rather than relying on partner banks.</li>
+        <li>Transparent pricing: interchange++ with an indicative public price list and no setup or monthly fees.</li>
+        <li>Local acquiring in Mexico and Brazil, and card installments for shoppers in both countries.</li>
+      </ul></div>
+      <div class="cons"><h4>Falls short</h4><ul>
+        <li>A minimum invoice and an enterprise-style onboarding make it a poor fit for small businesses.</li>
+        <li>In Brazil, some local methods require a local company (its documentation says so for Pix).</li>
+        <li>Interchange++ statements are detailed and need someone who can read them.</li>
+      </ul></div>
+    </div>
+
+    <div class="provider c">
+      <div class="who"><h3>Checkout.com</h3><p>Usually right for high-volume online businesses: marketplaces, subscriptions, travel, gaming and financial services.</p></div>
+      <div class="pros"><h4>Does well</h4><ul>
+        <li>Built around online acceptance, with tools for approval-rate optimisation, network tokens, fraud detection and disputes.</li>
+        <li>Direct acquiring through 10 licences, and now a US bank charter for processing in the US on its own licence.</li>
+        <li>Large digital merchants, including companies it has named such as Uber, eBay, Klarna and Sony.</li>
+        <li>On G2's side-by-side page, reviewers rated it easier to use, set up and administer than Adyen.</li>
+      </ul></div>
+      <div class="cons"><h4>Falls short</h4><ul>
+        <li>No public pricing, so you need a sales process and some negotiating experience.</li>
+        <li>In-store payments are brand new (October 2026) and start in the UK and EEA only.</li>
+        <li>Latin America is not a core market yet: the Brazil launch is paused.</li>
+      </ul></div>
+    </div>
+
+    <div class="provider d">
+      <div class="who"><h3>dLocal</h3><p>Usually right for global companies entering Latin America, Africa or Asia, and for platforms paying people in those regions.</p></div>
+      <div class="pros"><h4>Does well</h4><ul>
+        <li>One integration for 60+ emerging markets and, by its own count, more than 1,000 payment methods: Pix, OXXO, SPEI, mobile money, local cards.</li>
+        <li>You can sell into these countries without setting up a local company.</li>
+        <li>A large payouts business for sending money to bank accounts and wallets in those markets.</li>
+        <li>A self-service version, dLocal Go, for smaller businesses.</li>
+        <li>Planning an integration? Read <a href="/payment-solutions/guides/dlocal-integration-step-by-step/">how a dLocal integration works, step by step</a>.</li>
+      </ul></div>
+      <div class="cons"><h4>Falls short</h4><ul>
+        <li>Not built for domestic payments in Europe or the US, so you will usually need a second provider.</li>
+        <li>Total cost includes a currency-conversion spread and possibly setup, monthly and minimum fees. Compare total cost, not the headline rate.</li>
+        <li>Public feedback often mentions slow support responses and questions about settlement timing. Ask for service levels in writing.</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EXPERIENCES ============ -->
+<section id="experiences">
+  <div class="wrap">
+    <h2>What users and reviewers report</h2>
+    <p class="section-intro">I looked at public reviews and practitioner write-ups for all three providers.</p>
+    <div class="caveat"><strong>Read reviews of payment providers carefully.</strong> Sites like Trustpilot are dominated by shoppers whose payment failed, not by the businesses that use the provider. Business review counts on sites like G2 and TrustRadius are small. Treat what follows as things to check in your own due diligence, not as verdicts.</div>
+    <div class="reviews">
+      <article class="review">
+        <h3>Adyen</h3>
+        <p>Reviewers and analysts consistently praise the technology and the single platform. The most common criticism comes from smaller merchants: minimum fees, onboarding that takes weeks, and support that works better for large accounts.</p>
+        <p class="muted">Check: onboarding timeline, minimum invoice, the support model for your size.</p>
+      </article>
+      <article class="review">
+        <h3>Checkout.com</h3>
+        <p>On G2's comparison page, reviewers found Checkout.com easier to use, set up and administer, and preferred doing business with it. A TrustRadius reviewer who chose it as a second provider pointed to competitive acceptance rates and pricing. Criticisms focus on pricing that is hard to assess upfront and risk reviews that take longer than expected.</p>
+        <p class="muted">Check: underwriting time, pricing structure, coverage in your markets.</p>
+      </article>
+      <article class="review">
+        <h3>dLocal</h3>
+        <p>A TrustRadius reviewer working in payment support for a large music-streaming service praised how clearly dLocal explains why a payment failed, and the search tools in its dashboard. Aggregated public feedback more often criticises support responsiveness and settlement timing.</p>
+        <p class="muted">Check: support SLAs, settlement times per country, currency repatriation.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq">
+  <div class="wrap narrow">
+    <h2>"I accept international payments, but&hellip;": questions by situation</h2>
+    <p class="section-intro">Real situations from European, American and Latin American businesses. Filter by where you are based.</p>
+    <div class="filters" role="group" aria-label="Filter questions by region">
+      <button class="chip" type="button" data-filter="all" aria-pressed="true">All questions</button>
+      <button class="chip" type="button" data-filter="general" aria-pressed="false">Any business</button>
+      <button class="chip" type="button" data-filter="europe" aria-pressed="false">Europe</button>
+      <button class="chip" type="button" data-filter="us" aria-pressed="false">United States</button>
+      <button class="chip" type="button" data-filter="latam" aria-pressed="false">Latin America</button>
+    </div>
+
+    <div class="faq-group" data-region="general">
+      <h3>Any business</h3>
+      <details class="faq">
+        <summary>I accept international payments, but too many foreign cards get declined. Can switching provider fix that?</summary>
+        <div class="answer">
+          <p>Sometimes. A common cause of declines abroad is that the customer's bank sees a cross-border transaction and is more cautious. A provider with local acquiring in that country processes the payment as a domestic one, which often improves approvals. Adyen and Checkout.com acquire locally in many developed markets; dLocal does it in emerging markets.</p>
+          <p>Before you switch, break down your declines by country, card type and decline reason. If they cluster in a few countries, ask each provider for its local acquiring coverage there and for approval data from merchants similar to you.</p>
+        </div>
+      </details>
+      <details class="faq">
+        <summary>I accept international payments, but I can't tell what I'm actually paying. Why is it so complicated?</summary>
+        <div class="answer">
+          <p>Because each card payment carries three costs: interchange (paid to the customer's bank), scheme fees (paid to Visa or Mastercard) and the provider's own markup. With blended pricing you see one flat rate. With interchange++ you see each part separately.</p>
+          <p>Adyen publishes indicative interchange++ prices; Checkout.com and dLocal quote per merchant. To compare offers fairly, run the same sample of last month's transactions through each proposal, then add currency-conversion spreads, minimums, refund and chargeback fees.</p>
+        </div>
+      </details>
+      <details class="faq">
+        <summary>I'm a small business selling abroad. Are these three right for me?</summary>
+        <div class="answer">
+          <p>Probably not yet, with one exception. Adyen and Checkout.com are built for larger merchants, and Adyen may apply a minimum invoice. If your sales are in emerging markets, dLocal Go is a self-service version with published per-country rates in 16 countries. Otherwise, a flat-rate provider is usually simpler until your volume justifies negotiating.</p>
+        </div>
+      </details>
+      <details class="faq">
+        <summary>Can I use more than one provider?</summary>
+        <div class="answer">
+          <p>Yes, and many large merchants do. A common setup is a global provider for Europe and North America plus dLocal for emerging markets. Some companies add an orchestration layer that sends each payment to the provider with the best approval rate or cost. The tradeoff is more integrations, contracts and reconciliation work.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="faq-group" data-region="europe">
+      <h3>Businesses based in Europe</h3>
+      <details class="faq">
+        <summary>I'm a European online store. I accept cards across the EU, but many customers drop out at the bank verification step.</summary>
+        <div class="answer">
+          <p>That step is 3D Secure, which banks use to meet the Strong Customer Authentication rules of the EU's PSD2 directive. Some friction is unavoidable, but providers differ in how well they request exemptions (for low-value, low-risk or recurring payments) and in how smoothly the check works on mobile.</p>
+          <p>Ask each provider how it decides when to request an exemption, and what share of your transactions it expects to pass without a challenge. I wrote more about this balance in <a href="/journal/2026-10-18-who-should-authenticate-the-customer-the-difficult-balance-between-payment-conversion-security-and-liability/">who should authenticate the customer</a>.</p>
+        </div>
+      </details>
+      <details class="faq">
+        <summary>I'm based in Europe and want to sell in Brazil and Mexico, but I don't have a company there.</summary>
+        <div class="answer">
+          <p>This is dLocal's core use case: you sell cross-border into its countries and offer local methods such as Pix, OXXO and SPEI without a local entity. With Adyen, some local methods require a local company; its documentation states this for Pix. Checkout.com obtained a Brazilian licence in December 2025 but paused the launch, and its developer documentation describes processing Latin American cards through a partnership with dLocal.</p>
+        </div>
+      </details>
+      <details class="faq">
+        <summary>I run shops and an online store in Europe and want one provider for both.</summary>
+        <div class="answer">
+          <p>Adyen has done this for years, with its own terminals and a single view of online and in-store customers. Checkout.com launched in-person payments in October 2026, starting in the UK and EEA, with a hardware-agnostic approach and Mollie as a partner.</p>
+          <p>If stores are a large part of your business, ask for references with a similar number of locations, and check terminal logistics and support in your countries.</p>
+        </div>
+      </details>
+      <details class="faq">
+        <summary>I accept international payments, but cards from outside Europe cost me much more. Why?</summary>
+        <div class="answer">
+          <p>In the European Economic Area, interchange on consumer cards is capped at 0.2% for debit and 0.3% for credit when both the card and the merchant are in the EEA. A card issued in the US or Asia and used at a European merchant is not covered by that cap, so interchange and scheme fees are higher. With interchange++ you see this difference line by line; with blended pricing it is averaged into your rate.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="faq-group" data-region="us">
+      <h3>Businesses based in the United States</h3>
+      <details class="faq">
+        <summary>I'm a US subscription business. I accept international cards, but renewals from abroad fail more often.</summary>
+        <div class="answer">
+          <p>Renewals fail for reasons such as expired or replaced cards, cross-border risk rules and missing authentication. Ask about network tokens and account updater services, which refresh card details automatically, about retry logic, and about local acquiring in your largest foreign markets. Checkout.com lists network tokens and a real-time account updater among its products; ask Adyen for the equivalent in your setup. If your foreign customers are mainly in Latin America, Africa or Asia, compare with dLocal's local processing.</p>
+        </div>
+      </details>
+      <details class="faq">
+        <summary>I'm a US retailer with stores and e-commerce. Which one fits?</summary>
+        <div class="answer">
+          <p>Adyen's unified commerce offering is built for this: one platform for terminals, the website and the app. Checkout.com's new in-person product starts in the UK and EEA, with the US to follow. dLocal does not target domestic US payments.</p>
+        </div>
+      </details>
+      <details class="faq">
+        <summary>Does it matter whether a provider holds a US banking licence?</summary>
+        <div class="answer">
+          <p>It can. A provider that is its own acquirer connects directly to the card networks instead of relying on a partner bank, which gives it more control over how payments are sent and settled. Adyen has operated a US federal branch since 2021. Checkout.com received a Georgia merchant-acquirer bank charter (MALPB) in January 2026 and says it now operates under it. Ask what share of your volume would run on the provider's own licence.</p>
+        </div>
+      </details>
+      <details class="faq">
+        <summary>I run a US marketplace and need to pay sellers or drivers in Latin America and Africa.</summary>
+        <div class="answer">
+          <p>Payouts are a large part of dLocal's business: about a quarter of its volume in Q2 2026, sent to bank accounts and wallets in its markets. Adyen and Checkout.com also offer payouts and platform products, with broader coverage in developed markets. Compare coverage country by country, payout speed, currency conversion and the identity checks required on the people you pay.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="faq-group" data-region="latam">
+      <h3>Businesses based in, or selling into, Latin America</h3>
+      <details class="faq">
+        <summary>I accept international cards, but my Brazilian customers want Pix and installments.</summary>
+        <div class="answer">
+          <p>Then you are probably losing sales. Pix is the instant payment system created by Brazil's central bank, and paying by card in installments (<em>parcelado</em>) is a common habit. dLocal offers both to merchants selling cross-border. Adyen supports Pix for merchants with a Brazilian entity and offers card installments in Brazil and Mexico.</p>
+          <p>Ask how each provider charges for installments and whether you receive the full amount upfront or as the installments are paid.</p>
+        </div>
+      </details>
+      <details class="faq">
+        <summary>In Mexico, many of my customers want to pay in cash or by bank transfer.</summary>
+        <div class="answer">
+          <p>OXXO lets a customer pay an online order in cash at a convenience store; SPEI is Mexico's real-time bank transfer system. dLocal supports both, including through a 2026 partnership with ACI Worldwide. Cash vouchers are confirmed later and some are never paid, so plan your order flow for a delayed confirmation. Ask Adyen and Checkout.com which of these methods they support for your specific setup. For a real example of the tradeoffs, see my <a href="/payment-solutions/case-studies/oxxo-pay-cash-vouchers-time-limited-inventory/">OXXO Pay case study</a>.</p>
+        </div>
+      </details>
+      <details class="faq">
+        <summary>I'm a Latin American company selling to customers in the US and Europe. Where do I start?</summary>
+        <div class="answer">
+          <p>Start with where your company is incorporated, because each provider only signs merchants from certain countries. Adyen has local operations in Mexico and Brazil. Checkout.com operates in 56 countries but has paused its Brazil launch. dLocal's strength is the opposite direction: helping global companies collect money inside emerging markets. Ask each provider directly whether it can contract with your entity.</p>
+        </div>
+      </details>
+      <details class="faq">
+        <summary>My customers are mostly local. Do I need any of these providers?</summary>
+        <div class="answer">
+          <p>Maybe not. These three mostly serve companies selling across several countries. Businesses selling only domestically often work with local acquirers and wallets instead. A global provider becomes relevant when you want one platform across several countries, or when you start selling abroad.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="cta-inline">
+      <p><strong>Your situation isn't listed?</strong> Send me a short description and I'll tell you which questions matter for your case.</p>
+      <a class="btn btn-primary" href={emailHref}>Describe your situation</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GLOSSARY ============ -->
+<section id="glossary">
+  <div class="wrap">
+    <h2>Glossary: payment terms in plain words</h2>
+    <p class="section-intro">The words that come up in every provider conversation, explained for decision makers.</p>
+    <div class="gloss-groups">
+      <div class="gloss">
+        <h3>Who is who</h3>
+        <dl>
+          <dt>Issuer</dt><dd>The customer's bank, which issued the card and decides whether to approve each payment.</dd>
+          <dt>Acquirer</dt><dd>The bank or licensed company that collects card payments on your behalf and sends the money to your account. More in <a href="/journal/2026-10-19-beyond-processing-payments-what-services-do-acquirers-actually-offer/">what acquirers actually offer</a>.</dd>
+          <dt>Card network (scheme)</dt><dd>Visa, Mastercard, American Express and others. They set the rules and carry messages between issuer and acquirer.</dd>
+          <dt>PSP (payment service provider)</dt><dd>The company you integrate with. It may also be your acquirer, as Adyen and Checkout.com often are, or it may connect you to acquirers.</dd>
+          <dt>Merchant of record</dt><dd>The company legally selling to the customer, responsible for taxes, refunds and disputes. Usually that is you.</dd>
+        </dl>
+      </div>
+      <div class="gloss">
+        <h3>What you pay</h3>
+        <dl>
+          <dt>Interchange</dt><dd>A fee paid to the customer's bank on every card payment. It varies by card type, country and whether the card is debit, credit, consumer or business.</dd>
+          <dt>Scheme fees</dt><dd>Fees charged by the card networks for using their network.</dd>
+          <dt>Interchange++ (IC++)</dt><dd>You pay interchange and scheme fees at cost, plus the provider's markup, each shown separately. Transparent, but your cost per payment varies.</dd>
+          <dt>Blended pricing</dt><dd>One flat rate for everything, for example a percentage plus a fixed amount. Simple to read, but cheap and expensive cards are averaged together.</dd>
+          <dt>FX spread</dt><dd>The difference between the market exchange rate and the rate you get when the provider converts currencies for you.</dd>
+          <dt>Minimum invoice</dt><dd>A monthly floor: if your fees fall below it, you pay the minimum anyway.</dd>
+        </dl>
+      </div>
+      <div class="gloss">
+        <h3>Getting payments approved</h3>
+        <dl>
+          <dt>Authorization (approval) rate</dt><dd>The share of payment attempts the customer's bank approves. At high volume, one percentage point can be a lot of revenue.</dd>
+          <dt>Local acquiring</dt><dd>Processing a payment through an acquirer in the customer's country, so the bank sees a domestic payment. Often means more approvals and lower costs.</dd>
+          <dt>Cross-border processing</dt><dd>The payment is processed by an acquirer in a different country from the card. Simpler to set up, but usually more declines and higher fees.</dd>
+          <dt>3D Secure and SCA</dt><dd>An extra check, such as approving in a banking app. In Europe, Strong Customer Authentication is required for most online card payments, with some exemptions.</dd>
+          <dt>Network tokens</dt><dd>A substitute card number issued by the card network that stays valid when the customer's card is replaced. Useful for subscriptions.</dd>
+          <dt>Chargeback</dt><dd>When a customer disputes a payment with their bank and the money is taken back unless you prove the sale was valid.</dd>
+        </dl>
+      </div>
+      <div class="gloss">
+        <h3>Payment methods and operations</h3>
+        <dl>
+          <dt>Local or alternative payment method (APM)</dt><dd>Anything other than an international card: wallets, bank transfers, cash vouchers, local card brands.</dd>
+          <dt>Pix</dt><dd>Brazil's instant payment system, created by the central bank. The customer pays by scanning a QR code in their banking app.</dd>
+          <dt>OXXO and SPEI</dt><dd>In Mexico, OXXO lets customers pay online orders in cash at convenience stores; SPEI is the real-time bank transfer system.</dd>
+          <dt>Installments</dt><dd>Splitting a card purchase into monthly payments, common in Brazil and Mexico.</dd>
+          <dt>Settlement</dt><dd>When the money actually reaches your bank account. "T+2" means two business days after the payment.</dd>
+          <dt>Payouts</dt><dd>Sending money out: to sellers on a marketplace, drivers, freelancers or customers.</dd>
+          <dt>Unified commerce</dt><dd>One payment system for online, in-app and in-store sales, with shared data and reporting.</dd>
+          <dt>Payment orchestration</dt><dd>A layer that connects several providers and decides which one handles each payment.</dd>
+          <dt>PCI DSS</dt><dd>The security standard for handling card data. Using a provider's hosted payment fields reduces how much of it applies to you.</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW TO CHOOSE ============ -->
+<section id="choose">
+  <div class="wrap">
+    <h2>How to choose: five questions to answer first</h2>
+    <p class="section-intro">Answer these internally before your first sales call. They make the conversations much shorter and the proposals comparable.</p>
+    <div class="two-col">
+      <ol class="steps">
+        <li><b>Where are your customers, and where is your company?</b><span>List your volume by country. That alone usually narrows the choice to one or two providers.</span></li>
+        <li><b>Do you sell only online, or in stores too?</b><span>If stores matter, Adyen has the longest track record of the three.</span></li>
+        <li><b>What are you losing today?</b><span>Decline rates by country, missing payment methods, abandoned checkouts. This is the business case.</span></li>
+        <li><b>How much volume do you process?</b><span>Minimums and negotiated pricing only pay off above a certain volume. Below it, flat-rate providers can be cheaper.</span></li>
+        <li><b>Who will run it?</b><span>Interchange++ statements, reconciliation across currencies and the integration itself all need an owner.</span></li>
+      </ol>
+      <div>
+        <h3 style="margin-bottom:12px">Questions to ask every provider</h3>
+        <ul class="ask">
+          <li>In which of my countries do you acquire locally, and on whose licence?</li>
+          <li>What approval rates do you see for merchants like me, by country?</li>
+          <li>What is my total cost, including currency conversion, minimums, refunds and chargebacks?</li>
+          <li>Do I need a local company to offer the payment methods I need?</li>
+          <li>How fast is settlement, and in which currencies can I receive funds?</li>
+          <li>How long does onboarding take, and what documents will you ask for?</li>
+          <li>What support do I get at my volume, and what are the response times?</li>
+          <li>Can I take my stored card tokens with me if I leave?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section id="help" style="border-top:0; padding-top:20px">
+  <div class="wrap">
+    <div class="cta-final">
+      <div>
+        <h2>Want help researching your options?</h2>
+        <p>I work on payment acceptance, payment provider integrations and checkout analytics. If you are choosing between these providers, or trying to understand why payments fail in a specific country, I'm happy to do the research with you and with the providers' teams.</p>
+        <a class="btn btn-primary" href={emailHref}>Tell me about your case</a>
+        <p style="margin-top:14px;font-size:0.95rem">Or write to <a href={emailHref} style="color:#fff">matteo.visibility@gmail.com</a> &middot; <a href="/payment-solutions/" style="color:#fff">How I help with payments</a></p>
+      </div>
+      <ul>
+        <li>Analyse your transaction and decline data by country, card type and payment method</li>
+        <li>Map the markets and payment methods that matter for your growth</li>
+        <li>Prepare the questions and join the calls with the providers</li>
+        <li>Compare proposals on total cost, not headline rates</li>
+        <li>Plan the integration or migration with your technical team</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SOURCES ============ -->
+<section id="sources" class="sources">
+  <div class="wrap">
+    <h2>Sources</h2>
+    <p class="section-intro">Checked on 31 October 2026. Company figures are as reported by each company.</p>
+    <ol>
+      <li><a href="https://www.adyen.com/pricing">Adyen: Pricing</a> (fixed fee, payment-method fees, minimum invoice, no setup or monthly fees)</li>
+      <li><a href="https://www.adyen.com/press-and-media/adyen-publishes-h1-2026-financial-results-3wjne">Adyen: H1 2026 financial results</a></li>
+      <li><a href="https://www.adyen.com/press-and-media/adyen-granted-us-branch-license">Adyen: US branch licence (2021), referencing its European banking licence (2017)</a></li>
+      <li><a href="https://docs.adyen.com/payment-methods/pix">Adyen Docs: Pix</a> (local entity requirement)</li>
+      <li><a href="https://docs.adyen.com/payouts">Adyen Docs: Payouts</a></li>
+      <li><a href="https://thepaypers.com/online-mobile-banking/adyen-granted-pan-european-banking-licence--769324">The Paypers: Adyen's European banking licence and Brazilian payments institution licence</a></li>
+      <li><a href="https://support.bigcommerce.com/articles/en_US/Knowledge/Adyen-Installments">BigCommerce Help: Adyen installments in Brazil and Mexico</a></li>
+      <li><a href="https://glenbrook.com/payments_news/adyen-brings-unified-commerce-offering-and-local-acquiring-to-mexico/">Glenbrook: Adyen brings unified commerce and local acquiring to Mexico</a></li>
+      <li><a href="https://www.adyen.com/en_GB/blog/eu-interchange-fees-cap">Adyen: EU interchange fee cap explained</a></li>
+      <li><a href="https://www.checkout.com/newsroom/checkout-com-reaches-750m-in-annualised-net-revenue-for-2026-and-increases-profitability">Checkout.com: $750m annualised net revenue, 56 countries, 10 acquiring licences (Sept 2026)</a></li>
+      <li><a href="https://www.checkout.com/newsroom/checkout-com-expands-into-in-person-payments">Checkout.com: Expansion into in-person payments with Mollie (Oct 2026)</a></li>
+      <li><a href="https://www.checkout.com/zh-cn/newsroom/checkout-com-secures-approval-for-georgia-bank-charter-accelerating-us-expansion">Checkout.com: Georgia MALPB bank charter approval (Jan 2026)</a></li>
+      <li><a href="https://paymentexpert.com/2026/02/24/checkout-ceo-profit-scaling-lessons/">Payment Expert: Checkout.com delays its Brazil rollout</a></li>
+      <li><a href="https://docs.checkout.com/payments/payment-methods/cards/dlocal">Checkout.com Docs: Latin American cards through dLocal</a></li>
+      <li><a href="https://erpresearch.com/erp-add-ons/processing/checkout-com/pricing">ERP Research: Checkout.com pricing is quote-based</a></li>
+      <li><a href="https://dlocal.gcs-web.com/node/7836/pdf">dLocal: Q2 2026 financial results</a></li>
+      <li><a href="https://dlocal.gcs-web.com/static-files/9c1e2789-2888-40fc-98db-bd2331f137c8">dLocal: Q1 2026 filing and quarterly report</a> (local entities or partners)</li>
+      <li><a href="https://pulse2.com/dlocals-local-to-local-payment-volume-surges-141-to-10-8-billion-as-pay-ins-more-than-double/">Pulse 2.0: dLocal Q2 2026 pay-in and payout volumes</a></li>
+      <li><a href="https://dlocal.com/blog/guides/latam-checkout-conversion-guide/">dLocal: Latin America checkout guide (60+ markets, 1,000+ methods, 760+ merchants)</a></li>
+      <li><a href="https://www.dlocal.com/faqs/search-result">dLocal: FAQ on fees</a></li>
+      <li><a href="https://dlocalgo.com/en/coverage">dLocal Go: Coverage</a></li>
+      <li><a href="https://thepaypers.com/payments/news/aci-worldwide-and-dlocal-partner-on-latin-america-payments">The Paypers: ACI Worldwide and dLocal partner on Latin America payments</a></li>
+      <li><a href="https://www.g2.com/compare/adyen-payments-vs-checkout-com">G2: Adyen Payments vs Checkout.com</a></li>
+      <li><a href="https://www.trustradius.com/compare-products/adyen-vs-checkout-com">TrustRadius: Adyen vs Checkout.com reviews</a></li>
+      <li><a href="https://www.trustradius.com/reviews/dlocal-2024-08-19-17-05-55">TrustRadius: dLocal user review</a></li>
+      <li><a href="https://www.businessexpert.co.uk/?p=77145">Business Expert: Adyen review (minimum fees and onboarding)</a></li>
+      <li><a href="https://www.rfp.wiki/vendors/adyen/checkout-com">RFP.wiki: review aggregator for Adyen, Checkout.com and dLocal</a> (machine-summarised; used only for recurring themes)</li>
+    </ol>
+    <p class="disclaimer">This page is general information, not financial or legal advice. Providers change their products, coverage and prices often; confirm every detail with the provider before you decide. Adyen, Checkout.com and dLocal are trademarks of their respective owners. This page is not affiliated with or endorsed by them.</p>
+  </div>
+</section>
+
+
+<div class="wrap"><a class="cs-back" href="/payment-solutions/case-studies/#guides">&larr; All case studies and guides</a></div>
+
+    </div>
+  </main>
+
+  <script is:inline>
+  (function () {
+    var chips = document.querySelectorAll('.pc .chip');
+    var groups = document.querySelectorAll('.pc .faq-group');
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        var f = chip.getAttribute('data-filter');
+        chips.forEach(function (c) { c.setAttribute('aria-pressed', c === chip ? 'true' : 'false'); });
+        groups.forEach(function (g) {
+          g.hidden = !(f === 'all' || g.getAttribute('data-region') === f);
+        });
+      });
+    });
+  })();
+</script>
+
+  <Footer />
+</BaseLayout>
+
+
+
+<style is:global>
+
+  .pc {
+    --ink: #17202a;
+    --ink-2: #44505c;
+    --ink-3: #6b7783;
+    --line: #e3e7ea;
+    --bg: #ffffff;
+    --bg-2: #f6f7f5;
+    --accent: #0b5cad;
+    --accent-2: #e8f1fb;
+    --warn: #8a4b0b;
+    --warn-bg: #fbf1e4;
+    --a: #3b4fb8;   /* Adyen column */
+    --c: #0f766e;   /* Checkout.com column */
+    --d: #9a3d12;   /* dLocal column */
+    --radius: 14px;
+    --maxw: 1080px;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  .pc *, .pc *::before, .pc *::after { box-sizing: border-box; }
+  .pc a { color: var(--accent); text-underline-offset: 3px; }
+  .pc a:hover { text-decoration-thickness: 2px; }
+  .pc .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 22px; }
+  .pc .narrow { max-width: 760px; }
+  .pc h1, .pc h2, .pc h3 { line-height: 1.2; letter-spacing: -0.015em; margin: 0; }
+  .pc h1 { font-size: clamp(2rem, 4.6vw, 3.1rem); font-weight: 750; max-width: 20ch; }
+  .pc h2 { font-size: clamp(1.5rem, 3vw, 2.05rem); font-weight: 720; margin-bottom: 0.5rem; }
+  .pc h3 { font-size: 1.15rem; font-weight: 680; }
+  .pc p { margin: 0 0 1rem; }
+  .pc section { padding: 64px 0; border-top: 1px solid var(--line); }
+  .pc .eyebrow { font-size: 0.8rem; font-weight: 650; letter-spacing: 0.09em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+  .pc .lead { font-size: 1.18rem; color: var(--ink-2); max-width: 62ch; }
+  .pc .section-intro { color: var(--ink-2); max-width: 68ch; margin-bottom: 28px; }
+  .pc .muted { color: var(--ink-3); font-size: 0.9rem; }
+
+  /* Hero */
+  .pc .intro { padding: 56px 0 48px; border-top: 0; background: linear-gradient(180deg, var(--bg-2), var(--bg)); }
+  .pc .crumbs { font-size: 0.85rem; color: var(--ink-3); margin-bottom: 26px; }
+  .pc .crumbs a { color: var(--ink-3); }
+  .pc .hero .lead { margin-top: 18px; }
+  .pc .byline { margin-top: 18px; font-size: 0.92rem; color: var(--ink-3); }
+  .pc .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+  .pc .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px; font-weight: 650; font-size: 0.98rem; text-decoration: none; border: 1.5px solid var(--accent); transition: background .15s, color .15s; }
+  .pc .btn-primary { background: var(--accent); color: #fff; }
+  .pc .btn-primary:hover { background: #084a8c; }
+  .pc .btn-ghost { color: var(--accent); background: transparent; }
+  .pc .btn-ghost:hover { background: var(--accent-2); }
+
+  /* Quick answer cards */
+  .pc .pc-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .pc .pc-card { border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 22px 18px; background: #fff; position: relative; }
+  .pc .pc-card::before { content: ""; position: absolute; left: 0; top: 0; right: 0; height: 4px; border-radius: var(--radius) var(--radius) 0 0; background: var(--bar, var(--accent)); }
+  .pc .pc-card.a { --bar: var(--a); } .pc .pc-card.c { --bar: var(--c); } .pc .pc-card.d { --bar: var(--d); }
+  .pc .pc-card h3 { margin-bottom: 8px; }
+  .pc .pc-card .fit { font-weight: 600; color: var(--ink); margin-bottom: 10px; }
+  .pc .pc-card .watch { font-size: 0.93rem; color: var(--ink-2); margin: 0; }
+  .pc .pc-card .watch strong { color: var(--warn); }
+  .pc .note { margin-top: 20px; padding: 14px 18px; border-radius: 10px; background: var(--accent-2); color: var(--ink); font-size: 0.97rem; }
+
+  /* Payment flow */
+  .pc .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; margin: 26px 0 10px; }
+  .pc .pc-step { position: relative; text-align: center; padding: 0 8px; }
+  .pc .pc-step .pc-dot { width: 54px; height: 54px; margin: 0 auto 10px; border-radius: 50%; background: var(--accent-2); color: var(--accent); display: grid; place-items: center; font-weight: 750; font-size: 1.05rem; position: relative; z-index: 1; }
+  .pc .pc-step:not(:last-child)::after { content: ""; position: absolute; top: 27px; left: calc(50% + 30px); right: calc(-50% + 30px); height: 2px; background: var(--line); }
+  .pc .pc-step b { display: block; font-size: 0.98rem; }
+  .pc .pc-step span { display: block; font-size: 0.86rem; color: var(--ink-3); line-height: 1.4; margin-top: 4px; }
+
+  /* Comparison table */
+  .pc .table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); -webkit-overflow-scrolling: touch; }
+  .pc table { border-collapse: collapse; width: 100%; min-width: 820px; font-size: 0.95rem; }
+  .pc th, .pc td { text-align: left; vertical-align: top; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+  .pc tbody tr:last-child th, .pc tbody tr:last-child td { border-bottom: 0; }
+  .pc thead th { position: sticky; top: 0; background: #fff; font-size: 1rem; border-bottom: 2px solid var(--line); }
+  .pc thead th.a { color: var(--a); } .pc thead th.c { color: var(--c); } .pc thead th.d { color: var(--d); }
+  .pc tbody th { width: 19%; font-weight: 650; color: var(--ink); background: var(--bg-2); position: sticky; left: 0; z-index: 1; }
+  .pc td { width: 27%; color: var(--ink-2); }
+  .pc td strong { color: var(--ink); }
+  .pc .tag { display: inline-block; font-size: 0.78rem; font-weight: 650; padding: 2px 9px; border-radius: 999px; margin-bottom: 4px; }
+  .pc .tag.yes { background: #e3f3e6; color: #1d6b31; }
+  .pc .tag.new { background: #e8ecfb; color: #2e3f9c; }
+  .pc .tag.no { background: #f1f1f1; color: #5c5c5c; }
+  .pc .tag.mixed { background: var(--warn-bg); color: var(--warn); }
+  .pc .table-foot { margin-top: 12px; }
+
+  /* Inline CTA */
+  .pc .cta-inline { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-top: 30px; padding: 20px 24px; border: 1px dashed #b8cfe8; border-radius: var(--radius); background: #fbfdfc; }
+  .pc .cta-inline p { margin: 0; max-width: 60ch; }
+
+  /* Pros/cons */
+  .pc .provider { display: grid; grid-template-columns: 220px 1fr 1fr; gap: 26px; padding: 28px 0; border-bottom: 1px solid var(--line); }
+  .pc .provider:last-of-type { border-bottom: 0; }
+  .pc .provider .who h3 { font-size: 1.45rem; }
+  .pc .provider.a .who h3 { color: var(--a); } .pc .provider.c .who h3 { color: var(--c); } .pc .provider.d .who h3 { color: var(--d); }
+  .pc .provider .who p { font-size: 0.93rem; color: var(--ink-2); margin-top: 8px; }
+  .pc .provider h4 { margin: 0 0 8px; font-size: 0.82rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-3); }
+  .pc .provider ul { margin: 0; padding-left: 0; list-style: none; }
+  .pc .provider li { padding-left: 26px; position: relative; margin-bottom: 10px; color: var(--ink-2); font-size: 0.97rem; }
+  .pc .provider .pros li::before { content: "+"; position: absolute; left: 0; top: -1px; width: 18px; height: 18px; font-weight: 800; color: #1d6b31; }
+  .pc .provider .cons li::before { content: "\2212"; position: absolute; left: 0; top: -1px; font-weight: 800; color: var(--warn); }
+
+  /* Reviews */
+  .pc .reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .pc .review { background: var(--bg-2); border-radius: var(--radius); padding: 22px; }
+  .pc .review h3 { margin-bottom: 10px; }
+  .pc .review p { font-size: 0.95rem; color: var(--ink-2); }
+  .pc .caveat { border-left: 3px solid var(--warn); background: var(--warn-bg); padding: 14px 18px; border-radius: 0 10px 10px 0; margin-bottom: 26px; font-size: 0.96rem; }
+
+  /* Glossary */
+  .pc .gloss-groups { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px 36px; }
+  .pc .gloss h3 { margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--accent-2); }
+  .pc dl { margin: 0; }
+  .pc dt { font-weight: 680; margin-top: 14px; }
+  .pc dd { margin: 3px 0 0; color: var(--ink-2); font-size: 0.96rem; }
+
+  /* FAQ */
+  .pc .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+  .pc .chip { font: inherit; font-size: 0.92rem; font-weight: 600; padding: 8px 16px; border-radius: 999px; border: 1.5px solid var(--line); background: #fff; color: var(--ink-2); cursor: pointer; }
+  .pc .chip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: #fff; }
+  .pc .faq-group { margin-bottom: 30px; }
+  .pc .faq-group > h3 { font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px; }
+  .pc details { border: 1px solid var(--line); border-radius: 12px; margin-bottom: 10px; background: #fff; }
+  .pc details[open] { border-color: #b8cfe8; }
+  .pc summary { cursor: pointer; list-style: none; padding: 16px 52px 16px 20px; font-weight: 640; position: relative; }
+  .pc summary::-webkit-details-marker { display: none; }
+  .pc summary::after { content: "+"; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 1.4rem; font-weight: 500; color: var(--accent); }
+  .pc details[open] summary::after { content: "\2212"; }
+  .pc .answer { padding: 0 20px 6px; color: var(--ink-2); }
+  .pc .answer p { font-size: 0.98rem; }
+  .pc .region { display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 2px 8px; border-radius: 6px; background: var(--bg-2); color: var(--ink-3); margin-right: 8px; vertical-align: 2px; }
+
+  /* Checklist */
+  .pc .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .pc ol.steps { counter-reset: s; list-style: none; padding: 0; margin: 0; }
+  .pc ol.steps li { counter-increment: s; position: relative; padding-left: 46px; margin-bottom: 18px; }
+  .pc ol.steps li::before { content: counter(s); position: absolute; left: 0; top: 0; width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700; display: grid; place-items: center; font-size: 0.9rem; }
+  .pc ol.steps li b { display: block; }
+  .pc ol.steps li span { color: var(--ink-2); font-size: 0.96rem; }
+  .pc ul.ask { margin: 0; padding-left: 20px; color: var(--ink-2); }
+  .pc ul.ask li { margin-bottom: 9px; }
+
+  /* Final CTA */
+  .pc .cta-final { background: var(--ink); color: #fff; border-radius: 20px; padding: 44px 40px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 36px; align-items: start; }
+  .pc .cta-final h2 { color: #fff; }
+  .pc .cta-final p { color: #c9d1d8; }
+  .pc .cta-final ul { margin: 0; padding-left: 20px; color: #e3e8ec; }
+  .pc .cta-final li { margin-bottom: 9px; }
+  .pc .cta-final .btn-primary { background: #fff; color: var(--ink); border-color: #fff; margin-top: 8px; }
+  .pc .cta-final .btn-primary:hover { background: #e8f1fb; }
+
+  /* Sources */
+  .pc .sources ol { padding-left: 22px; color: var(--ink-2); font-size: 0.9rem; columns: 2; column-gap: 40px; }
+  .pc .sources li { margin-bottom: 8px; break-inside: avoid; }
+  .pc .disclaimer { font-size: 0.88rem; color: var(--ink-3); margin-top: 22px; }
+
+  /* TOC */
+  .pc .toc { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 30px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 0.93rem; }
+  .pc .toc a { color: var(--ink-2); text-decoration: none; }
+  .pc .toc a:hover { color: var(--accent); text-decoration: underline; }
+
+  @media (max-width: 900px) {
+    .pc .pc-cards, .pc .reviews { grid-template-columns: 1fr; }
+    .pc .provider { grid-template-columns: 1fr; gap: 14px; }
+    .pc .gloss-groups, .pc .two-col, .pc .cta-final { grid-template-columns: 1fr; }
+    .pc .sources ol { columns: 1; }
+    .pc .cta-final { padding: 32px 24px; }
+  }
+  @media (max-width: 640px) {
+    .pc section { padding: 48px 0; }
+    .pc .flow { grid-template-columns: 1fr; gap: 14px; }
+    .pc .pc-step { display: grid; grid-template-columns: 54px 1fr; gap: 14px; text-align: left; align-items: center; }
+    .pc .pc-step .pc-dot { margin: 0; }
+    .pc .pc-step:not(:last-child)::after { display: none; }
+  }
+  @media (max-width: 640px) {
+    .pc .table-scroll { border: 0; overflow: visible; }
+    .pc table, .pc tbody, .pc tr, .pc th, .pc td { display: block; width: 100%; min-width: 0; }
+    .pc table { min-width: 0; }
+    .pc thead { display: none; }
+    .pc tbody tr { border: 1px solid var(--line); border-radius: 12px; margin-bottom: 14px; overflow: hidden; }
+    .pc tbody th { position: static; width: 100%; border-bottom: 1px solid var(--line); padding: 12px 16px; }
+    .pc td { padding: 10px 16px; border-bottom: 1px solid var(--line); }
+    .pc td::before { content: attr(data-label); display: block; font-weight: 700; font-size: 0.82rem; letter-spacing: 0.03em; margin-bottom: 2px; }
+    .pc td.a::before { color: var(--a); } .pc td.c::before { color: var(--c); } .pc td.d::before { color: var(--d); }
+    .pc tbody tr td:last-child { border-bottom: 0; }
+  }
+
+</style>
