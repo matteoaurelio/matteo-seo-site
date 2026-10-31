@@ -1,0 +1,417 @@
+---
+/**
+ * The About page, shared by the English, Spanish, Dutch and Norwegian
+ * versions. Text comes from src/data/aboutContent.ts; layout, photos, links
+ * and colleague quotes are defined here once.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "./Header.astro";
+import Footer from "./Footer.astro";
+import DiscoveryCalendar from "./DiscoveryCalendar.astro";
+import { recommendations, achievements } from "../data/achievements";
+import { languageLevels } from "../data/languages";
+import { aboutContent, aboutLanguages, type AboutLang, type PhotoKey, type ChapterId } from "../data/aboutContent";
+import "../styles/growth-platform.css";
+import "../styles/about-story.css";
+
+interface Props {
+  lang: AboutLang;
+}
+
+const { lang } = Astro.props;
+const t = aboutContent[lang];
+
+const site = "https://matteoarellano.com";
+const canonical = `${site}${t.path}`;
+
+const alternateLanguages = [
+  ...aboutLanguages.map((code) => ({
+    hreflang: aboutContent[code].htmlLang,
+    href: `${site}${aboutContent[code].path}`,
+  })),
+  { hreflang: "x-default", href: `${site}${aboutContent.en.path}` },
+];
+
+/**
+ * Colleague quotes are looked up from the LinkedIn recommendations, and the
+ * build fails if an excerpt is not copied exactly from the original.
+ */
+const quote = (id: string, text: string) => {
+  const rec = recommendations.find((item) => item.id === id);
+  if (!rec || !rec.quote.includes(text)) {
+    throw new Error(`About page quote is not an exact excerpt from ${id}`);
+  }
+  return { text, name: rec.name, headline: rec.headline, anchor: `/achievements/#rec-${rec.id}` };
+};
+
+const photoFiles: Record<PhotoKey, { src: string; width: number; height: number }> = {
+  languageExchange: { src: "/images/about/language-exchange.webp", width: 1400, height: 1050 },
+  plantVisit: { src: "/images/about/cargill-plant-visit.webp", width: 1000, height: 1333 },
+  cityView: { src: "/images/about/africa-city-view.webp", width: 1280, height: 853 },
+  communityProject: { src: "/images/about/africa-community-project.webp", width: 1400, height: 787 },
+  buildBreak: { src: "/images/about/africa-build-break.webp", width: 1400, height: 787 },
+  ferry: { src: "/images/about/norway-ferry.webp", width: 1280, height: 960 },
+  river: { src: "/images/about/river-trip.webp", width: 961, height: 1280 },
+};
+
+const photo = (key: PhotoKey) => ({ ...photoFiles[key], ...t.photos[key] });
+
+const chapterLayout: {
+  id: ChapterId;
+  photo?: PhotoKey;
+  gallery?: PhotoKey[];
+  short?: boolean;
+  quote?: ReturnType<typeof quote>;
+  links?: string[];
+}[] = [
+  { id: "rotterdam", photo: "languageExchange" },
+  { id: "luxembourg" },
+  {
+    id: "cargill",
+    photo: "plantVisit",
+    quote: quote(
+      "jose-laguna",
+      "Matteo's skills go beyond technical capabilities in Python and data analysis: he is an excellent problem solver, he is proactive, a good communicator, he is a change leader and a technology evangelist.",
+    ),
+  },
+  { id: "mexico-family", short: true },
+  { id: "africa", gallery: ["cityView", "communityProject", "buildBreak"] },
+  {
+    id: "distribusion",
+    quote: quote(
+      "angelica-garcia-patino",
+      "What stands out most about him is his passion for the work and his curiosity about other areas.",
+    ),
+    links: ["/services/insights-commercial-analysis/", "/product-research/case-studies/", "/payment-solutions/case-studies/"],
+  },
+];
+
+const chapters = chapterLayout.map((layout) => ({
+  ...layout,
+  ...t.chapters[layout.id],
+  photo: layout.photo ? photo(layout.photo) : undefined,
+  gallery: layout.gallery?.map(photo),
+  links: layout.links?.map((href, index) => ({ href, label: t.chapterLinks[index] })),
+}));
+
+const colleagueQuotes = [
+  quote(
+    "abhishek-agarwal",
+    'Matteo has been a great person to work with who always endeavors to drive new innovations and get into the "Why" of a question.',
+  ),
+  quote("sana-shakeel", "He is naturally curious, digs deeply into problems that others might overlook"),
+  quote(
+    "lucas-zarpellon",
+    "Matteo is a quick learner and an excellent teacher, able to convey complex concepts clearly and deliver sustainable solutions that drive meaningful business growth.",
+  ),
+  quote("amrita-nandy", "He is highly aware of different work cultures and excels in collaboration."),
+].map((item, index) => ({ heading: t.colleagues.headings[index], quote: item }));
+
+// The education list must cover everything on the recommendations page.
+if (achievements.length > t.education.items.length) {
+  throw new Error(`About page (${lang}) education list is out of date with src/data/achievements.ts`);
+}
+
+const languageCount = languageLevels.reduce((total, level) => total + level.languages.length, 0);
+const levels = languageLevels.map((level) => ({
+  label: t.outside.levels[level.step],
+  names: level.languages.map((language) => t.outside.languageNames[language.code] ?? language.name),
+}));
+
+const sideProjects = [
+  { title: "Yeelen", copy: t.side.yeelen },
+  {
+    title: "WeGoZero",
+    copy: t.side.wegozero,
+    href: "/journal/2026-10-29-making-complex-business-problems-simpler-my-collaboration-with-wegozero/",
+  },
+];
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ProfilePage",
+      "@id": `${canonical}#page`,
+      url: canonical,
+      name: t.meta.title,
+      description: t.meta.description,
+      inLanguage: t.htmlLang,
+      isPartOf: { "@id": `${site}/#website` },
+      mainEntity: { "@id": `${site}/#person` },
+      primaryImageOfPage: { "@type": "ImageObject", url: `${site}/images/matteo-arellano-headshot.webp` },
+      image: Object.values(photoFiles).map((file) => `${site}${file.src}`),
+      ...(lang !== "en" && { translationOfWork: { "@id": `${site}${aboutContent.en.path}#page` } }),
+    },
+    {
+      "@type": "Person",
+      "@id": `${site}/#person`,
+      name: "Matteo Arellano",
+      alumniOf: [
+        { "@type": "CollegeOrUniversity", name: "Rotterdam School of Management, Erasmus University" },
+        { "@type": "CollegeOrUniversity", name: "London School of Economics and Political Science" },
+        { "@type": "CollegeOrUniversity", name: "Peking University" },
+        { "@type": "CollegeOrUniversity", name: "St. Petersburg State University" },
+        { "@type": "Organization", name: "Dataquest" },
+      ],
+      homeLocation: { "@type": "City", name: "Mexico City" },
+      hasCredential: [
+        {
+          "@type": "EducationalOccupationalCredential",
+          credentialCategory: "degree",
+          name: "Master of Science in Business Administration",
+          recognizedBy: { "@type": "CollegeOrUniversity", name: "Rotterdam School of Management, Erasmus University" },
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          credentialCategory: "degree",
+          name: "BSc in International Business Administration",
+          recognizedBy: { "@type": "CollegeOrUniversity", name: "Rotterdam School of Management, Erasmus University" },
+        },
+      ],
+      award: "Winner of the Rotterdam100 (2016–2017)",
+      knowsLanguage: languageLevels.flatMap((level) =>
+        level.languages.map((language) => ({ "@type": "Language", name: language.name, alternateName: language.code })),
+      ),
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: t.breadcrumb.home, item: `${site}${t.homePath}` },
+        { "@type": "ListItem", position: 2, name: t.breadcrumb.about, item: canonical },
+      ],
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={t.meta.title}
+  description={t.meta.description}
+  canonical={canonical}
+  lang={t.htmlLang}
+  alternateLanguages={alternateLanguages}
+  image="/images/about/norway-ferry.webp"
+>
+  <Header />
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+  <main class="ab-page">
+    <section class="ab-hero">
+      <div class="growth-shell ab-hero-grid">
+        <div class="ab-hero-copy">
+          <nav class="ab-lang" aria-label={t.hero.switchLabel}>
+            <span class="ab-lang-label">{t.hero.switchLabel}</span>
+            <ul>
+              {
+                aboutLanguages.map((code) => (
+                  <li>
+                    <a
+                      href={aboutContent[code].path}
+                      hreflang={aboutContent[code].htmlLang}
+                      lang={aboutContent[code].htmlLang}
+                      aria-current={code === lang ? "page" : undefined}
+                    >
+                      {aboutContent[code].endonym}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </nav>
+          <span class="growth-overline">{t.hero.overline}</span>
+          <h1>{t.hero.title}</h1>
+          <p class="ab-lede">{t.hero.lede}</p>
+          <p>{t.hero.support}</p>
+          <div class="ab-hero-actions">
+            <a class="growth-primary-button" href="#availability">{t.hero.primary}</a>
+            <a class="growth-secondary-link" href="#story">{t.hero.secondary}</a>
+          </div>
+        </div>
+        <figure class="ab-portrait">
+          <img src="/images/matteo-arellano-headshot.webp" alt={t.hero.portraitAlt} width="640" height="640" />
+        </figure>
+      </div>
+
+      <div class="growth-shell">
+        <dl class="ab-glance" aria-label={t.glance.label}>
+          {t.glance.items.map((item) => <div><dt>{item.label}</dt><dd>{item.value}</dd></div>)}
+        </dl>
+      </div>
+    </section>
+
+    <section class="ab-story" id="story" aria-labelledby="story-title">
+      <div class="growth-shell">
+        <header class="ab-section-head">
+          <span class="growth-overline">{t.story.overline}</span>
+          <h2 id="story-title">{t.story.title}</h2>
+        </header>
+
+        <ol class="ab-chapters">
+          {
+            chapters.map((chapter, index) => (
+              <li class:list={["ab-chapter", chapter.photo && "has-photo", chapter.short && "is-short"]} id={chapter.id}>
+                <div class="ab-chapter-marker" aria-hidden="true">{String(index + 1).padStart(2, "0")}</div>
+                <div class="ab-chapter-body">
+                  <p class="ab-chapter-meta">
+                    <span>{chapter.place}</span>
+                    <span>{chapter.period}</span>
+                  </p>
+                  <h3>{chapter.title}</h3>
+                  {chapter.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+                  {chapter.takeaway && (
+                    <p class="ab-takeaway"><strong>{t.story.takeawayLabel}</strong> {chapter.takeaway}</p>
+                  )}
+                  {chapter.quote && (
+                    <blockquote class="ab-quote" lang="en">
+                      <p>“{chapter.quote.text}”</p>
+                      <footer>
+                        <a href={chapter.quote.anchor}>{chapter.quote.name}</a>, {chapter.quote.headline}
+                        {t.quoteNote && <span class="ab-quote-note" lang={t.htmlLang}>{t.quoteNote}</span>}
+                      </footer>
+                    </blockquote>
+                  )}
+                  {chapter.links && (
+                    <p class="ab-chapter-links">
+                      {chapter.links.map((link) => <a href={link.href}>{link.label} →</a>)}
+                    </p>
+                  )}
+                </div>
+                {chapter.photo && (
+                  <figure class="ab-photo">
+                    <img src={chapter.photo.src} alt={chapter.photo.alt} width={chapter.photo.width} height={chapter.photo.height} loading="lazy" decoding="async" />
+                    <figcaption>{chapter.photo.caption}</figcaption>
+                  </figure>
+                )}
+                {chapter.gallery && (
+                  <div class="ab-gallery">
+                    {chapter.gallery.map((item) => (
+                      <figure class="ab-photo">
+                        <img src={item.src} alt={item.alt} width={item.width} height={item.height} loading="lazy" decoding="async" />
+                        <figcaption>{item.caption}</figcaption>
+                      </figure>
+                    ))}
+                  </div>
+                )}
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
+
+    <section class="ab-section ab-section--soft" aria-labelledby="colleagues-title">
+      <div class="growth-shell">
+        <header class="ab-section-head">
+          <span class="growth-overline">{t.colleagues.overline}</span>
+          <h2 id="colleagues-title">{t.colleagues.title}</h2>
+          <p>{t.colleagues.intro}</p>
+        </header>
+        <div class="ab-colleagues">
+          {
+            colleagueQuotes.map((item) => (
+              <figure class="ab-colleague">
+                <h3>{item.heading}</h3>
+                <blockquote lang="en"><p>“{item.quote.text}”</p></blockquote>
+                <figcaption>
+                  <a href={item.quote.anchor}>{item.quote.name}</a>
+                  <span>{item.quote.headline}</span>
+                </figcaption>
+              </figure>
+            ))
+          }
+        </div>
+        <p class="ab-more"><a class="growth-secondary-link" href="/achievements/">{t.colleagues.more}</a></p>
+      </div>
+    </section>
+
+    <section class="ab-section" aria-labelledby="outside-title">
+      <div class="growth-shell ab-outside">
+        <header class="ab-section-head">
+          <span class="growth-overline">{t.outside.overline}</span>
+          <h2 id="outside-title">{t.outside.title}</h2>
+          <p>{t.outside.intro.replace("{count}", String(languageCount))}</p>
+          <ul class="ab-languages" aria-label={t.outside.listLabel}>
+            {
+              levels.map((level) => (
+                <li>
+                  <strong>{level.label}</strong>
+                  <span>{level.names.join(", ")}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </header>
+        <div class="ab-outside-photos">
+          {
+            [photo("ferry"), photo("river")].map((item) => (
+              <figure class="ab-photo">
+                <img src={item.src} alt={item.alt} width={item.width} height={item.height} loading="lazy" decoding="async" />
+                <figcaption>{item.caption}</figcaption>
+              </figure>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="ab-section ab-section--soft" aria-labelledby="learning-title">
+      <div class="growth-shell ab-two">
+        <div>
+          <header class="ab-section-head">
+            <span class="growth-overline">{t.education.overline}</span>
+            <h2 id="learning-title">{t.education.title}</h2>
+          </header>
+          <ol class="ab-education">
+            {
+              t.education.items.map((item) => (
+                <li>
+                  <span>{item.year}</span>
+                  <div>
+                    <strong>{item.title}</strong>
+                    <em>{item.place}</em>
+                  </div>
+                </li>
+              ))
+            }
+          </ol>
+          <p class="ab-more"><a class="growth-secondary-link" href="/achievements/">{t.education.more}</a></p>
+        </div>
+        <div>
+          <header class="ab-section-head">
+            <span class="growth-overline">{t.side.overline}</span>
+            <h2>{t.side.title}</h2>
+          </header>
+          <div class="ab-side">
+            {
+              sideProjects.map((item) => (
+                <article>
+                  <h3>{item.title}</h3>
+                  <p>{item.copy}</p>
+                  {item.href && <a href={item.href}>{t.side.more}</a>}
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="profile-calendar-section ab-calendar">
+      <div class="growth-shell">
+        <DiscoveryCalendar
+          namespace={`about-discovery-${lang}`}
+          eyebrow={t.calendar.eyebrow}
+          title={t.calendar.title}
+          copy={t.calendar.copy}
+          note={t.calendar.note}
+          noteDetail={t.calendar.noteDetail}
+          embedLabel={t.calendar.embedLabel}
+        />
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
