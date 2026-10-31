@@ -10,7 +10,7 @@
 export type AboutLang = "en" | "es" | "nl" | "no";
 
 export type PhotoKey =
-  | "languageExchange"
+  | "portrait"
   | "plantVisit"
   | "cityView"
   | "communityProject"
@@ -132,9 +132,9 @@ const en: AboutText = {
   story: { overline: "The story so far", title: "Six chapters, four countries", takeawayLabel: "What I took with me:" },
   quoteNote: "",
   photos: {
-    languageExchange: {
-      alt: "Matteo in a Holland T-shirt with a language-exchange name tag, next to a friend at a busy evening event",
-      caption: "At a language exchange evening. The name tag lists the languages you offer and the ones you want to practise.",
+    portrait: {
+      alt: "Matteo in a red shirt in front of a taula, a prehistoric stone monument, under a clear blue sky",
+      caption: "In front of a taula, one of the prehistoric stone monuments of Menorca.",
     },
     plantVisit: {
       alt: "Matteo and a colleague in high-visibility jackets in front of a projected diagram of an oilseed crushing process",
@@ -315,9 +315,9 @@ const es: AboutText = {
   story: { overline: "Mi historia hasta ahora", title: "Seis capítulos, cuatro países", takeawayLabel: "Lo que me llevé:" },
   quoteNote: "Cita original en inglés.",
   photos: {
-    languageExchange: {
-      alt: "Matteo con una camiseta de Holanda y una etiqueta de un intercambio de idiomas, junto a una amiga en un evento nocturno con mucha gente",
-      caption: "En una noche de intercambio de idiomas. En la etiqueta pones los idiomas que ofreces y los que quieres practicar.",
+    portrait: {
+      alt: "Matteo con una camisa roja delante de una taula, un monumento prehistórico de piedra, bajo un cielo azul",
+      caption: "Delante de una taula, uno de los monumentos prehistóricos de piedra de Menorca.",
     },
     plantVisit: {
       alt: "Matteo y un compañero con chaquetas de alta visibilidad delante de un diagrama proyectado del proceso de molienda de semillas oleaginosas",
@@ -502,9 +502,9 @@ const nl: AboutText = {
   story: { overline: "Mijn verhaal tot nu toe", title: "Zes hoofdstukken, vier landen", takeawayLabel: "Wat ik meenam:" },
   quoteNote: "Citaat in het oorspronkelijke Engels.",
   photos: {
-    languageExchange: {
-      alt: "Matteo in een Holland-T-shirt met een naamsticker van een taaluitwisseling, naast een vriendin op een druk avondevenement",
-      caption: "Op een taaluitwisselingsavond. Op de naamsticker staan de talen die je aanbiedt en de talen die je wilt oefenen.",
+    portrait: {
+      alt: "Matteo in een rood overhemd voor een taula, een prehistorisch stenen monument, onder een strakblauwe lucht",
+      caption: "Voor een taula, een van de prehistorische stenen monumenten van Menorca.",
     },
     plantVisit: {
       alt: "Matteo en een collega in veiligheidsjassen voor een geprojecteerd schema van het persproces van oliezaden",
@@ -689,9 +689,9 @@ const no: AboutText = {
   story: { overline: "Historien så langt", title: "Seks kapitler, fire land", takeawayLabel: "Det jeg tok med meg:" },
   quoteNote: "Sitert på originalspråket, engelsk.",
   photos: {
-    languageExchange: {
-      alt: "Matteo i en Holland-T-skjorte med navnelapp fra en språkutveksling, ved siden av en venninne på et travelt kveldsarrangement",
-      caption: "På en språkutvekslingskveld. På navnelappen står språkene du kan tilby, og språkene du vil øve på.",
+    portrait: {
+      alt: "Matteo i rød skjorte foran en taula, et forhistorisk steinmonument, under en klar blå himmel",
+      caption: "Foran en taula, et av de forhistoriske steinmonumentene på Menorca.",
     },
     plantVisit: {
       alt: "Matteo og en kollega i refleksjakker foran et projisert diagram av pressingsprosessen for oljefrø",

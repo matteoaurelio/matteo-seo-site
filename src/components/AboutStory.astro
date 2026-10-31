@@ -45,7 +45,7 @@ const quote = (id: string, text: string) => {
 };
 
 const photoFiles: Record<PhotoKey, { src: string; width: number; height: number }> = {
-  languageExchange: { src: "/images/about/language-exchange.webp", width: 1400, height: 1050 },
+  portrait: { src: "/images/about/menorca-taula.webp", width: 853, height: 1280 },
   plantVisit: { src: "/images/about/cargill-plant-visit.webp", width: 1000, height: 1333 },
   cityView: { src: "/images/about/africa-city-view.webp", width: 1280, height: 853 },
   communityProject: { src: "/images/about/africa-community-project.webp", width: 1400, height: 787 },
@@ -64,7 +64,7 @@ const chapterLayout: {
   quote?: ReturnType<typeof quote>;
   links?: string[];
 }[] = [
-  { id: "rotterdam", photo: "languageExchange" },
+  { id: "rotterdam", photo: "portrait" },
   { id: "luxembourg" },
   {
     id: "cargill",
