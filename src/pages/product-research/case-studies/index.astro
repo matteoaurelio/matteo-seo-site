@@ -1,0 +1,306 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+import CaseStudyHero from "../../../components/CaseStudyHero.astro";
+import {
+  sortedProductCaseStudies,
+  productCaseStages,
+  productCaseTopics,
+  productResearch,
+} from "../../../data/productCaseStudies";
+import { slugify } from "../../../data/paymentCaseStudies";
+import "../../../styles/growth-platform.css";
+import "../../../styles/case-studies.css";
+
+const site = "https://matteoarellano.com";
+const canonical = `${site}${productResearch.hubPath}`;
+const title = "Product Research Case Studies | Matteo Arellano";
+const description =
+  "Worked product research case studies: how to find, size and fix the places where customers drop off in search, choice and checkout. Hypotheses, evidence plans, sizing models, fixes and test designs.";
+
+const cases = sortedProductCaseStudies();
+
+const countBy = (test: (item: (typeof cases)[number]) => boolean) => cases.filter(test).length;
+
+const stageFilters = productCaseStages.map((stage) => ({
+  label: stage,
+  value: slugify(stage),
+  count: countBy((item) => item.stage === stage),
+}));
+
+const topicFilters = productCaseTopics.map((topic) => ({
+  label: topic,
+  value: slugify(topic),
+  count: countBy((item) => item.topics.includes(topic)),
+}));
+
+const formatDate = (iso: string) =>
+  new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-GB", {
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": `${canonical}#page`,
+      url: canonical,
+      name: title,
+      description,
+      inLanguage: "en",
+      isPartOf: { "@id": `${site}/#website` },
+      author: { "@id": `${site}/#person` },
+      breadcrumb: { "@id": `${canonical}#breadcrumb` },
+      mainEntity: {
+        "@type": "ItemList",
+        numberOfItems: cases.length,
+        itemListElement: cases.map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          url: `${canonical}${item.slug}/`,
+          name: item.title,
+        })),
+      },
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${canonical}#breadcrumb`,
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${site}/` },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Insights & Commercial Analysis",
+          item: `${site}/services/insights-commercial-analysis/`,
+        },
+        { "@type": "ListItem", position: 3, name: "Product research case studies", item: canonical },
+      ],
+    },
+  ],
+};
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} image={productResearch.ogImage}>
+  <Header />
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+  <main class="cs-page">
+    <CaseStudyHero
+      crumbLabel="Insights & Commercial Analysis"
+      crumbHref="/services/insights-commercial-analysis/"
+      title="Product research"
+      titleId="cs-title"
+      image={productResearch.heroImage}
+      imageHeight={productResearch.heroImageHeight}
+    >
+      Worked examples · hypothetical companies
+    </CaseStudyHero>
+
+    <section class="cs-shell cs-intro">
+      <p>
+        How I find, size and fix the places where customers drop off. Each case
+        study walks through the full method: the hypotheses, the evidence plan,
+        the sizing, the fixes, the priorities and the test. The companies and
+        numbers are hypothetical, so no client is ever exposed. The thinking
+        and the patterns come from real product work, most of it in travel
+        tech, and they apply to any product with a search, a choice and a
+        checkout.
+      </p>
+    </section>
+
+    <section class="cs-shell cs-browse" aria-labelledby="browse-title">
+      <h2 class="cs-visually-hidden" id="browse-title">Browse case studies</h2>
+
+      <div class="cs-filters" data-cs-filters hidden>
+        <div class="cs-filter-group" role="group" aria-labelledby="filter-stage">
+          <span class="cs-filter-label" id="filter-stage">Journey stage</span>
+          <div class="cs-chips">
+            <button type="button" class="cs-chip" data-cs-filter="region" data-value="all" aria-pressed="true">
+              All stages
+            </button>
+            {
+              stageFilters.map((filter) => (
+                <button type="button" class="cs-chip" data-cs-filter="region" data-value={filter.value} aria-pressed="false">
+                  {filter.label}
+                  <span class="cs-chip-count" data-cs-count>{filter.count}</span>
+                </button>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="cs-filter-group" role="group" aria-labelledby="filter-topic">
+          <span class="cs-filter-label" id="filter-topic">Topic</span>
+          <div class="cs-chips">
+            <button type="button" class="cs-chip" data-cs-filter="tech" data-value="all" aria-pressed="true">
+              All topics
+            </button>
+            {
+              topicFilters.map((filter) => (
+                <button type="button" class="cs-chip" data-cs-filter="tech" data-value={filter.value} aria-pressed="false">
+                  {filter.label}
+                  <span class="cs-chip-count" data-cs-count>{filter.count}</span>
+                </button>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="cs-filter-footer">
+          <p class="cs-result-count" role="status" aria-live="polite" data-cs-status>
+            Showing {cases.length} {cases.length === 1 ? "case study" : "case studies"}
+          </p>
+          <button type="button" class="cs-clear" data-cs-reset hidden>Clear filters</button>
+        </div>
+      </div>
+
+      <ol class="cs-list">
+        {
+          cases.map((item, index) => (
+            <li
+              class="cs-item"
+              data-cs-item
+              data-region={slugify(item.stage)}
+              data-tech={item.topics.map(slugify).join(" ")}
+            >
+              <a href={`${productResearch.hubPath}${item.slug}/`}>
+                <span class="cs-item-number">{String(index + 1).padStart(2, "0")}</span>
+                <div class="cs-item-body">
+                  <h3>{item.title}</h3>
+                  <p class="cs-item-summary">{item.summary}</p>
+                  <ul class="cs-item-tags" aria-label="Journey stage and topics">
+                    <li>{item.stage}</li>
+                    {item.topics.map((topic) => <li>{topic}</li>)}
+                  </ul>
+                  <p class="cs-item-date">
+                    <time datetime={item.published}>{formatDate(item.published)}</time> ·{" "}
+                    {item.readingMinutes} min read · {item.sector}
+                  </p>
+                </div>
+                <span class="cs-item-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+
+      <p class="cs-empty" data-cs-empty hidden>
+        No case studies match these filters yet.
+        <button type="button" data-cs-reset>Clear filters</button>
+      </p>
+    </section>
+
+    <section class="cs-shell cs-guides" aria-labelledby="next-title">
+      <div class="cs-section-head">
+        <h2 id="next-title">Coming next</h2>
+        <p>
+          Trust and content (contextual help, delivery clarity, landing pages,
+          live service information) and platform work (mobile performance,
+          accessibility, publishing checks and funnel tracking). For payment
+          problems, see the <a href="/payment-solutions/case-studies/">payment case studies</a>.
+        </p>
+      </div>
+    </section>
+
+    <section class="cs-shell cs-closing">
+      <p>Are customers dropping off somewhere in your product?</p>
+      <div class="cs-closing-links">
+        <a href="mailto:matteo.visibility@gmail.com?subject=Product%20improvement">matteo.visibility@gmail.com</a>
+        <a href="/services/insights-commercial-analysis/">How I help →</a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<script>
+  // Same filter behaviour as the payment case studies. "region" holds the
+  // journey stage and "tech" holds the topic, so the shared CSS applies.
+  type Group = "region" | "tech";
+
+  const filters = document.querySelector<HTMLElement>("[data-cs-filters]");
+  const items = Array.from(document.querySelectorAll<HTMLElement>("[data-cs-item]"));
+  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-cs-filter]"));
+  const empty = document.querySelector<HTMLElement>("[data-cs-empty]");
+  const status = document.querySelector<HTMLElement>("[data-cs-status]");
+  const clearButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-cs-reset]"));
+  const state: Record<Group, string> = { region: "all", tech: "all" };
+
+  filters?.removeAttribute("hidden");
+
+  const matches = (item: HTMLElement, stage: string, topic: string) =>
+    (stage === "all" || item.dataset.region === stage) &&
+    (topic === "all" || (item.dataset.tech ?? "").split(" ").includes(topic));
+
+  function render(updateUrl = true) {
+    let visible = 0;
+    items.forEach((item) => {
+      item.hidden = !matches(item, state.region, state.tech);
+      if (!item.hidden) visible += 1;
+    });
+
+    chips.forEach((chip) => {
+      const group = chip.dataset.csFilter as Group;
+      const value = chip.dataset.value ?? "all";
+      chip.setAttribute("aria-pressed", String(state[group] === value));
+      if (value === "all") return;
+      const other: Group = group === "region" ? "tech" : "region";
+      const count = items.filter((item) =>
+        group === "region" ? matches(item, value, state[other]) : matches(item, state[other], value),
+      ).length;
+      const countEl = chip.querySelector<HTMLElement>("[data-cs-count]");
+      if (countEl) countEl.textContent = String(count);
+      chip.disabled = count === 0 && state[group] !== value;
+    });
+
+    const filtered = state.region !== "all" || state.tech !== "all";
+    clearButtons.forEach((button) => {
+      if (button.classList.contains("cs-clear")) button.hidden = !filtered;
+    });
+    if (empty) empty.hidden = visible > 0;
+    if (status) {
+      const noun = visible === 1 ? "case study" : "case studies";
+      status.textContent = filtered
+        ? `Showing ${visible} of ${items.length} ${items.length === 1 ? "case study" : "case studies"}`
+        : `Showing ${visible} ${noun}`;
+    }
+
+    if (updateUrl) {
+      const params = new URLSearchParams();
+      if (state.region !== "all") params.set("stage", state.region);
+      if (state.tech !== "all") params.set("topic", state.tech);
+      const query = params.toString();
+      history.replaceState(null, "", query ? `?${query}` : location.pathname);
+    }
+  }
+
+  // Filters can be shared as links, for example ?stage=checkout-payment&topic=validation
+  const params = new URLSearchParams(location.search);
+  const known = (group: Group, value: string | null) =>
+    !!value && chips.some((chip) => chip.dataset.csFilter === group && chip.dataset.value === value);
+  if (known("region", params.get("stage"))) state.region = params.get("stage")!;
+  if (known("tech", params.get("topic"))) state.tech = params.get("topic")!;
+  render(false);
+
+  document.addEventListener("click", (event) => {
+    const target = event.target as HTMLElement;
+    const chip = target.closest<HTMLButtonElement>("[data-cs-filter]");
+    if (chip && !chip.disabled) {
+      const group = chip.dataset.csFilter as Group;
+      const value = chip.dataset.value ?? "all";
+      state[group] = state[group] === value && value !== "all" ? "all" : value;
+      render();
+    }
+    if (target.closest("[data-cs-reset]")) {
+      state.region = "all";
+      state.tech = "all";
+      render();
+    }
+  });
+</script>

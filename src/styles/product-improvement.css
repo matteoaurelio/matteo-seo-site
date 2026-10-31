@@ -1,0 +1,537 @@
+/* =========================================================
+   Insights & Commercial Analysis: product improvement sections
+   (/services/insights-commercial-analysis/)
+   Builds on growth-platform.css. Adds the "common leaks" board,
+   the journey playbook line, case-study cards, the audience grid,
+   the global perspective band and the FAQ.
+   ========================================================= */
+
+.pi-section-head {
+  display: grid;
+  gap: 14px;
+  max-width: 760px;
+  margin-bottom: 40px;
+}
+
+.pi-section-head h2 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.pi-section-head p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+/* ---------- Leaks board ---------- */
+
+.pi-board {
+  border-radius: 24px;
+  padding: clamp(22px, 3vw, 34px);
+  color: #eef4fb;
+  background:
+    radial-gradient(circle at 92% 0%, rgba(90, 169, 255, 0.18), transparent 26rem),
+    #0b2442;
+  box-shadow: 0 30px 70px rgba(11, 36, 66, 0.28);
+}
+
+.pi-board-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.pi-board-top strong {
+  font-size: 1.2rem;
+  letter-spacing: -0.02em;
+}
+
+.pi-board-top span,
+.pi-board-stage {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.pi-board-top span {
+  color: #f5bd52;
+}
+
+.pi-board-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pi-board-row {
+  display: grid;
+  grid-template-columns: 8rem 7.5rem 1fr;
+  gap: 18px;
+  align-items: baseline;
+  padding: 18px 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.14);
+}
+
+.pi-board-row:last-child {
+  border-bottom: 0;
+}
+
+.pi-board-stage {
+  color: rgba(238, 244, 251, 0.66);
+}
+
+.pi-board-value {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #f5bd52;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.pi-board-what p {
+  margin: 0;
+  line-height: 1.45;
+}
+
+.pi-board-what small {
+  display: block;
+  margin-top: 5px;
+  color: rgba(238, 244, 251, 0.66);
+  font-size: 0.86rem;
+}
+
+.pi-board-foot {
+  margin: 16px 0 0;
+  color: rgba(238, 244, 251, 0.7);
+  font-size: 0.86rem;
+}
+
+@media (max-width: 760px) {
+  .pi-board-row {
+    grid-template-columns: 1fr auto;
+    gap: 6px 14px;
+  }
+
+  .pi-board-what {
+    grid-column: 1 / -1;
+  }
+}
+
+.pi-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  margin-top: 22px;
+  overflow: hidden;
+  border: 1px solid var(--soft);
+  border-radius: 20px;
+  background: var(--soft);
+}
+
+.pi-stat {
+  display: grid;
+  gap: 4px;
+  padding: 20px 22px;
+  background: #fff;
+}
+
+.pi-stat b {
+  color: var(--primary);
+  font-size: 2.2rem;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.pi-stat span {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+@media (max-width: 760px) {
+  .pi-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ---------- Playbook line ---------- */
+
+.pi-route {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 22px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pi-route::before {
+  content: "";
+  position: absolute;
+  top: 12px;
+  left: 0;
+  right: 0;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-2));
+}
+
+.pi-stop {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding-top: 44px;
+}
+
+.pi-stop::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  border: 5px solid var(--primary);
+  border-radius: 50%;
+  background: #fff;
+}
+
+.pi-stop-count {
+  color: var(--primary-2);
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+
+.pi-stop h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+}
+
+.pi-stop ul {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 1.05rem;
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+
+@media (max-width: 960px) {
+  .pi-route {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding-left: 40px;
+  }
+
+  .pi-route::before {
+    top: 0;
+    bottom: 0;
+    left: 9px;
+    right: auto;
+    width: 6px;
+    height: auto;
+  }
+
+  .pi-stop {
+    padding-top: 0;
+  }
+
+  .pi-stop::before {
+    top: 0;
+    left: -40px;
+  }
+}
+
+/* ---------- Case-study cards ---------- */
+
+.pi-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.pi-card {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: 24px;
+  border: 1px solid var(--soft);
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease;
+}
+
+.pi-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary-3);
+}
+
+.pi-card-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 650;
+}
+
+.pi-card h3 {
+  margin: 0;
+  font-size: 1.28rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.pi-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.97rem;
+}
+
+.pi-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pi-card-tags li {
+  padding: 3px 10px;
+  border-radius: 999px;
+  color: var(--primary);
+  background: var(--bg-strong);
+  font-size: 0.76rem;
+  font-weight: 650;
+}
+
+.pi-card-go {
+  color: var(--primary-2);
+  font-weight: 760;
+}
+
+.pi-cards-foot {
+  margin-top: 24px;
+}
+
+@media (max-width: 960px) {
+  .pi-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Audience grid ---------- */
+
+.pi-audience {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.pi-audience article {
+  display: grid;
+  gap: 6px;
+  padding: 20px 22px;
+  border: 1px solid var(--soft);
+  border-radius: 18px;
+  background: #fff;
+}
+
+.pi-audience article.is-deep {
+  border-color: var(--primary-3);
+  background: linear-gradient(160deg, #fff 40%, var(--bg-strong));
+}
+
+.pi-audience h3 {
+  margin: 0;
+  font-size: 1.08rem;
+  letter-spacing: -0.02em;
+}
+
+.pi-audience p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+
+.pi-audience .pi-badge {
+  justify-self: start;
+  padding: 2px 9px;
+  border-radius: 999px;
+  color: #fff;
+  background: var(--primary);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .pi-audience {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .pi-audience {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Global perspective ---------- */
+
+.pi-global {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  padding: clamp(72px, 9vw, 110px) 0;
+  color: #f4f7fb;
+  background: #071a33;
+}
+
+.pi-global img {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 62% 50%;
+  opacity: 0.42;
+}
+
+.pi-global::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgba(7, 26, 51, 0.95) 0%, rgba(7, 26, 51, 0.75) 55%, rgba(7, 26, 51, 0.25) 100%);
+}
+
+.pi-global .growth-overline {
+  color: #f5bd52;
+}
+
+.pi-global h2 {
+  color: #fff;
+  margin: 14px 0 16px;
+  max-width: 16ch;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+}
+
+.pi-global > .growth-shell > p {
+  max-width: 60ch;
+  margin: 0;
+  color: rgba(244, 247, 251, 0.86);
+}
+
+.pi-places {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px 32px;
+  max-width: 720px;
+  margin: 36px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pi-places li {
+  display: grid;
+  gap: 4px;
+  padding-top: 12px;
+  border-top: 2px solid #f5bd52;
+}
+
+.pi-places strong {
+  font-size: 1.2rem;
+}
+
+.pi-places span {
+  color: rgba(244, 247, 251, 0.76);
+  font-size: 0.93rem;
+}
+
+@media (max-width: 560px) {
+  .pi-places {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- FAQ ---------- */
+
+.pi-faq {
+  display: grid;
+  gap: 12px;
+  max-width: 880px;
+}
+
+.pi-faq details {
+  padding: 0 22px;
+  border: 1px solid var(--soft);
+  border-radius: 16px;
+  background: #fff;
+}
+
+.pi-faq summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 0;
+  font-weight: 720;
+  cursor: pointer;
+  list-style: none;
+}
+
+.pi-faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.pi-faq summary::after {
+  content: "+";
+  color: var(--primary-2);
+  font-weight: 700;
+}
+
+.pi-faq details[open] summary::after {
+  content: "−";
+}
+
+.pi-faq details p {
+  max-width: 68ch;
+  margin: 0;
+  padding-bottom: 18px;
+  color: var(--muted);
+}
+
+.pi-faq summary:focus-visible,
+.pi-card:focus-visible {
+  outline: 3px solid var(--primary-3);
+  outline-offset: 3px;
+}
+
+.pi-sources {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.pi-sources a {
+  color: var(--primary-2);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

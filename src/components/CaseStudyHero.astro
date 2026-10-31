@@ -1,8 +1,10 @@
 ---
 /**
- * Header for the payment case-study pages: a faded, calm landscape photo
- * with the title on top. The photo is decorative (empty alt text) and is
- * served in three compressed WebP sizes.
+ * Header for the case-study pages: a faded, calm photo with the title on
+ * top. The photo is decorative (empty alt text) and is served in three
+ * compressed WebP sizes: `${image}-768.webp`, `-1280.webp` and `-1920.webp`.
+ * Payment case studies use the Lofoten coast; product research case studies
+ * use the canal photo.
  */
 interface Props {
   crumbLabel: string;
@@ -10,10 +12,22 @@ interface Props {
   title: string;
   titleId: string;
   variant?: "hub" | "article";
+  /** Path prefix of the WebP set, without the size suffix. */
+  image?: string;
+  /** Intrinsic size of the 1920 px image. */
+  imageHeight?: number;
 }
 
-const { crumbLabel, crumbHref, title, titleId, variant = "hub" } = Astro.props;
-const base = "/images/case-studies/lofoten-coast";
+const {
+  crumbLabel,
+  crumbHref,
+  title,
+  titleId,
+  variant = "hub",
+  image = "/images/case-studies/lofoten-coast",
+  imageHeight = 1081,
+} = Astro.props;
+const base = image;
 ---
 
 <section class:list={["cs-hero", variant === "article" && "cs-hero--article"]} aria-labelledby={titleId}>
@@ -23,7 +37,7 @@ const base = "/images/case-studies/lofoten-coast";
       srcset={`${base}-768.webp 768w, ${base}-1280.webp 1280w, ${base}-1920.webp 1920w`}
       sizes="100vw"
       width="1920"
-      height="1081"
+      height={imageHeight}
       alt=""
       loading="eager"
       fetchpriority="high"

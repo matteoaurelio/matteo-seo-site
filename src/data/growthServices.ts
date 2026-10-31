@@ -117,15 +117,15 @@ export const growthServices: GrowthService[] = [
     slug: "insights-commercial-analysis",
     number: "02",
     name: "Insights & Commercial Analysis",
-    shortTitle: "Find where the money is made or lost",
+    shortTitle: "Find where your product loses customers",
     homepagePromise:
-      "Use customer, revenue, margin and operational data to find where money is being made, lost or left on the table.",
+      "Find where customers drop off between search and payment, what it costs, and which product changes to make first.",
     homepageDescription:
-      "I turn messy business data into clear commercial decisions: where to focus, what to stop, which customers or products matter, and where revenue or margin can improve.",
+      "Product improvement grounded in commercial analysis: funnel data, session recordings, customer feedback and technical audits turned into prioritised, testable product changes with a revenue case behind each one.",
     heroTitle:
-      "I help companies find the commercial opportunities hidden in their data.",
+      "I find where your product loses customers, and what to fix first.",
     heroLede:
-      "Customer, revenue, product and operational data should lead to decisions. I analyse the numbers to show what is driving performance, where value is leaking and which actions are most likely to improve revenue or margin.",
+      "Product improvement grounded in commercial analysis. I combine funnel data, session recordings, customer feedback and technical audits to show where people drop off between search and payment, what it costs, and which changes will pay back first.",
     heroOutcomes: [
       {
         title: "Revenue & margin opportunities",
@@ -191,9 +191,9 @@ export const growthServices: GrowthService[] = [
         href: "/services/plumbing-hvac-revenue-leak-discovery/",
       },
     ],
-    calendarTitle: "Have a commercial question buried in the data?",
+    calendarTitle: "Losing customers somewhere between search and payment?",
     calendarCopy:
-      "Tell me the decision you are trying to make. We can look at what information exists, what is still missing and whether a deeper analysis could materially change what you do next.",
+      "Tell me where you think customers drop off. In 20 minutes we can work out where to look first, what data already exists and what fixing it could be worth.",
   },
   {
     slug: "product-conversion",
@@ -269,6 +269,10 @@ export const growthServices: GrowthService[] = [
       {
         label: "Landing pages & conversion copy",
         href: "/services/product-copy-landing-pages/",
+      },
+      {
+        label: "Product research case studies",
+        href: "/product-research/case-studies/",
       },
     ],
     calendarTitle: "Losing customers somewhere in the journey?",

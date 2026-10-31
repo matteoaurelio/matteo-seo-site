@@ -1,0 +1,337 @@
+---
+/**
+ * Shared layout for the product research case studies.
+ *
+ * Every article follows the same method, in the same order: scenario,
+ * hypotheses, evidence, sizing, fixes, priorities, test, the same pattern
+ * in other products, checklist and conclusion. It reuses the payment
+ * case-study styles (case-studies.css) so both collections look the same.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "./Header.astro";
+import Footer from "./Footer.astro";
+import CaseStudyHero from "./CaseStudyHero.astro";
+import { getProductCaseStudy, productResearch, productCaseStudies } from "../data/productCaseStudies";
+import "../styles/growth-platform.css";
+import "../styles/case-studies.css";
+
+type Row = { cells: string[] };
+type Fix = { title: string; pattern: string; change: string; effect: string };
+type Source = { name: string; url: string };
+
+interface Props {
+  slug: string;
+  seoTitle: string;
+  dek: string;
+  summary: string[];
+  scenario: string[];
+  hypotheses: { name: string; claim: string; signal: string; check: string }[];
+  evidence: string[];
+  evidenceNote: string;
+  sizing: { label: string; value: string }[];
+  sizingResult: string;
+  sizingNote: string;
+  fixes: Fix[];
+  priorities: Row[];
+  prioritiesNote: string;
+  test: { label: string; text: string }[];
+  elsewhere: string[];
+  checklist: string[];
+  conclusion: string;
+  contactLine: string;
+  sources: Source[];
+}
+
+const p = Astro.props;
+const study = getProductCaseStudy(p.slug);
+if (!study) throw new Error(`Product case study not found: ${p.slug}`);
+
+const site = "https://matteoarellano.com";
+const hub = `${site}${productResearch.hubPath}`;
+const canonical = `${hub}${study.slug}/`;
+const description = study.summary;
+
+const publishedLabel = new Date(`${study.published}T00:00:00Z`).toLocaleDateString("en-GB", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+});
+
+const contents = [
+  { id: "scenario", label: "The scenario" },
+  { id: "hypotheses", label: "How I frame the problem" },
+  { id: "evidence", label: "What the evidence could show" },
+  { id: "sizing", label: "Putting a number on it" },
+  { id: "fixes", label: "The fixes" },
+  { id: "priorities", label: "How I prioritise" },
+  { id: "test", label: "How I would test it" },
+  { id: "elsewhere", label: "The same pattern in other products" },
+  { id: "checklist", label: "Checklist" },
+  { id: "conclusion", label: "Conclusion" },
+];
+
+const index = productCaseStudies.findIndex((item) => item.slug === study.slug);
+const next = productCaseStudies[index + 1];
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": `${canonical}#article`,
+      headline: study.title,
+      description,
+      url: canonical,
+      mainEntityOfPage: canonical,
+      inLanguage: "en",
+      datePublished: study.published,
+      dateModified: study.updated ?? study.published,
+      author: { "@id": `${site}/#person` },
+      publisher: { "@id": `${site}/#person` },
+      image: `${site}${productResearch.ogImage}`,
+      isPartOf: { "@id": `${hub}#page` },
+      about: study.topics.map((name) => ({ "@type": "Thing", name })),
+      keywords: [...study.topics, ...(study.tags ?? [])].join(", "),
+      citation: p.sources.map((source) => source.url),
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${canonical}#breadcrumb`,
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${site}/` },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Insights & Commercial Analysis",
+          item: `${site}/services/insights-commercial-analysis/`,
+        },
+        { "@type": "ListItem", position: 3, name: "Product research case studies", item: hub },
+        { "@type": "ListItem", position: 4, name: study.title, item: canonical },
+      ],
+    },
+  ],
+};
+
+const emailHref = `mailto:matteo.visibility@gmail.com?subject=${encodeURIComponent(study.stage)}`;
+---
+
+<BaseLayout title={p.seoTitle} description={description} canonical={canonical} image={productResearch.ogImage}>
+  <Header />
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+  <main class="cs-page">
+    <CaseStudyHero
+      crumbLabel="Product research case studies"
+      crumbHref={productResearch.hubPath}
+      title={study.title}
+      titleId="article-title"
+      variant="article"
+      image={productResearch.heroImage}
+      imageHeight={productResearch.heroImageHeight}
+    >
+      {study.stage} · <time datetime={study.published}>{publishedLabel}</time> · {study.readingMinutes} min read
+    </CaseStudyHero>
+
+    <article class="cs-article" aria-labelledby="article-title">
+      <p class="cs-dek">{p.dek}</p>
+
+      <dl class="cs-facts-line">
+        <div><dt>Example</dt><dd>{study.sector}</dd></div>
+        <div><dt>Topics</dt><dd>{study.topics.join(", ")}</dd></div>
+        <div><dt>Shows</dt><dd>{study.shows}</dd></div>
+      </dl>
+
+      <aside class="cs-note" aria-label="About this case study">
+        <strong>About this case study</strong>
+        <p>
+          This is a worked example. The company is <em>{study.illustration}</em>,
+          and every number in the article is <strong>hypothetical</strong>. They
+          are invented to show how I approach this type of problem. The
+          thinking, the patterns and the fixes come from real product work. No
+          client, market or client data is described. Public research is cited
+          with its source at the end.
+        </p>
+      </aside>
+
+      <section class="cs-summary" aria-labelledby="summary-title">
+        <h2 id="summary-title">Summary</h2>
+        <ul>{p.summary.map((item) => <li>{item}</li>)}</ul>
+      </section>
+
+      <nav class="cs-toc" aria-labelledby="toc-title">
+        <h2 id="toc-title">In this article</h2>
+        <ol>{contents.map((item) => <li><a href={`#${item.id}`}>{item.label}</a></li>)}</ol>
+      </nav>
+
+      <section id="scenario" aria-labelledby="scenario-title">
+        <h2 id="scenario-title">The scenario</h2>
+        {p.scenario.map((paragraph) => <p>{paragraph}</p>)}
+        <p class="cs-bridge">
+          Before I look at any data, I write down what could explain the
+          problem.
+        </p>
+      </section>
+
+      <section id="hypotheses" aria-labelledby="hypotheses-title">
+        <h2 id="hypotheses-title">How I frame the problem</h2>
+        <p>
+          Each hypothesis says what would have to be true and how to check it.
+          This keeps the work focused, and it makes it easy for the team to
+          challenge the reasoning.
+        </p>
+        <figure class="cs-compare" aria-labelledby="hyp-caption">
+          <figcaption id="hyp-caption">Hypotheses and how to test them</figcaption>
+          <div class="cs-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Hypothesis</th>
+                  <th scope="col">If true, we would see</th>
+                  <th scope="col">How I check</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  p.hypotheses.map((row) => (
+                    <tr>
+                      <th scope="row"><strong>{row.name}</strong> {row.claim}</th>
+                      <td>{row.signal}</td>
+                      <td>{row.check}</td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        </figure>
+      </section>
+
+      <section id="evidence" aria-labelledby="evidence-title">
+        <h2 id="evidence-title">What the evidence could show</h2>
+        <ul class="cs-plain-list">{p.evidence.map((item) => <li>{item}</li>)}</ul>
+        <p>{p.evidenceNote}</p>
+      </section>
+
+      <section id="sizing" aria-labelledby="sizing-title">
+        <h2 id="sizing-title">Putting a number on it</h2>
+        <p>
+          "This could be better" does not win a place on a roadmap. A revenue
+          estimate does. Every input below is an assumption the team can
+          measure and challenge.
+        </p>
+        <figure class="cs-facts" aria-labelledby="sizing-caption">
+          <figcaption id="sizing-caption">Worked example (all numbers hypothetical)</figcaption>
+          <dl>
+            {
+              p.sizing.map((row) => (
+                <div>
+                  <dt>{row.label}</dt>
+                  <dd>{row.value}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </figure>
+        <p class="cs-takeaway">{p.sizingResult}</p>
+        <p class="cs-bridge">{p.sizingNote}</p>
+      </section>
+
+      <section id="fixes" aria-labelledby="fixes-title">
+        <h2 id="fixes-title">The fixes</h2>
+        <ol class="cs-steps">
+          {
+            p.fixes.map((fix) => (
+              <li>
+                <h3>{fix.title}</h3>
+                <p><strong>Pattern.</strong> {fix.pattern}</p>
+                <p><strong>Change.</strong> {fix.change}</p>
+                <p><strong>Effect.</strong> {fix.effect}</p>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <section id="priorities" aria-labelledby="priorities-title">
+        <h2 id="priorities-title">How I prioritise</h2>
+        <figure class="cs-compare" aria-labelledby="prio-caption">
+          <figcaption id="prio-caption">Impact, confidence and effort</figcaption>
+          <div class="cs-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Fix</th>
+                  <th scope="col">Impact</th>
+                  <th scope="col">Confidence</th>
+                  <th scope="col">Effort</th>
+                  <th scope="col">Order</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  p.priorities.map((row) => (
+                    <tr>
+                      <th scope="row">{row.cells[0]}</th>
+                      {row.cells.slice(1).map((cell) => <td>{cell}</td>)}
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        </figure>
+        <p class="cs-bridge">{p.prioritiesNote}</p>
+      </section>
+
+      <section id="test" aria-labelledby="test-title">
+        <h2 id="test-title">How I would test it</h2>
+        <ul class="cs-plain-list">
+          {p.test.map((item) => <li><strong>{item.label}:</strong> {item.text}</li>)}
+        </ul>
+      </section>
+
+      <section id="elsewhere" aria-labelledby="elsewhere-title">
+        <h2 id="elsewhere-title">The same pattern in other products</h2>
+        {p.elsewhere.map((paragraph) => <p>{paragraph}</p>)}
+      </section>
+
+      <section id="checklist" aria-labelledby="checklist-title">
+        <h2 id="checklist-title">Checklist: audit your own product</h2>
+        <ol class="cs-plain-list cs-plain-list--numbered">{p.checklist.map((item) => <li>{item}</li>)}</ol>
+      </section>
+
+      <section id="conclusion" aria-labelledby="conclusion-title">
+        <h2 id="conclusion-title">Conclusion</h2>
+        <p class="cs-takeaway">{p.conclusion}</p>
+      </section>
+
+      <section class="cs-contact" aria-label="Contact">
+        <p>{p.contactLine}</p>
+        <div class="cs-closing-links">
+          <a href={emailHref}>matteo.visibility@gmail.com</a>
+          <a href="/services/insights-commercial-analysis/">How I help →</a>
+          {next && <a href={`${productResearch.hubPath}${next.slug}/`}>Next case study →</a>}
+        </div>
+      </section>
+
+      <section class="cs-sources" aria-labelledby="sources-title">
+        <h2 id="sources-title">Sources</h2>
+        <ol>
+          {
+            p.sources.map((source) => (
+              <li>
+                <a href={source.url} target="_blank" rel="noopener noreferrer">{source.name}</a>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <a class="cs-back" href={productResearch.hubPath}>← All product research case studies</a>
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>

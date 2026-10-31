@@ -1,0 +1,141 @@
+---
+import ProductCaseStudyArticle from "../../../../components/ProductCaseStudyArticle.astro";
+---
+
+<ProductCaseStudyArticle
+  slug="search-dead-ends"
+  seoTitle="Why Customers Abandon a Search Before Seeing Results | Product Research Case Study"
+  dek="Most funnel analysis starts at the results page. In many products, a meaningful share of demand is lost earlier, in the search box, where few teams are looking. This worked example shows how I find that leak, put a number on it and fix it."
+  summary={[
+    "If search does not recognise what people type, nothing else in the funnel matters.",
+    "I split the problem into four hypotheses: the term is not recognised, it is recognised but leads nowhere, the same item exists twice, or finding it takes too much effort.",
+    "Each hypothesis has a specific data check, so the diagnosis takes days, not months.",
+    "A simple sizing model turns \"search could be better\" into a monthly revenue figure the business can rank against other work.",
+    "Seven fixes follow, ordered by impact, confidence and effort, with a test plan for the first one.",
+  ]}
+  scenario={[
+    "Imagine a booking site that sells ferry crossings and island transfers. Traffic to the home page is healthy, but the share of visitors who reach a results page is lower than the team expects, and nobody can say why. Analytics tracks page views and purchases, but not what happens inside the search box.",
+    "Ferries make search hard. A port can be known by the town's name, the island's name, the pier's name or a name in another language. Some routes only run in summer. One island can have three piers, and the traveller rarely knows which one they need.",
+  ]}
+  hypotheses={[
+    {
+      name: "Not recognised.",
+      claim: "Customers type names the site does not know.",
+      signal: "Many searches with no suggestion; typos, local names and short forms in the failed queries",
+      check: "Search logs and a new \"suggestion shown / empty / selected\" event",
+    },
+    {
+      name: "Leads nowhere.",
+      claim: "The place is suggested, but nothing can be booked.",
+      signal: "Searches that return zero results, clustered on seasonal routes",
+      check: "Join suggestions with availability for the searched date",
+    },
+    {
+      name: "Split.",
+      claim: "The same place exists twice.",
+      signal: "Near-identical names or coordinates; results that look empty from one entry and full from another",
+      check: "Catalogue audit by name similarity and distance",
+    },
+    {
+      name: "Too much effort.",
+      claim: "Finding the place takes too long on mobile.",
+      signal: "Long typing time, repeated edits, drop-off before selecting",
+      check: "Session recordings and time to first selection",
+    },
+  ]}
+  evidence={[
+    "Failed queries include island names in the local language, pier names without the town, and short forms that locals use.",
+    "In winter, autocomplete still suggests summer-only ports. Customers search, see no departures and leave, concluding the site does not serve their route.",
+    "Two entries exist for the same pier, each with part of the inventory. From one entry the route looks sold out.",
+    "Recordings show customers typing the destination several times, then giving up.",
+  ]}
+  evidenceNote="Public research points the same way. Baymard's testing found that 69% of benchmarked e-commerce sites do not offer relevant autocomplete suggestions for closely misspelled queries, and that users who meet a brittle autocomplete often conclude the site does not have what they want."
+  sizing={[
+    { label: "Search sessions a month", value: "200,000" },
+    { label: "Sessions that end with an empty suggestion list", value: "6% = 12,000" },
+    { label: "Share a better search could recover", value: "One third = 4,000 sessions" },
+    { label: "Results-to-booking rate", value: "10% = 400 bookings" },
+    { label: "Average order", value: "€45" },
+  ]}
+  sizingResult="About €18,000 a month, from fixing what happens before the results page."
+  sizingNote="The team can now argue about the inputs instead of opinions, and compare this with any other item on the roadmap."
+  fixes={[
+    {
+      title: "Typo-tolerant search built from real failed queries",
+      pattern: "Customers type names the catalogue does not hold.",
+      change: "Map misspellings, local names, short forms and other languages to the right item, starting with the most frequent failed queries.",
+      effect: "Fewer empty lists and more demand reaching the results page.",
+    },
+    {
+      title: "Only suggest what can be booked",
+      pattern: "Suggestions lead to routes with no service.",
+      change: "Filter suggestions against what is available from the chosen origin, including seasonal timetables.",
+      effect: "Fewer dead-end searches.",
+    },
+    {
+      title: "Merge duplicates and fix locations",
+      pattern: "The same place exists twice, with split inventory.",
+      change: "Merge duplicates, correct names and coordinates, and fix which town or island each stop belongs to.",
+      effect: "Complete results from a single, correct entry.",
+    },
+    {
+      title: "Suggest a nearby alternative",
+      pattern: "No exact match, but something close is available.",
+      change: "Offer nearby departure or arrival points inside the search flow, with the distance.",
+      effect: "Recover customers who would otherwise assume nothing exists.",
+    },
+    {
+      title: "Offer the customer's location as the starting point",
+      pattern: "Many customers start from where they are now.",
+      change: "Offer \"Use my location\" or suggest the current town, without forcing it.",
+      effect: "Less typing, especially on mobile and at the last minute.",
+    },
+    {
+      title: "A simpler form for fixed routes",
+      pattern: "Some products have only a few possible routes, such as port to town.",
+      change: "Replace the open from/to form with a direction choice and a prefilled location.",
+      effect: "Fewer fields and fewer wrong selections.",
+    },
+    {
+      title: "Let customers choose the island, not the pier",
+      pattern: "Customers do not know which pier they need, and the ticket may be valid at several.",
+      change: "Group interchangeable stops into one bookable location, and show the pier after selection.",
+      effect: "Simpler booking and fewer support questions.",
+    },
+  ]}
+  priorities={[
+    { cells: ["Only suggest what can be booked", "High", "High", "Low", "1"] },
+    { cells: ["Typo-tolerant search", "High", "High", "Medium", "2"] },
+    { cells: ["Merge duplicates", "Medium", "High", "Medium", "3"] },
+    { cells: ["Simpler form for fixed routes", "Medium", "Medium", "Low", "4"] },
+    { cells: ["Grouping, nearby alternatives, location", "Medium", "Medium", "Medium–High", "Next"] },
+  ]}
+  prioritiesNote="Fixes that remove a guaranteed dead end come first, because their impact is easy to prove and they are cheap to build."
+  test={[
+    { label: "Hypothesis", text: "Filtering suggestions to bookable destinations reduces zero-result searches and increases search-to-booking." },
+    { label: "Primary metric", text: "Search-to-booking rate per search session." },
+    { label: "Supporting metrics", text: "Empty-suggestion rate, zero-result rate and time to first selection." },
+    { label: "Guardrail", text: "Support contacts about missing items, so hiding an option does not create a new problem." },
+    { label: "Before testing", text: "Add the suggestion events. Without them, this leak stays invisible." },
+  ]}
+  elsewhere={[
+    "The same leak appears in any product where people search for one specific thing. In e-commerce it is a product name typed with a typo or a brand's local spelling. In a marketplace it is a city, a service or a category the catalogue names differently. In SaaS it is a help-centre or settings search that returns nothing for the words customers actually use.",
+    "The method does not change: log what people type, measure what returns nothing, map the gaps, and size the result before building anything.",
+  ]}
+  checklist={[
+    "Type your 20 most searched items with a typo, a short form and a local or colloquial name.",
+    "Export a month of failed queries and group them. The top groups are your synonym list.",
+    "Check that every suggestion leads to at least one available result.",
+    "List items with near-identical names that might be duplicates.",
+    "Make sure suggestion outcomes are tracked as events.",
+  ]}
+  conclusion="Search quality looks like a data chore, but it is a revenue question. The work is a sequence: write the hypotheses, check each one with a specific data source, size the opportunity, fix the guaranteed dead ends first, then test. If you have never measured empty suggestions, that is where I would start."
+  contactLine="Do people search on your site and leave without results? I can help you find out how much that costs and what to fix first."
+  sources={[
+    {
+      name: "Baymard Institute — Offer relevant autocomplete suggestions for closely misspelled search terms",
+      url: "https://baymard.com/blog/offer-autocomplete-suggestions-for-misspellings",
+    },
+    { name: "Baymard Institute — E-commerce search and autocomplete research", url: "https://baymard.com/ecommerce-search/articles" },
+  ]}
+/>

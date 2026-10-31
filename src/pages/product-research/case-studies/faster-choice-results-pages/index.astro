@@ -1,0 +1,151 @@
+---
+import ProductCaseStudyArticle from "../../../../components/ProductCaseStudyArticle.astro";
+---
+
+<ProductCaseStudyArticle
+  slug="faster-choice-results-pages"
+  seoTitle="How to Help Customers Choose Faster on Results Pages | Product Research Case Study"
+  dek="A customer on a results page has already told you what they want. Every extra scroll, comparison and second of doubt after that point is friction the product created. This worked example shows how I diagnose it and test the fix."
+  summary={[
+    "Results pages are often built to show everything. Customers need them to make one decision quickly.",
+    "I look at five causes: ranking that ignores intent, hidden navigation, inputs that work against each other, hard price comparison, and conditions shown too late.",
+    "Session recordings and click data separate these causes faster than surveys can.",
+    "Relevance ranking is a strong first test, but it needs a revenue guardrail so it does not simply push cheaper options.",
+    "A sold-out option should become a recommendation, not an error.",
+  ]}
+  scenario={[
+    "Imagine a regional rail operator's booking app. Trains run every 15 to 30 minutes, each with three fares: a flexible fare, a cheaper fare tied to one train, and first class. A search for tomorrow returns more than 60 departures.",
+    "The share of customers who move from results to checkout has been flat for a year, and the team suspects the results page.",
+  ]}
+  hypotheses={[
+    {
+      name: "Ranking ignores intent.",
+      claim: "Results start at the first train of the day, not near the requested time.",
+      signal: "Most clicks far down the list; long scrolls before the first click",
+      check: "Click position against requested time; scroll depth",
+    },
+    {
+      name: "Navigation is hidden.",
+      claim: "Filters exist, but few people find them.",
+      signal: "Low filter use alongside long scrolling",
+      check: "Filter usage rate; session recordings",
+    },
+    {
+      name: "Inputs conflict.",
+      claim: "A time picker in the search form silently excludes options.",
+      signal: "Repeated resets of the time field; short or empty result lists",
+      check: "Field interaction events; recordings",
+    },
+    {
+      name: "Prices are hard to compare.",
+      claim: "Differences are hidden among shared features.",
+      signal: "Long time on price selection; switching back and forth",
+      check: "Time-to-select distribution; tab switches",
+    },
+    {
+      name: "Conditions come late.",
+      claim: "Flexibility rules appear only in checkout.",
+      signal: "Hesitation on the cheaper fare; support questions about changes",
+      check: "Support tags; review analysis; recordings",
+    },
+  ]}
+  evidence={[
+    "Clicks cluster around the requested time, but that train is the 34th item in the list.",
+    "Only a small minority of customers open the filters, while recordings show long scrolling and repeated attempts to reach later trains.",
+    "One customer resets the time picker to midnight several times while trying to browse another day.",
+    "Choosing a fare takes much longer than any other step, and the slowest quarter of customers take over a minute.",
+    "When a train sells out between search and selection, most customers search again for the same route and pick a train a little later.",
+  ]}
+  evidenceNote="On choice: a meta-analysis of choice-overload studies found that the effect of more options depends heavily on context rather than being universal. In practice, that means the fix is better structure, not fewer options."
+  sizing={[
+    { label: "Results-page sessions a month", value: "100,000" },
+    { label: "Sessions that scroll past 20 options", value: "25% = 25,000" },
+    { label: "Results-to-checkout: long scrollers vs everyone else", value: "18% vs 30% (12-point gap)" },
+    { label: "Share of the gap a fix could close", value: "One quarter = 3 points = 750 checkouts" },
+    { label: "Checkout completion × average order", value: "60% × €30" },
+  ]}
+  sizingResult="About €13,500 a month, if ranking and navigation close a quarter of the gap."
+  sizingNote="The gap is a correlation. The test below is what proves how much of it is caused by the page."
+  fixes={[
+    {
+      title: "Rank by relevance",
+      pattern: "Clicks cluster near the requested time, but the list starts at the first train.",
+      change: "Score options on closeness to the request, duration, changes and price, then add booking behaviour gradually.",
+      effect: "The right options appear first.",
+    },
+    {
+      title: "Visible navigation where people look",
+      pattern: "Filters exist, but almost nobody uses them.",
+      change: "A fixed bar with morning, afternoon and evening shortcuts above the results. Remove the forced time input from the search form.",
+      effect: "A two-click path: jump to the time range, then choose.",
+    },
+    {
+      title: "Show a short list first, then load more",
+      pattern: "Long lists are slow to load and hard to scan on mobile.",
+      change: "Show the best matches first, let customers expand the full list, and load more as they scroll.",
+      effect: "Faster first render and less choice overload.",
+    },
+    {
+      title: "Compare prices vertically",
+      pattern: "Side-by-side fares hide the differences.",
+      change: "Stack the options, show shared features once, and highlight only what differs: flexibility, refunds, seat.",
+      effect: "Faster, more confident choice.",
+    },
+    {
+      title: "Show conditions on the card",
+      pattern: "Customers worry about what happens if their plans change.",
+      change: "Show \"valid on later trains today\" or \"this train only\" on the card, with a distinct icon for each.",
+      effect: "Less hesitation and fewer wrong choices.",
+    },
+    {
+      title: "Turn sold-out options into a recommendation",
+      pattern: "After a sold-out error, most customers retry the same route a little later.",
+      change: "Keep the original choice visible and offer the next available option with its time and price difference.",
+      effect: "A recoverable failure instead of a fresh search.",
+    },
+    {
+      title: "Honest urgency, never invented",
+      pattern: "Same-day and advance customers behave differently.",
+      change: "Show real, inventory-backed availability to urgent customers and early-booking benefits to planners.",
+      effect: "Relevant reassurance for both groups, without damaging trust.",
+    },
+  ]}
+  priorities={[
+    { cells: ["Visible navigation", "High", "High", "Low", "1"] },
+    { cells: ["Sold-out recommendation", "Medium", "High", "Low", "2"] },
+    { cells: ["Relevance ranking", "High", "Medium", "Medium", "3"] },
+    { cells: ["Vertical price comparison", "Medium", "Medium", "Medium", "4"] },
+    { cells: ["Conditions on cards, short list, urgency", "Medium", "Medium", "Low–Medium", "Next"] },
+  ]}
+  prioritiesNote="Cheap, high-confidence fixes go first. Ranking has the largest upside but needs a proper test, so it follows once tracking is in place."
+  test={[
+    { label: "Hypothesis", text: "Ranking options around the requested time increases results-to-checkout without lowering revenue per visitor." },
+    { label: "Primary metric", text: "Results-to-checkout rate." },
+    { label: "Guardrails", text: "Revenue per visitor and average order value, because a ranking can win on conversion by pushing cheaper options." },
+    { label: "Supporting metrics", text: "Time to first click, click position, scroll depth, and price-selection time (median and 75th percentile)." },
+    { label: "Segments", text: "Same-day vs advance, mobile vs desktop. A change can help one group and hurt another." },
+  ]}
+  elsewhere={[
+    "Any product that returns a long list has the same problem. An e-commerce category with 400 products, a marketplace with 80 providers, a SaaS pricing page with four plans and twenty rows of features: the customer still has to make one choice, quickly and with confidence.",
+    "The levers are the same: rank by what the customer asked for, put navigation where people look, compare by differences, and show conditions before the decision rather than after it.",
+  ]}
+  checklist={[
+    "Search for a typical request on a phone. How many swipes until the best answer is on screen?",
+    "Check your filter usage rate. If it is in single digits, the filters are not part of the experience.",
+    "Time yourself choosing between options. Can you name the difference in one sentence?",
+    "Trigger a sold-out or unavailable error. Does the page offer the next best option?",
+    "Find where conditions such as flexibility or refunds are first shown. If it is in checkout, it is too late.",
+  ]}
+  conclusion="A results page should make a decision easy, not just make every option available. Ranking around intent, putting navigation where people look and comparing options by their differences shortens the path to a confident purchase. Each change has a clear behavioural metric, which makes it a good candidate for an A/B test."
+  contactLine="Do customers scroll, compare and still leave? I can help you find where the decision gets stuck and test the fix."
+  sources={[
+    {
+      name: "Scheibehenne, Greifeneder & Todd (2010) — Can there ever be too many options? A meta-analytic review of choice overload",
+      url: "https://archive-ouverte.unige.ch/unige:76440",
+    },
+    {
+      name: "Kellogg Insight — When are consumers most likely to feel overwhelmed by their options?",
+      url: "https://insight.kellogg.northwestern.edu/article/what-predicts-consumer-choice-overload",
+    },
+  ]}
+/>

@@ -1,0 +1,27 @@
+# Matteo Arellano
+
+> Technical Growth Partner. Product improvement grounded in commercial analysis: finds where customers drop off between search and payment, sizes what it costs and specifies the product changes to make first. Works with marketplaces, e-commerce, SaaS, booking and ticketing platforms and payment-heavy products. Deepest hands-on experience in travel tech and ground transportation. Also payment solutions architecture (acceptance, local payment methods, PSP integrations) across Latin America, Europe and other markets. Background in finance, data engineering and analytics; all three CFA Program exams passed. Has lived in the Netherlands, Luxembourg, Spain and Mexico, and completed intensive university programmes in China and Russia.
+
+Method: hypotheses first; evidence from funnel and event data, session recordings, customer-support insight, competitor benchmarks and technical audits; opportunity sizing; prioritisation by impact, confidence and effort; A/B tests with revenue guardrails. Uses a playbook of 48 improvement patterns across five journey stages: search and discovery, choice and comparison, checkout and payment, trust and content, performance and measurement.
+
+Confidentiality: client names, markets and figures are never published. Product research case studies are worked examples with hypothetical companies and numbers; the thinking and patterns come from real product work.
+
+## Services
+- [Insights & Commercial Analysis: product improvement](https://matteoarellano.com/services/insights-commercial-analysis/)
+- [Product & Conversion](https://matteoarellano.com/services/product-conversion/)
+- [Payment Solutions Architecture & Operations](https://matteoarellano.com/payment-solutions/)
+- [All services](https://matteoarellano.com/services/)
+
+## Product research case studies
+- [Product research case studies](https://matteoarellano.com/product-research/case-studies/)
+- [Why customers abandon a search before they see a single result](https://matteoarellano.com/product-research/case-studies/search-dead-ends/)
+- [How to help customers choose the right option and price faster](https://matteoarellano.com/product-research/case-studies/faster-choice-results-pages/)
+- [Where checkout trust breaks: price changes, form errors and failed orders](https://matteoarellano.com/product-research/case-studies/checkout-trust-price-changes-failed-orders/)
+
+## Payment case studies and guides
+- [Payment case studies and guides](https://matteoarellano.com/payment-solutions/case-studies/)
+
+## About
+- [About Matteo Arellano](https://matteoarellano.com/about/)
+- [Recommendations](https://matteoarellano.com/achievements/)
+- [LinkedIn](https://www.linkedin.com/in/matteoarellano)

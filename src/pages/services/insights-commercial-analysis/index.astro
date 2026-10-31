@@ -1,12 +1,567 @@
 ---
-import GrowthServicePage from "../../../components/GrowthServicePage.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+import DiscoveryCalendar from "../../../components/DiscoveryCalendar.astro";
 import { getGrowthService } from "../../../data/growthServices";
+import { productCaseStudies, productResearch } from "../../../data/productCaseStudies";
+import "../../../styles/growth-platform.css";
+import "../../../styles/product-improvement.css";
 
 const service = getGrowthService("insights-commercial-analysis");
-
 if (!service) {
   throw new Error("Growth service not found: insights-commercial-analysis");
 }
+
+const site = "https://matteoarellano.com";
+const canonical = `${site}/services/${service.slug}/`;
+const title = "Product Improvement & Commercial Analysis | Matteo Arellano";
+const description =
+  "Find where customers drop off between search and payment, what it costs and which product changes to make first. Product research and commercial analysis for marketplaces, e-commerce, SaaS and booking platforms.";
+
+const outcomes = [
+  {
+    title: "Find the leak",
+    copy: "See exactly where customers drop off in search, choice, checkout and payment, and why.",
+  },
+  {
+    title: "Size it",
+    copy: "Put a revenue or margin figure on each leak, so product work is ranked by what it is worth.",
+  },
+  {
+    title: "Fix it and prove it",
+    copy: "Specified changes with a hypothesis, a metric and a test plan your team can ship.",
+  },
+];
+
+const leaks = [
+  {
+    stage: "Search",
+    value: "69%",
+    what: "of benchmarked e-commerce sites don't offer relevant autocomplete suggestions for closely misspelled queries.",
+    why: "When search can't read what people type, demand disappears before the results page.",
+  },
+  {
+    stage: "Price",
+    value: "39%",
+    what: "of shoppers in a Baymard survey abandoned a checkout because of extra costs.",
+    why: "A price that changes between browsing and payment breaks trust at the worst moment.",
+  },
+  {
+    stage: "Checkout",
+    value: "22%",
+    what: "of users have abandoned an order because the checkout was too long or complicated. The average checkout asks for 11.3 form fields.",
+    why: "Simple products rarely need half of them.",
+  },
+  {
+    stage: "Forms",
+    value: "31%",
+    what: "of sites have no inline validation, so errors only appear after the customer submits.",
+    why: "Every late error is a chance to lose a customer who has already decided.",
+  },
+  {
+    stage: "Speed",
+    value: "+10.1%",
+    what: "conversion for travel sites in a study where mobile site speed improved by 0.1 seconds (8.4% for retail).",
+    why: "Heavy result pages make speed a product feature.",
+  },
+];
+
+const stats = [
+  { value: "48", label: "improvement patterns in my customer-journey playbook" },
+  { value: "5", label: "journey stages, from the first keystroke to payment" },
+  { value: "6", label: "sources of evidence combined in every diagnostic" },
+  { value: "0", label: "client names, markets or figures ever published" },
+];
+
+const playbook = [
+  {
+    count: 13,
+    stage: "Search & discovery",
+    items: ["Typo-tolerant autocomplete", "Only suggest what is available", "Duplicate and catalogue clean-up", "Nearby and location-aware results", "Shorter entry forms"],
+  },
+  {
+    count: 10,
+    stage: "Choice & comparison",
+    items: ["Relevance ranking", "Navigation where people look", "Compare options by differences", "Conditions shown before the decision", "Sold-out becomes a recommendation"],
+  },
+  {
+    count: 13,
+    stage: "Checkout & payment",
+    items: ["Fewer steps for simple products", "Transparent price breakdown", "No price changes between steps", "Inline validation and clear errors", "Check rules before charging"],
+  },
+  {
+    count: 8,
+    stage: "Trust & content",
+    items: ["Help where doubts arise", "Clear delivery and confirmation", "Scannable landing pages", "Live service information", "Feedback loop into priorities"],
+  },
+  {
+    count: 4,
+    stage: "Performance & measurement",
+    items: ["Mobile speed and Core Web Vitals", "Accessible links and images", "Publishing checks", "Tracking that shows where people leave"],
+  },
+];
+
+const evidence = [
+  { title: "Quantify the leak", copy: "Funnel and event data in BigQuery, Amplitude or GA4: where people drop and what each step is worth." },
+  { title: "Watch it happen", copy: "Session recordings show the behaviour behind the numbers: loops, resets, rage clicks and hesitation." },
+  { title: "Ask the people who hear complaints", copy: "Customer-support interviews and review analysis surface the questions customers can't answer online." },
+  { title: "Benchmark the alternatives", copy: "Competitor and adjacent-industry flows show how others solve the same decision with fewer steps." },
+  { title: "Audit the plumbing", copy: "Catalogue data, page performance, tracking coverage and payment logs. Many UX problems are data problems." },
+  { title: "Turn it into a testable change", copy: "A specified improvement with a hypothesis, a primary metric, guardrails and an expected impact range." },
+];
+
+const audiences = [
+  { title: "Marketplaces", copy: "Many suppliers, inconsistent data and a search that has to make sense of all of it." },
+  { title: "E-commerce & D2C", copy: "Catalogue search, product choice and checkouts where small frictions cost real revenue." },
+  { title: "SaaS & subscriptions", copy: "Sign-up, trial, pricing pages and payment flows where users stall before they convert." },
+  { title: "Booking & ticketing", copy: "Time-limited inventory, complex price rules and customers who decide on mobile." },
+  { title: "Travel tech & mobility", copy: "Bus, rail, ferry and transfer booking, and the platforms behind them.", deep: true },
+  { title: "Payment-heavy products", copy: "Several payment methods and markets, where acceptance and checkout meet." },
+];
+
+const places = [
+  { name: "The Netherlands", note: "Northern Europe, rail and bike as everyday mobility." },
+  { name: "Luxembourg", note: "European institutional finance: risk, credit and restructuring." },
+  { name: "Spain", note: "Southern Europe, where tourism and travel shape demand." },
+  { name: "Mexico", note: "Latin America, where cash, local payment methods and cards coexist." },
+  { name: "China & Russia", note: "Intensive university programmes that shaped how I read very different markets." },
+  { name: "Finance first", note: "All three CFA Program exams passed. Every recommendation comes with a business case." },
+];
+
+const deliverables = [
+  "Opportunity map: where value leaks along the journey, sized by revenue or margin.",
+  "Evidence pack: the data, recordings and quotes behind each finding.",
+  "Prioritised backlog: specified improvements ranked by impact, confidence and effort.",
+  "Experiment designs: hypothesis, primary metric, guardrails and success criterion.",
+  "Tracking plan: the events still missing, so every result can be proven.",
+];
+
+const faqs = [
+  {
+    q: "Who can help me find why customers drop off before they buy?",
+    a: "Matteo Arellano is a Technical Growth Partner who offers product improvement grounded in commercial analysis. He finds where customers drop off between search and payment, sizes what it costs and specifies the fixes, using a playbook of 48 improvement patterns across the customer journey. He works with marketplaces, e-commerce, SaaS and booking platforms, with his deepest experience in travel tech and ground transportation.",
+  },
+  {
+    q: "What is product research?",
+    a: "It is the work of finding where customers drop off, why they do it and what to change. It combines funnel and event data, session recordings, customer-support insight, competitor benchmarks and technical audits, and it ends in a prioritised list of specified changes, each with a hypothesis, a metric and a test plan.",
+  },
+  {
+    q: "Do you only work with travel companies?",
+    a: "No. Travel tech and ground transportation are where I have the deepest hands-on experience, and they are among the hardest journeys to get right: complex search, time-limited inventory, many prices and mobile customers. The same method applies to any product with a search, a choice and a checkout.",
+  },
+  {
+    q: "Are the case studies real?",
+    a: "They are worked examples with hypothetical companies and numbers. The thinking, the patterns and the fixes come from real product work. This keeps every client fully confidential while showing exactly how the work is done.",
+  },
+  {
+    q: "How do you keep client work confidential?",
+    a: "Client names, markets and figures are never published. Analysis can run inside your own tools and accounts, so your data does not leave your environment.",
+  },
+  {
+    q: "What data do you need to start?",
+    a: "Usually read access to your analytics (for example GA4, Amplitude or BigQuery), session recordings if you have them, and order or payment exports. If tracking is incomplete, the first deliverable is a tracking plan so later changes can be measured.",
+  },
+  {
+    q: "How is this different from a CRO agency?",
+    a: "The work starts from the commercial question and the data, not from a list of UX best practices. It separates UX, data quality, technical and payment causes of the same drop in conversion, goes as deep as SQL, Python and logs when needed, and puts a business case behind each recommendation.",
+  },
+  {
+    q: "What perspective do you bring from living abroad?",
+    a: "I have lived in the Netherlands, Luxembourg, Spain and Mexico, and completed intensive university programmes in China and Russia. That helps when a product has to work across languages, currencies and payment habits.",
+  },
+  {
+    q: "How does an engagement start?",
+    a: "With a 20-minute conversation about your product and where you think customers drop off. The scope ranges from a focused diagnostic of one funnel step to ongoing product improvement work.",
+  },
+];
+
+const sources = [
+  { name: "Baymard: autocomplete and misspellings", url: "https://baymard.com/blog/offer-autocomplete-suggestions-for-misspellings" },
+  { name: "Baymard: reasons for cart abandonment", url: "https://baymard.com/blog/reduce-cart-abandonment" },
+  { name: "Baymard: checkout research", url: "https://baymard.com/research-articles/collections/cart-and-checkout" },
+  { name: "Baymard: inline form validation", url: "https://baymard.com/blog/inline-form-validation" },
+  {
+    name: "Milliseconds Make Millions (Google, Fifty-five, Deloitte Digital)",
+    url: "https://dev.to/marcradziwill/milliseconds-make-millions-519h",
+  },
+];
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": `${canonical}#service`,
+      name: "Product improvement and commercial analysis",
+      serviceType: "Product research, conversion and commercial analysis",
+      url: canonical,
+      description,
+      provider: { "@id": `${site}/#person` },
+      areaServed: "Global",
+      audience: {
+        "@type": "BusinessAudience",
+        audienceType: "Marketplaces, e-commerce, SaaS, booking and ticketing platforms, travel tech companies",
+      },
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${canonical}#page`,
+      url: canonical,
+      name: title,
+      description,
+      inLanguage: "en",
+      isPartOf: { "@id": `${site}/#website` },
+      about: { "@id": `${canonical}#service` },
+      author: { "@id": `${site}/#person` },
+      breadcrumb: { "@id": `${canonical}#breadcrumb` },
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${canonical}#breadcrumb`,
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${site}/` },
+        { "@type": "ListItem", position: 2, name: "Services", item: `${site}/services/` },
+        { "@type": "ListItem", position: 3, name: service.name, item: canonical },
+      ],
+    },
+    {
+      "@type": "ItemList",
+      name: "Product research case studies",
+      itemListElement: productCaseStudies.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: `${site}${productResearch.hubPath}${item.slug}/`,
+        name: item.title,
+      })),
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((item) => ({
+        "@type": "Question",
+        name: item.q,
+        acceptedAnswer: { "@type": "Answer", text: item.a },
+      })),
+    },
+  ],
+};
 ---
 
-<GrowthServicePage service={service} />
+<BaseLayout title={title} description={description} canonical={canonical} image={productResearch.ogImage}>
+  <Header />
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+  <main class="growth-detail-page">
+    <section class="growth-detail-hero growth-detail-hero--commercial">
+      <div class="growth-shell growth-detail-hero-grid">
+        <div class="growth-detail-hero-copy">
+          <a class="growth-back-link" href="/services/">← All services</a>
+          <div class="growth-detail-kicker">
+            <span class="growth-service-number">{service.number}</span>
+            <span class="growth-overline">{service.name}</span>
+          </div>
+          <h1>{service.heroTitle}</h1>
+          <p class="growth-detail-lede">
+            {service.heroLede} My deepest experience is in travel tech and
+            ground transportation; the method works for any digital product.
+          </p>
+
+          <div class="growth-detail-actions">
+            <a class="growth-primary-button" href="#availability">Discuss an opportunity</a>
+            <a class="growth-secondary-link" href={productResearch.hubPath}>Read the case studies →</a>
+          </div>
+        </div>
+
+        <aside class="growth-detail-profile growth-detail-profile--dark" aria-label="Matteo Arellano">
+          <img src="/images/matteo-arellano-visibility-signup.jpg" alt="Matteo Arellano" />
+          <div>
+            <span>Technical Growth Partner</span>
+            <strong>Matteo Arellano</strong>
+            <p>
+              Product research, commercial analysis and technical execution,
+              used together when that is what the growth problem requires.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="growth-commercial-outcomes" aria-label="What you get">
+      <div class="growth-shell growth-commercial-outcome-grid">
+        {
+          outcomes.map((item, index) => (
+            <article class="growth-commercial-outcome-card">
+              <span class="growth-commercial-outcome-number">0{index + 1}</span>
+              <h2>{item.title}</h2>
+              <p>{item.copy}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="growth-detail-section" id="how-i-help" aria-labelledby="leaks-title">
+      <div class="growth-shell">
+        <header class="pi-section-head">
+          <span class="growth-overline">Where I look first</span>
+          <h2 id="leaks-title">Five places customer journeys usually leak</h2>
+          <p>
+            Every diagnostic starts with hypotheses. These are the leaks I check
+            first, each with a public benchmark that shows how common the
+            problem is. Then I test them against your own data.
+          </p>
+        </header>
+
+        <div class="pi-board">
+          <div class="pi-board-top">
+            <strong>Common leaks</strong>
+            <span>Stage · benchmark · why it matters</span>
+          </div>
+          <ul class="pi-board-list">
+            {
+              leaks.map((leak) => (
+                <li class="pi-board-row">
+                  <span class="pi-board-stage">{leak.stage}</span>
+                  <span class="pi-board-value">{leak.value}</span>
+                  <div class="pi-board-what">
+                    <p>{leak.what}</p>
+                    <small>{leak.why}</small>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+          <p class="pi-board-foot">
+            Public benchmarks, used as starting hypotheses, never as
+            conclusions. Client names, markets and figures are never published.
+          </p>
+        </div>
+        <p class="pi-sources">
+          Sources:{" "}
+          {
+            sources.map((source, index) => (
+              <>
+                <a href={source.url} target="_blank" rel="noopener noreferrer">{source.name}</a>
+                {index < sources.length - 1 ? " · " : ""}
+              </>
+            ))
+          }
+        </p>
+
+        <div class="pi-stats" aria-label="How I work">
+          {stats.map((stat) => <div class="pi-stat"><b>{stat.value}</b><span>{stat.label}</span></div>)}
+        </div>
+      </div>
+    </section>
+
+    <section class="growth-detail-section growth-detail-section--soft" aria-labelledby="playbook-title">
+      <div class="growth-shell">
+        <header class="pi-section-head">
+          <span class="growth-overline">My playbook</span>
+          <h2 id="playbook-title">48 improvement patterns along the customer journey</h2>
+          <p>
+            Each pattern is tied to a stage of the journey and to the evidence
+            that confirms it. I use this map to decide where to look, what to
+            test and which fix to build first.
+          </p>
+        </header>
+        <ol class="pi-route">
+          {
+            playbook.map((stop) => (
+              <li class="pi-stop">
+                <span class="pi-stop-count">{stop.count} patterns</span>
+                <h3>{stop.stage}</h3>
+                <ul>{stop.items.map((item) => <li>{item}</li>)}</ul>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
+
+    <section class="growth-detail-section" aria-labelledby="cases-title">
+      <div class="growth-shell">
+        <header class="pi-section-head">
+          <span class="growth-overline">Product research case studies</span>
+          <h2 id="cases-title">How I think through a product problem, step by step</h2>
+          <p>
+            Worked examples with hypothetical companies, so no client is ever
+            exposed. They are set in travel, where I have the deepest
+            experience, and each one shows how the same pattern appears in
+            e-commerce, marketplaces and SaaS.
+          </p>
+        </header>
+        <div class="pi-cards">
+          {
+            productCaseStudies.map((item, index) => (
+              <a class="pi-card" href={`${productResearch.hubPath}${item.slug}/`}>
+                <span class="pi-card-meta">
+                  <span>{String(index + 1).padStart(2, "0")} · {item.stage}</span>
+                  <span>{item.readingMinutes} min</span>
+                </span>
+                <h3>{item.title}</h3>
+                <p>{item.summary}</p>
+                <ul class="pi-card-tags">{item.topics.map((topic) => <li>{topic}</li>)}</ul>
+                <span class="pi-card-go">Read the case study →</span>
+              </a>
+            ))
+          }
+        </div>
+        <p class="pi-cards-foot">
+          <a class="growth-secondary-link" href={productResearch.hubPath}>All product research case studies →</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="growth-detail-section growth-detail-section--dark">
+      <div class="growth-shell">
+        <header class="growth-detail-wide-heading growth-detail-wide-heading--light">
+          <span class="growth-overline">How I work</span>
+          <h2>Six sources of evidence, one prioritised decision.</h2>
+        </header>
+        <div class="growth-approach-grid growth-approach-grid--commercial">
+          {
+            evidence.map((step, index) => (
+              <article class="growth-approach-card">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <h3>{step.title}</h3>
+                <p>{step.copy}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="growth-detail-section growth-detail-section--soft">
+      <div class="growth-shell growth-detail-two-column">
+        <header class="growth-detail-section-intro">
+          <span class="growth-overline">The commercial value</span>
+          <h2>Analysis that ends in a decision, not another dashboard.</h2>
+          <p>
+            The point is to explain why performance changes, put a number on
+            what matters and improve the next decision, for product,
+            engineering and finance alike.
+          </p>
+        </header>
+        <div class="growth-value-list">
+          {
+            deliverables.map((item, index) => (
+              <article class="growth-value-item">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <p>{item}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="growth-detail-section" aria-labelledby="who-title">
+      <div class="growth-shell">
+        <header class="pi-section-head">
+          <span class="growth-overline">Who it's for</span>
+          <h2 id="who-title">Any product with a search, a choice and a checkout</h2>
+          <p>
+            Travel tech is where I have gone deepest, because it is one of the
+            hardest journeys to get right. The method is the same everywhere.
+          </p>
+        </header>
+        <div class="pi-audience">
+          {
+            audiences.map((item) => (
+              <article class:list={[item.deep && "is-deep"]}>
+                {item.deep && <span class="pi-badge">Deepest experience</span>}
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="growth-detail-section growth-detail-section--outcomes">
+      <div class="growth-shell growth-outcomes-layout">
+        <div>
+          <span class="growth-overline">Also in scope</span>
+          <h2>{service.workTitle}</h2>
+          <ul class="growth-outcome-list">
+            {service.workAreas.map((area) => <li>{area}</li>)}
+          </ul>
+        </div>
+        <aside class="growth-capabilities-card growth-capabilities-card--commercial">
+          <span class="growth-overline">Capabilities I can bring in</span>
+          <div class="growth-tool-list">
+            {["BigQuery", "SQL", "Python", "Amplitude", "GA4", "Hotjar", "Looker Studio", "Lighthouse"].map((tool) => <span>{tool}</span>)}
+          </div>
+          <div class="growth-related-links">
+            <strong>Related pages</strong>
+            <a href={productResearch.hubPath}>Product research case studies →</a>
+            <a href="/payment-solutions/case-studies/">Payment case studies →</a>
+            {service.relatedLinks?.map((link) => <a href={link.href}>{link.label} →</a>)}
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="pi-global" aria-labelledby="global-title">
+      <img
+        src="/images/case-studies/canal-golden-hour-1280.webp"
+        srcset="/images/case-studies/canal-golden-hour-768.webp 768w, /images/case-studies/canal-golden-hour-1280.webp 1280w, /images/case-studies/canal-golden-hour-1920.webp 1920w"
+        sizes="100vw"
+        width="1920"
+        height="1277"
+        alt=""
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="growth-shell">
+        <span class="growth-overline">A global perspective</span>
+        <h2 id="global-title">Four countries lived in, many markets understood</h2>
+        <p>
+          Customers in Mexico, Spain and the Netherlands search, compare and
+          pay differently. Having lived in each of these countries, I design
+          research and recommendations that hold up across markets, currencies
+          and payment habits instead of assuming one default customer.
+        </p>
+        <ul class="pi-places">
+          {places.map((place) => <li><strong>{place.name}</strong><span>{place.note}</span></li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section class="growth-detail-section" id="faq" aria-labelledby="faq-title">
+      <div class="growth-shell">
+        <header class="pi-section-head">
+          <span class="growth-overline">Questions</span>
+          <h2 id="faq-title">Frequently asked questions</h2>
+        </header>
+        <div class="pi-faq">
+          {
+            faqs.map((item, index) => (
+              <details open={index === 0}>
+                <summary>{item.q}</summary>
+                <p>{item.a}</p>
+              </details>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="growth-calendar-band">
+      <div class="growth-shell">
+        <DiscoveryCalendar
+          namespace={`discovery-${service.slug}`}
+          title={service.calendarTitle}
+          copy={service.calendarCopy}
+        />
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,156 @@
+---
+import ProductCaseStudyArticle from "../../../../components/ProductCaseStudyArticle.astro";
+---
+
+<ProductCaseStudyArticle
+  slug="checkout-trust-price-changes-failed-orders"
+  seoTitle="Checkout Trust: Price Changes, Form Errors and Failed Orders | Product Research Case Study"
+  dek="By the time a customer reaches checkout, they have already decided. Losing them here is the most expensive leak in the funnel, and most of it comes from broken trust rather than from price. This worked example shows how I find it, rank it and fix it."
+  summary={[
+    "Most checkout losses come from three trust breaks: a price that moves, an error that does not explain itself, and a charge for an order that then fails.",
+    "Simple products rarely need the full checkout. Asking only what the product needs is often the fastest win.",
+    "Business rules must be checked before money is taken, never after.",
+    "Each fix has a measurable cost today, so the business case writes itself once the right events are tracked.",
+  ]}
+  scenario={[
+    "Imagine a platform that sells shuttle tickets to festivals and large events. Each shuttle has limited seats, and the price rises as seats fill. Promo codes are capped. Many tickets are valid on any shuttle that day. Checkout asks every customer for seat selection, full passenger details, invoice data and an account.",
+    "Many customers who start checkout never pay, and support sees a steady flow of refund requests from customers who were charged for tickets that were never issued.",
+  ]}
+  hypotheses={[
+    {
+      name: "The price moves.",
+      claim: "Results show one price, checkout another.",
+      signal: "Lower completion in sessions where the two prices differ",
+      check: "Compare price shown and price charged per session",
+    },
+    {
+      name: "Errors arrive late.",
+      claim: "Problems appear only after submit.",
+      signal: "Repeated submits; lower conversion in sessions with errors",
+      check: "Form-error events by field; payment attempts per order",
+    },
+    {
+      name: "The form asks too much.",
+      claim: "Simple products get the full checkout.",
+      signal: "Drop-off on fields the product does not need",
+      check: "Field-level drop-off; recordings",
+    },
+    {
+      name: "Rules are checked after payment.",
+      claim: "Capped codes and sold-out shuttles fail after charging.",
+      signal: "Paid-but-not-delivered orders; refunds",
+      check: "Join payment and order logs",
+    },
+    {
+      name: "Distractions compete.",
+      claim: "Login and promotions sit next to \"Pay\".",
+      signal: "Clicks away from the primary action",
+      check: "Click maps; recordings",
+    },
+  ]}
+  evidence={[
+    "Results show a cached price. When seats fill, checkout shows a higher one without explanation, and those sessions complete noticeably less often.",
+    "Sessions with a form error convert far less than sessions without, and some customers try to pay three or four times.",
+    "Customers buying an any-shuttle ticket still have to pick a seat and a departure, then fill in invoice fields they do not need.",
+    "A capped promo code is accepted at checkout, payment succeeds, and the order then fails because the cap was reached.",
+    "Customers choosing a digital wallet expect to skip typing and are asked for their name and email anyway.",
+  ]}
+  evidenceNote="Public research is consistent with this. In Baymard's survey, 39% of shoppers abandoned a checkout because of extra costs, and 22% because the checkout was too long or complicated. Baymard also reports that 31% of sites have no inline validation. Regulation is moving the same way: a US rule in force since May 2025 requires live-event ticket sellers to show the total price, including mandatory fees, up front."
+  sizing={[
+    { label: "Checkout sessions a month", value: "50,000" },
+    { label: "Sessions that see a price change", value: "8% = 4,000" },
+    { label: "Completion gap in those sessions", value: "10 points = 400 lost orders" },
+    { label: "Share a fix could recover", value: "Half = 200 orders" },
+    { label: "Average order", value: "€25" },
+  ]}
+  sizingResult="About €5,000 a month from price integrity alone, before counting refunds and lost repeat customers."
+  sizingNote="Failed orders are smaller in cash but larger in trust: 150 refunds a month at €8 handling each is little money, and a lot of customers who will not come back."
+  fixes={[
+    {
+      title: "Keep the price, or explain the change",
+      pattern: "The price shown in results is not the price at checkout.",
+      change: "Hold the selected price for a short window, or explain any change before the customer continues.",
+      effect: "Protected purchase intent and trust.",
+    },
+    {
+      title: "A sticky, transparent price breakdown",
+      pattern: "Customers do not understand fees and discounts.",
+      change: "Keep the total visible while scrolling, and separate base price, fees, discount and final amount.",
+      effect: "Fewer price surprises.",
+    },
+    {
+      title: "Check business rules before charging",
+      pattern: "Payment succeeds for orders that then fail.",
+      change: "Validate promo caps, sales cut-offs and availability before capturing payment; consider reserving first.",
+      effect: "No charges for failed orders.",
+    },
+    {
+      title: "Inline validation and clear error messages",
+      pattern: "Errors appear only after submit, with vague wording.",
+      change: "Validate as customers type, explain each error specifically, and keep entered data after an error.",
+      effect: "Fewer abandoned payments and repeated attempts.",
+    },
+    {
+      title: "Express checkout for simple products",
+      pattern: "Simple tickets go through the full checkout.",
+      change: "Skip seat and departure selection when the product allows it; show invoice fields only on request; autofill from the wallet where permitted.",
+      effect: "A shorter path to pay on mobile.",
+    },
+    {
+      title: "Remove distractions near \"Pay\"",
+      pattern: "Login and promotions compete with the purchase.",
+      change: "Move account creation to the confirmation page and replace promotions with practical help.",
+      effect: "Clearer progress to payment.",
+    },
+    {
+      title: "Opt-in reminders for unfinished orders",
+      pattern: "High-intent customers leave before paying.",
+      change: "Permission-based reminders that return the customer to their saved order, after a privacy and consent review.",
+      effect: "Recovered orders without starting over.",
+    },
+  ]}
+  priorities={[
+    { cells: ["Check rules before charging", "High (trust)", "High", "Medium", "1"] },
+    { cells: ["Keep or explain the price", "High", "High", "Medium", "2"] },
+    { cells: ["Inline validation and error messages", "Medium", "High", "Low", "3"] },
+    { cells: ["Express checkout for simple products", "High", "Medium", "High", "4"] },
+    { cells: ["Price breakdown, distractions, reminders", "Medium", "Medium", "Low–Medium", "Next"] },
+  ]}
+  prioritiesNote="Charging for an order that fails ranks first even though its revenue effect is small. It is the failure customers remember and repeat to others."
+  test={[
+    { label: "Hypothesis", text: "Holding the selected price through checkout increases completion without reducing revenue per order." },
+    { label: "Primary metric", text: "Checkout-entry-to-payment rate." },
+    { label: "Guardrails", text: "Revenue per order and units sold at each price tier." },
+    { label: "Operational metrics", text: "Share of sessions with a price change, payment attempts per order, and paid-but-failed orders (target: zero)." },
+    { label: "Not everything needs an A/B test", text: "Validating rules before charging is a defect fix. Ship it and monitor it." },
+  ]}
+  elsewhere={[
+    "These trust breaks are not specific to tickets. An online shop whose shipping cost appears at the last step, a SaaS trial that asks for a card and then fails to activate the account, a marketplace that accepts a booking the provider cannot honour: each one is a price that moves, an error that does not explain itself, or a charge for something that never arrives.",
+    "The fix is always the same in principle: show the real price early, validate before charging, and ask only what the product needs.",
+  ]}
+  checklist={[
+    "Compare the price shown before checkout with the final price for 50 random sessions. How many differ, and does the customer see why?",
+    "Count the fields needed for your simplest product. Remove every one the product does not need.",
+    "Pay with a wallet on mobile. Did you still have to type your name and email?",
+    "Try an expired promo code and a sold-out item. Does the error appear before or after you are charged?",
+    "Check that form errors and payment declines are tracked separately from abandonment.",
+  ]}
+  conclusion="Checkout friction is mostly a trust problem: a price that moves, an error that does not explain itself, a charge for something that never arrives. Each has a measurable cost and a specific fix. For the payment side of the same journey, see my payment case studies."
+  contactLine="Do customers reach checkout and then leave, or contact support after paying? I can help you find which trust break costs the most."
+  sources={[
+    { name: "Baymard Institute — How to reduce cart abandonment", url: "https://baymard.com/blog/reduce-cart-abandonment" },
+    {
+      name: "Baymard Institute — Cart and checkout research (11.3 form fields on average; 22% abandon over checkout complexity)",
+      url: "https://baymard.com/research-articles/collections/cart-and-checkout",
+    },
+    { name: "Baymard Institute — Usability testing of inline form validation", url: "https://baymard.com/blog/inline-form-validation" },
+    {
+      name: "Baymard Institute — Improve validation errors with adaptive messages",
+      url: "https://baymard.com/research-articles/adaptive-validation-error-messages",
+    },
+    {
+      name: "US Government Accountability Office — FTC Trade Regulation Rule on Unfair or Deceptive Fees (effective 12 May 2025)",
+      url: "https://www.gao.gov/products/b-337257",
+    },
+  ]}
+/>
