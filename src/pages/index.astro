@@ -1,331 +1,418 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import DiscoveryCalendar from "../components/DiscoveryCalendar.astro";
 import { growthServices } from "../data/growthServices";
 import { recommendations } from "../data/achievements";
+import { languageLevels } from "../data/languages";
 import "../styles/growth-platform.css";
+import "../styles/home.css";
 
-const title = "Technical Growth Partner | Matteo Arellano";
+const site = "https://matteoarellano.com";
+const title = "Matteo Arellano | Technical Growth Partner";
 const description =
-  "I help companies create new revenue opportunities, improve conversion, acquire qualified demand, uncover commercial insights and automate expensive work.";
+  "I help companies find new ways to grow and turn them into revenue: new markets and partnerships, conversion, payments, acquisition, data and automation. Book a 20-minute call.";
 
-const valueOutcomes = [
+const email = "matteo.visibility@gmail.com";
+const linkedin = "https://www.linkedin.com/in/matteoarellano";
+
+const languageCount = languageLevels.reduce(
+  (sum, level) => sum + level.languages.length,
+  0,
+);
+
+/* ---------- The three ways into the site ---------- */
+
+const workLinks = [
   {
-    label: "New revenue",
-    title: "Find new markets, partners and commercial opportunities.",
-    copy: "Identify where the next source of growth could come from and turn it into a focused commercial path.",
+    href: "/payment-solutions/",
+    title: "Payment Solutions",
+    copy: "Payment architecture and operations across markets",
+  },
+  ...growthServices.map((service) => ({
+    href: `/services/${service.slug}/`,
+    title: service.name,
+    copy: service.shortTitle,
+  })),
+];
+
+const knowLinks = [
+  {
+    href: "/about/",
+    title: "My story",
+    copy: "From finance into data, technology and growth",
   },
   {
-    label: "Higher conversion",
-    title: "Turn more of the demand you already have into revenue.",
-    copy: "Find the funnel, payment and product friction that is costing customers and prioritize the fixes that matter.",
+    href: "/achievements/#recommendations",
+    title: "Recommendations",
+    copy: "What people I have worked with say",
   },
   {
-    label: "More qualified demand",
-    title: "Help the right customers discover you and take action.",
-    copy: "Connect search, paid acquisition, landing pages and measurement to real commercial outcomes.",
+    href: "/achievements/#outcomes",
+    title: "Results & experience",
+    copy: "Outcomes, career path and education",
   },
   {
-    label: "Lower cost & manual work",
-    title: "Automate expensive recurring work and build systems that scale.",
-    copy: "Use data workflows, APIs and automation to reduce operational friction and recurring cost.",
+    href: "/achievements/#languages",
+    title: `${languageCount} languages`,
+    copy: "For the markets you want to reach",
   },
 ];
 
-const featuredRecommendationNames = [
-  "Oscar Flores",
-  "Jose Laguna",
-  "Sana Shakeel",
+const readLinks = [
+  {
+    href: "/insights/",
+    title: "Insights",
+    copy: "Articles and recipes, by growth area",
+  },
+  {
+    href: "/journal/",
+    title: "Field notes",
+    copy: "What I am learning from real work",
+  },
+  {
+    href: "/payment-solutions/case-studies/",
+    title: "Case studies",
+    copy: "Payments and product research, worked through",
+  },
+  {
+    href: "/cybersecurity/",
+    title: "Cybersecurity",
+    copy: "Security explained for websites, ads and stores",
+  },
+  {
+    href: "/resources/",
+    title: "Technical cookbook",
+    copy: "Reusable code recipes for SEO, analytics and data",
+  },
 ];
-const featuredRecommendations = featuredRecommendationNames
-  .map((name) => recommendations.find((item) => item.name === name))
-  .filter(Boolean);
+
+/* ---------- Proof ---------- */
+
+const featured = recommendations.find((item) => item.id === "oscar-flores");
+const featuredQuote = featured?.quote.split("\n\n")[0] ?? "";
+
+const stats = [
+  { value: "+42%", label: "conversion improvement" },
+  { value: "−90%", label: "cloud-processing cost" },
+  { value: "30+", label: "analytical models built" },
+];
 
 const companies = [
-  {
-    name: "Distribusion Technologies",
-    logo: "/images/experience/DISTRIBUSION_TECHNOLOGIES.png",
-  },
-  {
-    name: "Cargill",
-    logo: "/images/experience/CARGILL_LOGO.webp",
-  },
-  {
-    name: "European Investment Bank",
-    logo: "/images/experience/EIB_BANK.png",
-  },
-  {
-    name: "European Investment Fund",
-    logo: "/images/experience/eif.png",
-  },
-  {
-    name: "PIA Group Netherlands",
-    logo: "/images/experience/PIA_GROUP_NEDERLAND.avif",
-  },
-  {
-    name: "WeGoZero",
-    logo: "/images/experience/logo_wegozero.png",
-  },
+  { name: "European Investment Bank", logo: "/images/experience/EIB_BANK.png" },
+  { name: "European Investment Fund", logo: "/images/experience/eif.png" },
+  { name: "Cargill", logo: "/images/experience/CARGILL_LOGO.webp" },
+  { name: "PIA Group Netherlands", logo: "/images/experience/PIA_GROUP_NEDERLAND.avif" },
+  { name: "Distribusion Technologies", logo: "/images/experience/DISTRIBUSION_TECHNOLOGIES.png" },
+  { name: "WeGoZero", logo: "/images/experience/logo_wegozero.png" },
 ];
+
+const languages = [
+  { href: "/", label: "EN", name: "English", current: true },
+  { href: "/es/", label: "ES", name: "Español" },
+  { href: "/nl/", label: "NL", name: "Nederlands" },
+];
+
+const videoSchema = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  name: "Matteo Arellano in 30 seconds",
+  description:
+    "A 30-second introduction to Matteo Arellano, Technical Growth Partner: background, selected results, languages and how to start a conversation.",
+  thumbnailUrl: `${site}/images/home/intro-poster-1280.webp`,
+  uploadDate: "2026-10-31",
+  duration: "PT30S",
+  contentUrl: `${site}/videos/matteo-arellano-intro-1080.mp4`,
+  publisher: { "@id": `${site}/#person` },
+};
 ---
 
 <BaseLayout
   title={title}
   description={description}
-  canonical="https://matteoarellano.com/"
-  image="/images/matteo-arellano-visibility-signup.jpg"
+  canonical={`${site}/`}
+  image="/images/home/og-home.jpg"
+  alternateLanguages={[
+    { hreflang: "en", href: `${site}/` },
+    { hreflang: "es", href: `${site}/es/` },
+    { hreflang: "nl", href: `${site}/nl/` },
+    { hreflang: "x-default", href: `${site}/` },
+  ]}
 >
-  <Header />
+  <script type="application/ld+json" set:html={JSON.stringify(videoSchema)} />
 
-  <main class="growth-home">
-    <section class="growth-hero">
-      <div class="growth-shell growth-hero-grid">
-        <div class="growth-hero-copy">
-          <span class="growth-overline">Technical Growth Partner</span>
-          <h1>
-            I help companies find new ways to grow and turn them into revenue.
-          </h1>
-          <p class="growth-hero-lede">
-            From new markets and partnerships to conversion, acquisition, data
-            and automation, I help teams identify commercial opportunities,
-            understand what is holding growth back and build the next move.
-          </p>
+  <header class="hm-top">
+    <a class="hm-skip" href="#explore">Skip to the main links</a>
+    <nav class="hm-nav" aria-label="Primary">
+      <a href="/services/">Services</a>
+      <a href="/about/">About</a>
+      <a href="/insights/">Insights</a>
+      <a href="/cybersecurity/">Cybersecurity</a>
+    </nav>
+    <nav class="hm-lang" aria-label="Language">
+      {
+        languages.map((language) => (
+          <a
+            href={language.href}
+            aria-label={`View site in ${language.name}`}
+            aria-current={language.current ? "page" : undefined}
+          >
+            {language.label}
+          </a>
+        ))
+      }
+    </nav>
+  </header>
 
-          <div class="growth-hero-actions">
-            <a class="growth-primary-button" href="#services"
-              >Explore how I can help</a
-            >
-            <a class="growth-secondary-link" href="#availability"
-              >Talk through an opportunity →</a
-            >
-          </div>
+  <main class="hm">
+    <!-- ======================= Hero ======================= -->
+    <section class="hm-hero" aria-labelledby="hm-title">
+      <picture class="hm-hero-bg" aria-hidden="true">
+        <source media="(max-width: 700px)" srcset="/images/home/sahara-portrait-900.webp" />
+        <img
+          src="/images/home/sahara-1920.webp"
+          srcset="/images/home/sahara-768.webp 768w, /images/home/sahara-1280.webp 1280w, /images/home/sahara-1920.webp 1920w"
+          sizes="100vw"
+          width="1920"
+          height="1080"
+          alt=""
+          fetchpriority="high"
+          decoding="async"
+        />
+      </picture>
 
-          <div class="growth-hero-principle">
-            <span>How I work</span>
-            <strong
-              >Start with the commercial outcome: more revenue, higher
-              conversion, lower cost or faster execution. Then use the right
-              tools to get there.</strong
-            >
-          </div>
+      <div class="hm-hero-inner">
+        <p class="hm-overline">Technical Growth Partner</p>
+        <h1 id="hm-title">Matteo Arellano</h1>
+        <span class="hm-rule" aria-hidden="true"></span>
+        <p class="hm-lede">
+          I help companies find new ways to grow and turn them into <em>revenue</em>.
+        </p>
+
+        <div class="hm-actions">
+          <a class="hm-btn hm-btn--primary" href="#availability">Book a 20-minute call</a>
+          <button class="hm-btn hm-btn--video" type="button" data-video-open aria-haspopup="dialog">
+            <img src="/images/home/intro-thumb-160.webp" width="36" height="36" alt="" />
+            <span>Watch my 30-second intro</span>
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.5v9l7-4.5z" fill="currentColor"></path></svg>
+          </button>
         </div>
 
-        <aside class="growth-portrait-card" aria-label="About Matteo Arellano">
-          <div class="growth-portrait-image">
-            <img
-              src="/images/matteo-arellano-visibility-signup.jpg"
-              alt="Matteo Arellano"
-            />
-          </div>
-          <div class="growth-portrait-copy">
-            <span>Business + technology</span>
-            <strong>Matteo Arellano</strong>
-            <p>
-              Growth partner working across commercial questions, analytics and
-              technical execution. Founder of Yeelen.
-            </p>
-            <div class="growth-portrait-links">
-              <a
-                href="https://www.linkedin.com/in/matteoarellano"
-                target="_blank"
-                rel="noreferrer">LinkedIn</a
-              >
-              <a href="mailto:matteo.visibility@gmail.com">Email</a>
-              <a href="/about/">About</a>
+        <p class="hm-quick">
+          <a href={`mailto:${email}`}>Email me</a>
+          <span aria-hidden="true">·</span>
+          <a href={linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <span aria-hidden="true">·</span>
+          <a href="#explore">Explore the site</a>
+        </p>
+      </div>
+
+      <a class="hm-scroll" href="#explore" aria-label="Scroll to the main links">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </a>
+    </section>
+
+    <!-- ======================= Routing ======================= -->
+    <section class="hm-explore" id="explore" aria-labelledby="explore-title">
+      <div class="hm-shell">
+        <header class="hm-head">
+          <p class="hm-overline">Where would you like to start?</p>
+          <h2 id="explore-title">Three ways in.</h2>
+        </header>
+
+        <div class="hm-paths">
+          <article class="hm-path">
+            <img class="hm-path-img" src="/images/home/card-river-800.webp" width="800" height="500" alt="" loading="lazy" decoding="async" />
+            <div class="hm-path-body">
+              <p class="hm-path-kicker">Work with me</p>
+              <h3>Services</h3>
+              <ul>
+                {workLinks.map((link) => (
+                  <li>
+                    <a href={link.href}>
+                      <strong>{link.title}</strong>
+                      <span>{link.copy}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <a class="hm-path-more" href="/services/">All services together →</a>
             </div>
-          </div>
-        </aside>
-      </div>
-    </section>
+          </article>
 
-    <section class="growth-value-strip" aria-label="Commercial outcomes">
-      <div class="growth-shell growth-value-strip-grid">
-        {
-          valueOutcomes.map((item, index) => (
-            <article class="growth-value-strip-item">
-              <span>
-                {String(index + 1).padStart(2, "0")} · {item.label}
-              </span>
-              <h2>{item.title}</h2>
-              <p>{item.copy}</p>
-            </article>
-          ))
-        }
-      </div>
-    </section>
+          <article class="hm-path">
+            <img class="hm-path-img" src="/images/home/card-iceland-800.webp" width="800" height="500" alt="" loading="lazy" decoding="async" />
+            <div class="hm-path-body">
+              <p class="hm-path-kicker">Get to know me</p>
+              <h3>Who I am</h3>
+              <ul>
+                {knowLinks.map((link) => (
+                  <li>
+                    <a href={link.href}>
+                      <strong>{link.title}</strong>
+                      <span>{link.copy}</span>
+                    </a>
+                  </li>
+                ))}
+                <li>
+                  <button type="button" data-video-open aria-haspopup="dialog">
+                    <strong>The 30-second version</strong>
+                    <span>A short video introduction</span>
+                  </button>
+                </li>
+              </ul>
+              <a class="hm-path-more" href="/achievements/">All evidence on one page →</a>
+            </div>
+          </article>
 
-    <section class="growth-services-section" id="services">
-      <div class="growth-shell">
-        <header class="growth-section-heading">
-          <span class="growth-overline">How I can help</span>
-          <h2>Five ways I help companies create commercial value.</h2>
-          <p>
-            Each service has a clear end state. The work can still cross between
-            commercial, analytical and technical areas when that is what gets
-            the result.
-          </p>
-        </header>
-
-        <div class="growth-service-grid">
-          {
-            growthServices.map((service, index) => (
-              <article
-                class:list={[
-                  "growth-service-card",
-                  index === 0 && "growth-service-card--featured",
-                ]}
-              >
-                <div class="growth-service-card-top">
-                  <span>{service.number}</span>
-                  <span>{service.name}</span>
-                </div>
-                <h3>{service.shortTitle}</h3>
-                <p class="growth-service-promise">{service.homepagePromise}</p>
-                <p class="growth-service-description">
-                  {service.homepageDescription}
-                </p>
-                <a href={`/services/${service.slug}/`}>
-                  Explore {service.name} <span>→</span>
-                </a>
-              </article>
-            ))
-          }
-        </div>
-
-        <div class="growth-section-footer-link">
-          <a href="/services/">See all services together →</a>
+          <article class="hm-path">
+            <img class="hm-path-img" src="/images/case-studies/canal-golden-hour-768.webp" width="768" height="510" alt="" loading="lazy" decoding="async" />
+            <div class="hm-path-body">
+              <p class="hm-path-kicker">Read & learn</p>
+              <h3>Writing</h3>
+              <ul>
+                {readLinks.map((link) => (
+                  <li>
+                    <a href={link.href}>
+                      <strong>{link.title}</strong>
+                      <span>{link.copy}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <a class="hm-path-more" href="/blog/">Blog by topic →</a>
+            </div>
+          </article>
         </div>
       </div>
     </section>
 
-    <section class="growth-recommendations-section" id="recommendations">
-      <div class="growth-shell">
-        <header class="growth-section-heading growth-section-heading--compact">
-          <span class="growth-overline">Recommendations & appraisals</span>
-          <h2>What people I have worked with say.</h2>
-          <p>
-            The strongest proof of how I work comes from people who have seen me
-            inside real teams, messy problems and demanding projects.
-          </p>
-        </header>
-
-        <div class="growth-recommendation-grid">
+    <!-- ======================= Proof ======================= -->
+    <section class="hm-proof on-dark" aria-labelledby="proof-title">
+      <div class="hm-shell">
+        <h2 id="proof-title" class="hm-visually-hidden">Evidence</h2>
+        <div class="hm-proof-grid">
           {
-            featuredRecommendations.map(
-              (item) =>
-                item && (
-                  <article class="growth-recommendation-card">
-                    <span class="growth-quote-mark" aria-hidden="true">
-                      “
-                    </span>
-                    <blockquote>{item.quote}</blockquote>
-                    <footer>
-                      <strong>{item.name}</strong>
-                      <span>{item.headline}</span>
-                    </footer>
-                  </article>
-                ),
+            featured && (
+              <figure class="hm-quote">
+                <blockquote>
+                  <p>{featuredQuote}</p>
+                </blockquote>
+                <figcaption>
+                  <strong>{featured.name}</strong>
+                  <span>{featured.headline}</span>
+                </figcaption>
+                <a href="/achievements/#recommendations">Read all recommendations →</a>
+              </figure>
             )
           }
-        </div>
 
-        <a
-          class="growth-recommendations-link"
-          href="/achievements/#recommendations"
-        >
-          Read all recommendations, appraisals and career evidence →
-        </a>
-      </div>
-    </section>
-
-    <section class="growth-partner-section">
-      <div class="growth-shell growth-partner-grid">
-        <div>
-          <span class="growth-overline">How I partner</span>
-          <h2>Move from a growth goal to a concrete next action.</h2>
-        </div>
-        <div class="growth-partner-steps">
-          <article>
-            <span>01</span>
-            <h3>Define the commercial target</h3>
-            <p>
-              More revenue, higher conversion, lower cost, a new market or a
-              better decision — make the end state explicit.
-            </p>
-          </article>
-          <article>
-            <span>02</span>
-            <h3>Find what is blocking it</h3>
-            <p>
-              Use prospect conversations, customer behaviour, market signals and
-              data to identify the real constraint or opportunity.
-            </p>
-          </article>
-          <article>
-            <span>03</span>
-            <h3>Build the next move</h3>
-            <p>
-              Turn the evidence into outreach, a product change, an experiment,
-              a partnership, automation or another measurable action.
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="growth-calendar-band">
-      <div class="growth-shell">
-        <DiscoveryCalendar
-          namespace="homepage-discovery"
-          eyebrow="Talk and discover together"
-          title="Have something you're trying to grow, fix or understand?"
-          copy="Tell me what you are working on. We can use 20 minutes to understand the problem, exchange ideas and see whether there is a useful way for me to contribute."
-        />
-      </div>
-    </section>
-
-    <section
-      class="growth-companies-section"
-      aria-labelledby="companies-heading"
-    >
-      <div class="growth-shell">
-        <header class="growth-companies-heading">
-          <span class="growth-overline">Experience</span>
-          <h2 id="companies-heading">Companies and teams I've worked with.</h2>
-        </header>
-
-        <div class="growth-company-grid">
-          {
-            companies.map((company) => (
-              <div
-                class:list={[
-                  "growth-company-logo",
-                  company.name === "WeGoZero" &&
-                    "growth-company-logo--wegozero",
-                ]}
-                title={company.name}
-              >
-                {company.name === "WeGoZero" ? (
-                  <div class="wegozero-lockup">
-                    <img src={company.logo} alt="" loading="lazy" />
-                    <span>WeGoZero</span>
-                  </div>
-                ) : (
-                  <img
-                    src={company.logo}
-                    alt={`${company.name} logo`}
-                    loading="lazy"
-                  />
-                )}
+          <dl class="hm-stats">
+            {stats.map((stat) => (
+              <div>
+                <dt>{stat.label}</dt>
+                <dd>{stat.value}</dd>
               </div>
-            ))
-          }
+            ))}
+          </dl>
+        </div>
+
+        <div class="hm-logos" aria-label="Organisations I have worked with">
+          {companies.map((company) => (
+            <span title={company.name}>
+              <img src={company.logo} alt={company.name} loading="lazy" decoding="async" />
+              {company.name === "WeGoZero" && <small aria-hidden="true">WeGoZero</small>}
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= Book ======================= -->
+    <section class="hm-book" aria-label="Book a call">
+      <div class="hm-shell">
+        <div class="hm-book-card">
+          <DiscoveryCalendar
+            namespace="homepage-discovery"
+            eyebrow="Talk it through"
+            title="Have something you're trying to grow, fix or understand?"
+            copy="Bring the problem or the opportunity. In 20 minutes we can understand it together, exchange ideas and see whether there is a useful way for me to contribute."
+          />
+          <p class="hm-book-alt">
+            Prefer email? Write to <a href={`mailto:${email}`}>{email}</a>
+          </p>
         </div>
       </div>
     </section>
   </main>
 
   <Footer />
+
+  <!-- ======================= Video dialog ======================= -->
+  <dialog class="hm-video" aria-labelledby="hm-video-title">
+    <div class="hm-video-frame">
+      <h2 id="hm-video-title" class="hm-visually-hidden">Matteo Arellano in 30 seconds</h2>
+      <video
+        controls
+        playsinline
+        preload="none"
+        poster="/images/home/intro-poster-1280.webp"
+        data-src-large="/videos/matteo-arellano-intro-1080.mp4"
+        data-src-small="/videos/matteo-arellano-intro-720.mp4"
+      ></video>
+      <button class="hm-video-close" type="button" data-video-close aria-label="Close video">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+      </button>
+    </div>
+    <details class="hm-video-text">
+      <summary>Read the video as text</summary>
+      <p>
+        Have something you're trying to grow, fix or understand? I'm Matteo
+        Arellano, Technical Growth Partner. I help companies find new ways to
+        grow and turn them into revenue. I didn't start in marketing: I started
+        by learning how companies make money, in Luxembourg (EIB and EIF, 2018),
+        Amsterdam and Mexico City (Cargill, 2020), Utrecht (PIA Group, 2024)
+        and worldwide today (Distribusion). Evidence over assumptions: +42%
+        conversion improvement, −90% cloud-processing cost, 30+ analytical
+        models built. {languageCount} languages, ready for the markets you want
+        to reach. Let's talk: 20 minutes, no prepared brief required.
+      </p>
+    </details>
+  </dialog>
+
+  <script>
+    const dialog = document.querySelector<HTMLDialogElement>(".hm-video");
+    const video = dialog?.querySelector<HTMLVideoElement>("video");
+
+    function openVideo() {
+      if (!dialog || !video) return;
+      if (!video.src) {
+        const small = window.matchMedia("(max-width: 900px)").matches;
+        video.src = (small ? video.dataset.srcSmall : video.dataset.srcLarge) ?? "";
+      }
+      dialog.showModal();
+      video.play().catch(() => {
+        /* The browser blocked playback; the controls stay available. */
+      });
+    }
+
+    function closeVideo() {
+      dialog?.close();
+    }
+
+    document
+      .querySelectorAll("[data-video-open]")
+      .forEach((button) => button.addEventListener("click", openVideo));
+    document
+      .querySelector("[data-video-close]")
+      ?.addEventListener("click", closeVideo);
+
+    // Close when clicking the dimmed area around the video.
+    dialog?.addEventListener("click", (event) => {
+      if (event.target === dialog) closeVideo();
+    });
+
+    // Pause whenever the dialog closes, including with the Escape key.
+    dialog?.addEventListener("close", () => video?.pause());
+  </script>
 </BaseLayout>
