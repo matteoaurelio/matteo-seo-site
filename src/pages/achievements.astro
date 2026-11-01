@@ -6,7 +6,6 @@ import {
   recommendations,
   achievements,
   recommendationAreas,
-  recommendationStrengths,
   toIsoDate,
   assertVerbatimExcerpts,
 } from "../data/achievements";
@@ -24,7 +23,7 @@ const personId = `${site}/#person`;
 
 const title = "Recommendations, Experience & Education | Matteo Arellano";
 const description =
-  "Written recommendations from colleagues in payments, product, data engineering and finance, plus client reviews, selected outcomes, career history and education of Matteo Arellano.";
+  "18 recommendations for Matteo Arellano from colleagues and partners in growth marketing, payments, product, data engineering and finance, published in full, plus reference letters, outcomes, experience and education.";
 
 /* ---------- Recommendations ---------- */
 
@@ -49,57 +48,64 @@ const toParagraphs = (text: string) =>
     .map((paragraph) => paragraph.trim())
     .filter(Boolean);
 
+/** A block of text: a paragraph, or a short heading line the writer used ("Standout strength"). */
+type Block = { heading?: string; text: string };
+
+const toBlocks = (text: string): Block[] =>
+  text
+    .split(/\n\s*\n|\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .reduce<Block[]>((blocks, line) => {
+      const isHeading = line.length < 40 && !/[.!?:]$/.test(line) && line.split(" ").length <= 4;
+      const previous = blocks[blocks.length - 1];
+      if (previous && previous.heading !== undefined && previous.text === "") {
+        previous.text = line;
+      } else if (isHeading) {
+        blocks.push({ heading: line, text: "" });
+      } else {
+        blocks.push({ text: line });
+      }
+      return blocks;
+    }, []);
+
+// Order: the featured recommendation, then dated ones newest first, with the
+// Senja reviews (undated, about current work) after the 2026 LinkedIn ones.
+const featuredId = recommendations.find((item) => item.featured)?.id;
+
 const items = recommendations
-  .map((recommendation) => {
-    const iso = toIsoDate(recommendation.date);
-    const paragraphs = toParagraphs(recommendation.quote);
+  .map((recommendation, index) => {
+    const iso = recommendation.date ? toIsoDate(recommendation.date) : undefined;
+    const blocks = toBlocks(recommendation.quote);
     return {
       ...recommendation,
       iso,
-      year: iso.slice(0, 4),
-      displayDate: formatDate(iso),
-      paragraphs,
+      displayDate: iso ? formatDate(iso) : undefined,
+      blocks,
+      sortKey: iso ?? `2026-01-01-${String(99 - index).padStart(2, "0")}`,
       // Short recommendations are shown in full; longer ones open on demand.
-      collapsible: paragraphs.length > 1 || recommendation.quote.length > 340,
+      collapsible: recommendation.quote.length > 420,
     };
   })
-  .sort((a, b) => b.iso.localeCompare(a.iso));
+  .sort((a, b) => {
+    if (a.id === featuredId) return -1;
+    if (b.id === featuredId) return 1;
+    return b.sortKey.localeCompare(a.sortKey);
+  });
 
 const total = items.length;
-// The first recommendation flagged `featured` in the data file leads the page.
-const featuredSource = recommendations.find((item) => item.featured);
-const featured = items.find((item) => item.id === featuredSource?.id) ?? items[0];
-const years = [...new Set(items.map((item) => item.year))];
-const byYear = years.map((year) => ({
-  year,
-  entries: items.filter((item) => item.year === year),
-}));
-const firstYear = years[years.length - 1];
-const lastYear = years[0];
-const latest = items[0];
+const featured = items[0];
+const linkedInCount = items.filter((item) => item.source === "LinkedIn").length;
+const senjaCount = items.filter((item) => item.source === "Senja").length;
+const datedYears = items.filter((item) => item.iso).map((item) => item.iso!.slice(0, 4)).sort();
+const firstYear = datedYears[0];
+const lastYear = datedYears[datedYears.length - 1];
+const latestIso = datedYears.length ? items.filter((item) => item.iso).map((item) => item.iso!).sort().pop()! : undefined;
 
 const areaFilters = recommendationAreas.map((area) => ({
   ...area,
   count: items.filter((item) => item.areas.includes(area.id)).length,
 }));
-
-const themes = recommendationStrengths
-  .map((strength) => ({
-    ...strength,
-    count: items.filter((item) => item.strengths.includes(strength.id)).length,
-  }))
-  .sort((a, b) => b.count - a.count);
-
-/* ---------- Reviews collected through Senja (newest first) ---------- */
-
-const senjaIds = [
-  "cc7b3961-aeba-4266-b424-045b7162ef1b",
-  "ec497f76-377a-46dc-9240-db1d69100c24",
-  "86fcd7c9-6eb3-4c3d-b0c2-eb39f1808c23",
-  "23825e64-b11f-4de5-854f-47c6093628b5",
-  "810b2a8c-4b82-4ec6-9070-8e89eb250eb8",
-  "3c50d95c-ed58-44ea-81e0-efc4f589558b",
-];
 
 /* ---------- Outcomes, experience, education ---------- */
 
@@ -191,16 +197,11 @@ const languageCount = languageLevels.reduce((sum, level) => sum + level.language
 const sections = [
   { id: "recommendations", label: "Recommendations", count: total },
   { id: "letters", label: "Letters", count: referenceLetters.length },
-  { id: "reviews", label: "Reviews", count: senjaIds.length },
   { id: "outcomes", label: "Outcomes" },
   { id: "experience", label: "Experience" },
   { id: "languages", label: "Languages", count: languageCount },
   { id: "education", label: "Education" },
 ];
-
-/** Two-digit section number, so the kickers always match the index. */
-const num = (id: string) =>
-  String(sections.findIndex((section) => section.id === id) + 1).padStart(2, "0");
 
 const contactEmail = "matteo.visibility@gmail.com";
 const letterRequestHref = (letter: (typeof referenceLetters)[number]) =>
@@ -227,7 +228,7 @@ const structuredData = {
       name: title,
       description,
       inLanguage: "en",
-      dateModified: latest.iso,
+      dateModified: latestIso,
       isPartOf: { "@id": `${site}/#website` },
       breadcrumb: { "@id": `${canonical}#breadcrumb` },
       mainEntity: { "@id": personId },
@@ -306,7 +307,7 @@ const structuredData = {
     {
       "@type": "ItemList",
       "@id": `${canonical}#recommendation-list`,
-      name: "Written recommendations for Matteo Arellano",
+      name: `Recommendations for Matteo Arellano (${linkedInCount} on LinkedIn, ${senjaCount} collected through Senja)`,
       numberOfItems: total,
       itemListOrder: "https://schema.org/ItemListOrderDescending",
       itemListElement: items.map((item, index) => ({
@@ -320,12 +321,12 @@ const structuredData = {
           author: {
             "@type": "Person",
             name: item.name,
-            description: item.headline,
+            jobTitle: item.headline,
             ...(item.profileUrl ? { sameAs: item.profileUrl } : {}),
           },
-          datePublished: item.iso,
-          description: item.relationship,
-          reviewBody: item.paragraphs.join("\n\n"),
+          ...(item.iso ? { datePublished: item.iso } : {}),
+          description: `${item.relationship}. Published on ${item.source}.`,
+          reviewBody: item.quote,
         },
       })),
     },
@@ -337,7 +338,7 @@ const structuredData = {
   title={title}
   description={description}
   canonical={canonical}
-  image="/images/matteo-arellano-visibility-signup.jpg"
+  image="/images/recommendations/colosseum-og.jpg"
 >
   <Header />
 
@@ -350,47 +351,48 @@ const structuredData = {
   <main class="rec-page">
     <!-- ============ Hero ============ -->
     <section class="rec-hero" aria-labelledby="rec-title">
-      <div class="rec-shell rec-hero-grid">
-        <div class="rec-hero-copy">
-          <p class="rec-kicker">Recommendations &amp; experience</p>
-          <h1 id="rec-title">Recommendations from the people I have worked with.</h1>
-          <p class="rec-lede">
-            {total} written recommendations from colleagues across payments,
-            product, data engineering and finance, published in full and
-            unedited. Below them: signed reference letters, reviews collected
-            directly, selected outcomes, my career path, languages and
-            education.
-          </p>
-        </div>
+      <picture class="rec-hero-bg" aria-hidden="true">
+        <source
+          media="(max-width: 760px)"
+          srcset="/images/recommendations/colosseum-portrait-600.webp 600w, /images/recommendations/colosseum-portrait-900.webp 900w"
+          sizes="100vw"
+        />
+        <img
+          src="/images/recommendations/colosseum-1400.webp"
+          srcset="/images/recommendations/colosseum-900.webp 900w, /images/recommendations/colosseum-1400.webp 1400w"
+          sizes="(max-width: 760px) 100vw, 62vw"
+          width="1400"
+          height="1287"
+          alt=""
+          fetchpriority="high"
+          decoding="async"
+        />
+      </picture>
 
-        <dl class="rec-facts">
-          <div>
-            <dt>Written recommendations</dt>
-            <dd>{total}</dd>
-          </div>
-          <div>
-            <dt>Period covered</dt>
-            <dd>{firstYear}–{lastYear}</dd>
-          </div>
-          <div>
-            <dt>Most recent</dt>
-            <dd><time datetime={latest.iso}>{latest.displayDate}</time></dd>
-          </div>
-          <div>
-            <dt>Signed reference letters</dt>
-            <dd>{referenceLetters.length}</dd>
-          </div>
-          <div>
-            <dt>Original source</dt>
-            <dd>
-              <a
-                href="https://www.linkedin.com/in/matteoarellano"
-                target="_blank"
-                rel="noopener noreferrer">LinkedIn ↗</a
-              >
-            </dd>
-          </div>
-        </dl>
+      <div class="rec-shell rec-hero-inner">
+        <p class="rec-hero-kicker">Recommendations</p>
+        <h1 id="rec-title">Recommendations from the people I have worked with.</h1>
+        <p class="rec-lede">
+          {total} recommendations from colleagues and partners in growth,
+          payments, product, data and finance. Each one is published in full,
+          exactly as it was written.
+        </p>
+
+        <figure class="rec-hero-quote">
+          <blockquote>
+            <p>{featured.highlight}</p>
+          </blockquote>
+          <figcaption>
+            <a href={`#rec-${featured.id}`}>{featured.name}</a>, {featured.headline.split(" | ")[0]}
+          </figcaption>
+        </figure>
+
+        <p class="rec-hero-facts">
+          {linkedInCount} are published on LinkedIn and {senjaCount} were collected
+          through Senja, written between {firstYear} and {lastYear}.
+        </p>
+
+        <a class="rec-hero-cta" href="#recommendations">Read the recommendations <span aria-hidden="true">↓</span></a>
       </div>
     </section>
 
@@ -399,10 +401,9 @@ const structuredData = {
       <div class="rec-shell">
         <ol>
           {
-            sections.map((section, index) => (
+            sections.map((section) => (
               <li>
                 <a href={`#${section.id}`} data-index-link={section.id}>
-                  <span class="rec-index-number">{String(index + 1).padStart(2, "0")}</span>
                   {section.label}
                   {section.count && <span class="rec-index-count">{section.count}</span>}
                 </a>
@@ -414,210 +415,121 @@ const structuredData = {
     </nav>
 
     <!-- ============ Recommendations ============ -->
-    <section class="rec-section" id="recommendations" aria-labelledby="recommendations-title">
+    <section class="rec-section rec-reading" id="recommendations" aria-labelledby="recommendations-title">
       <div class="rec-shell">
-        <header class="rec-section-head">
-          <div>
-            <p class="rec-kicker"><span>{num("recommendations")}</span> Recommendations</p>
-            <h2 id="recommendations-title">In their own words.</h2>
-          </div>
+        <header class="rec-reading-head">
+          <h2 id="recommendations-title">In their own words.</h2>
           <p>
-            Every recommendation below was written by a colleague who saw my
-            work directly. The text is reproduced exactly as published, with
-            the reviewer's own title and relationship to me.
+            Choose the kind of work you care about, or search for a name,
+            company or skill. Every recommendation stays on this page.
           </p>
         </header>
 
-        <!-- Featured -->
-        <figure class="rec-featured" aria-labelledby="featured-name">
-          <p class="rec-featured-label">Featured recommendation</p>
-          <blockquote class="rec-featured-quote">
-            <p class="rec-featured-pull">{featured.highlight}</p>
-            <div class="rec-featured-body">
-              {featured.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
-            </div>
-          </blockquote>
-          <figcaption class="rec-person">
-            <span class="rec-avatar" aria-hidden="true">
-              {featured.photo ? <img src={featured.photo} alt="" width="56" height="56" loading="lazy" /> : initials(featured.name)}
-            </span>
-            <span class="rec-person-text">
-              <strong id="featured-name">{featured.name}</strong>
-              <span>{featured.headline}</span>
-              <small>
-                {featured.relationship} · <time datetime={featured.iso}>{featured.displayDate}</time>
-              </small>
-            </span>
-          </figcaption>
-        </figure>
-
-        <!-- Recurring themes -->
-        <section class="rec-themes" aria-labelledby="themes-title">
-          <header class="rec-subhead">
-            <h3 id="themes-title">What comes up repeatedly</h3>
-            <p>Counted across all {total} recommendations. Select a theme to see who mentions it.</p>
-          </header>
-          <ul class="rec-theme-grid">
+        <div class="rec-filter" data-rec-controls hidden>
+          <div class="rec-chips" role="group" aria-label="Show recommendations about">
+            <button type="button" class="rec-chip" aria-pressed="true" data-filter="all">
+              All <span>{total}</span>
+            </button>
             {
-              themes.map((theme) => (
-                <li class="rec-theme">
-                  <p class="rec-theme-count">
-                    <strong>{theme.count}</strong>
-                    <span>of {total}</span>
-                  </p>
-                  <h4>{theme.label}</h4>
-                  <blockquote>
-                    <p>“…{theme.example.text}…”</p>
-                    <footer>— {theme.example.by}</footer>
-                  </blockquote>
-                  <button
-                    type="button"
-                    class="rec-theme-button"
-                    data-filter-type="strength"
-                    data-filter-value={theme.id}
-                    data-filter-label={theme.label.toLowerCase()}
-                    hidden
-                  >
-                    Show these {theme.count} <span aria-hidden="true">↓</span>
-                  </button>
-                </li>
+              areaFilters.map((area) => (
+                <button
+                  type="button"
+                  class="rec-chip"
+                  aria-pressed="false"
+                  data-filter={area.id}
+                  data-label={area.label}
+                  data-service-href={area.service.href}
+                  data-service-label={area.service.label}
+                >
+                  {area.label} <span>{area.count}</span>
+                </button>
               ))
             }
-          </ul>
-        </section>
+          </div>
+          <label class="rec-search">
+            <span class="rec-visually-hidden">Search the recommendations</span>
+            <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M13 13l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+            <input type="search" placeholder="Search by name, company or skill" autocomplete="off" data-rec-search />
+          </label>
+        </div>
 
-        <!-- Archive -->
-        <section class="rec-archive" id="all-recommendations" aria-labelledby="archive-title">
-          <header class="rec-subhead rec-archive-head">
-            <div>
-              <h3 id="archive-title">All recommendations</h3>
-              <p>Newest first, grouped by year.</p>
-            </div>
+        <p class="rec-status" role="status" aria-live="polite" data-rec-status></p>
 
-            <div class="rec-controls" data-rec-controls hidden>
-              <div class="rec-chips" role="group" aria-label="Filter recommendations by area">
-                <button type="button" class="rec-chip" aria-pressed="true" data-filter-type="all">
-                  All <span>{total}</span>
-                </button>
-                {
-                  areaFilters.map((area) => (
-                    <button
-                      type="button"
-                      class="rec-chip"
-                      aria-pressed="false"
-                      data-filter-type="area"
-                      data-filter-value={area.id}
-                      data-filter-label={area.label.toLowerCase()}
-                    >
-                      {area.label} <span>{area.count}</span>
-                    </button>
-                  ))
-                }
-              </div>
-              <button type="button" class="rec-expand-all" data-expand-all aria-expanded="false">
-                Expand all
-              </button>
-            </div>
-          </header>
-
-          <p class="rec-status" role="status" aria-live="polite" data-rec-status></p>
-
+        <ol class="rec-list">
           {
-            byYear.map((group) => (
-              <section class="rec-year" data-rec-year aria-labelledby={`year-${group.year}`}>
-                <h3 class="rec-year-label" id={`year-${group.year}`}>
-                  {group.year}
-                </h3>
-                <ol class="rec-list">
-                  {group.entries.map((item) => (
-                    <li
-                      class="rec-item"
-                      id={`rec-${item.id}`}
-                      data-rec-item
-                      data-areas={item.areas.join(" ")}
-                      data-strengths={item.strengths.join(" ")}
-                    >
-                      <article aria-labelledby={`rec-${item.id}-name`}>
-                        <header class="rec-person rec-person--compact">
-                          <span class="rec-avatar" aria-hidden="true">
-                            {item.photo ? (
-                              <img src={item.photo} alt="" width="44" height="44" loading="lazy" />
-                            ) : (
-                              initials(item.name)
-                            )}
-                          </span>
-                          <div class="rec-person-text">
-                            <h4 id={`rec-${item.id}-name`}>
-                              {item.profileUrl ? (
-                                <a href={item.profileUrl} target="_blank" rel="noopener noreferrer">
-                                  {item.name}
-                                </a>
-                              ) : (
-                                item.name
-                              )}
-                              <a class="rec-permalink" href={`#rec-${item.id}`} aria-label={`Link to ${item.name}'s recommendation`}>
-                                #
-                              </a>
-                            </h4>
-                            <span>{item.headline}</span>
-                            <small>
-                              {item.relationship}
-                              {item.organisation && !item.relationship.includes(item.organisation) && (
-                                <> · {item.organisation}</>
-                              )}
-                            </small>
-                          </div>
-                          <time class="rec-date" datetime={item.iso}>
-                            {item.displayDate}
-                          </time>
-                        </header>
-
-                        <blockquote class="rec-quote">
-                          {item.collapsible ? (
-                            <>
-                              <p class="rec-quote-highlight">{item.highlight}</p>
-                              <details class="rec-more" data-rec-details>
-                                <summary>
-                                  <span class="rec-more-open">Read the full recommendation</span>
-                                  <span class="rec-more-close">Show less</span>
-                                </summary>
-                                <div class="rec-more-body">
-                                  {item.paragraphs.map((paragraph) => (
-                                    <p>{paragraph}</p>
-                                  ))}
-                                </div>
-                              </details>
-                            </>
-                          ) : (
-                            item.paragraphs.map((paragraph) => (
-                              <p class="rec-quote-highlight">{paragraph}</p>
-                            ))
-                          )}
-                        </blockquote>
-
-                        {item.featured && item.id === featured.id && (
-                          <p class="rec-tag">Featured above</p>
+            items.map((item) => (
+              <li class="rec-item" id={`rec-${item.id}`} data-rec-item data-areas={item.areas.join(" ")}>
+                <article aria-labelledby={`rec-${item.id}-name`}>
+                  <header class="rec-person">
+                    <span class="rec-avatar" aria-hidden="true">
+                      {item.photo ? <img src={item.photo} alt="" width="44" height="44" loading="lazy" /> : initials(item.name)}
+                    </span>
+                    <div class="rec-person-text">
+                      <h3 id={`rec-${item.id}-name`}>
+                        {item.profileUrl ? (
+                          <a href={item.profileUrl} target="_blank" rel="noopener noreferrer">{item.name}</a>
+                        ) : (
+                          item.name
                         )}
-                      </article>
-                    </li>
-                  ))}
-                </ol>
-              </section>
+                      </h3>
+                      <span>{item.headline}</span>
+                    </div>
+                  </header>
+
+                  <blockquote class="rec-quote">
+                    {item.collapsible ? (
+                      <>
+                        <p class="rec-quote-highlight">{item.highlight}</p>
+                        <details class="rec-more" data-rec-details>
+                          <summary>
+                            <span class="rec-more-open">Read the full recommendation</span>
+                            <span class="rec-more-close">Show less</span>
+                          </summary>
+                          <div class="rec-more-body">
+                            {item.blocks.map((block) => (
+                              <p>
+                                {block.heading && <strong class="rec-block-heading">{block.heading}</strong>}
+                                {block.text}
+                              </p>
+                            ))}
+                          </div>
+                        </details>
+                      </>
+                    ) : (
+                      <div class="rec-quote-full">
+                        {item.blocks.map((block) => (
+                          <p>{block.text}</p>
+                        ))}
+                      </div>
+                    )}
+                  </blockquote>
+
+                  <footer class="rec-meta">
+                    <span class:list={["rec-source", `rec-source--${item.source.toLowerCase()}`]}>{item.source}</span>
+                    <span>
+                      {item.relationship}
+                      {item.organisation && !item.relationship.includes(item.organisation) && <> · {item.organisation}</>}
+                    </span>
+                    {item.iso && <time datetime={item.iso}>{item.displayDate}</time>}
+                    <a class="rec-permalink" href={`#rec-${item.id}`} aria-label={`Link to ${item.name}'s recommendation`}>Link</a>
+                  </footer>
+                </article>
+              </li>
             ))
           }
+        </ol>
 
-          <p class="rec-empty" data-rec-empty hidden>
-            No recommendations match this filter.
-            <button type="button" data-filter-type="all">Show all</button>
-          </p>
+        <p class="rec-empty" data-rec-empty hidden>
+          Nothing matches yet.
+          <button type="button" data-filter="all">Show all {total}</button>
+        </p>
 
-          <p class="rec-source-note">
-            Originals are published on
-            <a href="https://www.linkedin.com/in/matteoarellano" target="_blank" rel="noopener noreferrer">
-              my LinkedIn profile ↗</a
-            >. Spelling and wording are left exactly as written.
-          </p>
-        </section>
+        <p class="rec-source-note">
+          LinkedIn recommendations are published on
+          <a href="https://www.linkedin.com/in/matteoarellano" target="_blank" rel="noopener noreferrer">my LinkedIn profile ↗</a>.
+          The other reviews were collected directly through Senja. Spelling and
+          wording are left exactly as written.
+        </p>
       </div>
     </section>
 
@@ -626,7 +538,7 @@ const structuredData = {
       <div class="rec-shell">
         <header class="rec-section-head">
           <div>
-            <p class="rec-kicker"><span>{num("letters")}</span> Reference letters</p>
+            <p class="rec-kicker">Reference letters</p>
             <h2 id="letters-title">Signed letters, summarised.</h2>
           </div>
           <p>
@@ -707,49 +619,12 @@ const structuredData = {
       </div>
     </section>
 
-    <!-- ============ Reviews (Senja) ============ -->
-    <section class="rec-section" id="reviews" aria-labelledby="reviews-title">
-      <div class="rec-shell">
-        <header class="rec-section-head">
-          <div>
-            <p class="rec-kicker"><span>{num("reviews")}</span> Reviews</p>
-            <h2 id="reviews-title">Feedback collected directly.</h2>
-          </div>
-          <p>
-            Reviews gathered through Senja from people I have worked with on
-            technical, analytical and growth-related work. The most recent
-            review appears first.
-          </p>
-        </header>
-
-        <div class="rec-senja-grid" data-senja-root>
-          {
-            senjaIds.map((id, index) => (
-              <div class="rec-senja-card">
-                {index === 0 && <p class="rec-senja-new">Latest</p>}
-                <div
-                  class="senja-embed"
-                  data-id={id}
-                  data-mode="shadow"
-                  data-lazyload="false"
-                  style="display:block;width:100%;"
-                />
-              </div>
-            ))
-          }
-        </div>
-        <noscript>
-          <p class="rec-source-note">These reviews are displayed with JavaScript through Senja.</p>
-        </noscript>
-      </div>
-    </section>
-
     <!-- ============ Outcomes ============ -->
     <section class="rec-section rec-section--dark" id="outcomes" aria-labelledby="outcomes-title">
       <div class="rec-shell">
         <header class="rec-section-head">
           <div>
-            <p class="rec-kicker"><span>{num("outcomes")}</span> Selected outcomes</p>
+            <p class="rec-kicker">Selected outcomes</p>
             <h2 id="outcomes-title">Results from different parts of my career.</h2>
           </div>
           <p>
@@ -777,7 +652,7 @@ const structuredData = {
       <div class="rec-shell">
         <header class="rec-section-head">
           <div>
-            <p class="rec-kicker"><span>{num("experience")}</span> Experience</p>
+            <p class="rec-kicker">Experience</p>
             <h2 id="experience-title">From finance into data, technology and growth.</h2>
           </div>
           <p>
@@ -815,7 +690,7 @@ const structuredData = {
       <div class="rec-shell">
         <header class="rec-section-head">
           <div>
-            <p class="rec-kicker"><span>{num("languages")}</span> Languages</p>
+            <p class="rec-kicker">Languages</p>
             <h2 id="languages-title">{languageCount} languages, from native to elementary.</h2>
           </div>
           <p>
@@ -860,7 +735,7 @@ const structuredData = {
       <div class="rec-shell">
         <header class="rec-section-head">
           <div>
-            <p class="rec-kicker"><span>{num("education")}</span> Education</p>
+            <p class="rec-kicker">Education</p>
             <h2 id="education-title">A business foundation, then deeper technical training.</h2>
           </div>
         </header>
@@ -929,82 +804,74 @@ const structuredData = {
 </BaseLayout>
 
 <script>
-  const archive = document.querySelector<HTMLElement>("#all-recommendations");
   const items = Array.from(document.querySelectorAll<HTMLElement>("[data-rec-item]"));
-  const years = Array.from(document.querySelectorAll<HTMLElement>("[data-rec-year]"));
-  const details = Array.from(document.querySelectorAll<HTMLDetailsElement>("[data-rec-details]"));
+  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>(".rec-chip"));
+  const search = document.querySelector<HTMLInputElement>("[data-rec-search]");
   const statusEl = document.querySelector<HTMLElement>("[data-rec-status]");
   const emptyEl = document.querySelector<HTMLElement>("[data-rec-empty]");
-  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>(".rec-chip"));
-  const expandAll = document.querySelector<HTMLButtonElement>("[data-expand-all]");
 
-  // Controls only appear when JavaScript is available; without it every
-  // recommendation is simply listed.
+  // Controls appear only with JavaScript; without it every recommendation is listed.
   document.querySelector("[data-rec-controls]")?.removeAttribute("hidden");
-  document.querySelectorAll(".rec-theme-button").forEach((button) => button.removeAttribute("hidden"));
 
-  function applyFilter(type: string, value?: string, label?: string) {
+  const texts = new Map(items.map((item) => [item, (item.textContent ?? "").toLowerCase()]));
+  let area = "all";
+
+  function render() {
+    const query = (search?.value ?? "").trim().toLowerCase();
     let visible = 0;
 
     items.forEach((item) => {
-      const list = type === "area" ? item.dataset.areas : item.dataset.strengths;
-      const match = type === "all" || (list ?? "").split(" ").includes(value ?? "");
-      item.hidden = !match;
-      if (match) visible += 1;
+      const inArea = area === "all" || (item.dataset.areas ?? "").split(" ").includes(area);
+      const inSearch = !query || (texts.get(item) ?? "").includes(query);
+      item.hidden = !(inArea && inSearch);
+      if (!item.hidden) visible += 1;
+
+      // Open matches when searching, so the reader sees why they matched.
+      const details = item.querySelector<HTMLDetailsElement>("[data-rec-details]");
+      if (details && query) details.open = inArea && inSearch;
     });
 
-    years.forEach((year) => {
-      year.hidden = !year.querySelector("[data-rec-item]:not([hidden])");
-    });
-
-    chips.forEach((chip) => {
-      const active =
-        type === "area"
-          ? chip.dataset.filterValue === value
-          : type === "all" && chip.dataset.filterType === "all";
-      chip.setAttribute("aria-pressed", String(active));
-    });
-
+    chips.forEach((chip) => chip.setAttribute("aria-pressed", String(chip.dataset.filter === area)));
     if (emptyEl) emptyEl.hidden = visible > 0;
 
-    if (statusEl) {
-      statusEl.textContent =
-        type === "all"
-          ? ""
-          : type === "strength"
-            ? `Showing ${visible} of ${items.length} recommendations that mention ${label}.`
-            : `Showing ${visible} of ${items.length} recommendations about ${label}.`;
+    if (!statusEl) return;
+    statusEl.replaceChildren();
+    if (area === "all" && !query) return;
+
+    const chip = chips.find((item) => item.dataset.filter === area);
+    const noun = visible === 1 ? "recommendation" : "recommendations";
+    let text = `${visible} ${noun}`;
+    if (area !== "all") text += ` about ${chip?.dataset.label?.toLowerCase()}`;
+    if (query) text += ` mentioning “${search?.value.trim()}”`;
+    statusEl.append(`${text}.`);
+
+    if (area !== "all" && chip?.dataset.serviceHref) {
+      const link = document.createElement("a");
+      link.href = chip.dataset.serviceHref;
+      link.textContent = `${chip.dataset.serviceLabel} service →`;
+      statusEl.append(" ", link);
     }
   }
 
   document.addEventListener("click", (event) => {
-    const button = (event.target as HTMLElement).closest<HTMLButtonElement>("button[data-filter-type]");
+    const button = (event.target as HTMLElement).closest<HTMLButtonElement>("button[data-filter]");
     if (!button) return;
-
-    const { filterType = "all", filterValue, filterLabel } = button.dataset;
-    applyFilter(filterType, filterValue, filterLabel);
-
-    if (button.classList.contains("rec-theme-button") || button.closest("[data-rec-empty]")) {
-      archive?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    area = button.dataset.filter ?? "all";
+    if (button.closest("[data-rec-empty]") && search) search.value = "";
+    render();
   });
 
-  expandAll?.addEventListener("click", () => {
-    const open = expandAll.getAttribute("aria-expanded") !== "true";
-    details.forEach((item) => {
-      if (!item.closest("[hidden]")) item.open = open;
-    });
-    expandAll.setAttribute("aria-expanded", String(open));
-    expandAll.textContent = open ? "Collapse all" : "Expand all";
-  });
+  search?.addEventListener("input", render);
 
   // Deep links (#rec-name) show and open the recommendation they point to.
   function openFromHash() {
-    const target = location.hash.startsWith("#rec-")
-      ? document.getElementById(location.hash.slice(1))
-      : null;
+    const target = location.hash.startsWith("#rec-") ? document.getElementById(location.hash.slice(1)) : null;
     if (!target) return;
-    if (target.hidden) applyFilter("all");
+    if (target.hidden) {
+      area = "all";
+      if (search) search.value = "";
+      render();
+    }
     const detail = target.querySelector<HTMLDetailsElement>("[data-rec-details]");
     if (detail) detail.open = true;
     target.scrollIntoView({ block: "start" });
@@ -1037,33 +904,4 @@ const structuredData = {
     });
   }
 
-  // Load the Senja widgets only when the reviews come close to the viewport.
-  const senjaRoot = document.querySelector<HTMLElement>("[data-senja-root]");
-  let senjaLoaded = false;
-
-  function loadSenja() {
-    if (senjaLoaded || !senjaRoot) return;
-    senjaLoaded = true;
-    senjaRoot.querySelectorAll<HTMLElement>(".senja-embed").forEach((embed) => {
-      const script = document.createElement("script");
-      script.src = `https://widget.senja.io/widget/${embed.dataset.id}/platform.js`;
-      script.async = true;
-      document.body.appendChild(script);
-    });
-  }
-
-  if (senjaRoot && "IntersectionObserver" in window) {
-    const senjaObserver = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          loadSenja();
-          senjaObserver.disconnect();
-        }
-      },
-      { rootMargin: "800px 0px" },
-    );
-    senjaObserver.observe(senjaRoot);
-  } else {
-    loadSenja();
-  }
 </script>
