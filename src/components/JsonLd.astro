@@ -8,7 +8,7 @@ const jsonLd = {
       name: "Matteo Arellano",
       jobTitle: "Technical Growth Partner",
       description:
-        "Technical Growth Partner working across product improvement, commercial analysis, payments, expansion, acquisition, data and automation. Deepest product experience in travel tech and ground transportation. Has lived in the Netherlands, Luxembourg, Spain and Mexico, and completed intensive university programmes in China and Russia.",
+        "Technical Growth Partner offering five services: growth marketing (SEO, GEO, paid ads and GA4), data engineering and automation, product improvement, business development and technical sales, and payment solutions. Deepest product experience in travel tech and ground transportation. Has lived in the Netherlands, Luxembourg, Spain and Mexico, and completed intensive university programmes in China and Russia.",
       email: "mailto:matteo.visibility@gmail.com",
       url: "https://matteoarellano.com/",
       image: "https://matteoarellano.com/images/matteo-arellano-headshot.webp",
@@ -17,28 +17,33 @@ const jsonLd = {
         "https://credentials.cfainstitute.org/7fc77ff8-8d42-4028-8c24-ce908fea0340#acc.VfhCeAIa"
       ],
       knowsAbout: [
-        "Market expansion",
-        "Business development",
-        "Partnerships",
-        "Commercial analysis",
-        "Product research",
-        "Product improvement",
-        "Product analytics",
-        "Checkout optimisation",
-        "Payment acceptance",
-        "Travel tech",
-        "Ground transportation booking",
-        "Marketplaces",
-        "Conversion rate optimization",
-        "Technical SEO",
-        "AI visibility",
+        "Growth marketing",
+        "Search engine optimisation",
+        "Generative engine optimisation",
+        "AI search visibility",
         "Google Ads",
         "Google Analytics 4",
-        "BigQuery",
-        "SQL",
-        "Python",
+        "Google Tag Manager",
         "Data engineering",
-        "Business process automation"
+        "Big data analytics",
+        "Business process automation",
+        "Python",
+        "SQL",
+        "BigQuery",
+        "Product improvement",
+        "Product analytics",
+        "Amplitude",
+        "Experimentation and A/B testing",
+        "UX research",
+        "Business development",
+        "Technical sales",
+        "Market entry",
+        "Partnerships",
+        "Payment acceptance",
+        "Payment service provider integration",
+        "Local payment methods",
+        "Travel tech",
+        "Marketplaces"
       ]
     },
     {
@@ -47,9 +52,31 @@ const jsonLd = {
       url: "https://matteoarellano.com/",
       name: "Matteo Arellano | Technical Growth Partner",
       description:
-        "Growth partnership across expansion, commercial analysis, product conversion, acquisition, data and automation.",
+        "Growth marketing, data engineering, product improvement, business development and payment solutions from one technical growth partner.",
       inLanguage: "en",
       publisher: { "@id": "https://matteoarellano.com/#person" }
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://matteoarellano.com/#business",
+      name: "Matteo Arellano, Technical Growth Partner",
+      url: "https://matteoarellano.com/",
+      image: "https://matteoarellano.com/images/home/og-home.jpg",
+      email: "mailto:matteo.visibility@gmail.com",
+      founder: { "@id": "https://matteoarellano.com/#person" },
+      areaServed: "Worldwide",
+      knowsLanguage: ["en", "es", "ca", "nl", "pt", "fr"],
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Services",
+        itemListElement: [
+          { "@type": "Offer", itemOffered: { "@id": "https://matteoarellano.com/services/growth-marketing/#service" } },
+          { "@type": "Offer", itemOffered: { "@id": "https://matteoarellano.com/services/data-engineering-automation/#service" } },
+          { "@type": "Offer", itemOffered: { "@id": "https://matteoarellano.com/services/product-improvement/#service" } },
+          { "@type": "Offer", itemOffered: { "@id": "https://matteoarellano.com/services/business-development/#service" } },
+          { "@type": "Offer", itemOffered: { "@id": "https://matteoarellano.com/payment-solutions/#service" } }
+        ]
+      }
     }
   ]
 };

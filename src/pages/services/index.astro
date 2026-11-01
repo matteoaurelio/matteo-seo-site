@@ -3,84 +3,329 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import DiscoveryCalendar from "../../components/DiscoveryCalendar.astro";
-import { growthServices } from "../../data/growthServices";
+import { services, engagementFormats } from "../../data/services";
+import { recommendations } from "../../data/achievements";
 import "../../styles/growth-platform.css";
+import "../../styles/service.css";
 
-const title = "How I Help Companies Grow | Matteo Arellano";
+const site = "https://matteoarellano.com";
+const url = `${site}/services/`;
+const email = "matteo.visibility@gmail.com";
+const title = "Services: Growth Marketing, Data, Product, Sales & Payments | Matteo Arellano";
 const description =
-  "Explore five areas where I partner with companies: expansion and partnerships, commercial analysis, product and conversion, acquisition and visibility, and data and automation.";
+  "Five services from one technical growth partner: growth marketing (SEO, GEO, ads, GA4), data engineering and automation, product improvement, business development and payments.";
+
+const featured = recommendations.find((item) => item.id === "oscar-flores");
+const featuredQuote = featured?.quote.split("\n\n")[0] ?? "";
+
+const stats = [
+  { value: "+42%", label: "conversion improvement on a digital customer journey" },
+  { value: "−90%", label: "cloud-processing cost after a pipeline redesign" },
+  { value: "+18pp", label: "card approval, from roughly 57% to 75%" },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": `${url}#page`,
+      url,
+      name: title,
+      description,
+      isPartOf: { "@id": `${site}/#website` },
+      mainEntity: { "@id": `${url}#services` },
+    },
+    {
+      "@type": "ItemList",
+      "@id": `${url}#services`,
+      itemListElement: services.map((service, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "Service",
+          "@id": `${site}${service.path}#service`,
+          name: service.name,
+          description: service.metaDescription,
+          url: `${site}${service.path}`,
+          provider: { "@id": `${site}/#person` },
+        },
+      })),
+    },
+  ],
+};
 ---
 
-<BaseLayout
-  title={title}
-  description={description}
-  canonical="https://matteoarellano.com/services/"
-  image="/images/matteo-arellano-visibility-signup.jpg"
->
+<BaseLayout title={title} description={description} canonical={url} image="/images/home/og-home.jpg">
   <Header />
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 
-  <main class="growth-services-overview">
-    <section class="growth-overview-hero">
-      <div class="growth-shell growth-overview-hero-grid">
-        <div>
-          <span class="growth-overline">How I help</span>
-          <h1>Five ways I help companies create commercial value.</h1>
-        </div>
-        <div>
-          <p>
-            New revenue, better decisions, higher conversion, more qualified
-            demand or lower operating cost. Choose the outcome closest to what
-            you need and see exactly how I can help.
-          </p>
-          <a class="growth-primary-button" href="#availability">Discuss a growth opportunity</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="growth-services-section growth-services-section--overview">
-      <div class="growth-shell">
-        <div class="growth-service-grid">
-          {growthServices.map((service, index) => (
-            <article class:list={["growth-service-card", index === 0 && "growth-service-card--featured"]}>
-              <div class="growth-service-card-top">
-                <span>{service.number}</span>
-                <span>{service.name}</span>
-              </div>
-              <h2>{service.shortTitle}</h2>
-              <p class="growth-service-promise">{service.homepagePromise}</p>
-              <p class="growth-service-description">{service.homepageDescription}</p>
-              <a href={`/services/${service.slug}/`}>Open service page <span>→</span></a>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section class="growth-services-note">
-      <div class="growth-shell growth-services-note-grid">
-        <div>
-          <span class="growth-overline">One commercial goal, several levers</span>
-          <h2>I use the capabilities that move the outcome.</h2>
-        </div>
-        <p>
-          A new-market opportunity may require prospect interviews and data
-          analysis. A conversion problem may be caused by payment acceptance.
-          A visibility problem may require a better landing page. I keep the
-          commercial target fixed and bring in the capabilities needed to move it.
-        </p>
-      </div>
-    </section>
-
-    <section class="growth-calendar-band">
-      <div class="growth-shell">
-        <DiscoveryCalendar
-          namespace="services-discovery"
-          title="Have a growth target but not a fixed solution yet?"
-          copy="Tell me the commercial outcome you want to improve. We can use 20 minutes to understand what is blocking it, what evidence already exists and where I could contribute."
+  <main class="sv">
+    <section class="sv-hero" aria-labelledby="svh-title">
+      <picture class="sv-hero-bg" aria-hidden="true">
+        <source media="(max-width: 700px)" srcset="/images/home/globe-forest-portrait-900.webp" />
+        <img
+          src="/images/home/globe-forest-1920.webp"
+          srcset="/images/home/globe-forest-768.webp 768w, /images/home/globe-forest-1280.webp 1280w, /images/home/globe-forest-1920.webp 1920w"
+          sizes="100vw"
+          width="1920"
+          height="1080"
+          alt=""
+          fetchpriority="high"
+          decoding="async"
         />
+      </picture>
+      <div class="sv-shell sv-hero-inner">
+        <p class="sv-kicker">Services</p>
+        <h1 id="svh-title">Five ways I help companies grow revenue and cut cost.</h1>
+        <p class="sv-lede">
+          I work across marketing, data, product, business development and
+          payments. Most clients start with one service and add another when
+          the problem crosses into it, because growth problems rarely stay in
+          one department.
+        </p>
+        <div class="sv-actions">
+          <a class="sv-btn sv-btn--primary" href="#availability">Book a 20-minute call</a>
+          <a class="sv-btn sv-btn--ghost" href="#services">Choose a service</a>
+        </div>
+        <dl class="sv-stats">
+          {
+            stats.map((stat) => (
+              <div>
+                <dt>{stat.label}</dt>
+                <dd>{stat.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </section>
+
+    <section class="sv-section" id="services" aria-labelledby="list-title">
+      <div class="sv-shell">
+        <header class="sv-head">
+          <p class="sv-overline">Choose a service</p>
+          <h2 id="list-title">What would you like to improve?</h2>
+        </header>
+        <ol class="svh-list">
+          {
+            services.map((service) => (
+              <li>
+                <a href={service.path}>
+                  <span class="svh-num">{service.number}</span>
+                  <span class="svh-main">
+                    <strong>{service.name}</strong>
+                    <span class="svh-short">{service.short}</span>
+                    <span class="svh-tags">
+                      {service.tags.map((tag) => (
+                        <span>{tag}</span>
+                      ))}
+                    </span>
+                  </span>
+                  <span class="svh-go" aria-hidden="true">→</span>
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
+
+    <section class="sv-section sv-section--tint" aria-labelledby="start-title">
+      <div class="sv-shell sv-fit">
+        <div>
+          <p class="sv-overline">Not sure where to start?</p>
+          <h2 id="start-title">Start with the problem, not the service.</h2>
+          <p class="svh-copy">
+            Many problems cross more than one area. A drop in sales can come
+            from search, from a broken checkout step or from a payment provider
+            that declines local cards. In the first call, we work out where the
+            cause sits and which service fits it.
+          </p>
+          <div class="sv-formats svh-formats">
+            <h3>Ways to work together</h3>
+            <div>
+              {
+                engagementFormats.map((format) => (
+                  <article>
+                    <strong>{format.title}</strong>
+                    <p>{format.copy}</p>
+                  </article>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+        <aside class="sv-start" aria-labelledby="how-title">
+          <h3 id="how-title">How we start</h3>
+          <ol>
+            <li><strong>A 20-minute call.</strong> We look at the problem together, with no brief needed.</li>
+            <li><strong>A short proposal.</strong> If there is a fit, I send the scope, the first deliverable and the timing.</li>
+            <li><strong>A first deliverable.</strong> Every engagement opens with a sized, prioritised view of the problem.</li>
+          </ol>
+          <a class="sv-btn sv-btn--primary sv-btn--block" href="#availability">Book a 20-minute call</a>
+          <p class="sv-start-alt">Prefer email? Write to <a href={`mailto:${email}`}>{email}</a></p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="sv-proof on-dark" aria-labelledby="proof-title">
+      <div class="sv-shell">
+        <header class="sv-head sv-head--dark">
+          <p class="sv-overline">Evidence</p>
+          <h2 id="proof-title">What people I have worked with say.</h2>
+        </header>
+        <div class="sv-proof-grid">
+          {
+            featured && (
+              <figure class="sv-quote">
+                <blockquote>
+                  <p>{featuredQuote}</p>
+                </blockquote>
+                <figcaption>
+                  <strong>{featured.name}</strong>
+                  <span>{featured.headline}</span>
+                </figcaption>
+                <a href="/achievements/#recommendations">Read all recommendations →</a>
+              </figure>
+            )
+          }
+          <div class="sv-work">
+            <ul>
+              <li><a href="/achievements/#outcomes"><span>Results</span><strong>Selected outcomes from different parts of my career</strong></a></li>
+              <li><a href="/product-research/case-studies/"><span>Case studies</span><strong>Product research case studies, worked step by step</strong></a></li>
+              <li><a href="/payment-solutions/case-studies/"><span>Case studies</span><strong>Payment case studies and guides</strong></a></li>
+              <li><a href="/insights/"><span>Writing</span><strong>Insights, articles and technical recipes</strong></a></li>
+              <li><a href="/about/"><span>Background</span><strong>My story, from finance into data, technology and growth</strong></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sv-book" aria-label="Book a call">
+      <div class="sv-shell">
+        <div class="sv-book-card">
+          <DiscoveryCalendar
+            namespace="services-hub"
+            eyebrow="Talk it through"
+            title="Have something you're trying to grow, fix or understand?"
+            copy="Bring the problem or the opportunity. In 20 minutes we can understand it together, exchange ideas and see which service, if any, fits."
+          />
+          <p class="sv-book-alt">Prefer email? Write to <a href={`mailto:${email}`}>{email}</a></p>
+        </div>
       </div>
     </section>
   </main>
 
   <Footer />
 </BaseLayout>
+
+<style>
+  .svh-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--sv-line);
+  }
+
+  .svh-list li {
+    border-bottom: 1px solid var(--sv-line);
+  }
+
+  .svh-list a {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr) 40px;
+    align-items: center;
+    gap: 20px;
+    padding: 26px 8px;
+    transition: background 0.3s ease;
+  }
+
+  .svh-list a:hover {
+    background: var(--sv-tint);
+  }
+
+  .svh-num {
+    color: var(--sv-gold-text);
+    font-family: var(--sv-serif);
+    font-size: 1.6rem;
+  }
+
+  .svh-main {
+    display: grid;
+    gap: 6px;
+  }
+
+  .svh-main strong {
+    color: var(--sv-ink);
+    font-size: clamp(1.3rem, 2.4vw, 1.75rem);
+    letter-spacing: -0.02em;
+  }
+
+  .svh-short {
+    color: var(--sv-copy);
+    font-size: 1.02rem;
+  }
+
+  .svh-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .svh-tags span {
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--sv-tint);
+    color: var(--sv-copy);
+    font-size: 0.82rem;
+  }
+
+  .svh-list a:hover .svh-tags span {
+    background: #ffffff;
+  }
+
+  .svh-go {
+    color: var(--sv-muted);
+    font-size: 1.4rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+
+  .svh-list a:hover .svh-go {
+    color: var(--sv-ink);
+    transform: translateX(4px);
+  }
+
+  .svh-copy {
+    max-width: 60ch;
+    margin: 1.2rem 0 0;
+    color: var(--sv-copy);
+    font-size: 1.08rem;
+    line-height: 1.7;
+  }
+
+  .svh-formats {
+    margin-top: 2rem;
+  }
+
+  .svh-formats > div {
+    grid-template-columns: 1fr;
+  }
+
+  .svh-formats article {
+    background: #ffffff;
+  }
+
+  @media (max-width: 700px) {
+    .svh-list a {
+      grid-template-columns: 40px minmax(0, 1fr);
+      gap: 12px;
+    }
+
+    .svh-go {
+      display: none;
+    }
+  }
+</style>

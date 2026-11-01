@@ -1,0 +1,15 @@
+# Retired service pages (November 2026 restructure into five services).
+/services/acquisition-visibility/ /services/growth-marketing/ 301
+/services/acquisition-visibility /services/growth-marketing/ 301
+/services/google-ads/ /services/growth-marketing/ 301
+/services/google-ads /services/growth-marketing/ 301
+/services/data-automation/ /services/data-engineering-automation/ 301
+/services/data-automation /services/data-engineering-automation/ 301
+/services/large-scale-data-analysis/ /services/data-engineering-automation/ 301
+/services/large-scale-data-analysis /services/data-engineering-automation/ 301
+/services/insights-commercial-analysis/ /services/product-improvement/ 301
+/services/insights-commercial-analysis /services/product-improvement/ 301
+/services/product-conversion/ /services/product-improvement/ 301
+/services/product-conversion /services/product-improvement/ 301
+/services/expansion-partnerships/ /services/business-development/ 301
+/services/expansion-partnerships /services/business-development/ 301

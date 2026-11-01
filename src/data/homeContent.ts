@@ -5,7 +5,7 @@
  * Most pages behind these links are in English. The Spanish and Dutch
  * versions say so once, near the links, and mark the video as English.
  */
-import { growthServices } from "./growthServices";
+import { services } from "./services";
 
 export type HomeLang = "en" | "es" | "nl";
 
@@ -69,33 +69,30 @@ export type HomeContent = {
 
 const email = "matteo.visibility@gmail.com";
 
-/* Service names in Spanish and Dutch, in the same order as growthServices. */
+/* Service names in Spanish and Dutch, in the same order as src/data/services.ts. */
 const serviceText: Record<Exclude<HomeLang, "en">, { name: string; copy: string }[]> = {
   es: [
-    { name: "Expansión & alianzas", copy: "Crear nuevas oportunidades comerciales" },
-    { name: "Insights & análisis comercial", copy: "Encontrar dónde se gana o se pierde dinero" },
-    { name: "Producto & conversión", copy: "Convertir más demanda en ingresos" },
-    { name: "Adquisición & visibilidad", copy: "Generar más demanda cualificada" },
-    { name: "Datos & automatización", copy: "Reducir costes y trabajo manual" },
+    { name: "Growth marketing", copy: "SEO, búsqueda con IA, anuncios y GA4, medidos en ingresos" },
+    { name: "Ingeniería de datos y automatización", copy: "Big data, pipelines y automatización que reducen costes y trabajo manual" },
+    { name: "Mejora de producto", copy: "Encontrar dónde abandonan los usuarios y lanzar la solución con tu equipo" },
+    { name: "Desarrollo de negocio y venta técnica", copy: "Nuevos mercados, alianzas y acuerdos que necesitan credibilidad técnica" },
+    { name: "Soluciones de pago", copy: "Aceptación de pagos, integraciones con PSP y métodos de pago locales" },
   ],
   nl: [
-    { name: "Expansie & partnerships", copy: "Nieuwe commerciële kansen creëren" },
-    { name: "Inzichten & commerciële analyse", copy: "Vinden waar geld wordt verdiend of verloren" },
-    { name: "Product & conversie", copy: "Meer vraag omzetten in omzet" },
-    { name: "Acquisitie & zichtbaarheid", copy: "Meer gekwalificeerde vraag aantrekken" },
-    { name: "Data & automatisering", copy: "Kosten en handmatig werk verlagen" },
+    { name: "Growth marketing", copy: "SEO, AI-zoekresultaten, advertenties en GA4, gemeten in omzet" },
+    { name: "Data engineering & automatisering", copy: "Big data, pipelines en automatisering die kosten en handwerk verlagen" },
+    { name: "Productverbetering", copy: "Vinden waar gebruikers afhaken en de oplossing samen met je team live zetten" },
+    { name: "Business development & technische sales", copy: "Nieuwe markten, partnerships en deals die technische kennis vragen" },
+    { name: "Betaaloplossingen", copy: "Betaalacceptatie, PSP-integraties en lokale betaalmethoden" },
   ],
 };
 
-function serviceLinks(lang: HomeLang, payments: Link): Link[] {
-  return [
-    payments,
-    ...growthServices.map((service, index) => ({
-      href: `/services/${service.slug}/`,
-      title: lang === "en" ? service.name : serviceText[lang][index].name,
-      copy: lang === "en" ? service.shortTitle : serviceText[lang][index].copy,
-    })),
-  ];
+function serviceLinks(lang: HomeLang): Link[] {
+  return services.map((service, index) => ({
+    href: service.path,
+    title: lang === "en" ? service.name : serviceText[lang][index].name,
+    copy: lang === "en" ? service.short : serviceText[lang][index].copy,
+  }));
 }
 
 export const homeContent: Record<HomeLang, HomeContent> = {
@@ -126,11 +123,7 @@ export const homeContent: Record<HomeLang, HomeContent> = {
     work: {
       kicker: "Work with me",
       title: "Services",
-      links: serviceLinks("en", {
-        href: "/payment-solutions/",
-        title: "Payment Solutions",
-        copy: "Payment architecture and operations across markets",
-      }),
+      links: serviceLinks("en"),
       more: "All services together →",
     },
     know: {
@@ -212,11 +205,7 @@ export const homeContent: Record<HomeLang, HomeContent> = {
     work: {
       kicker: "Trabaja conmigo",
       title: "Servicios",
-      links: serviceLinks("es", {
-        href: "/payment-solutions/",
-        title: "Soluciones de pago",
-        copy: "Arquitectura y operaciones de pagos en distintos mercados",
-      }),
+      links: serviceLinks("es"),
       more: "Todos los servicios →",
     },
     know: {
@@ -302,11 +291,7 @@ export const homeContent: Record<HomeLang, HomeContent> = {
     work: {
       kicker: "Werk met mij",
       title: "Diensten",
-      links: serviceLinks("nl", {
-        href: "/payment-solutions/",
-        title: "Betaaloplossingen",
-        copy: "Betaalarchitectuur en -operaties in verschillende markten",
-      }),
+      links: serviceLinks("nl"),
       more: "Alle diensten op een rij →",
     },
     know: {

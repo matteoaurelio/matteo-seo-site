@@ -1,30 +1,10 @@
 ---
-const serviceLinks = [
-  {
-    href: "/payment-solutions/",
-    label: "Payment Solutions Architecture & Operations",
-  },
-  {
-    href: "/services/expansion-partnerships/",
-    label: "Expansion & Partnerships",
-  },
-  {
-    href: "/services/insights-commercial-analysis/",
-    label: "Insights & Commercial Analysis",
-  },
-  {
-    href: "/services/product-conversion/",
-    label: "Product & Conversion",
-  },
-  {
-    href: "/services/acquisition-visibility/",
-    label: "Acquisition & Visibility",
-  },
-  {
-    href: "/services/data-automation/",
-    label: "Data & Automation",
-  },
-];
+import { services } from "../data/services";
+
+const serviceLinks = services.map((service) => ({
+  href: service.path,
+  label: service.name,
+}));
 
 const currentPath = Astro.url.pathname;
 const currentLanguage = currentPath.startsWith("/es/")
@@ -39,7 +19,10 @@ const languageLinks = [
   { href: "/nl/", label: "NL", name: "Nederlands" },
 ];
 
-const talkHref = currentPath.startsWith("/services/")
+// Pages with their own booking calendar link to it; every other page links
+// to the calendar on the homepage.
+const pagesWithCalendar = ["/services/", ...services.map((service) => service.path)];
+const talkHref = pagesWithCalendar.includes(currentPath)
   ? "#availability"
   : "/#availability";
 ---
