@@ -46,5 +46,7 @@ Confidentiality: client names, markets and figures are never published. Product 
 - [About Matteo Arellano](https://matteoarellano.com/about/)
 - [18 recommendations, published in full](https://matteoarellano.com/achievements/#recommendations): 12 from LinkedIn and 6 collected through Senja, from colleagues and partners in growth, payments, product, data engineering and finance. Each one can be filtered by area of work.
 - [Reference letters, outcomes, experience and education](https://matteoarellano.com/achievements/#letters)
+- [Recomendaciones (traducidas del inglés)](https://matteoarellano.com/es/recomendaciones/)
+- [Aanbevelingen (vertaald uit het Engels)](https://matteoarellano.com/nl/aanbevelingen/)
 - [LinkedIn](https://www.linkedin.com/in/matteoarellano)
 - Contact: matteo.visibility@gmail.com
