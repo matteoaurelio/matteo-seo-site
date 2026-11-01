@@ -1,0 +1,442 @@
+---
+/**
+ * The homepage, shared by / (English), /es/ and /nl/.
+ * Layout and behaviour live here; all words live in src/data/homeContent.ts.
+ */
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Footer from "./Footer.astro";
+import DiscoveryCalendar from "./DiscoveryCalendar.astro";
+import { recommendations } from "../data/achievements";
+import { languageLevels } from "../data/languages";
+import {
+  homeContent,
+  homeEmail as email,
+  homeLanguages,
+  type HomeLang,
+} from "../data/homeContent";
+import "../styles/growth-platform.css";
+import "../styles/home.css";
+
+interface Props {
+  lang: HomeLang;
+}
+
+const { lang } = Astro.props;
+const t = homeContent[lang];
+
+const site = "https://matteoarellano.com";
+const linkedin = "https://www.linkedin.com/in/matteoarellano";
+
+const languageCount = languageLevels.reduce(
+  (sum, level) => sum + level.languages.length,
+  0,
+);
+
+const knowLinks = t.know.links.map((link) => ({
+  ...link,
+  title: link.title.replace("{languages}", String(languageCount)),
+}));
+
+const featured = recommendations.find((item) => item.id === "oscar-flores");
+const featuredQuote = featured?.quote.split("\n\n")[0] ?? "";
+
+const companies = [
+  { name: "European Investment Bank", logo: "/images/experience/EIB_BANK.png" },
+  { name: "European Investment Fund", logo: "/images/experience/eif.png" },
+  { name: "Cargill", logo: "/images/experience/CARGILL_LOGO.webp" },
+  { name: "PIA Group Netherlands", logo: "/images/experience/PIA_GROUP_NEDERLAND.avif" },
+  { name: "Distribusion Technologies", logo: "/images/experience/DISTRIBUSION_TECHNOLOGIES.png" },
+  { name: "WeGoZero", logo: "/images/experience/logo_wegozero.png" },
+];
+
+const alternateLanguages = [
+  { hreflang: "en", href: `${site}/` },
+  { hreflang: "es", href: `${site}/es/` },
+  { hreflang: "nl", href: `${site}/nl/` },
+  { hreflang: "x-default", href: `${site}/` },
+];
+
+const videoSchema = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  name: "Matteo Arellano in 30 seconds",
+  description:
+    "A 30-second introduction to Matteo Arellano, Technical Growth Partner: background, selected results, languages and how to start a conversation.",
+  thumbnailUrl: `${site}/images/home/intro-poster-1280.webp`,
+  uploadDate: "2026-10-31",
+  duration: "PT30S",
+  contentUrl: `${site}/videos/matteo-arellano-intro-1080.mp4`,
+  publisher: { "@id": `${site}/#person` },
+};
+
+/* Footer text for the Spanish and Dutch pages. English uses the site Footer. */
+const footerText = {
+  es: {
+    about: "Socio técnico de crecimiento: expansión, análisis comercial, producto, adquisición, datos y automatización.",
+    email: "Email",
+    notes: "Notas de campo",
+    allNotes: "Ver todas las notas de campo →",
+    explore: "Explorar",
+    exploreLabel: "Navegación del pie de página",
+    links: [
+      { href: "/services/", label: "Servicios" },
+      { href: "/cybersecurity/", label: "Ciberseguridad" },
+      { href: "/achievements/#recommendations", label: "Recomendaciones" },
+      { href: "/es/sobre-mi/", label: "Sobre mí" },
+      { href: "https://lab.matteoarellano.com/", label: "Laboratorio & experimentos", external: true },
+      { href: "/privacy-policy/", label: "Privacidad" },
+    ],
+    motto: "Primero el problema de negocio. Después, las herramientas.",
+  },
+  nl: {
+    about: "Technisch groeipartner voor expansie, commerciële analyse, product, acquisitie, data en automatisering.",
+    email: "E-mail",
+    notes: "Field Notes",
+    allNotes: "Bekijk alle Field Notes →",
+    explore: "Ontdek",
+    exploreLabel: "Footernavigatie",
+    links: [
+      { href: "/services/", label: "Diensten" },
+      { href: "/cybersecurity/", label: "Cybersecurity" },
+      { href: "/achievements/#recommendations", label: "Aanbevelingen" },
+      { href: "/nl/over-mij/", label: "Over mij" },
+      { href: "https://lab.matteoarellano.com/", label: "Lab & experimenten", external: true },
+      { href: "/privacy-policy/", label: "Privacy" },
+    ],
+    motto: "Eerst het businessprobleem. Daarna de tools.",
+  },
+};
+
+const fieldNotes =
+  lang === "en"
+    ? []
+    : (await getCollection("journal", ({ data }) => !data.draft))
+        .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+        .slice(0, 3);
+---
+
+<BaseLayout
+  title={t.title}
+  description={t.description}
+  canonical={`${site}${t.path}`}
+  lang={lang}
+  image="/images/home/og-home.jpg"
+  alternateLanguages={alternateLanguages}
+>
+  {lang === "en" && <script type="application/ld+json" set:html={JSON.stringify(videoSchema)} />}
+
+  <header class="hm-top">
+    <a class="hm-skip" href="#explore">{t.skip}</a>
+    <nav class="hm-nav" aria-label={t.navLabel}>
+      {t.nav.map((link) => <a href={link.href}>{link.label}</a>)}
+    </nav>
+    <nav class="hm-lang" aria-label={t.langLabel}>
+      {
+        homeLanguages.map((language) => (
+          <a
+            href={language.href}
+            hreflang={language.lang}
+            lang={language.lang}
+            aria-label={t.langLinkLabel(language.lang)}
+            aria-current={language.lang === lang ? "page" : undefined}
+          >
+            {language.label}
+          </a>
+        ))
+      }
+    </nav>
+  </header>
+
+  <main class="hm">
+    <!-- ======================= Hero ======================= -->
+    <section class="hm-hero" aria-labelledby="hm-title">
+      <picture class="hm-hero-bg" aria-hidden="true">
+        <source media="(max-width: 700px)" srcset="/images/home/globe-forest-portrait-900.webp" />
+        <img
+          src="/images/home/globe-forest-1920.webp"
+          srcset="/images/home/globe-forest-768.webp 768w, /images/home/globe-forest-1280.webp 1280w, /images/home/globe-forest-1920.webp 1920w, /images/home/globe-forest-2400.webp 2400w"
+          sizes="100vw"
+          width="1920"
+          height="1080"
+          alt=""
+          fetchpriority="high"
+          decoding="async"
+        />
+      </picture>
+
+      <div class="hm-hero-inner">
+        <p class="hm-overline">{t.overline}</p>
+        <h1 id="hm-title">Matteo Arellano</h1>
+        <span class="hm-rule" aria-hidden="true"></span>
+        <p class="hm-lede">
+          {t.lede[0]}<em>{t.lede[1]}</em>{t.lede[2]}
+        </p>
+
+        <div class="hm-actions">
+          <a class="hm-btn hm-btn--primary" href="#availability">{t.bookCall}</a>
+          <button class="hm-btn hm-btn--video" type="button" data-video-open aria-haspopup="dialog">
+            <img src="/images/home/intro-thumb-160.webp" width="36" height="36" alt="" />
+            <span>{t.watchIntro}</span>
+            {
+              t.videoLangBadge && (
+                <small class="hm-lang-badge" aria-label={t.videoLangBadge.label}>
+                  {t.videoLangBadge.text}
+                </small>
+              )
+            }
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.5v9l7-4.5z" fill="currentColor"></path></svg>
+          </button>
+        </div>
+
+        <p class="hm-quick">
+          <a href={`mailto:${email}`}>{t.quick.email}</a>
+          <span aria-hidden="true">·</span>
+          <a href={linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <span aria-hidden="true">·</span>
+          <a href="#explore">{t.quick.explore}</a>
+        </p>
+      </div>
+
+      <a class="hm-scroll" href="#explore" aria-label={t.scrollLabel}>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </a>
+    </section>
+
+    <!-- ======================= Routing ======================= -->
+    <section class="hm-explore" id="explore" aria-labelledby="explore-title">
+      <div class="hm-shell">
+        <header class="hm-head">
+          <p class="hm-overline">{t.exploreOverline}</p>
+          <h2 id="explore-title">{t.exploreTitle}</h2>
+          {t.exploreNote && <p class="hm-head-note">{t.exploreNote}</p>}
+        </header>
+
+        <div class="hm-paths">
+          <article class="hm-path">
+            <img class="hm-path-img" src="/images/home/card-river-800.webp" width="800" height="500" alt="" loading="lazy" decoding="async" />
+            <div class="hm-path-body">
+              <p class="hm-path-kicker">{t.work.kicker}</p>
+              <h3>{t.work.title}</h3>
+              <ul>
+                {t.work.links.map((link) => (
+                  <li>
+                    <a href={link.href}>
+                      <strong>{link.title}</strong>
+                      <span>{link.copy}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <a class="hm-path-more" href="/services/">{t.work.more}</a>
+            </div>
+          </article>
+
+          <article class="hm-path">
+            <img class="hm-path-img" src="/images/home/card-iceland-800.webp" width="800" height="500" alt="" loading="lazy" decoding="async" />
+            <div class="hm-path-body">
+              <p class="hm-path-kicker">{t.know.kicker}</p>
+              <h3>{t.know.title}</h3>
+              <ul>
+                {knowLinks.map((link) => (
+                  <li>
+                    <a href={link.href}>
+                      <strong>{link.title}</strong>
+                      <span>{link.copy}</span>
+                    </a>
+                  </li>
+                ))}
+                <li>
+                  <button type="button" data-video-open aria-haspopup="dialog">
+                    <strong>{t.know.videoTitle}</strong>
+                    <span>{t.know.videoCopy}</span>
+                  </button>
+                </li>
+              </ul>
+              <a class="hm-path-more" href="/achievements/">{t.know.more}</a>
+            </div>
+          </article>
+
+          <article class="hm-path">
+            <img class="hm-path-img" src="/images/case-studies/canal-golden-hour-768.webp" width="768" height="510" alt="" loading="lazy" decoding="async" />
+            <div class="hm-path-body">
+              <p class="hm-path-kicker">{t.read.kicker}</p>
+              <h3>{t.read.title}</h3>
+              <ul>
+                {t.read.links.map((link) => (
+                  <li>
+                    <a href={link.href}>
+                      <strong>{link.title}</strong>
+                      <span>{link.copy}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <a class="hm-path-more" href="/blog/">{t.read.more}</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= Proof ======================= -->
+    <section class="hm-proof on-dark" aria-labelledby="proof-title">
+      <div class="hm-shell">
+        <h2 id="proof-title" class="hm-visually-hidden">{t.proofTitle}</h2>
+        <div class="hm-proof-grid">
+          {
+            featured && (
+              <figure class="hm-quote">
+                <blockquote lang={lang === "en" ? undefined : "en"}>
+                  <p>{featuredQuote}</p>
+                </blockquote>
+                <figcaption>
+                  <strong>{featured.name}</strong>
+                  <span>{featured.headline}</span>
+                  {t.quoteNote && <em class="hm-quote-note">{t.quoteNote}</em>}
+                </figcaption>
+                <a href="/achievements/#recommendations">{t.allRecommendations}</a>
+              </figure>
+            )
+          }
+
+          <dl class="hm-stats">
+            {t.stats.map((stat) => (
+              <div>
+                <dt>{stat.label}</dt>
+                <dd>{stat.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+
+        <div class="hm-logos" aria-label={t.logosLabel}>
+          {companies.map((company) => (
+            <span title={company.name}>
+              <img src={company.logo} alt={company.name} loading="lazy" decoding="async" />
+              {company.name === "WeGoZero" && <small aria-hidden="true">WeGoZero</small>}
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================= Book ======================= -->
+    <section class="hm-book" aria-label={t.bookLabel}>
+      <div class="hm-shell">
+        <div class="hm-book-card">
+          <DiscoveryCalendar {...t.calendar} />
+          <p class="hm-book-alt">
+            {t.emailAlt} <a href={`mailto:${email}`}>{email}</a>
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  {
+    lang === "en" ? (
+      <Footer />
+    ) : (
+      <footer class="site-footer growth-site-footer">
+        <div class="container growth-footer-grid">
+          <div class="growth-footer-brand">
+            <a class="growth-footer-name" href={t.path}>Matteo Arellano</a>
+            <p>{footerText[lang].about}</p>
+            <div class="growth-footer-socials">
+              <a href={`mailto:${email}`}>{footerText[lang].email}</a>
+              <a href={linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            </div>
+          </div>
+
+          <div class="growth-footer-notes">
+            <span class="growth-footer-label">{footerText[lang].notes}</span>
+            <div class="growth-footer-note-list" lang="en">
+              {fieldNotes.map((entry) => (
+                <a href={`/journal/${entry.id}/`}>
+                  <strong>{entry.data.title}</strong>
+                  <span>{entry.data.description}</span>
+                </a>
+              ))}
+            </div>
+            <a class="growth-footer-all-notes" href="/journal/">{footerText[lang].allNotes}</a>
+          </div>
+
+          <nav class="growth-footer-nav" aria-label={footerText[lang].exploreLabel}>
+            <span class="growth-footer-label">{footerText[lang].explore}</span>
+            {footerText[lang].links.map((link) =>
+              link.external ? (
+                <a href={link.href} target="_blank" rel="noreferrer">{link.label}</a>
+              ) : (
+                <a href={link.href}>{link.label}</a>
+              ),
+            )}
+          </nav>
+        </div>
+
+        <div class="container growth-footer-bottom">
+          <span>© {new Date().getFullYear()} Matteo Arellano</span>
+          <span>{footerText[lang].motto}</span>
+        </div>
+      </footer>
+    )
+  }
+
+  <!-- ======================= Video dialog ======================= -->
+  <dialog class="hm-video" aria-labelledby="hm-video-title">
+    <div class="hm-video-frame">
+      <h2 id="hm-video-title" class="hm-visually-hidden">{t.video.title}</h2>
+      <video
+        controls
+        playsinline
+        preload="none"
+        poster="/images/home/intro-poster-1280.webp"
+        data-src-large="/videos/matteo-arellano-intro-1080.mp4"
+        data-src-small="/videos/matteo-arellano-intro-720.mp4"
+      ></video>
+      <button class="hm-video-close" type="button" data-video-close aria-label={t.video.close}>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+      </button>
+    </div>
+    <details class="hm-video-text">
+      <summary>{t.video.readAsText}</summary>
+      <p>{t.video.transcript(languageCount)}</p>
+    </details>
+  </dialog>
+
+  <script>
+    const dialog = document.querySelector<HTMLDialogElement>(".hm-video");
+    const video = dialog?.querySelector<HTMLVideoElement>("video");
+
+    function openVideo() {
+      if (!dialog || !video) return;
+      if (!video.src) {
+        const small = window.matchMedia("(max-width: 900px)").matches;
+        video.src = (small ? video.dataset.srcSmall : video.dataset.srcLarge) ?? "";
+      }
+      dialog.showModal();
+      video.play().catch(() => {
+        /* The browser blocked playback; the controls stay available. */
+      });
+    }
+
+    function closeVideo() {
+      dialog?.close();
+    }
+
+    document
+      .querySelectorAll("[data-video-open]")
+      .forEach((button) => button.addEventListener("click", openVideo));
+    document
+      .querySelector("[data-video-close]")
+      ?.addEventListener("click", closeVideo);
+
+    // Close when clicking the dimmed area around the video.
+    dialog?.addEventListener("click", (event) => {
+      if (event.target === dialog) closeVideo();
+    });
+
+    // Pause whenever the dialog closes, including with the Escape key.
+    dialog?.addEventListener("close", () => video?.pause());
+  </script>
+</BaseLayout>
