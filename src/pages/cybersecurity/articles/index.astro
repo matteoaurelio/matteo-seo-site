@@ -1,0 +1,341 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+import CaseStudyHero from "../../../components/CaseStudyHero.astro";
+import "../../../styles/case-studies.css";
+
+// Any published journal entry tagged "cybersecurity" appears here automatically.
+const articles = (
+  await getCollection(
+    "journal",
+    ({ data }) =>
+      !data.draft &&
+      data.tags.some((tag) => tag.toLowerCase() === "cybersecurity"),
+  )
+).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const title =
+  "Cybersecurity Articles for Websites, Analytics & Marketing | Matteo Arellano";
+const description =
+  "How network and web security protocols work, how attackers abuse them, and what they mean for your analytics, ad tracking and online store.";
+const canonical = "https://matteoarellano.com/cybersecurity/articles/";
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Cybersecurity",
+          item: "https://matteoarellano.com/cybersecurity/",
+        },
+        { "@type": "ListItem", position: 2, name: "Articles", item: canonical },
+      ],
+    },
+    {
+      "@type": "CollectionPage",
+      "@id": `${canonical}#page`,
+      url: canonical,
+      name: title,
+      description,
+      isPartOf: { "@id": "https://matteoarellano.com/#website" },
+      author: { "@id": "https://matteoarellano.com/#person" },
+      hasPart: articles.map((entry) => ({
+        "@type": "BlogPosting",
+        headline: entry.data.title,
+        url: `https://matteoarellano.com/journal/${entry.id}/`,
+        datePublished: entry.data.pubDate.toISOString(),
+      })),
+    },
+  ],
+};
+
+const angles = [
+  {
+    title: "Your tools see the router, not the person",
+    text: "Analytics, ad platforms and fraud tools only see a public IP address. Behind it can be one person, a family, an office or thousands of mobile customers.",
+  },
+  {
+    title: "Security settings decide what gets measured",
+    text: "A Content Security Policy that protects your checkout can also block the tags that count your conversions, without any visible error.",
+  },
+  {
+    title: "Security and marketing share the same plumbing",
+    text: "The protocols that decide where your traffic goes also decide what your data says. Understanding one helps you trust the other.",
+  },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  image="/images/cybersecurity/greek-theatre-og.jpg"
+>
+  <Header />
+  <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+
+  <main class="cs-page">
+    <CaseStudyHero
+      crumbLabel="Cybersecurity"
+      crumbHref="/cybersecurity/"
+      title="Articles"
+      titleId="ca-title"
+      image="/images/cybersecurity/greek-theatre"
+      imageHeight={1080}
+    >
+      Protocols, attacks and what they mean for your data
+    </CaseStudyHero>
+
+  <div class="ca-page">
+    <section class="ca-intro">
+      <p>
+        Notes from my 90-day cybersecurity upskilling challenge. Each article
+        explains one protocol or defence in plain English, then shows what it
+        changes for analytics, marketing and payments.
+      </p>
+      <a class="ca-link" href="/cybersecurity/glossary/">New to the terms? Open the glossary →</a>
+    </section>
+
+    <section class="ca-angles" aria-label="Why this matters for growth teams">
+      {
+        angles.map((angle) => (
+          <div class="ca-angle-card">
+            <h2>{angle.title}</h2>
+            <p>{angle.text}</p>
+          </div>
+        ))
+      }
+    </section>
+
+    <section class="ca-list" aria-label="Articles">
+      {
+        articles.length === 0 ? (
+          <p>The first articles are on their way.</p>
+        ) : (
+          articles.map((entry) => (
+            <article class="ca-card">
+              <p class="ca-date">{formatDate(entry.data.pubDate)}</p>
+              <h2>
+                <a href={`/journal/${entry.id}/`}>{entry.data.title}</a>
+              </h2>
+              <p>{entry.data.description}</p>
+              <div class="ca-tags" aria-label="Topics">
+                {entry.data.tags
+                  .filter((tag) => tag.toLowerCase() !== "cybersecurity")
+                  .map((tag) => (
+                    <span>{tag}</span>
+                  ))}
+              </div>
+              <a class="ca-read" href={`/journal/${entry.id}/`}>Read article →</a>
+            </article>
+          ))
+        )
+      }
+    </section>
+
+    <section class="ca-cta">
+      <span class="ca-kicker">Measurement you can trust</span>
+      <h2>Not sure whether your tracking survives security policies, VPNs and server-side tagging?</h2>
+      <p>
+        I review analytics and ad setups for the quiet failures: filters that
+        stopped matching, exclusions that block customers and conversion tags
+        that a security policy blocks.
+      </p>
+      <a class="ca-button" href="/#availability">Let's talk</a>
+    </section>
+  </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .ca-page {
+    width: min(1080px, calc(100% - 2rem));
+    margin: 0 auto;
+    padding: clamp(48px, 7vw, 88px) 0 6rem;
+  }
+
+  .ca-kicker {
+    display: inline-block;
+    margin-bottom: 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .ca-intro {
+    max-width: 62ch;
+    margin: 0 auto 3rem;
+    text-align: center;
+  }
+
+  .ca-intro p {
+    margin: 0 0 1.1rem;
+    color: var(--cs-copy);
+    font-size: clamp(1.06rem, 1.5vw, 1.2rem);
+    line-height: 1.8;
+  }
+
+  .ca-link {
+    font-weight: 700;
+    color: var(--primary);
+  }
+
+  .ca-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .ca-angles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .ca-angle-card {
+    padding: 1.5rem;
+    border: 1px solid var(--soft);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .ca-angle-card h2 {
+    margin: 0 0 0.6rem;
+    font-size: 1.15rem;
+    line-height: 1.3;
+  }
+
+  .ca-angle-card p {
+    margin: 0;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  .ca-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 4rem;
+  }
+
+  .ca-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem;
+    border: 1px solid var(--soft-2);
+    border-radius: var(--radius-lg);
+    background: var(--surface-solid);
+  }
+
+  .ca-date {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--muted);
+  }
+
+  .ca-card h2 {
+    margin: 0.4rem 0 0.8rem;
+    font-size: 1.45rem;
+    line-height: 1.25;
+  }
+
+  .ca-card h2 a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .ca-card > p {
+    margin: 0;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+
+  .ca-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin: 1rem 0;
+  }
+
+  .ca-tags span {
+    padding: 0.3rem 0.65rem;
+    border-radius: 999px;
+    background: rgba(15, 76, 129, 0.08);
+    font-size: 0.8rem;
+  }
+
+  .ca-read {
+    margin-top: auto;
+    font-weight: 700;
+    color: var(--primary);
+  }
+
+  .ca-read:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .ca-cta {
+    padding: 2.5rem;
+    border-radius: var(--radius-xl);
+    background: var(--primary);
+    color: #fff;
+  }
+
+  .ca-cta .ca-kicker {
+    color: var(--primary-3);
+  }
+
+  .ca-cta h2 {
+    max-width: 720px;
+    margin: 0 0 0.8rem;
+    font-size: clamp(1.6rem, 4vw, 2.3rem);
+    line-height: 1.2;
+  }
+
+  .ca-cta p {
+    max-width: 680px;
+    margin: 0 0 1.5rem;
+    line-height: 1.7;
+    opacity: 0.9;
+  }
+
+  .ca-button {
+    display: inline-block;
+    padding: 0.85rem 1.35rem;
+    border-radius: 999px;
+    background: #fff;
+    color: var(--primary);
+    font-weight: 700;
+  }
+
+  @media (max-width: 860px) {
+    .ca-angles,
+    .ca-list {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .ca-cta {
+      padding: 1.75rem;
+    }
+  }
+</style>

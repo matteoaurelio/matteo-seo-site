@@ -1,0 +1,280 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const articles = (
+  await getCollection(
+    "journal",
+    ({ data }) =>
+      !data.draft &&
+      data.tags.some((tag) => tag.toLowerCase() === "cybersecurity"),
+  )
+).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const latest = articles[0];
+
+const title = "Cybersecurity for Websites, Ads & Online Stores | Matteo Arellano";
+const description =
+  "Network and web security explained in plain English for people who run websites, ads and online stores. Articles and a glossary of terms, each with worked examples.";
+const canonical = "https://matteoarellano.com/cybersecurity/";
+
+const navLinks = [
+  { href: "/cybersecurity/articles/", label: "Articles" },
+  { href: "/cybersecurity/glossary/", label: "Glossary" },
+  { href: "/about/", label: "About" },
+  { href: "/", label: "Main site" },
+];
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": `${canonical}#page`,
+  url: canonical,
+  name: title,
+  description,
+  isPartOf: { "@id": "https://matteoarellano.com/#website" },
+  author: { "@id": "https://matteoarellano.com/#person" },
+  hasPart: [
+    { "@type": "CollectionPage", url: `${canonical}articles/` },
+    { "@type": "DefinedTermSet", url: `${canonical}glossary/` },
+  ],
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  image="/images/cybersecurity/greek-theatre-og.jpg"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+
+  <div class="cy-hero">
+    <picture class="cy-bg">
+      <source
+        media="(max-width: 700px)"
+        srcset="/images/cybersecurity/greek-theatre-portrait-900.webp"
+      />
+      <img
+        src="/images/cybersecurity/greek-theatre-1920.webp"
+        srcset="/images/cybersecurity/greek-theatre-768.webp 768w, /images/cybersecurity/greek-theatre-1280.webp 1280w, /images/cybersecurity/greek-theatre-1920.webp 1920w"
+        sizes="100vw"
+        width="1920"
+        height="1080"
+        alt=""
+        fetchpriority="high"
+        decoding="async"
+      />
+    </picture>
+    <div class="cy-shade" aria-hidden="true"></div>
+
+    <nav class="cy-nav" aria-label="Cybersecurity navigation">
+      {navLinks.map((link) => <a href={link.href}>{link.label}</a>)}
+    </nav>
+
+    <main class="cy-center">
+      <h1>
+        Cybersecurity
+        <span>for websites, ads and online stores</span>
+      </h1>
+      <div class="cy-rule" aria-hidden="true"></div>
+      {
+        latest && (
+          <a class="cy-pill" href={`/journal/${latest.id}/`}>
+            Latest article
+          </a>
+        )
+      }
+    </main>
+
+    <p class="cy-credit">Notes by <a href="/">Matteo Arellano</a></p>
+  </div>
+</BaseLayout>
+
+<style>
+  .cy-hero {
+    --cy-ink: #071729;
+    --cy-copy: #30475f;
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    isolation: isolate;
+    background: #ffffff;
+    color: var(--cy-ink);
+  }
+
+  .cy-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+  }
+
+  .cy-bg img {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: 62% 45%;
+    opacity: 0.62;
+    filter: saturate(0.85) contrast(0.95);
+    transform: scale(1.03);
+    animation: cy-settle 2.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  /* White veil, as on the payment and product pages: soft at the top,
+     clearer around the title, white at the bottom. */
+  .cy-shade {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(ellipse 55% 45% at 50% 50%, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0) 72%),
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.6) 0%,
+        rgba(255, 255, 255, 0.12) 30%,
+        rgba(255, 255, 255, 0.2) 70%,
+        rgba(255, 255, 255, 0.85) 100%
+      );
+  }
+
+  @keyframes cy-settle {
+    from {
+      opacity: 0;
+      transform: scale(1.08);
+    }
+    to {
+      opacity: 0.62;
+      transform: scale(1.03);
+    }
+  }
+
+  .cy-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem 3.5rem;
+    padding: 2.25rem 1.5rem 0;
+  }
+
+  .cy-nav a {
+    padding-bottom: 0.25rem;
+    border-bottom: 2px solid transparent;
+    color: var(--cy-ink);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    transition: border-color 0.3s ease;
+  }
+
+  .cy-nav a:hover,
+  .cy-nav a:focus-visible {
+    border-bottom-color: var(--cy-ink);
+  }
+
+  .cy-center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem 5rem;
+    text-align: center;
+  }
+
+  .cy-center h1 {
+    margin: 0;
+    font-size: clamp(2.6rem, 8vw, 5.4rem);
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .cy-center h1 span {
+    display: block;
+    margin-top: 1rem;
+    color: var(--cy-copy);
+    font-size: clamp(0.95rem, 2vw, 1.2rem);
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  .cy-rule {
+    width: 96px;
+    height: 3px;
+    margin: 1.75rem 0 2rem;
+    border-radius: 2px;
+    background: var(--cy-ink);
+  }
+
+  .cy-pill {
+    padding: 10px 22px;
+    border-radius: 12px;
+    background: rgba(7, 23, 41, 0.72);
+    color: #fff;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transition: background 0.3s ease;
+  }
+
+  .cy-pill:hover,
+  .cy-pill:focus-visible {
+    background: rgba(7, 23, 41, 0.9);
+  }
+
+  .cy-credit {
+    margin: 0;
+    padding: 0 1.5rem 1.75rem;
+    color: var(--cy-copy);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+
+  .cy-credit a {
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .cy-nav a:focus-visible,
+  .cy-pill:focus-visible,
+  .cy-credit a:focus-visible {
+    outline: 2px solid var(--cy-ink);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 640px) {
+    .cy-nav {
+      gap: 0.75rem 0.9rem;
+      padding-top: 1.5rem;
+    }
+
+    .cy-center h1 {
+      font-size: clamp(1.9rem, 9.5vw, 2.6rem);
+      letter-spacing: 0.03em;
+    }
+
+    .cy-nav a {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+    }
+
+    .cy-center h1 span {
+      letter-spacing: 0.14em;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cy-bg img {
+      animation: none;
+    }
+  }
+</style>

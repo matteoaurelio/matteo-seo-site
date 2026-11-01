@@ -2,6 +2,8 @@
 import type { CollectionEntry } from "astro:content";
 import { getCollection, render } from "astro:content";
 import BlogLayout from "../../layouts/BlogLayout.astro";
+import CaseStudyHero from "../../components/CaseStudyHero.astro";
+import "../../styles/case-studies.css";
 
 export async function getStaticPaths() {
   const entries = await getCollection("journal", ({ data }) => !data.draft);
@@ -22,6 +24,12 @@ interface Props {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+
+// Entries tagged "cybersecurity" get the cybersecurity hub's look:
+// the Greek theatre header and a link back to the hub.
+const isCybersecurity = entry.data.tags.some(
+  (tag) => tag.toLowerCase() === "cybersecurity",
+);
 
 const title = `${entry.data.title} | Work Journal | Matteo Arellano`;
 const canonical = `https://matteoarellano.com/journal/${entry.id}/`;
@@ -54,26 +62,57 @@ const articleSchema = {
   title={title}
   description={entry.data.description}
   canonical={canonical}
+  image={isCybersecurity ? "/images/cybersecurity/greek-theatre-og.jpg" : undefined}
 >
   <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
 
-  <main class="journal-entry-page">
+  {
+    isCybersecurity && (
+      <div class="cs-page journal-cyber-hero">
+        <CaseStudyHero
+          crumbLabel="Cybersecurity"
+          crumbHref="/cybersecurity/"
+          title={entry.data.title}
+          titleId="journal-title"
+          variant="article"
+          image="/images/cybersecurity/greek-theatre"
+          imageHeight={1080}
+        >
+          {formatDate(entry.data.pubDate)} · Matteo Arellano
+        </CaseStudyHero>
+      </div>
+    )
+  }
+
+  <main class:list={["journal-entry-page", isCybersecurity && "journal-entry-page--cyber"]}>
     <article class="journal-article">
-      <a class="back-link" href="/journal/"> ← Back to the work journal </a>
+      {
+        isCybersecurity ? (
+          <a class="back-link" href="/cybersecurity/articles/">← All cybersecurity articles</a>
+        ) : (
+          <a class="back-link" href="/journal/">← Back to the work journal</a>
+        )
+      }
 
       <header class="journal-header">
-        <p class="journal-label">Work Journal</p>
+        <p class="journal-label">
+          {isCybersecurity ? "Cybersecurity · Work Journal" : "Work Journal"}
+        </p>
 
-        <h1>{entry.data.title}</h1>
+        {!isCybersecurity && <h1>{entry.data.title}</h1>}
 
         <p class="journal-description">
           {entry.data.description}
         </p>
 
-        <div class="journal-meta">
-          <span>{formatDate(entry.data.pubDate)}</span>
-          <span>Matteo Arellano</span>
-        </div>
+        {
+          !isCybersecurity && (
+            <div class="journal-meta">
+              <span>{formatDate(entry.data.pubDate)}</span>
+              <span>Matteo Arellano</span>
+            </div>
+          )
+        }
 
         {
           entry.data.tags.length > 0 && (
@@ -94,6 +133,34 @@ const articleSchema = {
 </BlogLayout>
 
 <style>
+  .journal-cyber-hero {
+    background: transparent;
+  }
+
+  /* Cybersecurity entries sit on white, so the faded header blends into
+     the page as it does on the hub pages. */
+  .journal-entry-page.journal-entry-page--cyber {
+    width: 100%;
+    padding: 2.5rem max(1rem, calc((100% - 860px) / 2)) 6rem;
+    background: #ffffff;
+  }
+
+  .journal-content :global(pre) {
+    margin: 0 0 1.75rem;
+    padding: 1.1rem 1.25rem;
+    border-radius: 12px;
+    overflow-x: auto;
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+
+  .journal-content :global(:not(pre) > code) {
+    padding: 0.1rem 0.35rem;
+    border-radius: 6px;
+    background: rgba(15, 76, 129, 0.08);
+    font-size: 0.92em;
+  }
+
   .journal-entry-page {
     width: min(860px, calc(100% - 2rem));
     margin: 0 auto;
@@ -333,6 +400,13 @@ const articleSchema = {
     .journal-content :global(th:first-child),
     .journal-content :global(td:first-child) {
       min-width: 210px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .journal-entry-page.journal-entry-page--cyber {
+      width: 100%;
+      padding: 2rem 0.625rem 4rem;
     }
   }
 </style>
