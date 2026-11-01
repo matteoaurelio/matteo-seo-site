@@ -1,7 +1,7 @@
 /* =========================================================
    HOMEPAGE (/)
-   Same calm language as the cybersecurity hub: a faded photo,
-   one name, one sentence and a few clear ways in. Navy and gold
+   One name, one sentence and a few clear ways in. The hero sits on
+   a dark forest-and-globe composite with white text; navy and gold
    echo the 30-second intro video.
    ========================================================= */
 
@@ -40,9 +40,16 @@
   white-space: nowrap;
 }
 
+.hm-top a:focus-visible,
+.hm-hero a:focus-visible,
+.hm-hero button:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
 .hm a:focus-visible,
 .hm button:focus-visible,
-.hm-top a:focus-visible,
 .hm-video button:focus-visible,
 .hm-video summary:focus-visible {
   outline: 2px solid var(--hm-ink);
@@ -89,7 +96,7 @@
 .hm-lang a {
   padding-bottom: 0.25rem;
   border-bottom: 2px solid transparent;
-  color: var(--hm-ink);
+  color: #ffffff;
   font-size: 0.86rem;
   font-weight: 700;
   letter-spacing: 0.18em;
@@ -100,7 +107,7 @@
 .hm-nav a:hover,
 .hm-lang a:hover,
 .hm-lang a[aria-current="page"] {
-  border-bottom-color: var(--hm-ink);
+  border-bottom-color: var(--hm-gold);
 }
 
 .hm-lang {
@@ -113,7 +120,7 @@
 .hm-lang a {
   font-size: 0.76rem;
   letter-spacing: 0.12em;
-  opacity: 0.72;
+  opacity: 0.8;
 }
 
 .hm-lang a[aria-current="page"],
@@ -132,6 +139,8 @@
   padding: 120px 20px 96px;
   overflow: hidden;
   isolation: isolate;
+  background: #071a2c;
+  color: #ffffff;
   text-align: center;
 }
 
@@ -146,27 +155,27 @@
   height: 100%;
   max-width: none;
   object-fit: cover;
-  object-position: 50% 62%;
-  opacity: 0.58;
-  filter: saturate(0.9) contrast(0.95);
+  object-position: 70% 50%;
   transform: scale(1.03);
   animation: hm-settle 2.4s var(--hm-ease) both;
 }
 
-/* White veil: soft at the top, clear around the name, white at the bottom. */
+/* Readability layer: a dark pool behind the text, a darker band under
+   the navigation and a fade into navy at the bottom. The globe on the
+   right stays visible. */
 .hm-hero::after {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(ellipse 52% 46% at 50% 48%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0) 72%),
+    radial-gradient(ellipse 46% 52% at 50% 50%, rgba(4, 13, 24, 0.62), rgba(4, 13, 24, 0) 78%),
     linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.62) 0%,
-      rgba(255, 255, 255, 0.1) 32%,
-      rgba(255, 255, 255, 0.18) 72%,
-      #ffffff 100%
+      rgba(4, 13, 24, 0.6) 0%,
+      rgba(4, 13, 24, 0.12) 22%,
+      rgba(4, 13, 24, 0.1) 70%,
+      rgba(7, 26, 44, 0.85) 100%
     );
 }
 
@@ -176,7 +185,7 @@
     transform: scale(1.08);
   }
   to {
-    opacity: 0.58;
+    opacity: 1;
     transform: scale(1.03);
   }
 }
@@ -196,10 +205,15 @@
   text-transform: uppercase;
 }
 
+.hm-hero .hm-overline {
+  color: var(--hm-gold-soft);
+}
+
 .hm-hero h1 {
   margin: 0;
   max-width: none;
-  color: var(--hm-ink);
+  color: #ffffff;
+  text-shadow: 0 2px 28px rgba(0, 0, 0, 0.35);
   font-size: clamp(2.5rem, 7.4vw, 5.4rem);
   font-weight: 700;
   line-height: 1.02;
@@ -213,20 +227,21 @@
   height: 3px;
   margin: 1.7rem 0 1.6rem;
   border-radius: 2px;
-  background: var(--hm-ink);
+  background: var(--hm-gold);
 }
 
 .hm-lede {
   max-width: 34ch;
   margin: 0;
-  color: var(--hm-ink);
+  color: #ffffff;
+  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.4);
   font-family: var(--hm-serif);
   font-size: clamp(1.3rem, 2.6vw, 1.85rem);
   line-height: 1.4;
 }
 
 .hm-lede em {
-  color: #a8741a;
+  color: var(--hm-gold);
   font-style: italic;
 }
 
@@ -261,26 +276,26 @@
 }
 
 .hm-btn--primary {
-  background: var(--hm-navy);
-  color: #fff;
-  box-shadow: 0 12px 30px rgba(11, 34, 64, 0.22);
+  background: var(--hm-gold);
+  color: var(--hm-navy);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
 }
 
 .hm-btn--primary:hover {
-  background: var(--hm-navy-2);
+  background: #f2c76c;
 }
 
 .hm-btn--video {
   padding-left: 8px;
-  background: var(--hm-glass);
-  color: var(--hm-ink);
-  box-shadow: inset 0 0 0 1px rgba(7, 23, 41, 0.1), 0 10px 26px rgba(11, 34, 64, 0.08);
+  background: rgba(6, 18, 32, 0.55);
+  color: #ffffff;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28), 0 10px 26px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
 
 .hm-btn--video:hover {
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(6, 18, 32, 0.78);
 }
 
 .hm-btn--video img {
@@ -293,7 +308,7 @@
 .hm-btn--video svg {
   width: 14px;
   height: 14px;
-  color: #a8741a;
+  color: var(--hm-gold);
 }
 
 .hm-quick {
@@ -302,21 +317,22 @@
   justify-content: center;
   gap: 0.4rem 0.75rem;
   margin: 1.4rem 0 0;
-  color: var(--hm-muted);
+  color: rgba(255, 255, 255, 0.7);
   font-size: 0.95rem;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.5);
 }
 
 .hm-quick a {
-  color: var(--hm-copy);
+  color: #ffffff;
   font-weight: 600;
   text-decoration: underline;
-  text-decoration-color: rgba(48, 71, 95, 0.35);
+  text-decoration-color: rgba(255, 255, 255, 0.45);
   text-underline-offset: 0.22em;
   transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
 .hm-quick a:hover {
-  color: var(--hm-ink);
+  color: var(--hm-gold-soft);
   text-decoration-color: currentColor;
 }
 
@@ -329,7 +345,7 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  color: var(--hm-copy);
+  color: rgba(255, 255, 255, 0.85);
   transform: translateX(-50%);
   animation: hm-nudge 2.8s ease-in-out 2.4s infinite;
 }
@@ -366,8 +382,8 @@
   z-index: -1;
   background:
     linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.6) 18%, rgba(255, 255, 255, 0.55) 80%, #ffffff 100%),
-    url("/images/home/sahara-blur.webp") center / cover no-repeat;
-  opacity: 0.55;
+    url("/images/home/forest-blur.webp") center / cover no-repeat;
+  opacity: 0.26;
 }
 
 .hm-head {
@@ -851,6 +867,10 @@
     padding-top: 136px;
   }
 
+  .hm-hero-bg img {
+    object-position: 50% 100%;
+  }
+
   .hm-hero h1 {
     font-size: clamp(2rem, 10vw, 2.8rem);
     letter-spacing: 0.03em;
@@ -885,7 +905,7 @@
   }
 
   .hm-hero-bg img {
-    opacity: 0.58;
+    opacity: 1;
   }
 
   .hm-btn,
