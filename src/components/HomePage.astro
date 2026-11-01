@@ -12,6 +12,7 @@ import { languageLevels } from "../data/languages";
 import {
   homeContent,
   homeEmail as email,
+  homeWhatsapp,
   homeLanguages,
   type HomeLang,
 } from "../data/homeContent";
@@ -66,7 +67,6 @@ const videoSchema = {
   thumbnailUrl: `${site}${t.video.src.poster}`,
   uploadDate: lang === "en" ? "2026-10-31" : "2026-11-01",
   duration: "PT30S",
-  contentUrl: `${site}${t.video.src.large}`,
   publisher: { "@id": `${site}/#person` },
 };
 
@@ -130,7 +130,14 @@ const videoSchema = {
         </p>
 
         <div class="hm-actions">
-          <a class="hm-btn hm-btn--primary" href="#availability">{t.bookCall}</a>
+          <a
+            class="hm-btn hm-btn--primary"
+            href={`mailto:${email}?subject=${encodeURIComponent(t.contact.subject.replace("{label}", t.contact.topics[t.contact.topics.length - 1].label))}`}
+            data-contact-open
+            aria-haspopup="dialog"
+          >
+            {t.contact.cta}
+          </a>
           <button class="hm-btn hm-btn--video" type="button" data-video-open aria-haspopup="dialog">
             <img src="/images/home/intro-thumb-160.webp" width="36" height="36" alt="" />
             <span>{t.watchIntro}</span>
@@ -292,6 +299,60 @@ const videoSchema = {
 
   <Footer lang={lang} />
 
+  <!-- ======================= Contact dialog ======================= -->
+  <dialog
+    class="hm-contact"
+    aria-labelledby="hm-contact-title"
+    data-email={email}
+    data-whatsapp={homeWhatsapp}
+    data-message={t.contact.message}
+    data-subject={t.contact.subject}
+  >
+    <form method="dialog" class="hm-contact-card">
+      <button class="hm-contact-close" type="submit" aria-label={t.contact.close}>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+      </button>
+      <h2 id="hm-contact-title">{t.contact.title}</h2>
+      <p class="hm-contact-copy">{t.contact.copy}</p>
+
+      <fieldset class="hm-contact-topics">
+        <legend class="hm-visually-hidden">{t.contact.topicsLabel}</legend>
+        {
+          t.contact.topics.map((topic, index) => (
+            <label>
+              <input
+                type="radio"
+                name="topic"
+                value={topic.id}
+                data-label={topic.label}
+                data-phrase={topic.phrase}
+              />
+              <span>{topic.label}</span>
+            </label>
+          ))
+        }
+      </fieldset>
+
+      <label class="hm-contact-detail">
+        <span>{t.contact.detailLabel}</span>
+        <textarea name="detail" rows="2" maxlength="400" placeholder={t.contact.detailPlaceholder}></textarea>
+      </label>
+
+      <div class="hm-contact-send">
+        <a class="hm-contact-btn hm-contact-btn--wa" href={`https://wa.me/${homeWhatsapp}`} target="_blank" rel="noopener noreferrer" data-send="whatsapp">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a9.7 9.7 0 0 0-8.3 14.7L2.4 22l5.4-1.4A9.8 9.8 0 1 0 12 2Zm0 17.7a7.7 7.7 0 0 1-3.9-1.1l-.3-.2-3.2.8.9-3.1-.2-.3A7.8 7.8 0 1 1 12 19.7Zm4.3-5.8c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.3 6.3 0 0 1-3.1-2.7c-.2-.3 0-.4.1-.5l.6-.7c.1-.2.2-.4.1-.6l-.7-1.7c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .1.2 2 3.1 5 4.2 3 .9 3 .6 3.5.6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .2-1.1-.1-.1-.2-.2-.4-.3Z"></path></svg>
+          {t.contact.whatsapp}
+        </a>
+        <a class="hm-contact-btn hm-contact-btn--mail" href={`mailto:${email}`} data-send="email">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v12H4z M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"></path></svg>
+          {t.contact.email}
+        </a>
+      </div>
+
+      <a class="hm-contact-call" href="#availability" data-contact-call>{t.contact.call}</a>
+    </form>
+  </dialog>
+
   <!-- ======================= Video dialog ======================= -->
   <dialog class="hm-video" aria-labelledby="hm-video-title">
     <div class="hm-video-frame">
@@ -300,9 +361,11 @@ const videoSchema = {
         controls
         playsinline
         preload="none"
+        controlslist="nodownload noplaybackrate noremoteplayback"
+        disablepictureinpicture
+        disableremoteplayback
         poster={t.video.src.poster}
-        data-src-large={t.video.src.large}
-        data-src-small={t.video.src.small}
+        data-hls={t.video.src.hls}
       ></video>
       <button class="hm-video-close" type="button" data-video-close aria-label={t.video.close}>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
@@ -315,16 +378,87 @@ const videoSchema = {
   </dialog>
 
   <script>
+    /* ---------- Contact dialog: a prefilled WhatsApp or email message ---------- */
+    const contact = document.querySelector<HTMLDialogElement>(".hm-contact");
+
+    function contactText() {
+      if (!contact) return { message: "", subject: "" };
+      const chosen =
+        contact.querySelector<HTMLInputElement>('input[name="topic"]:checked') ??
+        Array.from(contact.querySelectorAll<HTMLInputElement>('input[name="topic"]')).pop();
+      const detail = contact.querySelector<HTMLTextAreaElement>("textarea")?.value.trim() ?? "";
+      const message =
+        (contact.dataset.message ?? "").replace("{topic}", chosen?.dataset.phrase ?? "") + (detail ? `\n\n${detail}` : "");
+      const subject = (contact.dataset.subject ?? "").replace("{label}", chosen?.dataset.label ?? "");
+      return { message, subject };
+    }
+
+    function refreshLinks() {
+      if (!contact) return;
+      const { message, subject } = contactText();
+      const wa = contact.querySelector<HTMLAnchorElement>('[data-send="whatsapp"]');
+      const mail = contact.querySelector<HTMLAnchorElement>('[data-send="email"]');
+      if (wa) wa.href = `https://wa.me/${contact.dataset.whatsapp}?text=${encodeURIComponent(message)}`;
+      if (mail) {
+        mail.href = `mailto:${contact.dataset.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+      }
+    }
+
+    document.querySelectorAll<HTMLElement>("[data-contact-open]").forEach((button) =>
+      button.addEventListener("click", (event) => {
+        if (!contact) return;
+        event.preventDefault();
+        refreshLinks();
+        contact.showModal();
+      }),
+    );
+    contact?.addEventListener("input", refreshLinks);
+    contact?.addEventListener("click", (event) => {
+      if (event.target === contact) contact.close();
+    });
+    contact?.querySelector("[data-contact-call]")?.addEventListener("click", () => contact.close());
+
+    /* ---------- Video: streamed in segments, never as one downloadable file ---------- */
+    type HlsPlayer = { loadSource(src: string): void; attachMedia(media: HTMLMediaElement): void };
+    type HlsClass = { new (config?: object): HlsPlayer; isSupported(): boolean };
+
     const dialog = document.querySelector<HTMLDialogElement>(".hm-video");
     const video = dialog?.querySelector<HTMLVideoElement>("video");
+    let hlsLoading: Promise<HlsClass | null> | null = null;
 
-    function openVideo() {
-      if (!dialog || !video) return;
-      if (!video.src) {
-        const small = window.matchMedia("(max-width: 900px)").matches;
-        video.src = (small ? video.dataset.srcSmall : video.dataset.srcLarge) ?? "";
+    // Load the small streaming library only when someone shows interest in the video.
+    function loadHls() {
+      hlsLoading ??= new Promise<HlsClass | null>((resolve) => {
+        const existing = (window as unknown as { Hls?: HlsClass }).Hls;
+        if (existing) return resolve(existing);
+        const script = document.createElement("script");
+        script.src = "/vendor/hls/hls.light.min.js";
+        script.async = true;
+        script.onload = () => resolve((window as unknown as { Hls?: HlsClass }).Hls ?? null);
+        script.onerror = () => resolve(null);
+        document.head.append(script);
+      });
+      return hlsLoading;
+    }
+
+    async function attachStream() {
+      if (!video || video.dataset.attached) return;
+      video.dataset.attached = "true";
+      const src = video.dataset.hls ?? "";
+      const Hls = await loadHls();
+      if (Hls?.isSupported()) {
+        const player = new Hls({ capLevelToPlayerSize: true });
+        player.loadSource(src);
+        player.attachMedia(video);
+      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        video.src = src;
       }
+    }
+
+    async function openVideo() {
+      if (!dialog || !video) return;
       dialog.showModal();
+      await attachStream();
       video.play().catch(() => {
         /* The browser blocked playback; the controls stay available. */
       });
@@ -334,12 +468,16 @@ const videoSchema = {
       dialog?.close();
     }
 
-    document
-      .querySelectorAll("[data-video-open]")
-      .forEach((button) => button.addEventListener("click", openVideo));
-    document
-      .querySelector("[data-video-close]")
-      ?.addEventListener("click", closeVideo);
+    document.querySelectorAll<HTMLElement>("[data-video-open]").forEach((button) => {
+      button.addEventListener("click", openVideo);
+      // Warm up the player on hover or touch, so playback starts straight away.
+      button.addEventListener("pointerenter", loadHls, { once: true });
+      button.addEventListener("touchstart", loadHls, { once: true, passive: true });
+    });
+    document.querySelector("[data-video-close]")?.addEventListener("click", closeVideo);
+
+    // No "Save video as…" menu on the player.
+    video?.addEventListener("contextmenu", (event) => event.preventDefault());
 
     // Close when clicking the dimmed area around the video.
     dialog?.addEventListener("click", (event) => {

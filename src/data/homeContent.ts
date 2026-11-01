@@ -24,11 +24,29 @@ export type HomeContent = {
   overline: string;
   /** Lede split around the gold, italic word. */
   lede: [string, string, string];
-  bookCall: string;
   watchIntro: string;
   /** Shown as a small badge on the video button when the video is not in the page language. */
   videoLangBadge?: { text: string; label: string };
   quick: { email: string; explore: string };
+  /** The hero's message-first call to action and its dialog. */
+  contact: {
+    cta: string;
+    title: string;
+    copy: string;
+    topicsLabel: string;
+    /** `phrase` completes the message sentence; the last topic is the catch-all. */
+    topics: { id: string; label: string; phrase: string }[];
+    detailLabel: string;
+    detailPlaceholder: string;
+    whatsapp: string;
+    email: string;
+    call: string;
+    close: string;
+    /** "{topic}" is replaced by the chosen phrase. */
+    message: string;
+    /** "{label}" is replaced by the chosen topic label. */
+    subject: string;
+  };
   scrollLabel: string;
   exploreOverline: string;
   exploreTitle: string;
@@ -63,8 +81,8 @@ export type HomeContent = {
     title: string;
     /** Short description used in the VideoObject schema. */
     description: string;
-    /** 1080p and 720p files, plus the poster frame (1280 px wide). */
-    src: { large: string; small: string; poster: string };
+    /** HLS stream (master playlist) and the poster frame (1280 px wide). */
+    src: { hls: string; poster: string };
     close: string;
     readAsText: string;
     transcript: (languageCount: number) => string;
@@ -72,6 +90,8 @@ export type HomeContent = {
 };
 
 const email = "matteo.visibility@gmail.com";
+/** WhatsApp number in international format, digits only (also used on /card/). */
+export const homeWhatsapp = "525574136001";
 
 function serviceLinks(lang: HomeLang): Link[] {
   return getServices(lang).map((service) => ({
@@ -100,9 +120,30 @@ export const homeContent: Record<HomeLang, HomeContent> = {
     langLinkLabel: (lang) => `View site in ${{ en: "English", es: "Español", nl: "Nederlands" }[lang]}`,
     overline: "Technical Growth Partner",
     lede: ["I help companies find new ways to grow and turn them into ", "revenue", "."],
-    bookCall: "Book a 20-minute call",
     watchIntro: "Watch my 30-second intro",
     quick: { email: "Email me", explore: "Explore the site" },
+    contact: {
+      cta: "Tell me what you're working on",
+      title: "What would you like help with?",
+      copy: "Choose a topic and send me a short message on WhatsApp or by email. I read and answer every message myself.",
+      topicsLabel: "Topic",
+      topics: [
+        { id: "growth", label: "Growth marketing", phrase: "growth marketing (SEO, AI search, ads or GA4)" },
+        { id: "data", label: "Data & automation", phrase: "data engineering and automation" },
+        { id: "product", label: "Product improvement", phrase: "improving our product" },
+        { id: "markets", label: "New markets & sales", phrase: "new markets, partnerships or sales" },
+        { id: "payments", label: "Payments", phrase: "payments" },
+        { id: "other", label: "Something else", phrase: "a project" },
+      ],
+      detailLabel: "Add a line about your situation (optional)",
+      detailPlaceholder: "For example: our checkout conversion dropped after a redesign.",
+      whatsapp: "Send on WhatsApp",
+      email: "Send by email",
+      call: "Prefer to talk? Book a 20-minute call →",
+      close: "Close",
+      message: "Hi Matteo, I found your website and I would like to talk about {topic}.",
+      subject: "Enquiry from your website: {label}",
+    },
     scrollLabel: "Scroll to the main links",
     exploreOverline: "Where would you like to start?",
     exploreTitle: "Three ways in.",
@@ -158,8 +199,7 @@ export const homeContent: Record<HomeLang, HomeContent> = {
       description:
         "A 30-second introduction to Matteo Arellano, Technical Growth Partner: background, selected results, languages and how to start a conversation.",
       src: {
-        large: "/videos/matteo-arellano-intro-1080.mp4",
-        small: "/videos/matteo-arellano-intro-720.mp4",
+        hls: "/videos/hls/en/master.m3u8",
         poster: "/images/home/intro-poster-1280.webp",
       },
       close: "Close video",
@@ -187,9 +227,30 @@ export const homeContent: Record<HomeLang, HomeContent> = {
     langLinkLabel: (lang) => `Ver el sitio en ${{ en: "inglés", es: "español", nl: "neerlandés" }[lang]}`,
     overline: "Socio técnico de crecimiento",
     lede: ["Ayudo a empresas a encontrar nuevas formas de crecer y a convertirlas en ", "ingresos", "."],
-    bookCall: "Reserva una llamada de 20 minutos",
     watchIntro: "Mi intro en 30 segundos",
     quick: { email: "Escríbeme", explore: "Explora el sitio" },
+    contact: {
+      cta: "Cuéntame en qué estás trabajando",
+      title: "¿En qué te gustaría que te ayude?",
+      copy: "Elige un tema y envíame un mensaje breve por WhatsApp o por correo. Leo y respondo cada mensaje personalmente.",
+      topicsLabel: "Tema",
+      topics: [
+        { id: "growth", label: "Growth marketing", phrase: "growth marketing (SEO, búsqueda con IA, anuncios o GA4)" },
+        { id: "data", label: "Datos y automatización", phrase: "ingeniería de datos y automatización" },
+        { id: "product", label: "Mejora de producto", phrase: "mejorar nuestro producto" },
+        { id: "markets", label: "Nuevos mercados y ventas", phrase: "nuevos mercados, alianzas o ventas" },
+        { id: "payments", label: "Pagos", phrase: "pagos" },
+        { id: "other", label: "Otro tema", phrase: "un proyecto" },
+      ],
+      detailLabel: "Añade una línea sobre tu situación (opcional)",
+      detailPlaceholder: "Por ejemplo: la conversión del checkout bajó tras un rediseño.",
+      whatsapp: "Enviar por WhatsApp",
+      email: "Enviar por correo",
+      call: "¿Prefieres hablar? Reserva una llamada de 20 minutos →",
+      close: "Cerrar",
+      message: "Hola Matteo, he visto tu web y me gustaría hablar contigo sobre {topic}.",
+      subject: "Consulta desde tu web: {label}",
+    },
     scrollLabel: "Ir a los enlaces principales",
     exploreOverline: "¿Por dónde quieres empezar?",
     exploreTitle: "Tres puntos de partida.",
@@ -250,8 +311,7 @@ export const homeContent: Record<HomeLang, HomeContent> = {
       description:
         "Una presentación de 30 segundos de Matteo Arellano, socio técnico de crecimiento: trayectoria, resultados, idiomas y cómo empezar una conversación.",
       src: {
-        large: "/videos/matteo-arellano-intro-es-1080.mp4",
-        small: "/videos/matteo-arellano-intro-es-720.mp4",
+        hls: "/videos/hls/es/master.m3u8",
         poster: "/images/home/intro-poster-es-1280.webp",
       },
       close: "Cerrar vídeo",
@@ -279,9 +339,30 @@ export const homeContent: Record<HomeLang, HomeContent> = {
     langLinkLabel: (lang) => `Bekijk de site in het ${{ en: "Engels", es: "Spaans", nl: "Nederlands" }[lang]}`,
     overline: "Technisch groeipartner",
     lede: ["Ik help bedrijven nieuwe manieren te vinden om te groeien en die om te zetten in ", "omzet", "."],
-    bookCall: "Plan een gesprek van 20 minuten",
     watchIntro: "Mijn intro in 30 seconden",
     quick: { email: "Mail me", explore: "Ontdek de site" },
+    contact: {
+      cta: "Vertel me waar je aan werkt",
+      title: "Waarmee kan ik je helpen?",
+      copy: "Kies een onderwerp en stuur me een kort bericht via WhatsApp of e-mail. Ik lees en beantwoord elk bericht zelf.",
+      topicsLabel: "Onderwerp",
+      topics: [
+        { id: "growth", label: "Growth marketing", phrase: "growth marketing (SEO, AI-zoeken, advertenties of GA4)" },
+        { id: "data", label: "Data & automatisering", phrase: "data engineering en automatisering" },
+        { id: "product", label: "Productverbetering", phrase: "het verbeteren van ons product" },
+        { id: "markets", label: "Nieuwe markten & sales", phrase: "nieuwe markten, partnerships of sales" },
+        { id: "payments", label: "Betalingen", phrase: "betalingen" },
+        { id: "other", label: "Iets anders", phrase: "een project" },
+      ],
+      detailLabel: "Voeg een zin over je situatie toe (optioneel)",
+      detailPlaceholder: "Bijvoorbeeld: de conversie van onze checkout daalde na een redesign.",
+      whatsapp: "Stuur via WhatsApp",
+      email: "Stuur per e-mail",
+      call: "Liever praten? Plan een gesprek van 20 minuten →",
+      close: "Sluiten",
+      message: "Hoi Matteo, ik zag je website en wil graag met je praten over {topic}.",
+      subject: "Vraag via je website: {label}",
+    },
     scrollLabel: "Ga naar de belangrijkste links",
     exploreOverline: "Waar wil je beginnen?",
     exploreTitle: "Drie ingangen.",
@@ -342,8 +423,7 @@ export const homeContent: Record<HomeLang, HomeContent> = {
       description:
         "Een introductie van 30 seconden over Matteo Arellano, technisch groeipartner: achtergrond, resultaten, talen en hoe je een gesprek begint.",
       src: {
-        large: "/videos/matteo-arellano-intro-nl-1080.mp4",
-        small: "/videos/matteo-arellano-intro-nl-720.mp4",
+        hls: "/videos/hls/nl/master.m3u8",
         poster: "/images/home/intro-poster-nl-1280.webp",
       },
       close: "Video sluiten",
