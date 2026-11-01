@@ -5754,3 +5754,65 @@ h3 {
     margin-top: 42px;
   }
 }
+
+/* =========================================================
+   INLINE LINKS IN RUNNING TEXT
+   One look for every link inside article copy across the site:
+   brand blue, a soft underline that firms up on hover, and a
+   visible focus ring. Buttons, cards and navigation keep their
+   own styles because only links inside text elements match.
+   ========================================================= */
+
+:root {
+  --link: #0b5cad;
+  --link-hover: #073f78;
+  --link-line: rgba(11, 92, 173, 0.38);
+}
+
+.journal-content :is(p, li, td, dd, blockquote, figcaption) a,
+.article-content :is(p, li, td, dd, blockquote, figcaption) a:not(:where([class*="button"], [class*="btn"])),
+.cs-article :is(p, li, td, dd, blockquote, figcaption) a:not(:where(nav a)),
+.cs-section-head p a,
+.pc :is(p, li, td, dd, blockquote) a:not(:where(nav a, .btn, .chip)),
+.ab-chapter-body .ab-quote a,
+.rec-archive .rec-source-note a,
+.recipe-card :is(p, li) a {
+  color: var(--link);
+  font-weight: 600;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--link-line);
+  text-underline-offset: 0.22em;
+  transition:
+    color 0.2s ease,
+    text-decoration-color 0.2s ease;
+}
+
+.journal-content :is(p, li, td, dd, blockquote, figcaption) a:hover,
+.article-content :is(p, li, td, dd, blockquote, figcaption) a:not(:where([class*="button"], [class*="btn"])):hover,
+.cs-article :is(p, li, td, dd, blockquote, figcaption) a:not(:where(nav a)):hover,
+.cs-section-head p a:hover,
+.pc :is(p, li, td, dd, blockquote) a:not(:where(nav a, .btn, .chip)):hover,
+.ab-chapter-body .ab-quote a:hover,
+.rec-archive .rec-source-note a:hover,
+.recipe-card :is(p, li) a:hover {
+  color: var(--link-hover);
+  text-decoration-color: currentColor;
+}
+
+.journal-content a:focus-visible,
+.article-content a:focus-visible,
+.cs-article a:focus-visible,
+.pc a:focus-visible,
+.recipe-card a:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* Headings on dark brand-blue panels must stay light. The base h1-h3
+   rule sets a dark ink colour, so any blue panel opts in with .on-dark. */
+.on-dark :is(h1, h2, h3, h4),
+.on-dark {
+  color: #ffffff;
+}
