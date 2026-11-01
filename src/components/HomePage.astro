@@ -60,20 +60,20 @@ const alternateLanguages = [
 const videoSchema = {
   "@context": "https://schema.org",
   "@type": "VideoObject",
-  name: "Matteo Arellano in 30 seconds",
-  description:
-    "A 30-second introduction to Matteo Arellano, Technical Growth Partner: background, selected results, languages and how to start a conversation.",
-  thumbnailUrl: `${site}/images/home/intro-poster-1280.webp`,
-  uploadDate: "2026-10-31",
+  name: t.video.title,
+  description: t.video.description,
+  inLanguage: lang,
+  thumbnailUrl: `${site}${t.video.src.poster}`,
+  uploadDate: lang === "en" ? "2026-10-31" : "2026-11-01",
   duration: "PT30S",
-  contentUrl: `${site}/videos/matteo-arellano-intro-1080.mp4`,
+  contentUrl: `${site}${t.video.src.large}`,
   publisher: { "@id": `${site}/#person` },
 };
 
 /* Footer text for the Spanish and Dutch pages. English uses the site Footer. */
 const footerText = {
   es: {
-    about: "Socio técnico de crecimiento: expansión, análisis comercial, producto, adquisición, datos y automatización.",
+    about: "Socio técnico de crecimiento: growth marketing, ingeniería de datos, mejora de producto, desarrollo de negocio y pagos.",
     email: "Email",
     notes: "Notas de campo",
     allNotes: "Ver todas las notas de campo →",
@@ -90,7 +90,7 @@ const footerText = {
     motto: "Primero el problema de negocio. Después, las herramientas.",
   },
   nl: {
-    about: "Technisch groeipartner voor expansie, commerciële analyse, product, acquisitie, data en automatisering.",
+    about: "Technisch groeipartner voor growth marketing, data engineering, productverbetering, business development en betalingen.",
     email: "E-mail",
     notes: "Field Notes",
     allNotes: "Bekijk alle Field Notes →",
@@ -124,7 +124,7 @@ const fieldNotes =
   image="/images/home/og-home.jpg"
   alternateLanguages={alternateLanguages}
 >
-  {lang === "en" && <script type="application/ld+json" set:html={JSON.stringify(videoSchema)} />}
+  <script type="application/ld+json" set:html={JSON.stringify(videoSchema)} />
 
   <header class="hm-top">
     <a class="hm-skip" href="#explore">{t.skip}</a>
@@ -390,9 +390,9 @@ const fieldNotes =
         controls
         playsinline
         preload="none"
-        poster="/images/home/intro-poster-1280.webp"
-        data-src-large="/videos/matteo-arellano-intro-1080.mp4"
-        data-src-small="/videos/matteo-arellano-intro-720.mp4"
+        poster={t.video.src.poster}
+        data-src-large={t.video.src.large}
+        data-src-small={t.video.src.small}
       ></video>
       <button class="hm-video-close" type="button" data-video-close aria-label={t.video.close}>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>

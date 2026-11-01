@@ -3,7 +3,7 @@
  * src/components/HomePage.astro; this file only holds words and links.
  *
  * Most pages behind these links are in English. The Spanish and Dutch
- * versions say so once, near the links, and mark the video as English.
+ * versions say so once, near the links. Each language has its own intro video.
  */
 import { services } from "./services";
 
@@ -61,6 +61,10 @@ export type HomeContent = {
   emailAlt: string;
   video: {
     title: string;
+    /** Short description used in the VideoObject schema. */
+    description: string;
+    /** 1080p and 720p files, plus the poster frame (1280 px wide). */
+    src: { large: string; small: string; poster: string };
     close: string;
     readAsText: string;
     transcript: (languageCount: number) => string;
@@ -169,6 +173,13 @@ export const homeContent: Record<HomeLang, HomeContent> = {
     emailAlt: "Prefer email? Write to",
     video: {
       title: "Matteo Arellano in 30 seconds",
+      description:
+        "A 30-second introduction to Matteo Arellano, Technical Growth Partner: background, selected results, languages and how to start a conversation.",
+      src: {
+        large: "/videos/matteo-arellano-intro-1080.mp4",
+        small: "/videos/matteo-arellano-intro-720.mp4",
+        poster: "/images/home/intro-poster-1280.webp",
+      },
       close: "Close video",
       readAsText: "Read the video as text",
       transcript: (n) =>
@@ -196,7 +207,6 @@ export const homeContent: Record<HomeLang, HomeContent> = {
     lede: ["Ayudo a empresas a encontrar nuevas formas de crecer y a convertirlas en ", "ingresos", "."],
     bookCall: "Reserva una llamada de 20 minutos",
     watchIntro: "Mi intro en 30 segundos",
-    videoLangBadge: { text: "EN", label: "vídeo en inglés" },
     quick: { email: "Escríbeme", explore: "Explora el sitio" },
     scrollLabel: "Ir a los enlaces principales",
     exploreOverline: "¿Por dónde quieres empezar?",
@@ -218,7 +228,7 @@ export const homeContent: Record<HomeLang, HomeContent> = {
         { href: "/achievements/#languages", title: "{languages} idiomas", copy: "Para los mercados a los que quieres llegar" },
       ],
       videoTitle: "La versión de 30 segundos",
-      videoCopy: "Una breve presentación en vídeo (en inglés)",
+      videoCopy: "Una breve presentación en vídeo",
       more: "Toda la evidencia en una página →",
     },
     read: {
@@ -255,10 +265,17 @@ export const homeContent: Record<HomeLang, HomeContent> = {
     emailAlt: "¿Prefieres el correo? Escríbeme a",
     video: {
       title: "Matteo Arellano en 30 segundos",
+      description:
+        "Una presentación de 30 segundos de Matteo Arellano, socio técnico de crecimiento: trayectoria, resultados, idiomas y cómo empezar una conversación.",
+      src: {
+        large: "/videos/matteo-arellano-intro-es-1080.mp4",
+        small: "/videos/matteo-arellano-intro-es-720.mp4",
+        poster: "/images/home/intro-poster-es-1280.webp",
+      },
       close: "Cerrar vídeo",
       readAsText: "Leer el vídeo como texto",
       transcript: (n) =>
-        `¿Hay algo que estás intentando hacer crecer, arreglar o entender? Soy Matteo Arellano, socio técnico de crecimiento. Ayudo a empresas a encontrar nuevas formas de crecer y a convertirlas en ingresos. No empecé en marketing: empecé aprendiendo cómo ganan dinero las empresas, en Luxemburgo (BEI y FEI, 2018), Ámsterdam y Ciudad de México (Cargill, 2020), Utrecht (PIA Group, 2024) y hoy a nivel mundial (Distribusion). Evidencia antes que suposiciones: +42% de mejora en la conversión, −90% en costes de procesamiento en la nube y más de 30 modelos analíticos creados. ${n} idiomas, listos para los mercados a los que quieres llegar. Hablemos: 20 minutos, sin necesidad de preparar un briefing.`,
+        `¿Hay algo que estás intentando hacer crecer, arreglar o entender? Soy Matteo Arellano, socio técnico de crecimiento. Ayudo a empresas a encontrar nuevas formas de crecer y a convertirlas en ingresos. No empecé en marketing: empecé aprendiendo cómo ganan dinero las empresas, en Luxemburgo (BEI y FEI, 2018), Ámsterdam y Ciudad de México (Cargill, 2020), Utrecht (PIA Group, 2024) y hoy a nivel internacional (Distribusion). Evidencia, no suposiciones: +42% de mejora en la conversión, −90% en costes de procesamiento en la nube y más de 30 modelos analíticos construidos. ${n} idiomas, listos para los mercados a los que quieres llegar. Nuevos ingresos, mayor conversión y demanda cualificada. Hablemos en matteoarellano.com. Primero el problema de negocio; después, las herramientas. Son 20 minutos y no necesitas preparar un briefing.`,
     },
   },
 
@@ -282,7 +299,6 @@ export const homeContent: Record<HomeLang, HomeContent> = {
     lede: ["Ik help bedrijven nieuwe manieren te vinden om te groeien en die om te zetten in ", "omzet", "."],
     bookCall: "Plan een gesprek van 20 minuten",
     watchIntro: "Mijn intro in 30 seconden",
-    videoLangBadge: { text: "EN", label: "video in het Engels" },
     quick: { email: "Mail me", explore: "Ontdek de site" },
     scrollLabel: "Ga naar de belangrijkste links",
     exploreOverline: "Waar wil je beginnen?",
@@ -304,7 +320,7 @@ export const homeContent: Record<HomeLang, HomeContent> = {
         { href: "/achievements/#languages", title: "{languages} talen", copy: "Voor de markten die je wilt bereiken" },
       ],
       videoTitle: "De versie van 30 seconden",
-      videoCopy: "Een korte video-introductie (in het Engels)",
+      videoCopy: "Een korte video-introductie",
       more: "Al het bewijs op één pagina →",
     },
     read: {
@@ -341,10 +357,17 @@ export const homeContent: Record<HomeLang, HomeContent> = {
     emailAlt: "Liever e-mail? Schrijf naar",
     video: {
       title: "Matteo Arellano in 30 seconden",
+      description:
+        "Een introductie van 30 seconden over Matteo Arellano, technisch groeipartner: achtergrond, resultaten, talen en hoe je een gesprek begint.",
+      src: {
+        large: "/videos/matteo-arellano-intro-nl-1080.mp4",
+        small: "/videos/matteo-arellano-intro-nl-720.mp4",
+        poster: "/images/home/intro-poster-nl-1280.webp",
+      },
       close: "Video sluiten",
       readAsText: "Lees de video als tekst",
       transcript: (n) =>
-        `Werk je aan iets dat je wilt laten groeien, oplossen of beter begrijpen? Ik ben Matteo Arellano, technisch groeipartner. Ik help bedrijven nieuwe manieren te vinden om te groeien en die om te zetten in omzet. Ik ben niet in marketing begonnen: ik begon met leren hoe bedrijven geld verdienen, in Luxemburg (EIB en EIF, 2018), Amsterdam en Mexico-Stad (Cargill, 2020), Utrecht (PIA Group, 2024) en vandaag wereldwijd (Distribusion). Bewijs boven aannames: +42% betere conversie, −90% kosten voor cloudverwerking en meer dan 30 analytische modellen gebouwd. ${n} talen, klaar voor de markten die je wilt bereiken. Laten we praten: 20 minuten, geen voorbereide briefing nodig.`,
+        `Werk je aan iets dat je wilt laten groeien, oplossen of beter begrijpen? Ik ben Matteo Arellano, technisch groeipartner. Ik help bedrijven nieuwe groeikansen te vinden en die om te zetten in omzet. Ik begon niet in marketing: ik begon met leren hoe bedrijven geld verdienen, in Luxemburg (EIB en EIF, 2018), Amsterdam en Mexico-Stad (Cargill, 2020), Utrecht (PIA Group, 2024) en nu internationaal (Distribusion). Bewijs boven aannames: +42% betere conversie, −90% kosten voor cloudverwerking en meer dan 30 analytische modellen gebouwd. ${n} talen, klaar voor de markten die je wilt bereiken. Nieuwe omzet, hogere conversie en gekwalificeerde vraag. Laten we praten via matteoarellano.com. Eerst het businessprobleem, daarna de tools. Het duurt 20 minuten en je hoeft geen briefing voor te bereiden.`,
     },
   },
 };
