@@ -1,81 +1,86 @@
 ---
-import { services } from "../data/services";
+/**
+ * Site header in English, Spanish or Dutch. Pass `alternates` when the page
+ * exists in other languages, so the language switcher keeps the reader on
+ * the same page; otherwise it links to each language's homepage.
+ */
+import { getServices, pagesWithCalendar } from "../data/servicesI18n";
+import {
+  siteUi,
+  languageLinks,
+  homePath,
+  aboutPath,
+  servicesHubPath,
+  type Lang,
+} from "../data/siteUi";
 
-const serviceLinks = services.map((service) => ({
+interface Props {
+  lang?: Lang;
+  alternates?: Partial<Record<Lang, string>>;
+}
+
+const { lang = "en", alternates = {} } = Astro.props;
+const ui = siteUi[lang];
+const hub = servicesHubPath[lang];
+
+const serviceLinks = getServices(lang).map((service) => ({
   href: service.path,
   label: service.name,
 }));
 
-const currentPath = Astro.url.pathname;
-const currentLanguage = currentPath.startsWith("/es/")
-  ? "ES"
-  : currentPath.startsWith("/nl/")
-    ? "NL"
-    : "EN";
+const switcher = languageLinks.map((language) => ({
+  ...language,
+  href: alternates[language.lang] ?? homePath[language.lang],
+}));
 
-const languageLinks = [
-  { href: "/", label: "EN", name: "English" },
-  { href: "/es/", label: "ES", name: "Español" },
-  { href: "/nl/", label: "NL", name: "Nederlands" },
-];
+const currentPath = Astro.url.pathname;
 
 // Pages with their own booking calendar link to it; every other page links
-// to the calendar on the homepage.
-const pagesWithCalendar = ["/services/", ...services.map((service) => service.path)];
+// to the calendar on the homepage in the same language.
 const talkHref = pagesWithCalendar.includes(currentPath)
   ? "#availability"
-  : "/#availability";
+  : `${homePath[lang]}#availability`;
 ---
 
 <header class="site-header">
   <div class="header-inner">
-    <a class="brand" href="/" aria-label="Matteo Arellano homepage">
+    <a class="brand" href={homePath[lang]} aria-label={ui.brandAria}>
       <span class="brand-mark">MA</span>
       <span class="brand-copy">
         <strong>Matteo Arellano</strong>
-        <small>Technical Growth Partner</small>
+        <small>{ui.brandTag}</small>
       </span>
     </a>
 
-    <nav class="desktop-nav" aria-label="Primary navigation">
+    <nav class="desktop-nav" aria-label={ui.primaryNav}>
       <div class="nav-dropdown">
-        <a class="nav-dropdown-trigger" href="/services/">
-          Services <span aria-hidden="true">▾</span>
+        <a class="nav-dropdown-trigger" href={hub}>
+          {ui.services} <span aria-hidden="true">▾</span>
         </a>
 
-        <div class="nav-dropdown-menu" aria-label="Services submenu">
-          {
-            serviceLinks.map((service) => (
-              <a href={service.href}>{service.label}</a>
-            ))
-          }
-          <a class="nav-menu-all" href="/services/">All services →</a>
+        <div class="nav-dropdown-menu" aria-label={ui.servicesMenu}>
+          {serviceLinks.map((service) => <a href={service.href}>{service.label}</a>)}
+          <a class="nav-menu-all" href={hub}>{ui.allServices}</a>
         </div>
       </div>
 
-      <a href="/insights/">Insights</a>
-      <a href="/achievements/#recommendations">Recommendations</a>
-      <a href="/about/">About</a>
+      <a href="/insights/">{ui.insights}</a>
+      <a href="/achievements/#recommendations">{ui.recommendations}</a>
+      <a href={aboutPath[lang]}>{ui.about}</a>
     </nav>
 
-    <div
-      class="desktop-language language-switcher"
-      aria-label="Language selector"
-    >
-      <span class="language-label">Language</span>
+    <div class="desktop-language language-switcher" aria-label={ui.languageSelector}>
+      <span class="language-label">{ui.language}</span>
       <div class="language-options">
         {
-          languageLinks.map((language) => (
+          switcher.map((language) => (
             <a
               href={language.href}
-              class:list={[
-                "language-link",
-                currentLanguage === language.label && "is-active",
-              ]}
-              aria-label={`View site in ${language.name}`}
-              aria-current={
-                currentLanguage === language.label ? "page" : undefined
-              }
+              hreflang={language.lang}
+              lang={language.lang}
+              class:list={["language-link", lang === language.lang && "is-active"]}
+              aria-label={ui.viewIn(language.lang)}
+              aria-current={lang === language.lang ? "page" : undefined}
             >
               {language.label}
             </a>
@@ -84,14 +89,14 @@ const talkHref = pagesWithCalendar.includes(currentPath)
       </div>
     </div>
 
-    <a class="nav-audit header-cta" href={talkHref}>Let's talk</a>
+    <a class="nav-audit header-cta" href={talkHref}>{ui.talk}</a>
 
     <button
       class="nav-toggle"
       type="button"
       aria-expanded="false"
       aria-controls="nav-panel"
-      aria-label="Open navigation menu"
+      aria-label={ui.openMenu}
     >
       <span></span>
       <span></span>
@@ -99,10 +104,10 @@ const talkHref = pagesWithCalendar.includes(currentPath)
     </button>
 
     <div class="nav-panel" id="nav-panel">
-      <nav class="panel-nav" aria-label="Mobile navigation">
+      <nav class="panel-nav" aria-label={ui.mobileNav}>
         <details class="panel-dropdown">
           <summary class="panel-dropdown-summary">
-            <span class="panel-dropdown-label">Services</span>
+            <span class="panel-dropdown-label">{ui.services}</span>
             <span class="panel-dropdown-icon" aria-hidden="true">
               <svg viewBox="0 0 20 20" focusable="false">
                 <path
@@ -116,39 +121,29 @@ const talkHref = pagesWithCalendar.includes(currentPath)
             </span>
           </summary>
 
-          <div class="panel-subnav" aria-label="Services submenu">
-            {
-              serviceLinks.map((service) => (
-                <a href={service.href}>{service.label}</a>
-              ))
-            }
-            <a href="/services/">All services →</a>
+          <div class="panel-subnav" aria-label={ui.servicesMenu}>
+            {serviceLinks.map((service) => <a href={service.href}>{service.label}</a>)}
+            <a href={hub}>{ui.allServices}</a>
           </div>
         </details>
 
-        <a href="/insights/">Insights</a>
-        <a href="/achievements/#recommendations">Recommendations</a>
-        <a href="/about/">About</a>
+        <a href="/insights/">{ui.insights}</a>
+        <a href="/achievements/#recommendations">{ui.recommendations}</a>
+        <a href={aboutPath[lang]}>{ui.about}</a>
       </nav>
 
-      <div
-        class="panel-language language-switcher"
-        aria-label="Language selector"
-      >
-        <span class="language-label">Language</span>
+      <div class="panel-language language-switcher" aria-label={ui.languageSelector}>
+        <span class="language-label">{ui.language}</span>
         <div class="language-options">
           {
-            languageLinks.map((language) => (
+            switcher.map((language) => (
               <a
                 href={language.href}
-                class:list={[
-                  "language-link",
-                  currentLanguage === language.label && "is-active",
-                ]}
-                aria-label={`View site in ${language.name}`}
-                aria-current={
-                  currentLanguage === language.label ? "page" : undefined
-                }
+                hreflang={language.lang}
+                lang={language.lang}
+                class:list={["language-link", lang === language.lang && "is-active"]}
+                aria-label={ui.viewIn(language.lang)}
+                aria-current={lang === language.lang ? "page" : undefined}
               >
                 {language.label}
               </a>
@@ -157,7 +152,7 @@ const talkHref = pagesWithCalendar.includes(currentPath)
         </div>
       </div>
 
-      <a class="nav-audit panel-audit" href={talkHref}>Let's talk</a>
+      <a class="nav-audit panel-audit" href={talkHref}>{ui.talk}</a>
     </div>
   </div>
 </header>

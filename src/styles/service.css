@@ -478,6 +478,21 @@
   font-size: 0.9rem;
 }
 
+.sv-quote-note,
+.sv-work-note {
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 0.84rem;
+  font-style: normal;
+}
+
+.sv-quote-note {
+  margin-top: 6px;
+}
+
+.sv-work-note {
+  margin: 1rem 0 0;
+}
+
 .sv-quote > a,
 .sv-work-more {
   display: inline-block;

@@ -5,7 +5,7 @@
  * Most pages behind these links are in English. The Spanish and Dutch
  * versions say so once, near the links. Each language has its own intro video.
  */
-import { services } from "./services";
+import { getServices } from "./servicesI18n";
 
 export type HomeLang = "en" | "es" | "nl";
 
@@ -73,29 +73,11 @@ export type HomeContent = {
 
 const email = "matteo.visibility@gmail.com";
 
-/* Service names in Spanish and Dutch, in the same order as src/data/services.ts. */
-const serviceText: Record<Exclude<HomeLang, "en">, { name: string; copy: string }[]> = {
-  es: [
-    { name: "Growth marketing", copy: "SEO, búsqueda con IA, anuncios y GA4, medidos en ingresos" },
-    { name: "Ingeniería de datos y automatización", copy: "Big data, pipelines y automatización que reducen costes y trabajo manual" },
-    { name: "Mejora de producto", copy: "Encontrar dónde abandonan los usuarios y lanzar la solución con tu equipo" },
-    { name: "Desarrollo de negocio y venta técnica", copy: "Nuevos mercados, alianzas y acuerdos que necesitan credibilidad técnica" },
-    { name: "Soluciones de pago", copy: "Aceptación de pagos, integraciones con PSP y métodos de pago locales" },
-  ],
-  nl: [
-    { name: "Growth marketing", copy: "SEO, AI-zoekresultaten, advertenties en GA4, gemeten in omzet" },
-    { name: "Data engineering & automatisering", copy: "Big data, pipelines en automatisering die kosten en handwerk verlagen" },
-    { name: "Productverbetering", copy: "Vinden waar gebruikers afhaken en de oplossing samen met je team live zetten" },
-    { name: "Business development & technische sales", copy: "Nieuwe markten, partnerships en deals die technische kennis vragen" },
-    { name: "Betaaloplossingen", copy: "Betaalacceptatie, PSP-integraties en lokale betaalmethoden" },
-  ],
-};
-
 function serviceLinks(lang: HomeLang): Link[] {
-  return services.map((service, index) => ({
+  return getServices(lang).map((service) => ({
     href: service.path,
-    title: lang === "en" ? service.name : serviceText[lang][index].name,
-    copy: lang === "en" ? service.short : serviceText[lang][index].copy,
+    title: service.name,
+    copy: service.short,
   }));
 }
 
@@ -196,7 +178,7 @@ export const homeContent: Record<HomeLang, HomeContent> = {
     skip: "Saltar a los enlaces principales",
     navLabel: "Navegación principal",
     nav: [
-      { href: "/services/", label: "Servicios" },
+      { href: "/es/servicios/", label: "Servicios" },
       { href: "/es/sobre-mi/", label: "Sobre mí" },
       { href: "/insights/", label: "Artículos" },
       { href: "/cybersecurity/", label: "Ciberseguridad" },
@@ -288,7 +270,7 @@ export const homeContent: Record<HomeLang, HomeContent> = {
     skip: "Ga naar de belangrijkste links",
     navLabel: "Hoofdnavigatie",
     nav: [
-      { href: "/services/", label: "Diensten" },
+      { href: "/nl/diensten/", label: "Diensten" },
       { href: "/nl/over-mij/", label: "Over mij" },
       { href: "/insights/", label: "Inzichten" },
       { href: "/cybersecurity/", label: "Cybersecurity" },

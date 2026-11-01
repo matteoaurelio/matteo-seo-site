@@ -1,28 +1,45 @@
 ---
+/**
+ * Site footer in English, Spanish or Dutch. Field Notes are written in
+ * English, so their titles are marked as English on translated pages.
+ */
 import { getCollection } from "astro:content";
+import { siteUi, homePath, aboutPath, servicesHubPath, type Lang } from "../data/siteUi";
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "en" } = Astro.props;
+const ui = siteUi[lang];
+const f = ui.footer;
 
 const fieldNotes = (await getCollection("journal", ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
+
+const links = [
+  { href: servicesHubPath[lang], label: ui.services },
+  { href: "/cybersecurity/", label: f.cybersecurity },
+  { href: "/achievements/#recommendations", label: ui.recommendations },
+  { href: aboutPath[lang], label: ui.about },
+];
 ---
 
 <footer class="site-footer growth-site-footer">
   <div class="container growth-footer-grid">
     <div class="growth-footer-brand">
-      <a class="growth-footer-name" href="/">Matteo Arellano</a>
-      <p>
-        Technical Growth Partner working across growth marketing, data
-        engineering, product improvement, business development and payments.
-      </p>
+      <a class="growth-footer-name" href={homePath[lang]}>Matteo Arellano</a>
+      <p>{f.about}</p>
       <div class="growth-footer-socials">
-        <a href="mailto:matteo.visibility@gmail.com">Email</a>
+        <a href="mailto:matteo.visibility@gmail.com">{f.email}</a>
         <a href="https://www.linkedin.com/in/matteoarellano" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       </div>
     </div>
 
     <div class="growth-footer-notes">
-      <span class="growth-footer-label">Field Notes</span>
-      <div class="growth-footer-note-list">
+      <span class="growth-footer-label">{f.notes}</span>
+      <div class="growth-footer-note-list" lang={lang === "en" ? undefined : "en"}>
         {fieldNotes.map((entry) => (
           <a href={`/journal/${entry.id}/`}>
             <strong>{entry.data.title}</strong>
@@ -30,22 +47,19 @@ const fieldNotes = (await getCollection("journal", ({ data }) => !data.draft))
           </a>
         ))}
       </div>
-      <a class="growth-footer-all-notes" href="/journal/">View all Field Notes →</a>
+      <a class="growth-footer-all-notes" href="/journal/">{f.allNotes}</a>
     </div>
 
-    <nav class="growth-footer-nav" aria-label="Footer navigation">
-      <span class="growth-footer-label">Explore</span>
-      <a href="/services/">Services</a>
-      <a href="/cybersecurity/">Cybersecurity</a>
-      <a href="/achievements/#recommendations">Recommendations</a>
-      <a href="/about/">About</a>
-      <a href="https://lab.matteoarellano.com/" target="_blank" rel="noreferrer">Lab & experiments</a>
-      <a href="/privacy-policy/">Privacy</a>
+    <nav class="growth-footer-nav" aria-label={f.exploreLabel}>
+      <span class="growth-footer-label">{f.explore}</span>
+      {links.map((link) => <a href={link.href}>{link.label}</a>)}
+      <a href="https://lab.matteoarellano.com/" target="_blank" rel="noreferrer">{f.lab}</a>
+      <a href="/privacy-policy/">{f.privacy}</a>
     </nav>
   </div>
 
   <div class="container growth-footer-bottom">
     <span>© {new Date().getFullYear()} Matteo Arellano</span>
-    <span>Business problems first. Tools second.</span>
+    <span>{f.motto}</span>
   </div>
 </footer>

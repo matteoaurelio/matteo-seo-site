@@ -3,9 +3,9 @@
  * The homepage, shared by / (English), /es/ and /nl/.
  * Layout and behaviour live here; all words live in src/data/homeContent.ts.
  */
-import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Footer from "./Footer.astro";
+import { servicesHubPath } from "../data/siteUi";
 import DiscoveryCalendar from "./DiscoveryCalendar.astro";
 import { recommendations } from "../data/achievements";
 import { languageLevels } from "../data/languages";
@@ -70,50 +70,6 @@ const videoSchema = {
   publisher: { "@id": `${site}/#person` },
 };
 
-/* Footer text for the Spanish and Dutch pages. English uses the site Footer. */
-const footerText = {
-  es: {
-    about: "Socio técnico de crecimiento: growth marketing, ingeniería de datos, mejora de producto, desarrollo de negocio y pagos.",
-    email: "Email",
-    notes: "Notas de campo",
-    allNotes: "Ver todas las notas de campo →",
-    explore: "Explorar",
-    exploreLabel: "Navegación del pie de página",
-    links: [
-      { href: "/services/", label: "Servicios" },
-      { href: "/cybersecurity/", label: "Ciberseguridad" },
-      { href: "/achievements/#recommendations", label: "Recomendaciones" },
-      { href: "/es/sobre-mi/", label: "Sobre mí" },
-      { href: "https://lab.matteoarellano.com/", label: "Laboratorio & experimentos", external: true },
-      { href: "/privacy-policy/", label: "Privacidad" },
-    ],
-    motto: "Primero el problema de negocio. Después, las herramientas.",
-  },
-  nl: {
-    about: "Technisch groeipartner voor growth marketing, data engineering, productverbetering, business development en betalingen.",
-    email: "E-mail",
-    notes: "Field Notes",
-    allNotes: "Bekijk alle Field Notes →",
-    explore: "Ontdek",
-    exploreLabel: "Footernavigatie",
-    links: [
-      { href: "/services/", label: "Diensten" },
-      { href: "/cybersecurity/", label: "Cybersecurity" },
-      { href: "/achievements/#recommendations", label: "Aanbevelingen" },
-      { href: "/nl/over-mij/", label: "Over mij" },
-      { href: "https://lab.matteoarellano.com/", label: "Lab & experimenten", external: true },
-      { href: "/privacy-policy/", label: "Privacy" },
-    ],
-    motto: "Eerst het businessprobleem. Daarna de tools.",
-  },
-};
-
-const fieldNotes =
-  lang === "en"
-    ? []
-    : (await getCollection("journal", ({ data }) => !data.draft))
-        .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-        .slice(0, 3);
 ---
 
 <BaseLayout
@@ -228,7 +184,7 @@ const fieldNotes =
                   </li>
                 ))}
               </ul>
-              <a class="hm-path-more" href="/services/">{t.work.more}</a>
+              <a class="hm-path-more" href={servicesHubPath[lang]}>{t.work.more}</a>
             </div>
           </article>
 
@@ -334,53 +290,7 @@ const fieldNotes =
     </section>
   </main>
 
-  {
-    lang === "en" ? (
-      <Footer />
-    ) : (
-      <footer class="site-footer growth-site-footer">
-        <div class="container growth-footer-grid">
-          <div class="growth-footer-brand">
-            <a class="growth-footer-name" href={t.path}>Matteo Arellano</a>
-            <p>{footerText[lang].about}</p>
-            <div class="growth-footer-socials">
-              <a href={`mailto:${email}`}>{footerText[lang].email}</a>
-              <a href={linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            </div>
-          </div>
-
-          <div class="growth-footer-notes">
-            <span class="growth-footer-label">{footerText[lang].notes}</span>
-            <div class="growth-footer-note-list" lang="en">
-              {fieldNotes.map((entry) => (
-                <a href={`/journal/${entry.id}/`}>
-                  <strong>{entry.data.title}</strong>
-                  <span>{entry.data.description}</span>
-                </a>
-              ))}
-            </div>
-            <a class="growth-footer-all-notes" href="/journal/">{footerText[lang].allNotes}</a>
-          </div>
-
-          <nav class="growth-footer-nav" aria-label={footerText[lang].exploreLabel}>
-            <span class="growth-footer-label">{footerText[lang].explore}</span>
-            {footerText[lang].links.map((link) =>
-              link.external ? (
-                <a href={link.href} target="_blank" rel="noreferrer">{link.label}</a>
-              ) : (
-                <a href={link.href}>{link.label}</a>
-              ),
-            )}
-          </nav>
-        </div>
-
-        <div class="container growth-footer-bottom">
-          <span>© {new Date().getFullYear()} Matteo Arellano</span>
-          <span>{footerText[lang].motto}</span>
-        </div>
-      </footer>
-    )
-  }
+  <Footer lang={lang} />
 
   <!-- ======================= Video dialog ======================= -->
   <dialog class="hm-video" aria-labelledby="hm-video-title">

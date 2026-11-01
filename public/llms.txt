@@ -14,6 +14,22 @@ Confidentiality: client names, markets and figures are never published. Product 
 - [Payment Solutions](https://matteoarellano.com/payment-solutions/): improves payment acceptance, PSP integrations, routing, 3DS and local payment methods across Latin America, the Middle East and North Africa, and Europe.
 - [All services](https://matteoarellano.com/services/)
 
+## Services in Spanish (Servicios)
+- [Growth marketing](https://matteoarellano.com/es/servicios/growth-marketing/)
+- [Ingeniería de datos y automatización](https://matteoarellano.com/es/servicios/ingenieria-de-datos-y-automatizacion/)
+- [Mejora de producto](https://matteoarellano.com/es/servicios/mejora-de-producto/)
+- [Desarrollo de negocio y venta técnica](https://matteoarellano.com/es/servicios/desarrollo-de-negocio-y-venta-tecnica/)
+- [Soluciones de pago](https://matteoarellano.com/es/servicios/soluciones-de-pago/)
+- [Todos los servicios](https://matteoarellano.com/es/servicios/)
+
+## Services in Dutch (Diensten)
+- [Growth marketing](https://matteoarellano.com/nl/diensten/growth-marketing/)
+- [Data engineering & automatisering](https://matteoarellano.com/nl/diensten/data-engineering-en-automatisering/)
+- [Productverbetering](https://matteoarellano.com/nl/diensten/productverbetering/)
+- [Business development & technische sales](https://matteoarellano.com/nl/diensten/business-development-en-technische-sales/)
+- [Betaaloplossingen](https://matteoarellano.com/nl/diensten/betaaloplossingen/)
+- [Alle diensten](https://matteoarellano.com/nl/diensten/)
+
 ## Case studies and guides
 - [Product research case studies](https://matteoarellano.com/product-research/case-studies/)
 - [Payment case studies and guides](https://matteoarellano.com/payment-solutions/case-studies/)

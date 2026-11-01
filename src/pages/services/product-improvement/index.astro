@@ -1,6 +1,6 @@
 ---
 import ServicePage from "../../../components/ServicePage.astro";
-import { getService } from "../../../data/services";
+import { getLocalService } from "../../../data/servicesI18n";
 ---
 
-<ServicePage service={getService("product-improvement")} />
+<ServicePage service={getLocalService("en", "product-improvement")} />

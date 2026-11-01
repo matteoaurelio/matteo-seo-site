@@ -1,0 +1,360 @@
+---
+/**
+ * The services hub in English, Spanish or Dutch. Words live in
+ * src/data/servicesI18n.ts (hubContent).
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "./Header.astro";
+import Footer from "./Footer.astro";
+import DiscoveryCalendar from "./DiscoveryCalendar.astro";
+import { recommendations } from "../data/achievements";
+import { getServices, engagementFormatsByLang, serviceUi, hubContent } from "../data/servicesI18n";
+import { hreflangLinks, servicesHubPath, homePath, type Lang } from "../data/siteUi";
+import "../styles/growth-platform.css";
+import "../styles/service.css";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = hubContent[lang];
+const ui = serviceUi[lang];
+const services = getServices(lang);
+const engagementFormats = engagementFormatsByLang[lang];
+const isTranslated = lang !== "en";
+
+const site = "https://matteoarellano.com";
+const url = `${site}${servicesHubPath[lang]}`;
+const email = "matteo.visibility@gmail.com";
+
+const featured = recommendations.find((item) => item.id === "oscar-flores");
+const featuredQuote = featured?.quote.split("\n\n")[0] ?? "";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": `${url}#page`,
+      url,
+      name: t.title,
+      description: t.description,
+      inLanguage: lang,
+      isPartOf: { "@id": `${site}/#website` },
+      mainEntity: { "@id": `${url}#services` },
+      breadcrumb: { "@id": `${url}#breadcrumb` },
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${url}#breadcrumb`,
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: ui.home, item: `${site}${homePath[lang]}` },
+        { "@type": "ListItem", position: 2, name: ui.services, item: url },
+      ],
+    },
+    {
+      "@type": "ItemList",
+      "@id": `${url}#services`,
+      itemListElement: services.map((service, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "Service",
+          "@id": `${site}${service.path}#service`,
+          name: service.name,
+          description: service.metaDescription,
+          url: `${site}${service.path}`,
+          provider: { "@id": `${site}/#person` },
+        },
+      })),
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={t.title}
+  description={t.description}
+  canonical={url}
+  image="/images/home/og-home.jpg"
+  lang={lang}
+  alternateLanguages={hreflangLinks(servicesHubPath)}
+>
+  <Header lang={lang} alternates={servicesHubPath} />
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+  <main class="sv">
+    <section class="sv-hero" aria-labelledby="svh-title">
+      <picture class="sv-hero-bg" aria-hidden="true">
+        <source media="(max-width: 700px)" srcset="/images/home/globe-forest-portrait-900.webp" />
+        <img
+          src="/images/home/globe-forest-1920.webp"
+          srcset="/images/home/globe-forest-768.webp 768w, /images/home/globe-forest-1280.webp 1280w, /images/home/globe-forest-1920.webp 1920w"
+          sizes="100vw"
+          width="1920"
+          height="1080"
+          alt=""
+          fetchpriority="high"
+          decoding="async"
+        />
+      </picture>
+      <div class="sv-shell sv-hero-inner">
+        <p class="sv-kicker">{t.kicker}</p>
+        <h1 id="svh-title">{t.h1}</h1>
+        <p class="sv-lede">{t.lede}</p>
+        <div class="sv-actions">
+          <a class="sv-btn sv-btn--primary" href="#availability">{ui.bookCall}</a>
+          <a class="sv-btn sv-btn--ghost" href="#services">{t.chooseCta}</a>
+        </div>
+        <dl class="sv-stats">
+          {
+            t.stats.map((stat) => (
+              <div>
+                <dt>{stat.label}</dt>
+                <dd>{stat.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </section>
+
+    <section class="sv-section" id="services" aria-labelledby="list-title">
+      <div class="sv-shell">
+        <header class="sv-head">
+          <p class="sv-overline">{t.listOverline}</p>
+          <h2 id="list-title">{t.listTitle}</h2>
+        </header>
+        <ol class="svh-list">
+          {
+            services.map((service) => (
+              <li>
+                <a href={service.path}>
+                  <span class="svh-num">{service.number}</span>
+                  <span class="svh-main">
+                    <strong>{service.name}</strong>
+                    <span class="svh-short">{service.short}</span>
+                    <span class="svh-tags">
+                      {service.tags.map((tag) => (
+                        <span>{tag}</span>
+                      ))}
+                    </span>
+                  </span>
+                  <span class="svh-go" aria-hidden="true">→</span>
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
+
+    <section class="sv-section sv-section--tint" aria-labelledby="start-title">
+      <div class="sv-shell sv-fit">
+        <div>
+          <p class="sv-overline">{t.startOverline}</p>
+          <h2 id="start-title">{t.startTitle}</h2>
+          <p class="svh-copy">{t.startCopy}</p>
+          <div class="sv-formats svh-formats">
+            <h3>{ui.formatsTitle}</h3>
+            <div>
+              {
+                engagementFormats.map((format) => (
+                  <article>
+                    <strong>{format.title}</strong>
+                    <p>{format.copy}</p>
+                  </article>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+        <aside class="sv-start" aria-labelledby="how-title">
+          <h3 id="how-title">{ui.startTitle}</h3>
+          <ol>
+            {
+              ui.steps.map(([lead, copy]) => (
+                <li>
+                  <strong>{lead}</strong> {copy}
+                </li>
+              ))
+            }
+            <li><strong>{ui.firstStep}</strong> {t.thirdStep}</li>
+          </ol>
+          <a class="sv-btn sv-btn--primary sv-btn--block" href="#availability">{ui.bookCall}</a>
+          <p class="sv-start-alt">{ui.emailAlt} <a href={`mailto:${email}`}>{email}</a></p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="sv-proof on-dark" aria-labelledby="proof-title">
+      <div class="sv-shell">
+        <header class="sv-head sv-head--dark">
+          <p class="sv-overline">{ui.evidenceOverline}</p>
+          <h2 id="proof-title">{t.proofTitle}</h2>
+        </header>
+        <div class="sv-proof-grid">
+          {
+            featured && (
+              <figure class="sv-quote">
+                <blockquote lang={isTranslated ? "en" : undefined}>
+                  <p>{featuredQuote}</p>
+                </blockquote>
+                <figcaption>
+                  <strong>{featured.name}</strong>
+                  <span lang={isTranslated ? "en" : undefined}>{featured.headline}</span>
+                  {ui.quoteNote && <em class="sv-quote-note">{ui.quoteNote}</em>}
+                </figcaption>
+                <a href="/achievements/#recommendations">{ui.allRecommendations}</a>
+              </figure>
+            )
+          }
+          <div class="sv-work">
+            <ul>
+              {
+                t.work.map((item) => (
+                  <li>
+                    <a href={item.href}>
+                      <span>{item.type}</span>
+                      <strong>{item.title}</strong>
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+            {ui.evidenceNote && <p class="sv-work-note">{ui.evidenceNote}</p>}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sv-book" aria-label={ui.bookLabel}>
+      <div class="sv-shell">
+        <div class="sv-book-card">
+          <DiscoveryCalendar
+            namespace={`services-hub-${lang}`}
+            eyebrow={ui.calendar.eyebrow}
+            title={t.calendarTitle}
+            copy={t.calendarCopy}
+            note={ui.calendar.note}
+            noteDetail={ui.calendar.noteDetail}
+            embedLabel={ui.calendar.embedLabel}
+          />
+          <p class="sv-book-alt">{ui.emailAlt} <a href={`mailto:${email}`}>{email}</a></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer lang={lang} />
+</BaseLayout>
+
+<style>
+  .svh-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--sv-line);
+  }
+
+  .svh-list li {
+    border-bottom: 1px solid var(--sv-line);
+  }
+
+  .svh-list a {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr) 40px;
+    align-items: center;
+    gap: 20px;
+    padding: 26px 8px;
+    transition: background 0.3s ease;
+  }
+
+  .svh-list a:hover {
+    background: var(--sv-tint);
+  }
+
+  .svh-num {
+    color: var(--sv-gold-text);
+    font-family: var(--sv-serif);
+    font-size: 1.6rem;
+  }
+
+  .svh-main {
+    display: grid;
+    gap: 6px;
+  }
+
+  .svh-main strong {
+    color: var(--sv-ink);
+    font-size: clamp(1.3rem, 2.4vw, 1.75rem);
+    letter-spacing: -0.02em;
+  }
+
+  .svh-short {
+    color: var(--sv-copy);
+    font-size: 1.02rem;
+  }
+
+  .svh-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .svh-tags span {
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--sv-tint);
+    color: var(--sv-copy);
+    font-size: 0.82rem;
+  }
+
+  .svh-list a:hover .svh-tags span {
+    background: #ffffff;
+  }
+
+  .svh-go {
+    color: var(--sv-muted);
+    font-size: 1.4rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+
+  .svh-list a:hover .svh-go {
+    color: var(--sv-ink);
+    transform: translateX(4px);
+  }
+
+  .svh-copy {
+    max-width: 60ch;
+    margin: 1.2rem 0 0;
+    color: var(--sv-copy);
+    font-size: 1.08rem;
+    line-height: 1.7;
+  }
+
+  .svh-formats {
+    margin-top: 2rem;
+  }
+
+  .svh-formats > div {
+    grid-template-columns: 1fr;
+  }
+
+  .svh-formats article {
+    background: #ffffff;
+  }
+
+  @media (max-width: 700px) {
+    .svh-list a {
+      grid-template-columns: 40px minmax(0, 1fr);
+      gap: 12px;
+    }
+
+    .svh-go {
+      display: none;
+    }
+  }
+</style>

@@ -1,6 +1,7 @@
 ---
 /**
- * One service landing page. All words and links come from src/data/services.ts.
+ * One service landing page in English, Spanish or Dutch. Words come from
+ * src/data/services.ts and its translations (see servicesI18n.ts).
  * Layout: evidence-led hero, outcomes, fit, scope, proof, method, FAQ, booking.
  */
 import BaseLayout from "../layouts/BaseLayout.astro";
@@ -8,21 +9,34 @@ import Header from "./Header.astro";
 import Footer from "./Footer.astro";
 import DiscoveryCalendar from "./DiscoveryCalendar.astro";
 import { recommendations } from "../data/achievements";
-import { services, engagementFormats, type Service } from "../data/services";
+import {
+  getServices,
+  serviceAlternates,
+  engagementFormatsByLang,
+  serviceUi,
+  type LocalService,
+} from "../data/servicesI18n";
+import { hreflangLinks, servicesHubPath, homePath } from "../data/siteUi";
 import "../styles/growth-platform.css";
 import "../styles/service.css";
 
 interface Props {
-  service: Service;
+  service: LocalService;
 }
 
 const { service } = Astro.props;
+const lang = service.lang;
+const ui = serviceUi[lang];
+const hub = servicesHubPath[lang];
+const alternates = serviceAlternates(service.slug);
+const isTranslated = lang !== "en";
 const site = "https://matteoarellano.com";
 const url = `${site}${service.path}`;
 const email = "matteo.visibility@gmail.com";
 
 const recommender = recommendations.find((item) => item.id === service.quote.recommendationId);
-const otherServices = services.filter((item) => item.slug !== service.slug);
+const otherServices = getServices(lang).filter((item) => item.slug !== service.slug);
+const engagementFormats = engagementFormatsByLang[lang];
 
 const schema = {
   "@context": "https://schema.org",
@@ -34,6 +48,7 @@ const schema = {
       serviceType: service.serviceTypes,
       description: service.metaDescription,
       url,
+      inLanguage: lang,
       areaServed: "Worldwide",
       availableLanguage: ["en", "es", "ca", "nl", "pt", "fr"],
       provider: { "@id": `${site}/#person` },
@@ -44,6 +59,7 @@ const schema = {
       url,
       name: service.metaTitle,
       description: service.metaDescription,
+      inLanguage: lang,
       isPartOf: { "@id": `${site}/#website` },
       about: { "@id": `${url}#service` },
       primaryImageOfPage: `${site}${service.hero.ogImage}`,
@@ -53,8 +69,8 @@ const schema = {
       "@type": "BreadcrumbList",
       "@id": `${url}#breadcrumb`,
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: `${site}/` },
-        { "@type": "ListItem", position: 2, name: "Services", item: `${site}/services/` },
+        { "@type": "ListItem", position: 1, name: ui.home, item: `${site}${homePath[lang]}` },
+        { "@type": "ListItem", position: 2, name: ui.services, item: `${site}${hub}` },
         { "@type": "ListItem", position: 3, name: service.name, item: url },
       ],
     },
@@ -76,8 +92,10 @@ const schema = {
   description={service.metaDescription}
   canonical={url}
   image={service.hero.ogImage}
+  lang={lang}
+  alternateLanguages={hreflangLinks(alternates)}
 >
-  <Header />
+  <Header lang={lang} alternates={alternates} />
   <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 
   <main class="sv">
@@ -98,8 +116,8 @@ const schema = {
       </picture>
 
       <div class="sv-shell sv-hero-inner">
-        <nav class="sv-crumbs" aria-label="Breadcrumb">
-          <a href="/services/">Services</a>
+        <nav class="sv-crumbs" aria-label={ui.breadcrumb}>
+          <a href={hub}>{ui.services}</a>
           <span aria-hidden="true">/</span>
           <span aria-current="page">{service.name}</span>
         </nav>
@@ -108,8 +126,8 @@ const schema = {
         <p class="sv-lede">{service.hero.lede}</p>
 
         <div class="sv-actions">
-          <a class="sv-btn sv-btn--primary" href="#availability">Book a 20-minute call</a>
-          <a class="sv-btn sv-btn--ghost" href="#evidence">See the evidence</a>
+          <a class="sv-btn sv-btn--primary" href="#availability">{ui.bookCall}</a>
+          <a class="sv-btn sv-btn--ghost" href="#evidence">{ui.seeEvidence}</a>
         </div>
 
         <dl class="sv-stats">
@@ -129,8 +147,8 @@ const schema = {
     <section class="sv-section" aria-labelledby="outcomes-title">
       <div class="sv-shell">
         <header class="sv-head">
-          <p class="sv-overline">What changes</p>
-          <h2 id="outcomes-title">What you get from this work.</h2>
+          <p class="sv-overline">{ui.outcomesOverline}</p>
+          <h2 id="outcomes-title">{ui.outcomesTitle}</h2>
         </header>
         <div class="sv-outcomes">
           {
@@ -150,28 +168,29 @@ const schema = {
     <section class="sv-section sv-section--tint" aria-labelledby="fit-title">
       <div class="sv-shell sv-fit">
         <div>
-          <p class="sv-overline">Is this for you?</p>
-          <h2 id="fit-title">Call me when one of these sounds familiar.</h2>
+          <p class="sv-overline">{ui.fitOverline}</p>
+          <h2 id="fit-title">{ui.fitTitle}</h2>
           <ul class="sv-signals">
             {service.signals.map((signal) => <li>{signal}</li>)}
           </ul>
         </div>
         <aside class="sv-start" aria-labelledby="start-title">
-          <h3 id="start-title">How we start</h3>
+          <h3 id="start-title">{ui.startTitle}</h3>
           <ol>
+            {
+              ui.steps.map(([lead, copy]) => (
+                <li>
+                  <strong>{lead}</strong> {copy}
+                </li>
+              ))
+            }
             <li>
-              <strong>A 20-minute call.</strong> We look at the problem together, with no brief needed.
-            </li>
-            <li>
-              <strong>A short proposal.</strong> If there is a fit, I send the scope, the first deliverable and the timing.
-            </li>
-            <li>
-              <strong>A first deliverable.</strong> {service.firstDeliverable.replace("The first deliverable is ", "It is ")}
+              <strong>{ui.firstStep}</strong> {service.firstDeliverable.replace("The first deliverable is ", "It is ")}
             </li>
           </ol>
-          <a class="sv-btn sv-btn--primary sv-btn--block" href="#availability">Book a 20-minute call</a>
+          <a class="sv-btn sv-btn--primary sv-btn--block" href="#availability">{ui.bookCall}</a>
           <p class="sv-start-alt">
-            Prefer email? Write to <a href={`mailto:${email}`}>{email}</a>
+            {ui.emailAlt} <a href={`mailto:${email}`}>{email}</a>
           </p>
         </aside>
       </div>
@@ -181,8 +200,8 @@ const schema = {
     <section class="sv-section" aria-labelledby="scope-title">
       <div class="sv-shell">
         <header class="sv-head">
-          <p class="sv-overline">What I do</p>
-          <h2 id="scope-title">The work, area by area.</h2>
+          <p class="sv-overline">{ui.scopeOverline}</p>
+          <h2 id="scope-title">{ui.scopeTitle}</h2>
         </header>
         <div class="sv-scope">
           {
@@ -204,22 +223,23 @@ const schema = {
     <section class="sv-proof on-dark" id="evidence" aria-labelledby="evidence-title">
       <div class="sv-shell">
         <header class="sv-head sv-head--dark">
-          <p class="sv-overline">Evidence</p>
-          <h2 id="evidence-title">Proof, in other people's words and my own work.</h2>
+          <p class="sv-overline">{ui.evidenceOverline}</p>
+          <h2 id="evidence-title">{ui.evidenceTitle}</h2>
         </header>
 
         <div class="sv-proof-grid">
           {
             recommender && (
               <figure class="sv-quote">
-                <blockquote>
+                <blockquote lang={isTranslated ? "en" : undefined}>
                   <p>{service.quote.text}</p>
                 </blockquote>
                 <figcaption>
                   <strong>{recommender.name}</strong>
-                  <span>{recommender.headline}</span>
+                  <span lang={isTranslated ? "en" : undefined}>{recommender.headline}</span>
+                  {ui.quoteNote && <em class="sv-quote-note">{ui.quoteNote}</em>}
                 </figcaption>
-                <a href="/achievements/#recommendations">Read all recommendations →</a>
+                <a href="/achievements/#recommendations">{ui.allRecommendations}</a>
               </figure>
             )
           }
@@ -231,12 +251,13 @@ const schema = {
                   <li>
                     <a href={item.href}>
                       <span>{item.type}</span>
-                      <strong>{item.title}</strong>
+                      <strong lang={isTranslated && item.english ? "en" : undefined}>{item.title}</strong>
                     </a>
                   </li>
                 ))
               }
             </ul>
+            {ui.evidenceNote && <p class="sv-work-note">{ui.evidenceNote}</p>}
             {service.evidenceMore && (
               <a class="sv-work-more" href={service.evidenceMore.href}>
                 {service.evidenceMore.label} →
@@ -251,8 +272,8 @@ const schema = {
     <section class="sv-section" aria-labelledby="method-title">
       <div class="sv-shell">
         <header class="sv-head">
-          <p class="sv-overline">How I work</p>
-          <h2 id="method-title">Three steps, measured at every stage.</h2>
+          <p class="sv-overline">{ui.methodOverline}</p>
+          <h2 id="method-title">{ui.methodTitle}</h2>
         </header>
         <ol class="sv-steps">
           {
@@ -267,7 +288,7 @@ const schema = {
         </ol>
 
         <div class="sv-formats">
-          <h3>Ways to work together</h3>
+          <h3>{ui.formatsTitle}</h3>
           <div>
             {
               engagementFormats.map((format) => (
@@ -281,7 +302,7 @@ const schema = {
         </div>
 
         <div class="sv-tools">
-          <h3>Tools I use</h3>
+          <h3>{ui.toolsTitle}</h3>
           <ul>
             {service.tools.map((tool) => <li>{tool}</li>)}
           </ul>
@@ -293,8 +314,8 @@ const schema = {
     <section class="sv-section sv-section--tint" aria-labelledby="faq-title">
       <div class="sv-shell sv-faq-wrap">
         <header class="sv-head">
-          <p class="sv-overline">Questions</p>
-          <h2 id="faq-title">Frequently asked questions.</h2>
+          <p class="sv-overline">{ui.faqOverline}</p>
+          <h2 id="faq-title">{ui.faqTitle}</h2>
         </header>
         <div class="sv-faq">
           {
@@ -310,17 +331,20 @@ const schema = {
     </section>
 
     <!-- ======================= Book ======================= -->
-    <section class="sv-book" aria-label="Book a call">
+    <section class="sv-book" aria-label={ui.bookLabel}>
       <div class="sv-shell">
         <div class="sv-book-card">
           <DiscoveryCalendar
             namespace={`service-${service.slug}`}
-            eyebrow="Talk it through"
+            eyebrow={ui.calendar.eyebrow}
             title={service.ctaTitle}
             copy={service.ctaCopy}
+            note={ui.calendar.note}
+            noteDetail={ui.calendar.noteDetail}
+            embedLabel={ui.calendar.embedLabel}
           />
           <p class="sv-book-alt">
-            Prefer email? Write to <a href={`mailto:${email}`}>{email}</a>
+            {ui.emailAlt} <a href={`mailto:${email}`}>{email}</a>
           </p>
         </div>
       </div>
@@ -330,8 +354,8 @@ const schema = {
     <section class="sv-section" aria-labelledby="more-title">
       <div class="sv-shell">
         <header class="sv-head">
-          <p class="sv-overline">Other services</p>
-          <h2 id="more-title">Often combined with this work.</h2>
+          <p class="sv-overline">{ui.othersOverline}</p>
+          <h2 id="more-title">{ui.othersTitle}</h2>
         </header>
         <div class="sv-others">
           {
@@ -344,10 +368,10 @@ const schema = {
             ))
           }
         </div>
-        <p class="sv-all"><a href="/services/">All services →</a></p>
+        <p class="sv-all"><a href={hub}>{ui.allServices}</a></p>
       </div>
     </section>
   </main>
 
-  <Footer />
+  <Footer lang={lang} />
 </BaseLayout>

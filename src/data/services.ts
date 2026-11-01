@@ -60,6 +60,36 @@ export interface Service {
   ctaCopy: string;
 }
 
+/**
+ * The words of one service in another language. Everything else (slug,
+ * number, images, quote, evidence links) is shared with the English
+ * version. See src/data/servicesI18n.ts.
+ */
+export interface ServiceTranslation {
+  path: string;
+  name: string;
+  short: string;
+  tags: string[];
+  metaTitle: string;
+  metaDescription: string;
+  serviceTypes: string[];
+  hero: { kicker: string; title: string; lede: string };
+  /** One label per English stat, in the same order. */
+  statLabels: string[];
+  outcomes: { title: string; copy: string }[];
+  signals: string[];
+  scope: { title: string; copy: string; items: string[] }[];
+  approach: { title: string; copy: string }[];
+  /** Text of the third "How we start" step. */
+  firstDeliverable: string;
+  evidenceMore?: { href?: string; label: string };
+  /** Only when tool names need translating. */
+  tools?: string[];
+  faqs: { q: string; a: string }[];
+  ctaTitle: string;
+  ctaCopy: string;
+}
+
 const img = (name: string) => ({
   image: `/images/services/${name}`,
   imagePortrait: `/images/services/${name}-portrait-900.webp`,

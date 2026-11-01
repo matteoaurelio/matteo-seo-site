@@ -7,6 +7,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "./Header.astro";
 import Footer from "./Footer.astro";
+import { aboutPath } from "../data/siteUi";
 import DiscoveryCalendar from "./DiscoveryCalendar.astro";
 import { recommendations, achievements } from "../data/achievements";
 import { languageLevels } from "../data/languages";
@@ -20,6 +21,8 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = aboutContent[lang];
+// The shared header and footer exist in English, Spanish and Dutch.
+const siteLang = lang === "no" ? "en" : lang;
 
 const site = "https://matteoarellano.com";
 const canonical = `${site}${t.path}`;
@@ -193,7 +196,7 @@ const structuredData = {
   alternateLanguages={alternateLanguages}
   image="/images/about/norway-ferry.webp"
 >
-  <Header />
+  <Header lang={siteLang} alternates={aboutPath} />
 
   <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
@@ -413,5 +416,5 @@ const structuredData = {
     </section>
   </main>
 
-  <Footer />
+  <Footer lang={siteLang} />
 </BaseLayout>
