@@ -18,6 +18,8 @@ export type Recommendation = {
   areas: RecommendationArea[];
   /** Only set where the quote or relationship names the organisation explicitly. */
   organisation?: string;
+  /** Shown under the text when it has been edited, e.g. to remove client names. */
+  editNote?: string;
   /** Optional: public LinkedIn profile of the recommender. */
   profileUrl?: string;
   /** Optional: square photo in /public/images/recommendations/ (only with permission). */
@@ -210,13 +212,15 @@ Our collaboration has been incredibly productive, thanks to his dedication and e
     areas: ["data"],
   },
 
-  /* ---------- Collected through Senja (shown on the site as written; no dates are shown in Senja) ---------- */
+  /* ---------- Collected through Senja. Dates and company come from the Senja export. ---------- */
   {
     id: "daniel-martinez",
     name: "Daniel Martinez",
     headline: "Country Manager",
+    date: "27 July 2026",
     relationship: "Worked with Matteo",
     source: "Senja",
+    organisation: "Distribusion Technologies",
     quote: `We have worked in different implementations of website optimizations for different carriers in Colombia.
 
 He has performed great and thanks to him we have received great feedback from our clients.
@@ -230,8 +234,10 @@ I´ll recommend for anything related to Growth`,
     id: "diego-vera",
     name: "Diego Vera",
     headline: "Technical Partnership Manager",
+    date: "30 October 2026",
     relationship: "Worked with Matteo",
     source: "Senja",
+    organisation: "Distribusion Technologies",
     quote: `I am consistently impressed by Matteo's deep product knowledge and his willingness to share that expertise with the rest of the team.
 
 Matteo is a true collaborator who understands that the ultimate goal is the success of the project. They are always ready to step up and support others to ensure we cross the finish line together. Beyond being incredibly resourceful when faced with challenges, Matteo is highly reliable. Someone you can always count on to deliver great results. Any team would be lucky to have them.`,
@@ -243,8 +249,10 @@ Matteo is a true collaborator who understands that the ultimate goal is the succ
     id: "eduardo-cortes",
     name: "Eduardo Cortes",
     headline: "Senior LATAM BizDev",
+    date: "21 July 2026",
     relationship: "Worked with Matteo",
     source: "Senja",
+    organisation: "Distribusion Technologies",
     quote: `I have worked with Matteo on several White Label (WL) projects to date, and he is easily the best hands-on colleague I have ever collaborated with. His work ethic, commitment, and technical depth are top-notch. If he encounters a problem he doesn't know how to solve, he will relentlessly research it until he masters the solution.
 What stands out most about Matteo is his level of ownership—he is completely self-managed and excels at both soliciting and implementing constructive feedback. As a Senior team member in our tech company, I can state without hesitation that Matteo is one of our top technical contributors.`,
     highlight:
@@ -255,8 +263,10 @@ What stands out most about Matteo is his level of ownership—he is completely s
     id: "artem-aspidov",
     name: "Artem Aspidov",
     headline: "Growth Manager",
+    date: "2 August 2026",
     relationship: "Worked with Matteo",
     source: "Senja",
+    organisation: "Distribusion Technologies",
     quote: `I have really enjoyed working with Matteo, especially during our time together on the project team for one of the biggest Mexican bus companies. He took on a massive part of the workload and handled the communication, project development, and the analytical side of things extremely well. One of his biggest strengths is his curiosity. He is always asking the right questions and going beyond his regular scope, like when he took the initiative to create custom tools that automated our day-to-day tasks, which made a huge impact on the team.
 
 Because of how well he handles both the technical and project management sides, I would highly recommend Matteo for roles that bridge operations and strategy. He would be a great fit for something like a technical project manager or an analytics lead, where he can take charge of complex, data-heavy projects and build systematic solutions from the ground up.`,
@@ -268,8 +278,10 @@ Because of how well he handles both the technical and project management sides, 
     id: "alejandra-olvera",
     name: "Alejandra Olvera",
     headline: "Fraud Prevention Analyst",
+    date: "21 July 2026",
     relationship: "Worked with Matteo",
     source: "Senja",
+    organisation: "Distribusion Technologies",
     quote: `We've worked together to analyze and try to fix the payment issues customers have been experiencing.
 Always with a great attitude and willingness to help.`,
     highlight:
@@ -280,11 +292,13 @@ Always with a great attitude and willingness to help.`,
     id: "guilherme-goncalves",
     name: "Guilherme Gonçalves",
     headline: "E-commerce Analyst",
+    date: "22 July 2026",
     relationship: "Worked with Matteo",
     source: "Senja",
-    quote: `I worked with Matteo within the Growth team, focused on LATAM Whitelabels as well as on improving the global whitelabel product as a whole, bringing recommendations that increased conversions and also recommendations for building/optimizing the CMS so we could perform better organically. A concrete example of this partnership was at Rodoviária de Goiânia, where we investigated a conversion drop between "Click Pay" and "Purchase" together - Matteo dug into the refused transactions data (Adyen) and helped me pinpoint exactly where the funnel was losing users, which pointed us to the right fixes in the right place.
+    organisation: "Distribusion Technologies",
+    quote: `I worked with Matteo within the Growth team, focused on LATAM Whitelabels as well as on improving the global whitelabel product as a whole, bringing recommendations that increased conversions and also recommendations for building/optimizing the CMS so we could perform better organically. A concrete example of this partnership was at [a Brazilian bus client], where we investigated a conversion drop between "Click Pay" and "Purchase" together - Matteo dug into the refused transactions data (Adyen) and helped me pinpoint exactly where the funnel was losing users, which pointed us to the right fixes in the right place.
 
-Matteo also contributed to investigating the Vai de Ônibus whitelabel, where he identified several inconsistencies, mainly related to Content - a number of routes that should have been showing up simply weren't appearing. He brought a lot of valuable insights to that analysis, helping map the root of the problem clearly.
+Matteo also contributed to investigating [another Brazilian client's] whitelabel, where he identified several inconsistencies, mainly related to Content - a number of routes that should have been showing up simply weren't appearing. He brought a lot of valuable insights to that analysis, helping map the root of the problem clearly.
 
 Standout strength
 What stands out most about Matteo is the depth of his analysis: he doesn't stop at surface-level data, he digs into the "why" behind every number, cross-referencing Amplitude, Google Analytics, and tracking dashboards until he arrives at an actionable recommendation. A direct example of this was the dashboard he built with highly meaningful data, which I still use today to build route pages and carrier pages with precise, optimized content - this has already generated real impact on organic visibility and conversions across the whitelabels.
@@ -296,6 +310,7 @@ Growth suggestion
 As a suggestion, I think it would be valuable for him to explore the CMS further - understanding how tools like Claude can create pages efficiently via CMS + MCP - since the CMS today has features that give the site a more professional, conversion-oriented look. I'd also recommend digging deeper into Google Search Console, which offers valuable clues about the client's organic performance.`,
     highlight:
       `What stands out most about Matteo is the depth of his analysis: he doesn't stop at surface-level data, he digs into the "why" behind every number, cross-referencing Amplitude, Google Analytics, and tracking dashboards until he arrives at an actionable recommendation.`,
+    editNote: "Two client names are replaced by descriptions in square brackets.",
     areas: ["growth", "product", "payments", "data"],
   },
 ];

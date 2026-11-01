@@ -1,0 +1,116 @@
+---
+/**
+ * The recommendations page in Spanish or Dutch: the same 18 recommendations
+ * as /achievements/, translated from English, each linking to its original.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "./Header.astro";
+import Footer from "./Footer.astro";
+import RecommendationsHero from "./RecommendationsHero.astro";
+import RecommendationList from "./RecommendationList.astro";
+import {
+  getRecommendationItems,
+  recommendationsUi,
+  recommendationsPath,
+} from "../data/recommendationsI18n";
+import { hreflangLinks, homePath, type Lang } from "../data/siteUi";
+import "../styles/growth-platform.css";
+import "../styles/recommendations.css";
+
+interface Props {
+  lang: Exclude<Lang, "en">;
+}
+
+const { lang } = Astro.props;
+const ui = recommendationsUi[lang];
+const items = getRecommendationItems(lang);
+const closing = ui.closing!;
+
+const site = "https://matteoarellano.com";
+const canonical = `${site}${recommendationsPath[lang]}`;
+const personId = `${site}/#person`;
+const latestIso = items
+  .filter((item) => item.iso)
+  .map((item) => item.iso!)
+  .sort()
+  .pop();
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ProfilePage",
+      "@id": `${canonical}#profilepage`,
+      url: canonical,
+      name: ui.title,
+      description: ui.description,
+      inLanguage: lang,
+      dateModified: latestIso,
+      isPartOf: { "@id": `${site}/#website` },
+      mainEntity: { "@id": personId },
+      breadcrumb: { "@id": `${canonical}#breadcrumb` },
+      hasPart: { "@id": `${canonical}#recommendation-list` },
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${canonical}#breadcrumb`,
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: lang === "es" ? "Inicio" : "Home", item: `${site}${homePath[lang]}` },
+        { "@type": "ListItem", position: 2, name: ui.kicker, item: canonical },
+      ],
+    },
+    {
+      "@type": "ItemList",
+      "@id": `${canonical}#recommendation-list`,
+      name: ui.h1,
+      numberOfItems: items.length,
+      itemListElement: items.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "Review",
+          "@id": `${canonical}#rec-${item.id}`,
+          url: `${canonical}#rec-${item.id}`,
+          inLanguage: lang,
+          itemReviewed: { "@id": personId },
+          author: { "@type": "Person", name: item.name, jobTitle: item.headline },
+          ...(item.iso ? { datePublished: item.iso } : {}),
+          reviewBody: item.quote,
+          translationOfWork: { "@id": `${site}/achievements/#rec-${item.id}` },
+        },
+      })),
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={ui.title}
+  description={ui.description}
+  canonical={canonical}
+  image="/images/recommendations/colosseum-og.jpg"
+  lang={lang}
+  alternateLanguages={hreflangLinks(recommendationsPath)}
+>
+  <Header lang={lang} alternates={recommendationsPath} />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+  <main class="rec-page">
+    <RecommendationsHero lang={lang} items={items} />
+    <RecommendationList lang={lang} items={items} />
+
+    <section class="rec-cta" aria-labelledby="cta-title">
+      <div class="rec-shell rec-cta-inner">
+        <div>
+          <p class="rec-kicker">{closing.kicker}</p>
+          <h2 id="cta-title">{closing.title}</h2>
+          <p>{closing.copy}</p>
+          <p class="rec-cta-more"><a href="/achievements/#letters" hreflang="en">{closing.more}</a></p>
+        </div>
+        <a class="growth-primary-button" href={closing.buttonHref}>{closing.button}</a>
+      </div>
+    </section>
+  </main>
+
+  <Footer lang={lang} />
+</BaseLayout>

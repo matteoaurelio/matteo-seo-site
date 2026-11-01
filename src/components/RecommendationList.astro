@@ -1,0 +1,220 @@
+---
+/**
+ * All recommendations in one calm column, with area filters and search.
+ * Without JavaScript every recommendation is simply listed.
+ */
+import {
+  recommendationsUi,
+  getAreaFilters,
+  initials,
+  type RecommendationItem,
+} from "../data/recommendationsI18n";
+import type { Lang } from "../data/siteUi";
+
+interface Props {
+  lang: Lang;
+  items: RecommendationItem[];
+}
+
+const { lang, items } = Astro.props;
+const ui = recommendationsUi[lang];
+const total = items.length;
+const filters = getAreaFilters(lang, items);
+const translated = lang !== "en";
+const statusText = JSON.stringify(ui.status);
+---
+
+<section class="rec-section rec-reading" id="recommendations" aria-labelledby="recommendations-title">
+  <div class="rec-shell">
+    <header class="rec-reading-head">
+      <h2 id="recommendations-title">{ui.listTitle}</h2>
+      <p>{ui.listCopy}</p>
+    </header>
+
+    <div class="rec-filter" data-rec-controls data-status={statusText} hidden>
+      <div class="rec-chips" role="group" aria-label={ui.filterLabel}>
+        <button type="button" class="rec-chip" aria-pressed="true" data-filter="all">
+          {ui.all} <span>{total}</span>
+        </button>
+        {
+          filters.map((area) => (
+            <button
+              type="button"
+              class="rec-chip"
+              aria-pressed="false"
+              data-filter={area.id}
+              data-label={area.label}
+              data-service-href={area.serviceHref}
+              data-service-label={area.serviceLabel}
+            >
+              {area.label} <span>{area.count}</span>
+            </button>
+          ))
+        }
+      </div>
+      <label class="rec-search">
+        <span class="rec-visually-hidden">{ui.searchLabel}</span>
+        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M13 13l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+        <input type="search" placeholder={ui.searchPlaceholder} autocomplete="off" data-rec-search />
+      </label>
+    </div>
+
+    <p class="rec-status" role="status" aria-live="polite" data-rec-status></p>
+
+    <ol class="rec-list">
+      {
+        items.map((item) => (
+          <li class="rec-item" id={`rec-${item.id}`} data-rec-item data-areas={item.areas.join(" ")}>
+            <article aria-labelledby={`rec-${item.id}-name`}>
+              <header class="rec-person">
+                <span class="rec-avatar" aria-hidden="true">
+                  {item.photo ? <img src={item.photo} alt="" width="44" height="44" loading="lazy" /> : initials(item.name)}
+                </span>
+                <div class="rec-person-text">
+                  <h3 id={`rec-${item.id}-name`}>
+                    {item.profileUrl ? (
+                      <a href={item.profileUrl} target="_blank" rel="noopener noreferrer">{item.name}</a>
+                    ) : (
+                      item.name
+                    )}
+                  </h3>
+                  <span lang={translated ? "en" : undefined}>{item.headline}</span>
+                </div>
+              </header>
+
+              <blockquote class="rec-quote" cite={translated ? item.originalHref : undefined}>
+                {item.collapsible ? (
+                  <>
+                    <p class="rec-quote-highlight">{item.highlight}</p>
+                    <details class="rec-more" data-rec-details>
+                      <summary>
+                        <span class="rec-more-open">{ui.readFull}</span>
+                        <span class="rec-more-close">{ui.showLess}</span>
+                      </summary>
+                      <div class="rec-more-body">
+                        {item.blocks.map((block) => (
+                          <p>
+                            {block.heading && <strong class="rec-block-heading">{block.heading}</strong>}
+                            {block.text}
+                          </p>
+                        ))}
+                      </div>
+                    </details>
+                  </>
+                ) : (
+                  <div class="rec-quote-full">
+                    {item.blocks.map((block) => (
+                      <p>{block.text}</p>
+                    ))}
+                  </div>
+                )}
+              </blockquote>
+
+              {item.editNote && <p class="rec-edit-note">{item.editNote}</p>}
+
+              <footer class="rec-meta">
+                <span class:list={["rec-source", `rec-source--${item.source.toLowerCase()}`]}>{item.source}</span>
+                <span>
+                  {item.relationship}
+                  {item.organisation && !item.relationship.includes(item.organisation) && <> · {item.organisation}</>}
+                </span>
+                {item.iso && <time datetime={item.iso}>{item.displayDate}</time>}
+                {translated && ui.original && (
+                  <a class="rec-original" href={item.originalHref} hreflang="en">{ui.original}</a>
+                )}
+                <a class="rec-permalink" href={`#rec-${item.id}`} aria-label={ui.permalinkLabel(item.name)}>{ui.permalink}</a>
+              </footer>
+            </article>
+          </li>
+        ))
+      }
+    </ol>
+
+    <p class="rec-empty" data-rec-empty hidden>
+      {ui.empty}
+      <button type="button" data-filter="all">{ui.showAll(total)}</button>
+    </p>
+
+    <p class="rec-source-note">
+      {ui.sourceNote.before}
+      <a href="https://www.linkedin.com/in/matteoarellano" target="_blank" rel="noopener noreferrer">{ui.sourceNote.link}</a>{ui.sourceNote.after}
+    </p>
+  </div>
+</section>
+
+<script>
+  const controls = document.querySelector<HTMLElement>("[data-rec-controls]");
+  const items = Array.from(document.querySelectorAll<HTMLElement>("[data-rec-item]"));
+  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>(".rec-chip"));
+  const search = document.querySelector<HTMLInputElement>("[data-rec-search]");
+  const statusEl = document.querySelector<HTMLElement>("[data-rec-status]");
+  const emptyEl = document.querySelector<HTMLElement>("[data-rec-empty]");
+  const words = JSON.parse(controls?.dataset.status ?? "{}") as Record<string, string>;
+
+  controls?.removeAttribute("hidden");
+
+  const texts = new Map(items.map((item) => [item, (item.textContent ?? "").toLowerCase()]));
+  let area = "all";
+
+  function render() {
+    const query = (search?.value ?? "").trim().toLowerCase();
+    let visible = 0;
+
+    items.forEach((item) => {
+      const inArea = area === "all" || (item.dataset.areas ?? "").split(" ").includes(area);
+      const inSearch = !query || (texts.get(item) ?? "").includes(query);
+      item.hidden = !(inArea && inSearch);
+      if (!item.hidden) visible += 1;
+
+      // Open matches while searching, so the reader sees why they matched.
+      const details = item.querySelector<HTMLDetailsElement>("[data-rec-details]");
+      if (details && query) details.open = inArea && inSearch;
+    });
+
+    chips.forEach((chip) => chip.setAttribute("aria-pressed", String(chip.dataset.filter === area)));
+    if (emptyEl) emptyEl.hidden = visible > 0;
+
+    if (!statusEl) return;
+    statusEl.replaceChildren();
+    if (area === "all" && !query) return;
+
+    const chip = chips.find((item) => item.dataset.filter === area);
+    let text = `${visible} ${visible === 1 ? words.one : words.many}`;
+    if (area !== "all") text += ` ${words.about} ${chip?.dataset.label?.toLowerCase()}`;
+    if (query) text += ` ${words.mentioning} “${search?.value.trim()}”`;
+    statusEl.append(`${text}.`);
+
+    if (area !== "all" && chip?.dataset.serviceHref) {
+      const link = document.createElement("a");
+      link.href = chip.dataset.serviceHref;
+      link.textContent = `${chip.dataset.serviceLabel} ${words.service}`;
+      statusEl.append(" ", link);
+    }
+  }
+
+  document.addEventListener("click", (event) => {
+    const button = (event.target as HTMLElement).closest<HTMLButtonElement>("button[data-filter]");
+    if (!button) return;
+    area = button.dataset.filter ?? "all";
+    if (button.closest("[data-rec-empty]") && search) search.value = "";
+    render();
+  });
+
+  search?.addEventListener("input", render);
+
+  // Deep links (#rec-name) show and open the recommendation they point to.
+  function openFromHash() {
+    const target = location.hash.startsWith("#rec-") ? document.getElementById(location.hash.slice(1)) : null;
+    if (!target) return;
+    if (target.hidden) {
+      area = "all";
+      if (search) search.value = "";
+      render();
+    }
+    const detail = target.querySelector<HTMLDetailsElement>("[data-rec-details]");
+    if (detail) detail.open = true;
+    target.scrollIntoView({ block: "start" });
+  }
+  window.addEventListener("hashchange", openFromHash);
+  openFromHash();
+</script>

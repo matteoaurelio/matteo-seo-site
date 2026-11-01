@@ -5,7 +5,7 @@
  */
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Footer from "./Footer.astro";
-import { servicesHubPath } from "../data/siteUi";
+import { servicesHubPath, recommendationsLink } from "../data/siteUi";
 import DiscoveryCalendar from "./DiscoveryCalendar.astro";
 import { recommendations } from "../data/achievements";
 import { languageLevels } from "../data/languages";
@@ -251,7 +251,7 @@ const videoSchema = {
                   <span>{featured.headline}</span>
                   {t.quoteNote && <em class="hm-quote-note">{t.quoteNote}</em>}
                 </figcaption>
-                <a href="/achievements/#recommendations">{t.allRecommendations}</a>
+                <a href={recommendationsLink[lang]}>{t.allRecommendations}</a>
               </figure>
             )
           }

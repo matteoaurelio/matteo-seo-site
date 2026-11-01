@@ -11,6 +11,7 @@ import {
   homePath,
   aboutPath,
   servicesHubPath,
+  recommendationsLink,
   type Lang,
 } from "../data/siteUi";
 
@@ -65,7 +66,7 @@ const talkHref = pagesWithCalendar.includes(currentPath)
       </div>
 
       <a href="/insights/">{ui.insights}</a>
-      <a href="/achievements/#recommendations">{ui.recommendations}</a>
+      <a href={recommendationsLink[lang]}>{ui.recommendations}</a>
       <a href={aboutPath[lang]}>{ui.about}</a>
     </nav>
 
@@ -128,7 +129,7 @@ const talkHref = pagesWithCalendar.includes(currentPath)
         </details>
 
         <a href="/insights/">{ui.insights}</a>
-        <a href="/achievements/#recommendations">{ui.recommendations}</a>
+        <a href={recommendationsLink[lang]}>{ui.recommendations}</a>
         <a href={aboutPath[lang]}>{ui.about}</a>
       </nav>
 

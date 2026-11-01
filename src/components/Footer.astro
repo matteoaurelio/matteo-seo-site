@@ -4,7 +4,7 @@
  * English, so their titles are marked as English on translated pages.
  */
 import { getCollection } from "astro:content";
-import { siteUi, homePath, aboutPath, servicesHubPath, type Lang } from "../data/siteUi";
+import { siteUi, homePath, aboutPath, servicesHubPath, recommendationsLink, type Lang } from "../data/siteUi";
 
 interface Props {
   lang?: Lang;
@@ -21,7 +21,7 @@ const fieldNotes = (await getCollection("journal", ({ data }) => !data.draft))
 const links = [
   { href: servicesHubPath[lang], label: ui.services },
   { href: "/cybersecurity/", label: f.cybersecurity },
-  { href: "/achievements/#recommendations", label: ui.recommendations },
+  { href: recommendationsLink[lang], label: ui.recommendations },
   { href: aboutPath[lang], label: ui.about },
 ];
 ---

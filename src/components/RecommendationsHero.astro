@@ -1,0 +1,60 @@
+---
+/** The Colosseum hero of the recommendations pages, in English, Spanish or Dutch. */
+import { recommendationsUi, type RecommendationItem } from "../data/recommendationsI18n";
+import type { Lang } from "../data/siteUi";
+
+interface Props {
+  lang: Lang;
+  items: RecommendationItem[];
+}
+
+const { lang, items } = Astro.props;
+const ui = recommendationsUi[lang];
+const featured = items[0];
+const linkedIn = items.filter((item) => item.source === "LinkedIn").length;
+const senja = items.filter((item) => item.source === "Senja").length;
+const years = items.filter((item) => item.iso).map((item) => item.iso!.slice(0, 4)).sort();
+---
+
+<section class="rec-hero" aria-labelledby="rec-title">
+  <picture class="rec-hero-bg" aria-hidden="true">
+    <source
+      media="(max-width: 760px)"
+      srcset="/images/recommendations/colosseum-portrait-600.webp 600w, /images/recommendations/colosseum-portrait-900.webp 900w"
+      sizes="100vw"
+    />
+    <img
+      src="/images/recommendations/colosseum-1400.webp"
+      srcset="/images/recommendations/colosseum-900.webp 900w, /images/recommendations/colosseum-1400.webp 1400w"
+      sizes="(max-width: 760px) 100vw, 62vw"
+      width="1400"
+      height="1287"
+      alt=""
+      fetchpriority="high"
+      decoding="async"
+    />
+  </picture>
+
+  <div class="rec-shell rec-hero-inner">
+    <p class="rec-hero-kicker">
+      {ui.kicker}
+      {ui.translated && <span class="rec-hero-badge">{ui.translated.badge}</span>}
+    </p>
+    <h1 id="rec-title">{ui.h1}</h1>
+    <p class="rec-lede">{ui.lede(items.length)}</p>
+    {ui.translated && <p class="rec-hero-translated">{ui.translated.note}</p>}
+
+    <figure class="rec-hero-quote">
+      <blockquote>
+        <p>{featured.highlight}</p>
+      </blockquote>
+      <figcaption>
+        <a href={`#rec-${featured.id}`}>{featured.name}</a>, {featured.headline.split(" | ")[0]}
+      </figcaption>
+    </figure>
+
+    <p class="rec-hero-facts">{ui.facts(linkedIn, senja, years[0], years[years.length - 1])}</p>
+
+    <a class="rec-hero-cta" href="#recommendations">{ui.cta} <span aria-hidden="true">↓</span></a>
+  </div>
+</section>

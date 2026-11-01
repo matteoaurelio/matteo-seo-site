@@ -7,7 +7,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "./Header.astro";
 import Footer from "./Footer.astro";
-import { aboutPath } from "../data/siteUi";
+import { aboutPath, recommendationsPath } from "../data/siteUi";
 import DiscoveryCalendar from "./DiscoveryCalendar.astro";
 import { recommendations, achievements } from "../data/achievements";
 import { languageLevels } from "../data/languages";
@@ -23,6 +23,8 @@ const { lang } = Astro.props;
 const t = aboutContent[lang];
 // The shared header and footer exist in English, Spanish and Dutch.
 const siteLang = lang === "no" ? "en" : lang;
+// Spanish and Dutch readers go to the translated recommendations page.
+const recPage = siteLang === "en" ? "/achievements/" : recommendationsPath[siteLang];
 
 const site = "https://matteoarellano.com";
 const canonical = `${site}${t.path}`;
@@ -44,7 +46,7 @@ const quote = (id: string, text: string) => {
   if (!rec || !rec.quote.includes(text)) {
     throw new Error(`About page quote is not an exact excerpt from ${id}`);
   }
-  return { text, name: rec.name, headline: rec.headline, anchor: `/achievements/#rec-${rec.id}` };
+  return { text, name: rec.name, headline: rec.headline, anchor: `${recPage}#rec-${rec.id}` };
 };
 
 const photoFiles: Record<PhotoKey, { src: string; width: number; height: number }> = {
@@ -325,7 +327,7 @@ const structuredData = {
             ))
           }
         </div>
-        <p class="ab-more"><a class="growth-secondary-link" href="/achievements/">{t.colleagues.more}</a></p>
+        <p class="ab-more"><a class="growth-secondary-link" href={siteLang === "en" ? "/achievements/#recommendations" : recPage}>{t.colleagues.more}</a></p>
       </div>
     </section>
 

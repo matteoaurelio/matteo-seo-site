@@ -2,13 +2,15 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import RecommendationsHero from "../components/RecommendationsHero.astro";
+import RecommendationList from "../components/RecommendationList.astro";
+import { achievements, assertVerbatimExcerpts } from "../data/achievements";
 import {
-  recommendations,
-  achievements,
-  recommendationAreas,
-  toIsoDate,
-  assertVerbatimExcerpts,
-} from "../data/achievements";
+  getRecommendationItems,
+  recommendationsUi,
+  recommendationsPath,
+} from "../data/recommendationsI18n";
+import { hreflangLinks } from "../data/siteUi";
 import { referenceLetters } from "../data/referenceLetters";
 import { languageLevels } from "../data/languages";
 import "../styles/growth-platform.css";
@@ -21,91 +23,19 @@ const site = "https://matteoarellano.com";
 const canonical = `${site}/achievements/`;
 const personId = `${site}/#person`;
 
-const title = "Recommendations, Experience & Education | Matteo Arellano";
-const description =
-  "18 recommendations for Matteo Arellano from colleagues and partners in growth marketing, payments, product, data engineering and finance, published in full, plus reference letters, outcomes, experience and education.";
+const { title, description } = recommendationsUi.en;
 
-/* ---------- Recommendations ---------- */
+/* ---------- Recommendations (shared with the Spanish and Dutch pages) ---------- */
 
-const formatDate = (iso: string) =>
-  new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    timeZone: "UTC",
-  });
-
-const initials = (name: string) => {
-  const parts = name.replace(/\./g, "").split(/\s+/).filter(Boolean);
-  const first = parts[0]?.[0] ?? "";
-  const last = parts.length > 1 ? parts[parts.length - 1][0] : "";
-  return (first + last).toUpperCase();
-};
-
-const toParagraphs = (text: string) =>
-  text
-    .split(/\n\s*\n/)
-    .map((paragraph) => paragraph.trim())
-    .filter(Boolean);
-
-/** A block of text: a paragraph, or a short heading line the writer used ("Standout strength"). */
-type Block = { heading?: string; text: string };
-
-const toBlocks = (text: string): Block[] =>
-  text
-    .split(/\n\s*\n|\n/)
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .reduce<Block[]>((blocks, line) => {
-      const isHeading = line.length < 40 && !/[.!?:]$/.test(line) && line.split(" ").length <= 4;
-      const previous = blocks[blocks.length - 1];
-      if (previous && previous.heading !== undefined && previous.text === "") {
-        previous.text = line;
-      } else if (isHeading) {
-        blocks.push({ heading: line, text: "" });
-      } else {
-        blocks.push({ text: line });
-      }
-      return blocks;
-    }, []);
-
-// Order: the featured recommendation, then dated ones newest first, with the
-// Senja reviews (undated, about current work) after the 2026 LinkedIn ones.
-const featuredId = recommendations.find((item) => item.featured)?.id;
-
-const items = recommendations
-  .map((recommendation, index) => {
-    const iso = recommendation.date ? toIsoDate(recommendation.date) : undefined;
-    const blocks = toBlocks(recommendation.quote);
-    return {
-      ...recommendation,
-      iso,
-      displayDate: iso ? formatDate(iso) : undefined,
-      blocks,
-      sortKey: iso ?? `2026-01-01-${String(99 - index).padStart(2, "0")}`,
-      // Short recommendations are shown in full; longer ones open on demand.
-      collapsible: recommendation.quote.length > 420,
-    };
-  })
-  .sort((a, b) => {
-    if (a.id === featuredId) return -1;
-    if (b.id === featuredId) return 1;
-    return b.sortKey.localeCompare(a.sortKey);
-  });
-
+const items = getRecommendationItems("en");
 const total = items.length;
-const featured = items[0];
 const linkedInCount = items.filter((item) => item.source === "LinkedIn").length;
 const senjaCount = items.filter((item) => item.source === "Senja").length;
-const datedYears = items.filter((item) => item.iso).map((item) => item.iso!.slice(0, 4)).sort();
-const firstYear = datedYears[0];
-const lastYear = datedYears[datedYears.length - 1];
-const latestIso = datedYears.length ? items.filter((item) => item.iso).map((item) => item.iso!).sort().pop()! : undefined;
-
-const areaFilters = recommendationAreas.map((area) => ({
-  ...area,
-  count: items.filter((item) => item.areas.includes(area.id)).length,
-}));
+const latestIso = items
+  .filter((item) => item.iso)
+  .map((item) => item.iso!)
+  .sort()
+  .pop();
 
 /* ---------- Outcomes, experience, education ---------- */
 
@@ -339,8 +269,9 @@ const structuredData = {
   description={description}
   canonical={canonical}
   image="/images/recommendations/colosseum-og.jpg"
+  alternateLanguages={hreflangLinks(recommendationsPath)}
 >
-  <Header />
+  <Header alternates={recommendationsPath} />
 
   <script
     is:inline
@@ -349,52 +280,7 @@ const structuredData = {
   />
 
   <main class="rec-page">
-    <!-- ============ Hero ============ -->
-    <section class="rec-hero" aria-labelledby="rec-title">
-      <picture class="rec-hero-bg" aria-hidden="true">
-        <source
-          media="(max-width: 760px)"
-          srcset="/images/recommendations/colosseum-portrait-600.webp 600w, /images/recommendations/colosseum-portrait-900.webp 900w"
-          sizes="100vw"
-        />
-        <img
-          src="/images/recommendations/colosseum-1400.webp"
-          srcset="/images/recommendations/colosseum-900.webp 900w, /images/recommendations/colosseum-1400.webp 1400w"
-          sizes="(max-width: 760px) 100vw, 62vw"
-          width="1400"
-          height="1287"
-          alt=""
-          fetchpriority="high"
-          decoding="async"
-        />
-      </picture>
-
-      <div class="rec-shell rec-hero-inner">
-        <p class="rec-hero-kicker">Recommendations</p>
-        <h1 id="rec-title">Recommendations from the people I have worked with.</h1>
-        <p class="rec-lede">
-          {total} recommendations from colleagues and partners in growth,
-          payments, product, data and finance. Each one is published in full,
-          exactly as it was written.
-        </p>
-
-        <figure class="rec-hero-quote">
-          <blockquote>
-            <p>{featured.highlight}</p>
-          </blockquote>
-          <figcaption>
-            <a href={`#rec-${featured.id}`}>{featured.name}</a>, {featured.headline.split(" | ")[0]}
-          </figcaption>
-        </figure>
-
-        <p class="rec-hero-facts">
-          {linkedInCount} are published on LinkedIn and {senjaCount} were collected
-          through Senja, written between {firstYear} and {lastYear}.
-        </p>
-
-        <a class="rec-hero-cta" href="#recommendations">Read the recommendations <span aria-hidden="true">↓</span></a>
-      </div>
-    </section>
+    <RecommendationsHero lang="en" items={items} />
 
     <!-- ============ On-this-page index ============ -->
     <nav class="rec-index" aria-label="On this page">
@@ -414,124 +300,7 @@ const structuredData = {
       </div>
     </nav>
 
-    <!-- ============ Recommendations ============ -->
-    <section class="rec-section rec-reading" id="recommendations" aria-labelledby="recommendations-title">
-      <div class="rec-shell">
-        <header class="rec-reading-head">
-          <h2 id="recommendations-title">In their own words.</h2>
-          <p>
-            Choose the kind of work you care about, or search for a name,
-            company or skill. Every recommendation stays on this page.
-          </p>
-        </header>
-
-        <div class="rec-filter" data-rec-controls hidden>
-          <div class="rec-chips" role="group" aria-label="Show recommendations about">
-            <button type="button" class="rec-chip" aria-pressed="true" data-filter="all">
-              All <span>{total}</span>
-            </button>
-            {
-              areaFilters.map((area) => (
-                <button
-                  type="button"
-                  class="rec-chip"
-                  aria-pressed="false"
-                  data-filter={area.id}
-                  data-label={area.label}
-                  data-service-href={area.service.href}
-                  data-service-label={area.service.label}
-                >
-                  {area.label} <span>{area.count}</span>
-                </button>
-              ))
-            }
-          </div>
-          <label class="rec-search">
-            <span class="rec-visually-hidden">Search the recommendations</span>
-            <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M13 13l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
-            <input type="search" placeholder="Search by name, company or skill" autocomplete="off" data-rec-search />
-          </label>
-        </div>
-
-        <p class="rec-status" role="status" aria-live="polite" data-rec-status></p>
-
-        <ol class="rec-list">
-          {
-            items.map((item) => (
-              <li class="rec-item" id={`rec-${item.id}`} data-rec-item data-areas={item.areas.join(" ")}>
-                <article aria-labelledby={`rec-${item.id}-name`}>
-                  <header class="rec-person">
-                    <span class="rec-avatar" aria-hidden="true">
-                      {item.photo ? <img src={item.photo} alt="" width="44" height="44" loading="lazy" /> : initials(item.name)}
-                    </span>
-                    <div class="rec-person-text">
-                      <h3 id={`rec-${item.id}-name`}>
-                        {item.profileUrl ? (
-                          <a href={item.profileUrl} target="_blank" rel="noopener noreferrer">{item.name}</a>
-                        ) : (
-                          item.name
-                        )}
-                      </h3>
-                      <span>{item.headline}</span>
-                    </div>
-                  </header>
-
-                  <blockquote class="rec-quote">
-                    {item.collapsible ? (
-                      <>
-                        <p class="rec-quote-highlight">{item.highlight}</p>
-                        <details class="rec-more" data-rec-details>
-                          <summary>
-                            <span class="rec-more-open">Read the full recommendation</span>
-                            <span class="rec-more-close">Show less</span>
-                          </summary>
-                          <div class="rec-more-body">
-                            {item.blocks.map((block) => (
-                              <p>
-                                {block.heading && <strong class="rec-block-heading">{block.heading}</strong>}
-                                {block.text}
-                              </p>
-                            ))}
-                          </div>
-                        </details>
-                      </>
-                    ) : (
-                      <div class="rec-quote-full">
-                        {item.blocks.map((block) => (
-                          <p>{block.text}</p>
-                        ))}
-                      </div>
-                    )}
-                  </blockquote>
-
-                  <footer class="rec-meta">
-                    <span class:list={["rec-source", `rec-source--${item.source.toLowerCase()}`]}>{item.source}</span>
-                    <span>
-                      {item.relationship}
-                      {item.organisation && !item.relationship.includes(item.organisation) && <> · {item.organisation}</>}
-                    </span>
-                    {item.iso && <time datetime={item.iso}>{item.displayDate}</time>}
-                    <a class="rec-permalink" href={`#rec-${item.id}`} aria-label={`Link to ${item.name}'s recommendation`}>Link</a>
-                  </footer>
-                </article>
-              </li>
-            ))
-          }
-        </ol>
-
-        <p class="rec-empty" data-rec-empty hidden>
-          Nothing matches yet.
-          <button type="button" data-filter="all">Show all {total}</button>
-        </p>
-
-        <p class="rec-source-note">
-          LinkedIn recommendations are published on
-          <a href="https://www.linkedin.com/in/matteoarellano" target="_blank" rel="noopener noreferrer">my LinkedIn profile ↗</a>.
-          The other reviews were collected directly through Senja. Spelling and
-          wording are left exactly as written.
-        </p>
-      </div>
-    </section>
+    <RecommendationList lang="en" items={items} />
 
     <!-- ============ Reference letters ============ -->
     <section class="rec-section rec-section--wash" id="letters" aria-labelledby="letters-title">
@@ -804,81 +573,6 @@ const structuredData = {
 </BaseLayout>
 
 <script>
-  const items = Array.from(document.querySelectorAll<HTMLElement>("[data-rec-item]"));
-  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>(".rec-chip"));
-  const search = document.querySelector<HTMLInputElement>("[data-rec-search]");
-  const statusEl = document.querySelector<HTMLElement>("[data-rec-status]");
-  const emptyEl = document.querySelector<HTMLElement>("[data-rec-empty]");
-
-  // Controls appear only with JavaScript; without it every recommendation is listed.
-  document.querySelector("[data-rec-controls]")?.removeAttribute("hidden");
-
-  const texts = new Map(items.map((item) => [item, (item.textContent ?? "").toLowerCase()]));
-  let area = "all";
-
-  function render() {
-    const query = (search?.value ?? "").trim().toLowerCase();
-    let visible = 0;
-
-    items.forEach((item) => {
-      const inArea = area === "all" || (item.dataset.areas ?? "").split(" ").includes(area);
-      const inSearch = !query || (texts.get(item) ?? "").includes(query);
-      item.hidden = !(inArea && inSearch);
-      if (!item.hidden) visible += 1;
-
-      // Open matches when searching, so the reader sees why they matched.
-      const details = item.querySelector<HTMLDetailsElement>("[data-rec-details]");
-      if (details && query) details.open = inArea && inSearch;
-    });
-
-    chips.forEach((chip) => chip.setAttribute("aria-pressed", String(chip.dataset.filter === area)));
-    if (emptyEl) emptyEl.hidden = visible > 0;
-
-    if (!statusEl) return;
-    statusEl.replaceChildren();
-    if (area === "all" && !query) return;
-
-    const chip = chips.find((item) => item.dataset.filter === area);
-    const noun = visible === 1 ? "recommendation" : "recommendations";
-    let text = `${visible} ${noun}`;
-    if (area !== "all") text += ` about ${chip?.dataset.label?.toLowerCase()}`;
-    if (query) text += ` mentioning “${search?.value.trim()}”`;
-    statusEl.append(`${text}.`);
-
-    if (area !== "all" && chip?.dataset.serviceHref) {
-      const link = document.createElement("a");
-      link.href = chip.dataset.serviceHref;
-      link.textContent = `${chip.dataset.serviceLabel} service →`;
-      statusEl.append(" ", link);
-    }
-  }
-
-  document.addEventListener("click", (event) => {
-    const button = (event.target as HTMLElement).closest<HTMLButtonElement>("button[data-filter]");
-    if (!button) return;
-    area = button.dataset.filter ?? "all";
-    if (button.closest("[data-rec-empty]") && search) search.value = "";
-    render();
-  });
-
-  search?.addEventListener("input", render);
-
-  // Deep links (#rec-name) show and open the recommendation they point to.
-  function openFromHash() {
-    const target = location.hash.startsWith("#rec-") ? document.getElementById(location.hash.slice(1)) : null;
-    if (!target) return;
-    if (target.hidden) {
-      area = "all";
-      if (search) search.value = "";
-      render();
-    }
-    const detail = target.querySelector<HTMLDetailsElement>("[data-rec-details]");
-    if (detail) detail.open = true;
-    target.scrollIntoView({ block: "start" });
-  }
-  window.addEventListener("hashchange", openFromHash);
-  openFromHash();
-
   // Highlight the current section in the on-page index.
   const indexLinks = new Map(
     Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-index-link]")).map((link) => [

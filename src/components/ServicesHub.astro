@@ -9,7 +9,7 @@ import Footer from "./Footer.astro";
 import DiscoveryCalendar from "./DiscoveryCalendar.astro";
 import { recommendations } from "../data/achievements";
 import { getServices, engagementFormatsByLang, serviceUi, hubContent } from "../data/servicesI18n";
-import { hreflangLinks, servicesHubPath, homePath, type Lang } from "../data/siteUi";
+import { hreflangLinks, servicesHubPath, homePath, type Lang, recommendationsLink } from "../data/siteUi";
 import "../styles/growth-platform.css";
 import "../styles/service.css";
 
@@ -206,7 +206,7 @@ const schema = {
                   <span lang={isTranslated ? "en" : undefined}>{featured.headline}</span>
                   {ui.quoteNote && <em class="sv-quote-note">{ui.quoteNote}</em>}
                 </figcaption>
-                <a href="/achievements/#recommendations">{ui.allRecommendations}</a>
+                <a href={recommendationsLink[lang]}>{ui.allRecommendations}</a>
               </figure>
             )
           }

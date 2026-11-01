@@ -10,6 +10,17 @@ export const langs: Lang[] = ["en", "es", "nl"];
 export const homePath: Record<Lang, string> = { en: "/", es: "/es/", nl: "/nl/" };
 export const aboutPath: Record<Lang, string> = { en: "/about/", es: "/es/sobre-mi/", nl: "/nl/over-mij/" };
 export const servicesHubPath: Record<Lang, string> = { en: "/services/", es: "/es/servicios/", nl: "/nl/diensten/" };
+export const recommendationsPath: Record<Lang, string> = {
+  en: "/achievements/",
+  es: "/es/recomendaciones/",
+  nl: "/nl/aanbevelingen/",
+};
+/** Where "Recommendations" links point in each language. */
+export const recommendationsLink: Record<Lang, string> = {
+  en: "/achievements/#recommendations",
+  es: "/es/recomendaciones/",
+  nl: "/nl/aanbevelingen/",
+};
 
 export const languageLinks: { lang: Lang; label: string }[] = [
   { lang: "en", label: "EN" },

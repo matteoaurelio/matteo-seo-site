@@ -16,7 +16,7 @@ import {
   serviceUi,
   type LocalService,
 } from "../data/servicesI18n";
-import { hreflangLinks, servicesHubPath, homePath } from "../data/siteUi";
+import { hreflangLinks, servicesHubPath, homePath, recommendationsLink } from "../data/siteUi";
 import "../styles/growth-platform.css";
 import "../styles/service.css";
 
@@ -239,7 +239,7 @@ const schema = {
                   <span lang={isTranslated ? "en" : undefined}>{recommender.headline}</span>
                   {ui.quoteNote && <em class="sv-quote-note">{ui.quoteNote}</em>}
                 </figcaption>
-                <a href="/achievements/#recommendations">{ui.allRecommendations}</a>
+                <a href={recommendationsLink[lang]}>{ui.allRecommendations}</a>
               </figure>
             )
           }

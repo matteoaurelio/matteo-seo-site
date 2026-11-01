@@ -124,6 +124,25 @@
   text-transform: uppercase;
 }
 
+.rec-hero-badge {
+  display: inline-block;
+  margin-left: 12px;
+  padding: 3px 10px;
+  border: 1px solid rgba(243, 210, 143, 0.55);
+  border-radius: 999px;
+  color: var(--rec-gold-soft);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  vertical-align: 1px;
+}
+
+.rec-hero-translated {
+  margin: 14px 0 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
 .rec-hero h1 {
   margin: 0;
   color: #ffffff;
@@ -673,6 +692,13 @@
   text-transform: uppercase;
 }
 
+.rec-edit-note {
+  margin: 14px 0 0;
+  color: var(--rec-muted);
+  font-size: 0.84rem;
+  font-style: italic;
+}
+
 .rec-meta {
   display: flex;
   flex-wrap: wrap;
@@ -705,6 +731,11 @@
 
 .rec-meta time {
   font-variant-numeric: tabular-nums;
+}
+
+.rec-original {
+  color: var(--rec-accent);
+  font-weight: 600;
 }
 
 .rec-permalink {
@@ -1708,4 +1739,15 @@
       rgba(8, 15, 28, 0.94) 100%
     );
   }
+}
+
+.rec-cta-more {
+  margin-top: 14px;
+  font-size: 0.95rem;
+}
+
+.rec-cta-more a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
