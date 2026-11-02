@@ -14,6 +14,8 @@ interface Props {
   lang?: string;
   alternateLanguages?: AlternateLanguage[];
   image?: string;
+  /** For pages that must never be indexed, such as the 404 page. */
+  noindex?: boolean;
 }
 
 const site = "https://matteoarellano.com";
@@ -26,6 +28,7 @@ const {
   lang = "en",
   alternateLanguages = [],
   image,
+  noindex = false,
 } = Astro.props;
 ---
 
@@ -37,9 +40,9 @@ const {
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {!noindex && <link rel="canonical" href={canonical} />}
     {
-      alternateLanguages.map((alternate) => (
+      !noindex && alternateLanguages.map((alternate) => (
         <link
           rel="alternate"
           hreflang={alternate.hreflang}
@@ -93,7 +96,11 @@ const {
 
     <meta
       name="robots"
-      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+      content={
+        noindex
+          ? "noindex, follow"
+          : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+      }
     />
     <JsonLd />
   </head>

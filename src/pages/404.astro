@@ -1,0 +1,251 @@
+---
+/**
+ * Not-found page. Astro builds it as dist/404.html, and Cloudflare Pages
+ * serves it with HTTP 404 for every address that does not exist. Without
+ * this file, Pages falls back to single-page-app mode and answers every
+ * unknown address with the homepage and HTTP 200.
+ *
+ * One page serves all languages, so the message is short in English,
+ * Spanish and Dutch. It is never indexed.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/growth-platform.css";
+
+const email = "matteo.visibility@gmail.com";
+
+const messages = [
+  {
+    lang: "en",
+    text: "The address may be mistyped, or the page may have moved.",
+  },
+  {
+    lang: "es",
+    text: "Esta página no existe. Puede que la dirección esté mal escrita o que la página se haya movido.",
+  },
+  {
+    lang: "nl",
+    text: "Deze pagina bestaat niet. Misschien is het adres verkeerd getypt of is de pagina verplaatst.",
+  },
+];
+
+const homes = [
+  { href: "/", lang: "en", label: "English homepage" },
+  { href: "/es/", lang: "es", label: "Página de inicio en español" },
+  { href: "/nl/", lang: "nl", label: "Nederlandse homepage" },
+];
+
+const sections = [
+  { href: "/services/", label: "Services", note: "Growth, data, product, business development and payments" },
+  { href: "/achievements/#recommendations", label: "Recommendations", note: "18 recommendations, published in full" },
+  { href: "/insights/", label: "Insights", note: "Articles, field notes and technical recipes" },
+];
+---
+
+<BaseLayout
+  title="Page not found | Matteo Arellano"
+  description="This page does not exist. Go to the homepage, services, recommendations or insights."
+  noindex
+>
+  <Header />
+
+  <main class="nf">
+    <section class="nf-hero" aria-labelledby="nf-title">
+      <div class="nf-shell">
+        <p class="nf-kicker">404 · Page not found</p>
+        <h1 id="nf-title">This page does not exist.</h1>
+        <ul class="nf-messages">
+          {messages.map((message) => <li lang={message.lang}>{message.text}</li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section class="nf-body" aria-label="Where to go next">
+      <div class="nf-shell nf-grid">
+        <nav aria-labelledby="nf-home-title">
+          <h2 id="nf-home-title">Start again</h2>
+          <ul class="nf-list">
+            {
+              homes.map((home) => (
+                <li>
+                  <a href={home.href} hreflang={home.lang} lang={home.lang}>
+                    <strong>{home.label}</strong>
+                    <span aria-hidden="true">→</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+
+        <nav aria-labelledby="nf-go-title">
+          <h2 id="nf-go-title">Or go straight to</h2>
+          <ul class="nf-list">
+            {
+              sections.map((section) => (
+                <li>
+                  <a href={section.href}>
+                    <span>
+                      <strong>{section.label}</strong>
+                      <small>{section.note}</small>
+                    </span>
+                    <span aria-hidden="true">→</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+
+      <p class="nf-shell nf-help">
+        Looking for something specific? Write to <a href={`mailto:${email}`}>{email}</a>.
+      </p>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .nf {
+    --nf-ink: #071729;
+    --nf-copy: #30475f;
+    --nf-muted: #5c7186;
+    --nf-night: #0a1628;
+    --nf-gold: #e9b44c;
+    --nf-line: rgba(7, 23, 41, 0.12);
+  }
+
+  .nf-shell {
+    width: min(960px, calc(100% - 40px));
+    margin-inline: auto;
+  }
+
+  .nf-hero {
+    padding: clamp(80px, 11vw, 140px) 0 clamp(56px, 8vw, 96px);
+    background:
+      radial-gradient(48rem 30rem at 85% 0%, rgba(233, 180, 76, 0.1), transparent 60%),
+      var(--nf-night);
+    color: #ffffff;
+  }
+
+  .nf-kicker {
+    margin: 0 0 18px;
+    color: var(--nf-gold);
+    font-size: 0.76rem;
+    font-weight: 750;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .nf-hero h1 {
+    margin: 0;
+    color: #ffffff;
+    font-size: clamp(2.3rem, 5vw, 3.8rem);
+    font-weight: 760;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+  }
+
+  .nf-messages {
+    display: grid;
+    gap: 10px;
+    max-width: 62ch;
+    margin: 28px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nf-messages li {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+
+  .nf-messages li + li {
+    color: rgba(255, 255, 255, 0.66);
+    font-size: 0.98rem;
+  }
+
+  .nf-body {
+    padding: clamp(56px, 8vw, 96px) 0 clamp(64px, 9vw, 112px);
+    background: #ffffff;
+    color: var(--nf-ink);
+  }
+
+  .nf-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 48px;
+  }
+
+  .nf-body h2 {
+    margin: 0 0 14px;
+    color: var(--nf-ink);
+    font-size: 1.15rem;
+    font-weight: 720;
+    letter-spacing: -0.01em;
+  }
+
+  .nf-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--nf-ink);
+  }
+
+  .nf-list a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 4px;
+    border-bottom: 1px solid var(--nf-line);
+    color: var(--nf-ink);
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+
+  .nf-list a:hover {
+    background: #f3f8fc;
+  }
+
+  .nf-list strong {
+    display: block;
+    font-size: 1rem;
+    font-weight: 680;
+  }
+
+  .nf-list small {
+    display: block;
+    margin-top: 3px;
+    color: var(--nf-muted);
+    font-size: 0.86rem;
+  }
+
+  .nf-list a > span[aria-hidden] {
+    color: var(--nf-muted);
+  }
+
+  .nf-help {
+    margin-top: 40px;
+    color: var(--nf-copy);
+    font-size: 0.98rem;
+  }
+
+  .nf-help a {
+    color: #0b5cad;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 720px) {
+    .nf-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+</style>
