@@ -3,6 +3,8 @@
  * Digital business card. Standalone on purpose: no site header or footer,
  * and nothing on the site links here. It is opened from the QR code.
  */
+import { youtubeChannelUrl, youtubePlaylistUrl } from "../data/social";
+
 const cardUrl = "https://matteoarellano.com/card/";
 const phoneDisplay = "+52 55 7413 6001";
 const phoneTel = "+525574136001";
@@ -12,6 +14,7 @@ const whatsappUrl =
 const links = [
   { href: "https://matteoarellano.com/", label: "Website", note: "Services, writing and case studies" },
   { href: "https://www.linkedin.com/in/matteoarellano", label: "LinkedIn", note: "Career and recommendations" },
+  { href: youtubePlaylistUrl, label: "YouTube", note: "Payment Systems, Explained: the video series" },
   { href: "https://yeelen.page/", label: "Yeelen", note: "The social venture I founded" },
 ];
 ---
@@ -58,7 +61,7 @@ const links = [
           email: `mailto:${email}`,
           telephone: phoneTel,
           url: "https://matteoarellano.com/",
-          sameAs: ["https://www.linkedin.com/in/matteoarellano"],
+          sameAs: ["https://www.linkedin.com/in/matteoarellano", youtubeChannelUrl],
         },
       })}
     />

@@ -5,6 +5,7 @@
  */
 import { getCollection } from "astro:content";
 import { siteUi, homePath, aboutPath, servicesHubPath, recommendationsLink, type Lang } from "../data/siteUi";
+import { linkedInUrl, youtubePlaylistUrl } from "../data/social";
 
 interface Props {
   lang?: Lang;
@@ -33,7 +34,8 @@ const links = [
       <p>{f.about}</p>
       <div class="growth-footer-socials">
         <a href="mailto:matteo.visibility@gmail.com">{f.email}</a>
-        <a href="https://www.linkedin.com/in/matteoarellano" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href={linkedInUrl} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href={youtubePlaylistUrl} target="_blank" rel="noopener noreferrer">YouTube</a>
       </div>
     </div>
 
