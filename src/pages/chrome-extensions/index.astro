@@ -1,0 +1,299 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { chromeExtensions } from "../../data/chromeExtensions";
+import "../../styles/chrome-extensions.css";
+
+/** Simple line icons for each extension (decorative). */
+function iconSvg(kind: "audit" | "links" | "map") {
+  const open = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">';
+  const paths = {
+    audit: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/><path d="m7.8 10.6 1.9 1.9 3.6-3.8"/>',
+    links: '<path d="M10 13.5a4.5 4.5 0 0 0 6.4.4l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.6 1.6"/><path d="M14 10.5a4.5 4.5 0 0 0-6.4-.4l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.6-1.6"/>',
+    map: '<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z"/><path d="m9.6 10 1.7 1.7 3.2-3.3"/>',
+  };
+  return `${open}${paths[kind]}</svg>`;
+}
+
+const site = "https://matteoarellano.com";
+const canonical = `${site}/chrome-extensions/`;
+
+const title = "Free Chrome Extensions for SEO & Google Maps Research | Matteo Arellano";
+const description =
+  "Three free Chrome extensions: SEO Page Audit, Link Page Checker for SEO and MapSnap CSV. Check a page's SEO basics, audit its links and export Google Maps listings to CSV. No account, runs locally.";
+
+const workflow = [
+  {
+    step: "01",
+    title: "Audit the page",
+    text: "SEO Page Audit shows whether the title, description, headings, canonical and structured data are in place.",
+    href: "#seo-page-audit",
+  },
+  {
+    step: "02",
+    title: "Check its links",
+    text: "Link Page Checker lists every link, checks HTTPS status and gives you a CSV to fix from.",
+    href: "#link-page-checker-for-seo",
+  },
+  {
+    step: "03",
+    title: "Review local listings",
+    text: "MapSnap CSV turns the Google Maps listings you review into rows you can compare and share.",
+    href: "#mapsnap-csv",
+  },
+];
+
+const faqs = [
+  {
+    q: "Are the extensions free?",
+    a: "Yes. All three are free, with no account, no sign-up and no paid tier.",
+  },
+  {
+    q: "Do they send my data anywhere?",
+    a: "No. Each extension works on the tab you have open, only when you click it, and processes the results in your browser. None of them uploads page content, reports or saved rows to a server. Link Page Checker only contacts other sites when you ask it to check link status, and it sends those requests without cookies.",
+  },
+  {
+    q: "Do they work in other browsers?",
+    a: "They are published on the Chrome Web Store, so they install in Google Chrome and in most Chromium-based browsers that support Chrome Web Store extensions, such as Microsoft Edge and Brave.",
+  },
+  {
+    q: "Can they replace a full SEO audit?",
+    a: "No. They are quick, page-level checks for day-to-day work. A full audit looks at crawling across the whole site, indexing, performance, analytics and how pages convert. If you need that, a visibility check is a good place to start.",
+  },
+  {
+    q: "I found a bug or want a feature. Where do I send it?",
+    a: "Email me at matteo.visibility@gmail.com with the page URL and what you expected to see.",
+  },
+];
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "@id": `${canonical}#page`,
+  url: canonical,
+  name: title,
+  description,
+  isPartOf: { "@id": `${site}/#website` },
+  author: { "@id": `${site}/#person` },
+  mainEntity: {
+    "@type": "ItemList",
+    numberOfItems: chromeExtensions.length,
+    itemListElement: chromeExtensions.map((ext, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "SoftwareApplication",
+        "@id": `${canonical}#${ext.slug}`,
+        name: ext.name,
+        description: ext.tagline,
+        url: ext.storeUrl,
+        installUrl: ext.storeUrl,
+        softwareVersion: ext.version,
+        applicationCategory: "BrowserApplication",
+        operatingSystem: "Google Chrome",
+        isAccessibleForFree: true,
+        offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+        author: { "@id": `${site}/#person` },
+      },
+    })),
+  },
+};
+---
+
+<BaseLayout title={title} description={description} canonical={canonical}>
+  <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+  <Header />
+
+  <main class="cx-page">
+    <section class="cx-hero">
+      <div class="container cx-hero-grid">
+        <div class="cx-hero-copy">
+          <span class="kicker">Free Chrome extensions</span>
+          <h1>Small browser tools for SEO checks and local research.</h1>
+          <p class="cx-lede">
+            I built these three extensions for checks I kept doing by hand: reviewing a
+            page's SEO basics, auditing its links and collecting Google Maps listings into
+            a spreadsheet. They are free, need no account and run in your browser.
+          </p>
+          <div class="cx-hero-actions">
+            <a class="button button-primary" href="#extensions">See the extensions</a>
+            <a class="button button-secondary" href="/free-visibility-check/">Book a visibility check</a>
+          </div>
+          <ul class="cx-trust" aria-label="What all three have in common">
+            <li>Free</li>
+            <li>No account</li>
+            <li>Runs locally</li>
+            <li>CSV export where it matters</li>
+          </ul>
+        </div>
+
+        <nav class="cx-hero-list" aria-label="Jump to an extension">
+          {
+            chromeExtensions.map((ext) => (
+              <a href={`#${ext.slug}`} class="cx-hero-item">
+                <span class={`cx-icon cx-icon-${ext.icon}`} aria-hidden="true">
+                  <Fragment set:html={iconSvg(ext.icon)} />
+                </span>
+                <span>
+                  <strong>{ext.name}</strong>
+                  <small>{ext.tagline}</small>
+                </span>
+              </a>
+            ))
+          }
+        </nav>
+      </div>
+    </section>
+
+    <section class="cx-section" id="extensions">
+      <div class="container">
+        <div class="cx-section-head">
+          <span class="eyebrow">The extensions</span>
+          <h2>Three tools, one job each.</h2>
+          <p>
+            Each extension does one thing and only touches the tab you have open, when you
+            click it.
+          </p>
+        </div>
+
+        <div class="cx-cards">
+          {
+            chromeExtensions.map((ext) => (
+              <article class="cx-card" id={ext.slug}>
+                <header class="cx-card-head">
+                  <span class={`cx-icon cx-icon-lg cx-icon-${ext.icon}`} aria-hidden="true">
+                    <Fragment set:html={iconSvg(ext.icon)} />
+                  </span>
+                  <div>
+                    <h3>{ext.name}</h3>
+                    <span class="cx-version">Version {ext.version}</span>
+                  </div>
+                </header>
+
+                <p class="cx-tagline">{ext.tagline}</p>
+                <p class="cx-summary">{ext.summary}</p>
+
+                <h4>What it captures</h4>
+                <ul class="cx-features">
+                  {ext.features.map((feature) => <li>{feature}</li>)}
+                </ul>
+
+                <h4>Good for</h4>
+                <ul class="cx-chips">
+                  {ext.goodFor.map((use) => <li>{use}</li>)}
+                </ul>
+
+                {ext.note && <p class="cx-note">{ext.note}</p>}
+
+                <a
+                  class="button button-primary cx-install"
+                  href={ext.storeUrl}
+                  target="_blank"
+                  rel="noopener"
+                  aria-label={`Add ${ext.name} to Chrome (opens the Chrome Web Store)`}
+                >
+                  Add to Chrome <span aria-hidden="true">↗</span>
+                </a>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="cx-section cx-workflow-section">
+      <div class="container">
+        <div class="cx-section-head">
+          <span class="eyebrow">How they fit together</span>
+          <h2>From one page to a list you can act on.</h2>
+        </div>
+        <ol class="cx-workflow">
+          {
+            workflow.map((item) => (
+              <li>
+                <a href={item.href}>
+                  <span class="cx-step">{item.step}</span>
+                  <strong>{item.title}</strong>
+                  <p>{item.text}</p>
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
+
+    <section class="cx-section" id="privacy">
+      <div class="container">
+        <div class="cx-section-head">
+          <span class="eyebrow">Privacy</span>
+          <h2>What each extension reads, and where it goes.</h2>
+          <p>
+            None of the extensions uses remote code, tracks your browsing or reads your
+            history. Here is exactly what each one touches.
+          </p>
+        </div>
+
+        <div class="cx-privacy-grid">
+          {
+            chromeExtensions.map((ext) => (
+              <div class="cx-privacy-card">
+                <h3>{ext.name}</h3>
+                <dl>
+                  <dt>Reads</dt>
+                  <dd>{ext.privacy.reads}</dd>
+                  <dt>Where data stays</dt>
+                  <dd>{ext.privacy.stays}</dd>
+                  <dt>Permissions</dt>
+                  <dd>{ext.privacy.permissions.join(" · ")}</dd>
+                </dl>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="cx-section">
+      <div class="container cx-faq-wrap">
+        <div class="cx-section-head">
+          <span class="eyebrow">Questions</span>
+          <h2>Frequently asked questions</h2>
+        </div>
+        <div class="cx-faq">
+          {
+            faqs.map((faq) => (
+              <details>
+                <summary>{faq.q}</summary>
+                <p>{faq.a}</p>
+              </details>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="cx-section">
+      <div class="container">
+        <div class="cx-cta">
+          <div>
+            <span class="eyebrow">Beyond a browser check</span>
+            <h2>Need the whole site looked at, not just one page?</h2>
+            <p>
+              The extensions catch page-level issues. For crawling, indexing, AI visibility,
+              analytics and conversion across the whole site, start with a free 20-minute
+              visibility check.
+            </p>
+          </div>
+          <div class="cx-cta-actions">
+            <a class="button button-primary" href="/free-visibility-check/">Book a free check</a>
+            <a class="button button-secondary" href="/services/growth-marketing/">Growth marketing services</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

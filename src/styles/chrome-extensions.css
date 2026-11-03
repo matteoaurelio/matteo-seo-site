@@ -1,0 +1,522 @@
+/* /chrome-extensions/ landing page. Classes are prefixed cx- to stay scoped. */
+
+.cx-page {
+  padding-bottom: 40px;
+}
+
+.cx-page .eyebrow {
+  display: block;
+  padding: 0;
+  font-size: 0.78rem;
+}
+
+/* Hero */
+.cx-hero {
+  padding: 72px 0 40px;
+}
+
+.cx-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  gap: 56px;
+  align-items: center;
+}
+
+.cx-hero h1 {
+  font-size: clamp(2.3rem, 4.6vw, 3.7rem);
+}
+
+.cx-lede {
+  margin: 22px 0 0;
+  max-width: 620px;
+  color: var(--muted);
+  font-size: 1.14rem;
+}
+
+.cx-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.cx-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 26px 0 0;
+  padding: 0;
+  list-style: none;
+  color: #29435f;
+  font-size: 0.92rem;
+  font-weight: 650;
+}
+
+.cx-trust li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cx-trust li::before {
+  content: "✓";
+  color: var(--success);
+  font-weight: 800;
+}
+
+.cx-hero-list {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid rgba(15, 76, 129, 0.1);
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.cx-hero-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.cx-hero-item:hover {
+  background: var(--bg-strong);
+  transform: translateX(2px);
+}
+
+.cx-hero-item strong {
+  display: block;
+  color: #0b1d31;
+  font-size: 1.02rem;
+}
+
+.cx-hero-item small {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+/* Icons */
+.cx-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(16, 43, 77, 0.18);
+}
+
+.cx-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.cx-icon-lg {
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
+}
+
+.cx-icon-lg svg {
+  width: 30px;
+  height: 30px;
+}
+
+.cx-icon-audit {
+  background: linear-gradient(145deg, #1d4ed8, #3b82f6);
+}
+
+.cx-icon-links {
+  background: linear-gradient(145deg, #1e1b4b, #4338ca);
+}
+
+.cx-icon-map {
+  background: linear-gradient(145deg, #0b1d4f, #2563eb);
+}
+
+/* Sections */
+.cx-section {
+  padding: 56px 0;
+}
+
+.cx-section-head {
+  max-width: 720px;
+  margin-bottom: 32px;
+}
+
+.cx-section-head h2 {
+  font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+}
+
+.cx-section-head p {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 1.06rem;
+}
+
+/* Extension cards */
+.cx-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.cx-card {
+  display: flex;
+  flex-direction: column;
+  padding: 28px;
+  border: 1px solid rgba(15, 76, 129, 0.1);
+  border-radius: var(--radius-xl);
+  background: var(--surface-solid);
+  box-shadow: var(--shadow-soft);
+  scroll-margin-top: 110px;
+}
+
+.cx-card:target {
+  border-color: var(--primary-3);
+  box-shadow: 0 0 0 4px rgba(90, 169, 255, 0.22), var(--shadow-soft);
+}
+
+.cx-card-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.cx-card h3 {
+  font-size: 1.32rem;
+  letter-spacing: -0.03em;
+}
+
+.cx-version {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.cx-tagline {
+  margin: 20px 0 0;
+  color: #0b1d31;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.cx-summary {
+  margin: 10px 0 0;
+  color: var(--muted);
+}
+
+.cx-card h4 {
+  margin: 22px 0 10px;
+  color: var(--primary);
+  font-size: 0.78rem;
+  font-weight: 820;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.cx-features {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cx-features li {
+  position: relative;
+  padding-left: 24px;
+  color: #29435f;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.cx-features li::before {
+  content: "";
+  position: absolute;
+  top: 0.5em;
+  left: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--primary-3);
+}
+
+.cx-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cx-chips li {
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--bg-strong);
+  color: var(--primary);
+  font-size: 0.84rem;
+  font-weight: 650;
+}
+
+.cx-note {
+  margin: 20px 0 0;
+  padding: 12px 14px;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 12px 12px 0;
+  background: rgba(14, 116, 144, 0.07);
+  color: #29435f;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* The install button sits at the bottom so the three cards line up. */
+.cx-install {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+.cx-card > :nth-last-child(2) {
+  margin-bottom: 26px;
+}
+
+/* Workflow */
+.cx-workflow-section {
+  background: linear-gradient(180deg, rgba(238, 247, 255, 0.7), rgba(238, 247, 255, 0));
+}
+
+.cx-workflow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: none;
+}
+
+.cx-workflow a {
+  display: block;
+  height: 100%;
+  padding: 24px;
+  border: 1px solid rgba(15, 76, 129, 0.1);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.cx-workflow a:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-soft);
+}
+
+.cx-step {
+  display: block;
+  color: var(--primary-3);
+  font-size: 0.9rem;
+  font-weight: 820;
+  letter-spacing: 0.08em;
+}
+
+.cx-workflow strong {
+  display: block;
+  margin-top: 8px;
+  color: #0b1d31;
+  font-size: 1.12rem;
+}
+
+.cx-workflow p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* Privacy */
+.cx-privacy-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.cx-privacy-card {
+  padding: 24px;
+  border: 1px solid rgba(15, 76, 129, 0.1);
+  border-radius: var(--radius-lg);
+  background: var(--surface-solid);
+}
+
+.cx-privacy-card h3 {
+  font-size: 1.1rem;
+  letter-spacing: -0.02em;
+}
+
+.cx-privacy-card dl {
+  margin: 14px 0 0;
+}
+
+.cx-privacy-card dt {
+  margin-top: 12px;
+  color: var(--primary);
+  font-size: 0.76rem;
+  font-weight: 820;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.cx-privacy-card dd {
+  margin: 4px 0 0;
+  color: #29435f;
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+/* FAQ */
+.cx-faq-wrap {
+  max-width: 860px;
+}
+
+.cx-faq {
+  display: grid;
+  gap: 12px;
+}
+
+.cx-faq details {
+  border: 1px solid rgba(15, 76, 129, 0.12);
+  border-radius: var(--radius-md);
+  background: var(--surface-solid);
+}
+
+.cx-faq summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+  color: #0b1d31;
+  font-weight: 720;
+  cursor: pointer;
+  list-style: none;
+}
+
+.cx-faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.cx-faq summary::after {
+  content: "+";
+  flex: none;
+  color: var(--primary-2);
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 1;
+  transition: transform 180ms ease;
+}
+
+.cx-faq details[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.cx-faq details p {
+  margin: 0;
+  padding: 0 20px 20px;
+  color: var(--muted);
+}
+
+/* CTA */
+.cx-cta {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) auto;
+  gap: 32px;
+  align-items: center;
+  padding: 40px;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, #0b1d31, var(--primary));
+  color: #fff;
+  box-shadow: var(--shadow);
+}
+
+.cx-cta .eyebrow {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.cx-cta h2 {
+  color: #fff;
+  font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+}
+
+.cx-cta p {
+  margin: 14px 0 0;
+  max-width: 620px;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.cx-cta-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cx-cta .button-primary {
+  background: #fff;
+  color: var(--primary);
+  box-shadow: none;
+}
+
+.cx-cta .button-secondary {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: none;
+}
+
+/* Responsive */
+@media (max-width: 1020px) {
+  .cx-cards,
+  .cx-privacy-grid {
+    grid-template-columns: 1fr;
+    max-width: 680px;
+  }
+}
+
+@media (max-width: 860px) {
+  .cx-hero {
+    padding-top: 40px;
+  }
+
+  .cx-hero-grid,
+  .cx-cta {
+    grid-template-columns: 1fr;
+  }
+
+  .cx-workflow {
+    grid-template-columns: 1fr;
+  }
+
+  .cx-cta {
+    padding: 28px;
+  }
+
+  .cx-cta-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cx-hero-item,
+  .cx-workflow a,
+  .cx-faq summary::after {
+    transition: none;
+  }
+}

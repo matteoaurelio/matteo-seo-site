@@ -52,6 +52,7 @@ type SiteUi = {
     explore: string;
     exploreLabel: string;
     cybersecurity: string;
+    extensions: string;
     lab: string;
     privacy: string;
     motto: string;
@@ -84,6 +85,7 @@ export const siteUi: Record<Lang, SiteUi> = {
       explore: "Explore",
       exploreLabel: "Footer navigation",
       cybersecurity: "Cybersecurity",
+      extensions: "Chrome extensions",
       lab: "Lab & experiments",
       privacy: "Privacy",
       motto: "Business problems first. Tools second.",
@@ -114,6 +116,7 @@ export const siteUi: Record<Lang, SiteUi> = {
       explore: "Explorar",
       exploreLabel: "Navegación del pie de página",
       cybersecurity: "Ciberseguridad",
+      extensions: "Extensiones de Chrome",
       lab: "Laboratorio y experimentos",
       privacy: "Privacidad",
       motto: "Primero el problema de negocio. Después, las herramientas.",
@@ -144,6 +147,7 @@ export const siteUi: Record<Lang, SiteUi> = {
       explore: "Ontdek",
       exploreLabel: "Footernavigatie",
       cybersecurity: "Cybersecurity",
+      extensions: "Chrome-extensies",
       lab: "Lab & experimenten",
       privacy: "Privacy",
       motto: "Eerst het businessprobleem. Daarna de tools.",

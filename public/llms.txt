@@ -42,6 +42,9 @@ Confidentiality: client names, markets and figures are never published. Product 
 - [Cybersecurity for websites, ads and online stores](https://matteoarellano.com/cybersecurity/)
 - [Technical cookbook of code recipes](https://matteoarellano.com/resources/)
 
+## Free tools
+- [Chrome extensions](https://matteoarellano.com/chrome-extensions/): three free Chrome extensions that run locally with no account. SEO Page Audit checks a page's SEO, structure and technical basics; Link Page Checker for SEO lists every link on a page, checks HTTPS status and exports a CSV; MapSnap CSV captures Google Maps listing details into rows and exports them as CSV.
+
 ## Video
 - [Payment Systems, Explained (YouTube playlist)](https://www.youtube.com/playlist?list=PLCVWF4_Kwa-Y): a video series that explains how payment systems work, one country at a time.
 - [How Payment Systems Work: The Netherlands, iDEAL and Wero Explained](https://matteoarellano.com/journal/2026-11-02-how-payment-systems-work-the-netherlands-ideal-and-wero/): the written version of episode 1, with sources.

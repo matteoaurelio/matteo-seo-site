@@ -22,6 +22,7 @@ const fieldNotes = (await getCollection("journal", ({ data }) => !data.draft))
 const links = [
   { href: servicesHubPath[lang], label: ui.services },
   { href: "/cybersecurity/", label: f.cybersecurity },
+  { href: "/chrome-extensions/", label: f.extensions },
   { href: recommendationsLink[lang], label: ui.recommendations },
   { href: aboutPath[lang], label: ui.about },
 ];
