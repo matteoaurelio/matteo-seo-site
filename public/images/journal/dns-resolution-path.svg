@@ -29,7 +29,7 @@
   <text x="56" y="622" font-size="18" fill="#ffffff">and remembers each answer</text>
 
   <path d="M200 312 L200 416" stroke="#0f4c81" stroke-width="3" fill="none" marker-end="url(#a)"/>
-  <text x="214" y="370" font-size="16" fill="#0f4c81">"www.example.com?"</text>
+  <text x="214" y="370" font-size="16" fill="#0f4c81">"matteoarellano.com?"</text>
 
   <!-- Root -->
   <rect x="470" y="120" width="320" height="150" rx="18" fill="#ffffff" stroke="#0f4c81" stroke-width="2"/>
@@ -42,13 +42,13 @@
   <rect x="470" y="330" width="320" height="150" rx="18" fill="#ffffff" stroke="#0f4c81" stroke-width="2"/>
   <text x="630" y="370" text-anchor="middle" font-size="22" font-weight="700" fill="#0b2540">⑤ .com TLD server</text>
   <text x="630" y="402" text-anchor="middle" font-size="17" fill="#4a5a6a">Run by the registry</text>
-  <text x="630" y="438" text-anchor="middle" font-size="18" fill="#0b2540">Knows: example.com's NS</text>
+  <text x="630" y="438" text-anchor="middle" font-size="18" fill="#0b2540">Knows: who hosts its DNS</text>
   <text x="630" y="465" text-anchor="middle" font-size="16" fill="#4a5a6a">Answers with a referral</text>
 
   <!-- Authoritative -->
   <rect x="470" y="540" width="320" height="150" rx="18" fill="#ffffff" stroke="#0f4c81" stroke-width="3"/>
   <text x="630" y="580" text-anchor="middle" font-size="22" font-weight="700" fill="#0b2540">⑥ Authoritative server</text>
-  <text x="630" y="612" text-anchor="middle" font-size="17" fill="#4a5a6a">Your DNS host (e.g. Cloudflare)</text>
+  <text x="630" y="612" text-anchor="middle" font-size="17" fill="#4a5a6a">For this site: Cloudflare</text>
   <text x="630" y="648" text-anchor="middle" font-size="18" fill="#0b2540">Knows: the actual record</text>
   <text x="630" y="675" text-anchor="middle" font-size="16" fill="#4a5a6a">The only source of truth</text>
 
@@ -59,8 +59,8 @@
   <!-- Answer back -->
   <rect x="30" y="740" width="760" height="190" rx="18" fill="#f6f8fb" stroke="#c9d6e3" stroke-width="2"/>
   <text x="56" y="782" font-size="22" font-weight="700" fill="#0b2540">⑦ The answer comes back with a TTL</text>
-  <text x="56" y="818" font-size="18" fill="#0b2540">www.example.com.  300  IN  A  192.0.2.10</text>
-  <text x="56" y="852" font-size="18" fill="#4a5a6a">Every cache on the way keeps it for up to 300 seconds.</text>
+  <text x="56" y="818" font-size="18" fill="#0b2540">matteoarellano.com.  300  IN  A  (Cloudflare IP)</text>
+  <text x="56" y="852" font-size="18" fill="#4a5a6a">Every cache on the way may keep it for up to 300 seconds.</text>
   <text x="56" y="882" font-size="18" fill="#4a5a6a">Change the record now, and some people still see the old one</text>
   <text x="56" y="910" font-size="18" fill="#4a5a6a">until their cache expires. That is "propagation".</text>
 </svg>
