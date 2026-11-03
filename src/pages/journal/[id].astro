@@ -294,6 +294,27 @@ const articleSchema = {
     object-fit: contain;
   }
 
+  .journal-content :global(details) {
+    margin: 0 0 1rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid rgba(15, 76, 129, 0.2);
+    border-radius: 12px;
+    background: rgba(15, 76, 129, 0.03);
+  }
+
+  .journal-content :global(details summary) {
+    cursor: pointer;
+    line-height: 1.5;
+  }
+
+  .journal-content :global(details[open] summary) {
+    margin-bottom: 0.75rem;
+  }
+
+  .journal-content :global(details p) {
+    margin: 0;
+  }
+
   .journal-content :global(hr) {
     margin: 3rem 0;
     border: 0;

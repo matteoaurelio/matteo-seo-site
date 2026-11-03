@@ -411,6 +411,128 @@ export const glossaryGroups: GlossaryGroup[] = [
       },
     ],
   },
+  {
+    slug: "dns",
+    title: "DNS",
+    intro:
+      "How names become addresses. These examples use a shop at example.com: the website runs on a server at 192.0.2.10, the store is on Shopify and the DNS is hosted at Cloudflare.",
+    terms: [
+      {
+        slug: "dns-term",
+        term: "DNS (Domain Name System)",
+        definition:
+          "The system that turns names people can remember, like www.example.com, into the IP addresses computers use. It is not one database but millions of separate zones, each run by whoever owns that part of the name.",
+        inTheExample:
+          "When a customer types www.example.com, DNS returns 192.0.2.10 and the browser connects to the shop's server.",
+      },
+      {
+        slug: "recursive-resolver",
+        term: "Recursive resolver",
+        definition:
+          "The DNS server that does the work of finding an answer for your device, asking other servers step by step, and remembering (caching) answers for later. Usually run by your internet provider, your company, or a public service like 1.1.1.1 or 8.8.8.8.",
+        inTheExample:
+          "A customer's laptop asks its provider's resolver for www.example.com. If the resolver looked it up a minute ago, it answers straight from its cache.",
+        forMarketers:
+          "Different resolvers can hold different cached answers for a while after a change. That is why a colleague can still see the old website.",
+      },
+      {
+        slug: "root-server",
+        term: "Root server",
+        definition:
+          "The top of the DNS tree. A root server does not know any website's address. It only knows which servers handle each top-level domain, such as .com or .nl. There are 13 root identities, served from around 2,000 locations.",
+        inTheExample:
+          "Asked about www.example.com, a root server replies: I don't know, but here are the servers for .com.",
+      },
+      {
+        slug: "tld",
+        term: "TLD (top-level domain)",
+        definition:
+          "The last part of a domain name, such as .com, .org or .nl. Each TLD is run by a registry, which knows which name servers are responsible for every domain under it.",
+        inTheExample:
+          "The .com servers reply that example.com is handled by Cloudflare's name servers.",
+      },
+      {
+        slug: "authoritative-name-server",
+        term: "Authoritative name server",
+        definition:
+          "The server that holds the real records for a domain and gives the official answer. Every other server either points to it or repeats what it said.",
+        inTheExample:
+          "Cloudflare's name servers are authoritative for example.com. To check what the shop's DNS really says, you ask them directly.",
+      },
+      {
+        slug: "registrar",
+        term: "Registrar",
+        definition:
+          "The company where a domain is bought and renewed. The registrar decides which name servers the domain points to. It is often a different company from the DNS host and the web host.",
+        inTheExample:
+          "The shop bought example.com at a registrar, then set its name servers to Cloudflare. Records edited at the registrar now have no effect.",
+        forMarketers:
+          "Know who controls the registrar account. If the domain expires or the account belongs to a former agency, your rankings and email are at risk.",
+      },
+      {
+        slug: "dns-record",
+        term: "DNS record (A, AAAA, MX, TXT)",
+        definition:
+          "One entry in a domain's zone. A and AAAA records point a name to an IPv4 or IPv6 address, MX records say where email goes, and TXT records hold text such as email security policies and ownership verifications.",
+        inTheExample:
+          "www has an A record to 192.0.2.10, MX records send email to the shop's mail provider, and a TXT record proves ownership to Google Search Console.",
+      },
+      {
+        slug: "cname",
+        term: "CNAME record",
+        definition:
+          "A record that makes one name an alias of another name. A name with a CNAME cannot have any other record, which is why a plain CNAME is not allowed at the root of a domain.",
+        inTheExample:
+          "store.example.com is a CNAME to the shop's Shopify address, so Shopify can change its servers without the shop editing anything.",
+      },
+      {
+        slug: "subdomain",
+        term: "Subdomain",
+        definition:
+          "A name below a domain, such as blog.example.com or store.example.com. Each subdomain has its own records and can point to a completely different server or service.",
+        inTheExample:
+          "www.example.com is the main site, store.example.com is Shopify and help.example.com is a help desk tool.",
+        forMarketers:
+          "Use one GA4 property and data stream for all subdomains, and compare them with the Hostname dimension. Cross-domain tracking is not needed between subdomains.",
+      },
+      {
+        slug: "ttl",
+        term: "TTL (time to live)",
+        definition:
+          "The number of seconds a DNS answer may be kept in a cache before it must be looked up again. A long TTL means fewer lookups; a short TTL means changes reach everyone faster.",
+        inTheExample:
+          "The www record has a TTL of 300, so after a change every cache has the new address within five minutes.",
+        forMarketers:
+          "Ask for TTLs to be lowered a day before any website migration, so a problem can be rolled back quickly.",
+      },
+      {
+        slug: "nxdomain-servfail",
+        term: "NXDOMAIN and SERVFAIL",
+        definition:
+          "Two DNS error answers. NXDOMAIN means the name does not exist. SERVFAIL means the resolver could not get a trustworthy answer, for example because the name servers did not respond or DNSSEC checks failed.",
+        inTheExample:
+          "A typo like wwww.example.com returns NXDOMAIN. If a broken DNSSEC setting is left behind after a provider change, example.com may return SERVFAIL for some customers.",
+      },
+      {
+        slug: "dnssec",
+        term: "DNSSEC",
+        definition:
+          "An extension that adds digital signatures to DNS records, so resolvers can prove an answer came from the domain owner and was not changed on the way. It protects against forged answers, but does not encrypt anything.",
+        inTheExample:
+          "The shop turns on DNSSEC at Cloudflare and adds a DS record at the registrar. Validating resolvers now reject forged answers for example.com.",
+      },
+      {
+        slug: "subdomain-takeover",
+        term: "Subdomain takeover",
+        definition:
+          "An attack where someone takes control of a subdomain whose DNS record still points to a cloud resource that was deleted, by creating a new resource with the same name.",
+        inTheExample:
+          "promo.example.com still points to a deleted campaign app. An attacker creates an app with the same name and serves a fake login page on the shop's own subdomain.",
+        forMarketers:
+          "When a campaign site is switched off, ask for its DNS record to be deleted first.",
+      },
+    ],
+  },
 ];
 
 export const allGlossaryTerms = glossaryGroups.flatMap((group) => group.terms);
