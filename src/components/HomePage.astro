@@ -65,8 +65,9 @@ const videoSchema = {
   description: t.video.description,
   inLanguage: lang,
   thumbnailUrl: `${site}${t.video.src.poster}`,
-  uploadDate: lang === "en" ? "2026-10-31" : "2026-11-01",
+  uploadDate: lang === "en" ? "2026-10-31T00:00:00Z" : "2026-11-01T00:00:00Z",
   duration: "PT30S",
+  contentUrl: `${site}${t.video.src.hls}`,
   publisher: { "@id": `${site}/#person` },
 };
 
