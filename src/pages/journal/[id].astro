@@ -338,6 +338,12 @@ if (video) {
     line-height: 1.35;
   }
 
+  /* Keep headings clear of the sticky site header when a reader
+     follows an in-page link (for example a contents list). */
+  .journal-content :global([id]) {
+    scroll-margin-top: 104px;
+  }
+
   /* Colour, underline and hover come from the shared inline-link
      style in global.css. */
   .journal-content :global(a) {
