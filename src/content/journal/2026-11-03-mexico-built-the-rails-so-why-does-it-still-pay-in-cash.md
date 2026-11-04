@@ -83,7 +83,7 @@ With CoDi, **the shop requests the payment** instead of the customer typing an a
 
 No card network, no terminal to buy, **no fee for the merchant**, instant money. For a shop paying 3–4% on cards, that should have been irresistible.
 
-It wasn't. In 2025, after six years, CoDi recorded **4.4 million operations**, fewer than SPEI handles every half day. Press reports put "validated" CoDi accounts at about 21.8 million, but Banxico counted only **279,400 accounts actually used** in the last quarter of 2025: about one in eighty. Only 1,081 merchants used CoDi at the end of 2025.
+It wasn't. In 2025, after six years, CoDi recorded **4.4 million operations**, fewer than SPEI handles every half day. On paper, around 21.8 million accounts are signed up for CoDi, but Banxico counted only **279,400 accounts actually used** in the last quarter of 2025: about one in eighty. Only 1,081 merchants used CoDi at the end of 2025.
 
 ### Why it failed
 
@@ -115,7 +115,7 @@ Behind the scenes:
 4. **The customer's bank, the issuer, approves** after checking her balance and running fraud checks, and the answer travels back the same way.
 5. **Later, the money moves**: the banks settle what they owe each other, the acquirer pays Clip, and Clip pays the taquería, usually the next day.
 
-Clip's list rate, as reported by third-party pages, is **3.6% plus 16% VAT (IVA) on the fee**:
+Clip charges **3.6% plus 16% VAT (IVA) on the fee**:
 
 | | MXN |
 | --- | --- |
@@ -128,7 +128,7 @@ Of those MXN 9, the customer's bank receives the interchange. Banxico publishes 
 
 ### A month of sales, method by method
 
-To compare methods, take a business selling **MXN 100,000 a month** at MXN 250 per sale, and imagine it takes all its sales each way in turn. This is illustrative: prices come from providers' pages or, where those wouldn't open, recent third-party pages, and they change.
+To compare, picture a business selling **MXN 100,000 a month** at MXN 250 a sale, and work out what it would pay if every sale came through each method. Treat the numbers as a rough guide: they use list prices from late 2026, and providers change them often.
 
 | How the business gets paid | Monthly cost incl. VAT | Share of sales | Money arrives |
 | --- | --- | --- | --- |
@@ -149,7 +149,7 @@ Notice too that debit costs merchants almost as much as credit, even though debi
 
 Aggregators transformed acceptance. Of Mexico's **6.54 million card terminals** at the end of 2024, 70% belonged to aggregators such as Clip and Mercado Pago, which reached every municipality by removing the friction: no contract, no minimum volume, no terminal rental, fast payouts.
 
-But I found no evidence they made acceptance *cheaper*. Their list prices sit above bank averages, and Mexico still has only 607 terminals per 10,000 adults, against 1,390 in Brazil. **Fintechs made accepting cards easier, not cheaper.** For a business on thin margins, that's why cash still feels like the better deal.
+But there's little sign they made acceptance *cheaper*. Their list prices sit above bank averages, and Mexico still has only 607 terminals per 10,000 adults, against 1,390 in Brazil. **Fintechs made accepting cards easier, not cheaper.** For a business on thin margins, that's why cash still feels like the better deal.
 
 ## Who owns the pipes
 
@@ -157,7 +157,7 @@ The Netherlands episode split every payment system into **processing** (moving a
 
 That arrangement has been contested for years. In December 2023, Visa agreed to buy 51% of Prosa. On 20 February 2026, Mexico's new antitrust authority, the **Comisión Nacional Antimonopolio**, which replaced COFECE in 2025, **blocked the deal**. It argued the deal would remove an independent processor, that Prosa sees transaction data from every card brand, and that it would endanger Prosa's own domestic brand, Carnet.
 
-Regulators have also gone after the fees. In October 2025, Banxico and the CNBV proposed capping interchange at 0.6% for credit and 0.3% for debit, then withdrew the plan in February 2026 after objections from banks, fintech card issuers and the US government. A softer draft followed on 27 August 2026: 1.30% per credit payment and, for debit, 0.30% with a ceiling of MXN 10.80 per payment, phased in over three years along with annual average limits, plus a requirement that aggregators pay merchants the same day. Consultation closed on 24 September; as of 3 November 2026, I found no sign the rule is final.
+Regulators have also gone after the fees. In October 2025, Banxico and the CNBV proposed capping interchange at 0.6% for credit and 0.3% for debit, then withdrew the plan in February 2026 after objections from banks, fintech card issuers and the US government. A softer draft followed on 27 August 2026: 1.30% per credit payment and, for debit, 0.30% with a ceiling of MXN 10.80 per payment, phased in over three years along with annual average limits, plus a requirement that aggregators pay merchants the same day. Consultation closed on 24 September, and in early November the rule still wasn't final.
 
 What would it mean for our MXN 100,000 business? With 70% of card sales on debit and 30% on credit, and the full saving passed on, **at most about MXN 780 a month**. But the draft doesn't require anyone to pass the saving on, and aggregator prices aren't regulated. A taquería paying 3.6% to Clip may see none of it.
 
@@ -223,9 +223,9 @@ The lessons that travel: require banks and wallets to take part; give the system
 
 ## 14 December 2026: Mexico's bet
 
-Instead of launching a new brand, Banxico is changing SPEI from inside, by regulation. Most changes are due by **14 December 2026**. Under Circular 9/2026, every bank and fintech app must present transfers, CoDi requests and DiMo payments with the same screens and steps, and typing a CLABE will no longer be required. According to press reports, institutions must also link a customer's phone number to their account on request (for most account types), so a phone number becomes an address for receiving money, and a "SPEI 2.0" will process transfers in parallel, so a fast one doesn't wait behind a slow one.
+Instead of launching a new brand, Banxico is changing SPEI from inside, by regulation. Most changes are due by **14 December 2026**. Under Circular 9/2026, every bank and fintech app must present transfers, CoDi requests and DiMo payments with the same screens and steps, and typing a CLABE will no longer be required. Banxico has also told institutions to link a customer's phone number to their account on request, so a phone number becomes an address for receiving money. And a revamped "SPEI 2.0" is due to process transfers in parallel, so a fast one doesn't wait behind a slow one.
 
-The **Ley de Economía Digital**, a digital payments law approved by the Senate on 20 October 2026, would let Banxico require card terminals to accept QR payments, and let the finance ministry name sectors where digital payment is required. As of 3 November 2026 I couldn't confirm it had been published in the official gazette, which it needs to take effect.
+The **Ley de Economía Digital**, a digital payments law approved by the Senate on 20 October 2026, would let Banxico require card terminals to accept QR payments, and let the finance ministry name sectors where digital payment is required. It takes effect once it's published in the official gazette, and the list of sectors comes after that.
 
 On paper, this fixes CoDi's technical weaknesses, and the 4.6 million aggregator terminals already in shops could accept QR payments without new hardware. But it leaves CoDi's central question unanswered: **who earns money by bringing merchants on board?** Aggregators earn 3.5–3.6% on cards. A free QR payment on the same terminal earns them nothing and could eat into those card fees. Unless someone is paid to promote it, the new option may sit on terminals the way CoDi sat in banking apps. And nothing in the December package gives you a way to get money back when a transfer goes wrong. Colombia suggests what comes next: the technology can be ready on time, while changing merchants' and customers' habits takes years.
 
@@ -247,7 +247,7 @@ When I go back to that taquería in Iztapalapa in a year, the question won't be 
 
 The video version of this episode is coming to the [Payment Systems, Explained playlist](https://www.youtube.com/playlist?list=PLCVWF4_Kwa-Y). For related reading, see [local acquiring in emerging markets](/journal/2026-10-19-local-acquiring-in-emerging-markets-benefits-challenges-and-real-examples/) and [how much a merchant actually keeps from a successful payment](/journal/2026-10-19-the-payment-was-successful-but-how-much-money-did-the-merchant-actually-keep/). If your business sells into Mexico and is working through card acceptance, OXXO, SPEI or local acquiring, see how I work on [payment solutions](/payment-solutions/).
 
-*Figures are the latest available as of 3 November 2026. Where official sources disagree, I've used Banxico's own reports. The cost comparison uses illustrative assumptions, and some provider prices come from third-party pages.*
+*Figures are the latest available in early November 2026. Where sources disagree, I've used Banxico's own reports. Fees are list prices and change often.*
 
 ## Sources
 
