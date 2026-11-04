@@ -143,7 +143,7 @@ If CoDi didn't take off, cards are what most Mexican shops add first when they m
 - The **issuer** is the customer's bank, which gave her the card.
 - The **acquirer** is the bank on the merchant's side. It's responsible for the shop's card payments and guarantees the shop gets paid.
 - An **aggregator** sits between small shops and the acquirer. Instead of each shop signing a contract with a bank, the aggregator signs up thousands of small businesses under its own agreement. In Mexico, Clip and Mercado Pago are the best-known.
-- A **switch** routes the payment between the merchant's side and the customer's bank. Mexico's domestic card payments are mainly routed by two switches, **Prosa** and **E-Global**, owned by the large banks.
+- A **switch** routes the payment between the merchant's side and the customer's bank. Two switches owned by groups of large banks, **Prosa** and **E-Global**, carry a large share of Mexico's domestic card payments (more on who owns what below).
 - The **card network**, Visa or Mastercard, owns the brand and writes the rules.
 
 Two fees hold this together. The **merchant discount rate** is the percentage the shop pays on each card sale. Part of it goes to the customer's bank as the **interchange fee**, which pays the issuer for things like fraud checks, running the card and, with credit cards, lending the customer money. The rest is shared between the acquirer, the aggregator, the switch and the network.
@@ -208,17 +208,60 @@ But there's little sign they made acceptance *cheaper*. Their list prices sit ab
 
 ## Who owns the pipes
 
-To understand why card fees are where they are, recall a framework from the Netherlands episode. Every payment system has three layers: **processing** (moving and settling the money), **rules** (who is responsible for what, and who pays when something goes wrong) and **brand** (the logo customers recognize).
+So far we've looked at what a card payment costs the merchant. To understand *why* it costs that much, and why regulators keep stepping in, we need to look at who runs the machinery behind each payment. The clearest way is to follow one more payment, this time one that goes through a bank instead of an aggregator.
 
-In Mexico, these layers belong to different owners. Visa and Mastercard own the brands and write the card rules; Visa alone accounts for about 61% of credit cards and 64% of debit cards. But much of the processing of domestic card payments runs through the two bank-owned switches: Prosa, owned by Santander, Banorte, Scotiabank, HSBC and Invex, and E-Global, owned by BBVA and Banamex.
+### One payment, four roles
 
-Why does ownership matter? Because the banks that own the switches also issue cards and earn interchange. Whoever controls the routing of payments sees competitors' transaction data and can shape the cost of entry for newcomers. Mexico's competition authorities have raised this for years: COFECE issued a preliminary ruling in 2020 that card processing lacked effective competition, and confirmed barriers in 2023.
+A customer pays MXN 500 at our café with a BBVA debit card that has the Visa logo on it. The café's card terminal comes from Santander.
 
-The issue came to a head with a deal. In December 2023, Visa agreed to buy 51% of Prosa. On 20 February 2026, Mexico's new antitrust authority, the **Comisión Nacional Antimonopolio** (which replaced COFECE in 2025), **blocked it**. Its reasons: the deal would remove an independent processor; Prosa sees transaction data from every card brand, which would have given Visa a view of its rivals' business; and it would endanger Prosa's own domestic card brand, Carnet.
+Four different organizations take part:
+
+- **BBVA** issued the card and holds the customer's account. It decides whether to approve the payment. In the language of the industry, it's the **issuer**.
+- **Santander** provides the café's terminal and is responsible for making sure the café gets paid. It's the **acquirer**.
+- **Visa**'s logo is on the card. Visa writes the rules every bank in its network must follow: the technical standards, the security requirements, and how disputes and chargebacks are handled.
+- A **switch** carries the messages between Santander and BBVA. It sends the café's request to BBVA, brings BBVA's answer back, and afterwards helps the banks work out what they owe each other so they can settle. In Mexico, the official name for these switches is *cámaras de compensación*, or clearing houses.
+
+The important point is that **the logo on the card doesn't tell you who moves the payment.** Visa sets the rules for this transaction, but the request can travel through a switch that Visa doesn't own.
+
+This is where the framework from the Netherlands episode becomes useful. Every payment system has three layers: the **brand** (the Visa logo the customer recognizes), the **rules** (Visa's rulebook, which binds BBVA and Santander) and the **processing** (the switch and the banks that actually move the messages and the money). In Mexico, those layers often belong to different companies.
+
+### Who owns the switches
+
+Banxico has authorized four card switches in Mexico. Two belong to groups of banks: **Prosa**, owned by Santander, Banorte, Scotiabank, HSBC and Invex, and **E-Global**, owned by BBVA and Banamex. The other two belong to **Mastercard** and **Visa**, authorized in 2018 and 2020. How much traffic those two actually carry isn't clear: one account says Mastercard reached 7.8% of the market within three years of starting, another says it hadn't begun operating. Prosa alone handles about 44% of the processing done by Mexico's card switches, according to the competition authority.
+
+Now look again at our café payment. Santander, the café's bank, is an owner of Prosa. BBVA, the customer's bank, is an owner of E-Global. The two banks on either side of the payment also own the infrastructure that connects them.
+
+### Why ownership matters
+
+Imagine a new digital bank that wants to issue cards, or a fintech that wants to sign up merchants. To do either, it has to connect to a switch. Most of that infrastructure belongs to the large banks it's trying to compete with. The price of connecting, the technical requirements and how quickly a newcomer gets in are all set by companies with an interest in the outcome.
+
+That's the concern Mexico's competition authorities have raised for years. In 2020, the former authority, COFECE, issued a preliminary finding that card payments lacked effective competition and recommended that the banks sell majority control of Prosa and E-Global. In 2023, it concluded that the rules for card processing favored incumbents, made entry harder and limited innovation. Banxico has since drafted new rules for the switches covering interoperability, neutrality, fair conditions for new entrants and a ban on exclusive arrangements. They went to public consultation in December 2025 and weren't yet final in early November 2026.
+
+### How this connects to the café's fee
+
+It's tempting to assume that whoever owns the switch sets the merchant's fee. It doesn't work that directly.
+
+Suppose the café pays the average rate banks charge restaurants on debit cards, 2.17%. On the MXN 500 payment, that's about MXN 10.85, plus VAT. Most of it never reaches the switch. Up to MXN 5.75 goes to BBVA as interchange (1.15% is the current published maximum for debit). Santander keeps the rest, after paying Visa's network fees and the switch's processing fee, neither of which is public.
+
+So the link between switch ownership and merchant fees is indirect. Limited competition in processing can raise costs for the banks and fintechs that depend on it, and make it harder for a newcomer to enter with a cheaper offer. And the largest slice, interchange, isn't set by law in Mexico: the banks set it, Banxico publishes it, and it flows to the banks that issue cards, many of which also own the switches.
+
+### The Visa–Prosa deal
+
+That background explains why one deal drew so much attention. Visa is already the dominant card brand in Mexico, with about 61% of credit cards and 64% of debit cards. But it isn't only a brand: it's also licensed to run a switch in Mexico, which makes Prosa a competitor. In December 2023, Visa agreed to buy 51% of Prosa.
+
+On 20 February 2026, Mexico's new antitrust authority, the **Comisión Nacional Antimonopolio** (which replaced COFECE in 2025), **blocked the deal**. It gave three main reasons:
+
+1. **Fewer independent processors.** Visa would be buying one of its main competitors in processing.
+2. **Access to rivals' data.** Prosa handles payments made with every card brand, including Mastercard's, so Visa would gain a view of its competitors' business.
+3. **Carnet's future.** Prosa owns Carnet, a smaller, lower-cost Mexican card brand that competes with Visa and Mastercard. The authority worried that under Visa's control, this cheaper alternative could be weakened.
+
+These were risks the authority foresaw, not evidence of misconduct, and it judged the remedies Visa offered insufficient. Visa said it was disappointed and was reviewing its options.
+
+The case shows something easy to miss about payments: competition doesn't only happen between the logos printed on cards. It also happens in the infrastructure behind every transaction.
 
 ### The fight over fees
 
-Regulators also tried to lower the fees directly. In October 2025, Banxico and the CNBV proposed capping interchange at 0.6% for credit cards and 0.3% for debit, closer to European levels. They withdrew the plan in February 2026 after objections from banks, from fintech card issuers (for whom interchange is an important source of income) and from the US government.
+Alongside the fight over the pipes, regulators have tried to lower the fees directly. In October 2025, Banxico and the CNBV proposed capping interchange at 0.6% for credit cards and 0.3% for debit, closer to European levels. They withdrew the plan in February 2026 after objections from banks, from fintech card issuers (for whom interchange is an important source of income) and from the US government.
 
 A softer draft followed on 27 August 2026: 1.30% per credit card payment and, for debit, 0.30% with a ceiling of MXN 10.80 per payment, phased in over three years along with annual average limits. It would also require aggregators to pay merchants on the same day they receive the money. Consultation closed on 24 September, and in early November the rule still wasn't final.
 
