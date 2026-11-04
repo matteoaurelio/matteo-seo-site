@@ -335,9 +335,30 @@ For the store, vouchers have a clear advantage: once Diego has paid in cash, the
 
 ### Why OXXO wins either way
 
-OXXO also earns a fee when people move cash into or out of digital accounts. The digital bank Nu added cash deposits at OXXO in 2025, and Clip has said it wants to grow its own network of cash points from 28,000 to 100,000.
+OXXO doesn't only make money selling drinks and snacks. It also charges a fee to move money between cash and bank accounts, and that business works whichever way Mexico goes.
 
-Think about what that means. Every digital wallet that wants customers who are paid in cash needs somewhere for them to deposit it, and that somewhere usually charges. OXXO profits when cash is used and when cash is converted into digital money. Whichever way Mexico moves, the toll booth stays open.
+Take a real example. You work in Mexico City and get MXN 5,000 of your pay in cash. You want it in your account at Nu, a digital bank with no branches. So you go to an OXXO instead:
+
+1. You open the Nu app and generate a deposit code.
+2. At the OXXO counter, you hand the cashier the MXN 5,000, plus a fee.
+3. OXXO processes the deposit, and the MXN 5,000 appears in your Nu account.
+4. The fee for a Nu deposit at OXXO is MXN 17.
+
+You've just turned physical cash into digital money, and OXXO charged MXN 17 for the service. Some banks also let their customers *withdraw* cash at OXXO for a similar fee: Banorte since 2023, for example, and Mifel since March 2026. (Nu offered withdrawals too, but stopped on 16 March 2026; its deposits continue.)
+
+That MXN 17 isn't pure profit. OXXO has to staff the counter and handle, guard and move the cash. But picture the same transaction repeated across more than 24,000 stores, every day, and you can see why it's a valuable business.
+
+Now think about two possible futures.
+
+**If Mexico keeps using a lot of cash**, people keep coming to OXXO to buy things, pay bills in cash and pay for online orders with vouchers, like Diego.
+
+**If Mexico goes digital**, millions more people open accounts with Nu and other digital banks. But anyone still paid in cash needs somewhere to put that cash into their account. OXXO charges for that step.
+
+That's the clever part of the model: OXXO can profit from the growth of digital banking without having to become a bank. Its owner, FEMSA, did build its own digital wallet, Spin by OXXO, which had 17.6 million users in mid-2026, but it paused its application for a full banking licence in March 2026. For now, OXXO's strength is the counter, not the account.
+
+Its position isn't guaranteed. Others want this business too: Clip has said it wants to grow its own network of cash-deposit points from 28,000 to 100,000. More places competing to take your cash could push these fees down.
+
+The bigger lesson is that going digital doesn't remove Mexico's need for physical infrastructure. Digital banks without branches need convenience-store counters to reach the people who still earn and spend cash. Which raises a question worth asking: could a chain of convenience stores become one of the most important parts of Mexico's financial system without ever being a traditional bank?
 
 ## Remittances: the money crossing the border goes digital
 
@@ -477,4 +498,7 @@ The video version of this episode is coming to the [Payment Systems, Explained p
 - [BBVA: Point-of-sale terminal fact sheet](https://www.bbva.mx/content/dam/public-web/mexico/documents/empresas/cobros-y-pagos/TCR_21.5X28_FichaTerminalPuntodeVenta_V4.pdf)
 - [Banco de la República: Bre-B working paper (March 2026)](https://d1b4gd4m8561gs.cloudfront.net/sites/default/files/publicaciones/archivos/bre-b-working-paper-march-2026.pdf)
 - [EPI: Next steps in the iDEAL to Wero migration](https://epicompany.eu/media-insights/successful-first-phase-marks-major-next-steps-in-ideal-to-wero-migration/)
+- [Crónica: OXXO deposit fees and limits by bank (Jul 2026)](https://www.cronica.com.mx/tendencias/2026/07/09/vas-a-depositar-en-oxxo-lista-de-bancos-que-acepta-horarios-comision-y-monto-limite/)
+- [Nu México: Changes to cash withdrawals at OXXO (Mar 2026)](https://blog.nu.com.mx/productos-nu/cuenta-nu/red-de-retiros-efectivo/)
+- [FEMSA: OXXO cash withdrawals for Banorte customers (Oct 2023)](https://www.femsa.com/wp-content/uploads/2023/10/OXXO-ofrecera-servicio-de-disposicion-de-efectivo-para-clientes-Banorte.pdf) and [for Mifel customers (Mar 2026)](https://www.femsa.com/wp-content/uploads/2026/03/OXXO-MIFEL.pdf)
 - [Rio Times: Bitso and US–Mexico remittances (Oct 2026)](https://www.riotimesonline.com/mexico-bitso-15-percent-remittances-2026/)
