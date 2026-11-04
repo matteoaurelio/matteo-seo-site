@@ -27,6 +27,20 @@ This article explains how both can be true, and why it matters. It's the written
 
 The short version: **Mexico didn't lack payment infrastructure. It lacked a reason for the person behind the counter to accept it.** On 14 December 2026, Mexico's central bank makes its biggest bet yet that it can change that.
 
+**In this article:**
+
+1. [Two economies in one country](#two-economies-in-one-country): who still pays in cash, and why
+2. [SPEI, the system most Mexicans use without knowing its name](#the-system-most-mexicans-use-without-knowing-its-name)
+3. [CoDi, the free product nobody sold](#codi-the-free-product-nobody-sold)
+4. [What a card payment really costs](#follow-the-mxn-250-what-a-card-payment-really-costs), followed peso by peso
+5. [Who owns the pipes](#who-owns-the-pipes): switches, fees and the Visa–Prosa deal
+6. [Why cash still wins at the counter](#why-cash-still-wins-at-the-counter)
+7. [OXXO, the cash toll booth](#oxxo-the-cash-toll-booth-of-the-digital-economy)
+8. [Remittances go digital](#remittances-the-money-crossing-the-border-goes-digital)
+9. [What Brazil, India, the Netherlands and Colombia teach](#what-other-countries-teach-and-what-they-dont)
+10. [14 December 2026: Mexico's bet](#14-december-2026-mexicos-bet)
+11. [What it means for each player](#what-it-means-for-each-player)
+
 ## Two economies in one country
 
 Start with the customer. Every three years, Mexico's statistics institute (INEGI) and its banking regulator (the CNBV) run a national survey on how adults use financial services, called ENIF. One question is simple: how do you usually pay for purchases under MXN 500, roughly a family meal at a taquería?
@@ -39,21 +53,29 @@ Size matters. In 2025, the central bank, Banco de México (Banxico), asked adult
 
 ### The other side of the counter
 
-The customer is only half the story. The other half is the business receiving the money, and here informality matters enormously.
+The customer is only half the story. The other half is the business receiving the money.
 
-An informal job is one without a formal contract or social security: a street vendor, a market stall worker, a cook in a family taquería. About **54% of Mexican workers** are informal. And the informal economy *grew* in this period, from 22.2% of GDP in 2020 to a record 25.4% in 2024. Informal businesses run on cash for practical reasons: they're often paid in cash, they pay their suppliers in cash, and they may prefer to keep few records. So Mexico's digital payments boom happened alongside a growing informal economy, not instead of it.
+Picture Doña Lupe, who sells tamales from a cart outside a metro station in Mexico City every morning. (She's an illustration, but a very typical one.) A tamal costs about MXN 20. Her customers pay with coins and small notes. She buys masa and corn husks from a supplier who only takes cash. She has no employment contract, no social security, and her business isn't registered with the tax authority.
 
-Most Mexican businesses are also very small. Microbusinesses, usually firms with up to ten employees, are 95.5% of all firms, and **only 13.5% of them accept cards**. In 2024 surveys of corner shops (*tienditas*) by the retailers' association ANPEC, 55.6% had no card terminal, 95.8% paid their own suppliers in cash, and 83.8% said cash simply worked better for them.
+In Mexico, that makes her an **informal worker**, and she's far from alone. About **54% of Mexican workers** are informal, according to INEGI's employment survey. And the informal economy *grew* during the period this article covers, from 22.2% of GDP in 2020 to a record 25.4% in 2024. Mexico's digital payments boom happened alongside a growing informal economy, not instead of it.
 
-Put the two halves together and the deadlock is clear. A customer who would happily pay by card often can't, because the shop doesn't accept it. And the shop has little reason to accept cards when most customers pay in cash anyway.
+Now think about what accepting cards would mean for Doña Lupe. She'd have to buy a card reader, pay around 4% of each sale in fees (almost a peso on every tamal), wait until the next day for the money, and create a written record of her income. Meanwhile, her supplier would still want cash. Nothing in that deal is attractive to her.
+
+Her situation is the norm for small businesses. Microbusinesses, usually firms with up to ten employees, make up 95.5% of all firms in Mexico, and **only 13.5% of them accept cards**, compared with 51.1% of slightly larger small firms. In 2024 surveys of corner shops (*tienditas*) by the retailers' association ANPEC, 55.6% had no card terminal, 95.8% paid their own suppliers in cash, and 83.8% said cash simply worked better for them.
+
+Put the customer and the business together and you get a deadlock. A customer who would happily pay by card often can't, because the shop doesn't take cards. And the shop has little reason to start, because most of its customers pay in cash anyway.
 
 ### The cash paradox
 
-One more number confuses many people. If Mexicans pay less in cash, why is there so much more of it? At the end of 2019 there were MXN 1.74 trillion in notes and coins in circulation. By the end of 2025 there were **MXN 3.545 trillion**, more than double.
+One more number confuses many people. If Mexicans pay less in cash, why is there so much more of it?
 
-The answer is that cash does two jobs: it's a way to pay, and a way to keep money. The jump started in 2020, during the pandemic, when cash in circulation grew 25% in a single year even as people used it less to pay. Banxico's explanation is that households held it as a safety net, mostly in large notes. In 2025, 28% of urban adults said they keep cash outside the banking system, many of them for emergencies.
+At the end of 2019 there were MXN 1.74 trillion in notes and coins circulating in Mexico. By the end of 2025 there were **MXN 3.545 trillion**, more than twice as much.
 
-So "Mexico still uses cash" means three things: a way to pay for small purchases, a way to save, and the way much of the economy gets paid. Each has a different cause and needs a different solution. Most of this article is about the first: why paying at the counter is so hard to move away from cash, even though Mexico has excellent digital infrastructure.
+The explanation is that cash does two different jobs. It's a way to pay, and it's a way to keep money. To picture the second job, imagine a family in Toluca in April 2020. Schools are closed, one parent's job is suddenly uncertain, and nobody knows what the next months will bring. So they withdraw several thousand pesos in MXN 500 notes and keep them at home, just in case. They're shopping less, and paying for more things online, but they're holding more cash than ever.
+
+Multiply that by millions of households and you get what happened: in 2020, the amount of cash in circulation grew 25% in a single year, even as people used it less to pay. Banxico's explanation is exactly that precautionary saving, mostly in large notes. And the habit stuck. In 2025, 28% of urban adults said they keep cash outside the banking system, many of them for emergencies.
+
+So when people say "Mexico still uses cash," they mean three different things: a way to pay for small purchases, a way to save, and the way much of the economy gets paid. Each has a different cause and needs a different solution. Most of this article is about the first: why paying at the counter is still so hard to move away from cash, even though Mexico has excellent digital infrastructure.
 
 ## The system most Mexicans use without knowing its name
 
@@ -83,7 +105,7 @@ This is an **open-loop** system, a concept from the Netherlands episode. Lucía 
 
 In 2025, SPEI processed **7.3 billion transfers by people and companies**, 36.8% more than the 5.3 billion of the year before. That's roughly 14 times the 505 million instant transfers between banks in the Netherlands, in a country with about seven times the population.
 
-More telling than the total is how many people use it. In the last three months of 2025, **82.9 million people, about 81% of Mexicans aged 15 and over, sent or received at least one transfer.** Divide the annual total by the adult population and you get roughly six transfers per adult per month. Some of those are business payments, so the personal figure is lower, but transfers are clearly part of ordinary life.
+More telling than the total is how many people use it. In the last three months of 2025, **82.9 million people, about 81% of Mexicans aged 15 and over, sent or received at least one transfer.** Divide the annual total by the adult population and you get roughly six transfers per adult per month. To picture it: the rent, a payment to the plumber, money sent to a parent, an online order, and a dinner bill split with friends. Some of those transfers are business payments, so the true personal figure is lower, but transfers are clearly part of ordinary life.
 
 For comparison, Brazil's central-bank instant payment system, Pix, sees roughly 31 payments per person per month, and Colombia's new system reached about three in its first year. Countries count slightly differently, so treat these as rough. But they place Mexico where it belongs: far behind Brazil, ahead of a newcomer.
 
@@ -200,11 +222,15 @@ Banxico's figures hold one more surprise. Debit cards cost merchants almost as m
 
 ### Easier, not cheaper
 
-None of this means aggregators failed. They transformed card acceptance. At the end of 2024, Mexico had **6.54 million card terminals**, and 70% belonged to aggregators such as Clip and Mercado Pago; banks ran about 21%. Mercado Pago alone reported 1.4 million active readers in mid-2026. Aggregators reached every municipality by removing what kept small businesses away: contracts, minimum sales, terminal rental, slow payouts.
+None of this means aggregators failed. They transformed card acceptance in Mexico, and it's worth seeing how.
 
-But there's little sign they made acceptance *cheaper*. Their list prices sit above the rates banks charge on average, and Mexico still has only 607 card terminals per 10,000 adults, against 1,390 in Brazil.
+Compare two taquerías deciding to accept cards. The first goes to its bank. It usually needs an account with that bank, signs a contract, pays an affiliation fee and a terminal fee upfront, and may face a monthly charge if its card sales fall below a minimum. The second buys a small Clip or Mercado Pago reader, signs up from its phone, and can start taking cards almost immediately, with no contract, no minimum and money arriving within a day.
 
-**Fintechs made accepting cards easier, not cheaper.** For a business on thin margins, that's a big part of why cash still feels like the better deal. Cash costs nothing to accept and is available immediately, even if it brings other costs: trips to the bank, the risk of theft, errors in counting change.
+For a tiny business with irregular sales, the second option is far more practical. That's why aggregators took over. At the end of 2024, Mexico had **6.54 million card terminals**, and 70% of them belonged to aggregators such as Clip and Mercado Pago; banks ran about 21%. Mercado Pago alone reported 1.4 million active readers in Mexico in mid-2026. Aggregators reached every municipality in the country.
+
+But there's little sign they made acceptance *cheaper*. Their list prices of 3.5–3.6% sit above the average rates banks charge, as the café example showed. And Mexico still has only 607 card terminals per 10,000 adults, compared with 1,390 in Brazil. Put simply: in a Brazilian town of 10,000 adults you'd find more than twice as many places to pay by card as in a Mexican town of the same size.
+
+**Fintechs made accepting cards easier, not cheaper.** For a business on thin margins, that difference is a big part of why cash still feels like the better deal. Cash costs nothing to accept and the money is available immediately, even if it brings other costs: trips to the bank, the risk of theft, and errors in counting change.
 
 ## Who owns the pipes
 
@@ -261,13 +287,17 @@ The case shows something easy to miss about payments: competition doesn't only h
 
 ### The fight over fees
 
-Alongside the fight over the pipes, regulators have tried to lower the fees directly. In October 2025, Banxico and the CNBV proposed capping interchange at 0.6% for credit cards and 0.3% for debit, closer to European levels. They withdrew the plan in February 2026 after objections from banks, from fintech card issuers (for whom interchange is an important source of income) and from the US government.
+Alongside the fight over the pipes, regulators have tried to lower the fees themselves, starting with interchange, the slice that goes to the bank that issued the card.
 
-A softer draft followed on 27 August 2026: 1.30% per credit card payment and, for debit, 0.30% with a ceiling of MXN 10.80 per payment, phased in over three years along with annual average limits. It would also require aggregators to pay merchants on the same day they receive the money. Consultation closed on 24 September, and in early November the rule still wasn't final.
+To see what's at stake, take a MXN 1,000 purchase. Today, the published maximum interchange is 1.91% for credit cards and 1.15% for debit cards. So on that MXN 1,000 purchase, the customer's bank can receive up to MXN 19.10 if she pays by credit card, or up to MXN 11.50 if she pays by debit.
 
-What would it mean for our café? Assume its customers' banks currently charge the maximum published interchange, and that every peso of savings reaches the café. In that best case, it would save around **MXN 390 a month**: about MXN 300 on debit sales and MXN 90 on credit.
+In October 2025, Banxico and the CNBV proposed capping interchange at 0.6% for credit and 0.3% for debit. On the same MXN 1,000 purchase, the bank's slice would have fallen to MXN 6 for credit and MXN 3 for debit, much closer to European levels.
 
-But both assumptions are generous. The draft doesn't require anyone to pass the savings on, and aggregator prices aren't regulated. A café paying 3.6% to Clip may never see any of it.
+That proposal didn't survive. It was withdrawn in February 2026 after objections from banks, from fintech card issuers (for whom interchange is an important source of income) and from the US government. A softer draft followed on 27 August 2026: 1.30% for credit and, for debit, 0.30% with a ceiling of MXN 10.80 per payment, phased in over three years along with annual average limits. On our MXN 1,000 purchase, that means MXN 13 for credit and MXN 3 for debit once fully in place. The same draft would also require aggregators to pay merchants on the same day they receive the money. Public consultation closed on 24 September, and in early November the rule still wasn't final.
+
+What would that mean for our café? Assume its customers' banks currently charge the maximum published interchange, and that every peso of savings reaches the café. In that best case, it would save around **MXN 390 a month**: about MXN 300 on its debit sales and MXN 90 on its credit sales.
+
+But both assumptions are generous. The draft doesn't require anyone to pass the savings on to merchants, and aggregator prices aren't regulated at all. A café paying 3.6% to Clip may never see any of it. Lower interchange would certainly reduce what card-issuing banks earn; whether it reduces what the café pays is a separate question.
 
 There's a geopolitical dimension too. The US government's 2026 report on foreign trade barriers criticized Mexico's first fee proposal and Banxico's proposed rules for the card switches. Who controls the pipes of Mexican payments is no longer only a Mexican question.
 
@@ -285,37 +315,51 @@ Picture a grandmother in rural Oaxaca. Her government pension arrives on a Biene
 
 ### Nobody wants to move first
 
-This is the classic chicken-and-egg problem of payments. A shop has no reason to accept cards if customers don't carry them; customers have no reason to carry cards if shops don't accept them.
+This points to a classic problem in payments, often called a chicken-and-egg problem. A shop has no reason to accept cards if its customers don't carry them. Customers have no reason to carry cards if shops don't accept them. Each side waits for the other.
 
-Mexico has unusually good evidence on how to break it. Between 2009 and 2012, the government gave about a million debit cards to poor families in a benefits program called Prospera. The economist Sean Higgins, in a 2024 paper in the *American Economic Review*, found that corner stores near those families started accepting cards, because suddenly many of their customers had one. Then *other* local consumers, who hadn't received a card from the program, became 21% more likely to start using cards themselves. Wealthier shoppers even moved around 13% of their supermarket spending to the small shops.
+Mexico offers unusually good evidence on how this deadlock can be broken. Between 2009 and 2012, the government gave about a million debit cards to poor families who received benefits through a program called Prospera. The economist Sean Higgins studied what happened next, in a paper published in the *American Economic Review* in 2024.
 
-The lesson: **acceptance follows a large, simultaneous shift in demand.** When enough customers arrive at once with a new way to pay, shops adapt, and that pulls in more customers. CoDi had the payment system, but never that shift.
+To picture his findings, imagine a corner shop in a low-income neighborhood. Before the program, almost every customer paid in cash, so a card terminal made no sense. Then, within a few months, dozens of the shop's regular customers start receiving their benefits on debit cards. Suddenly a terminal is worth having. That's what Higgins found: corner stores near those families started accepting cards.
+
+Then the effect spread. Once local shops accepted cards, *other* consumers in those neighborhoods, who hadn't received a card from the program, became 21% more likely to start using cards themselves. Wealthier shoppers even moved around 13% of their supermarket spending to the small shops.
+
+The lesson: **acceptance follows a large, simultaneous shift in demand.** When enough customers arrive at once with a new way to pay, shops adapt, and that in turn pulls in more customers. CoDi had the payment system, but it never had that shift.
 
 ### The fear of being seen
 
-For informal businesses, there's another reason to prefer cash: every card payment or transfer leaves a record the tax authority, the SAT, can see.
+For informal businesses, there's another reason to prefer cash: every card payment or transfer leaves a record, and records can be seen by the tax authority, the SAT.
 
-Mexico has history here. It taxed large cash deposits from 2008 to 2013, banks still report large monthly cash deposits to the SAT, and since 1 April 2026 the SAT has had real-time access to transaction data from digital platforms. In focus groups with small merchants in Mexico City and Guadalajara, researchers at the Center for Effective Global Action heard some owners say they preferred cash because it "leaves fewer traces."
+Take Mariana, who sells handmade clothes from her home in Guadalajara. (Again, an illustration.) When neighbors pay her in cash, there's no record of her income. If she starts selling through an online marketplace, the platform reports her sales to the SAT and withholds income tax from what she earns; for many individual sellers, that withholding rose from 1% to 2.5% in 2026, which is MXN 250 on every MXN 10,000 of sales. And if she simply starts accepting transfers, every payment lands in her bank account, creating a record of her income that would be there if the tax authority ever asked.
 
-No study measures how much this fear holds back digital payments across Mexico, so its true size is unknown. But it creates a real contradiction: one part of the government pushes merchants toward digital payments, while another makes digital payments easier to tax. For a business on the edge of formality, the first digital payment can feel like the first step toward an audit.
+Mexico's history makes this fear understandable. From 2008 to 2013, it taxed large cash deposits into bank accounts. Banks still report large monthly cash deposits to the SAT. And since 1 April 2026, the SAT has had real-time access to transaction data from digital platforms, including how buyers paid and which bank accounts sellers use.
+
+In focus groups with small merchants in Mexico City and Guadalajara, researchers at the Center for Effective Global Action heard some owners say they preferred cash because it "leaves fewer traces." There's no study that measures how much this fear holds back digital payments across Mexico, so its true size is unknown. But it creates a genuine contradiction in public policy: one part of the government is pushing merchants toward digital payments, while another is making digital payments easier to tax. For someone like Mariana, the first digital payment can feel like the first step toward an audit.
 
 ### Fraud, and no way to get your money back
 
-Losing cash and losing money from an account are different risks. A thief can take what's in your wallet. A fraudster who tricks you into sending a transfer, or gets into your banking app, can empty your account.
+There's also a difference between losing cash and losing money from an account. A pickpocket can take what's in your wallet. A fraudster can empty your account.
 
-Fraud complaints are rising sharply. In the first quarter of 2026, the financial consumer protection agency, CONDUSEF, received **1.515 million complaints about possible fraud**, 31.5% more than a year earlier and about three of every four complaints of any kind. Financial institutions refunded **24.3% of the money claimed**. Part of that rise simply reflects more people using digital channels. But the way transfers work matters too.
+Here's a common kind of scam. Carlos gets a call from someone who says they're from his bank's fraud department. The caller sounds professional and says his account has been compromised: to protect his savings, he needs to move them to a "safe account" right away. Carlos opens his banking app and sends MXN 20,000 by transfer. Five seconds later, the money is in an account controlled by criminals, often a "mule" account opened in someone else's name, and within minutes it has been moved again or withdrawn. When Carlos calls his real bank, the answer is painful: he authorized the transfer himself.
 
-When you pay by card, the merchant's side "pulls" the money, and card rules let you dispute the payment: you can ask your bank to reverse it, a process called a **chargeback**. A transfer works the other way. You "push" the money yourself, and once it's sent, it's final. There's no chargeback.
+Now compare a different fraud. A criminal steals Carlos's card details and buys a MXN 20,000 television online. Carlos sees the charge, calls his bank and disputes it. Under the card rules, his bank can reverse the payment and claim the money back from the merchant's side, a process called a **chargeback**.
 
-This is the **chain of liability** from the Netherlands episode: the rules that decide who absorbs a loss when something goes wrong. With a card, they often protect the customer. With a transfer, the risk sits with whoever pressed "send." Mexico has focused on prevention, with transfer limits customers can set and a crackdown on "mule" accounts that criminals use to receive stolen money. But for someone who has already lost money, there's still no formal path to getting it back. Brazil has built a recovery process for fraudulent Pix transfers, although even there only a small fraction of contested money is returned.
+The difference comes from how the two payments work. With a card, the money is "pulled" from Carlos's account by the merchant's side, and the card rules give him a way to challenge it. With a transfer, Carlos "pushes" the money himself, and once it has been sent, it's final. This is the **chain of liability** from the Netherlands episode: every payment system has rules that decide who absorbs the loss when something goes wrong. With a card, those rules often protect the customer. With a transfer, the risk sits with whoever pressed "send."
 
-Trust follows from all this: in 2024, almost 40% of adults said their money isn't safe in financial institutions. But trust isn't fixed. A 2021 study in the *Journal of Finance* found that Prospera families who could check their balance cheaply at ATMs came to trust their bank over time and began saving more. People trust what they can see working.
+The scale is large and growing. In the first quarter of 2026, the national financial consumer protection agency, CONDUSEF, received **1.515 million complaints about possible fraud**, 31.5% more than a year earlier and about three out of every four complaints of any kind. Financial institutions refunded **24.3% of the money claimed**. Part of that rise simply reflects more people using digital channels, which gives fraudsters more opportunities. But for a customer, the message is clear: digital money that goes missing usually doesn't come back.
+
+So far, Mexico's response has focused on prevention rather than recovery. Customers can now set a maximum transfer amount, so that larger transfers need extra checks; if Carlos had set a low limit, the scam would have been capped. And banks are under pressure to detect and shut down mule accounts. Brazil went further and built a formal process to claw back money from fraudulent Pix transfers, although even there only about 7–10% of contested money is returned.
+
+Trust follows from all this. In the 2024 ENIF survey, almost 40% of adults said their money isn't safe in financial institutions. But trust isn't fixed. A 2021 study in the *Journal of Finance* found that Prospera families who could check their balance cheaply at ATMs came to trust their bank over time, and began saving more. People trust what they can see working.
 
 ### Money arrives as cash, and goes back to cash
 
-Much of Mexico's money starts its journey as cash. In Banxico's 2025 study, 28% of urban adults said they receive wages in cash. And even money that arrives digitally often turns back into cash, because the next person in the chain won't accept anything else. Mercado Pago says its users make, on average, two cash deposits and **four cash withdrawals** a month. For many households, a digital account is less a replacement for cash than a bridge back to it.
+Finally, much of Mexico's money starts its journey as cash. Think of Jorge, a construction worker in Monterrey who is paid in cash every Saturday. (Another illustration.) He has a bank account, but his rent, his groceries and his bus fares are all paid in cash, so there's little point depositing his wages only to withdraw them again. In Banxico's 2025 study, 28% of urban adults said they receive wages in cash.
 
-Phones, interestingly, are no longer the main barrier: 86.1% of Mexicans aged six and over used the internet in 2025. But 79.3% of mobile users are on prepaid plans, and when the data runs out, a QR payment or banking app can fail at exactly the wrong moment. Cash always works. It has costs too (in 2025, 12% of urban adults had recently given up a purchase because nobody had change), but for many people they feel smaller and more familiar than the risks of going digital.
+Even money that arrives digitally often turns back into cash, because the next person in the chain won't accept anything else. Mercado Pago says its users make, on average, two cash deposits and **four cash withdrawals** a month. For many households, a digital account isn't a replacement for cash. It's a bridge back to it.
+
+Phones, interestingly, are no longer the main barrier. In 2025, 86.1% of Mexicans aged six and over used the internet. But 79.3% of mobile users are on prepaid plans. Picture paying for your groceries with a QR code on the day your prepaid data runs out: the app won't load, and the queue is waiting behind you. Cash always works.
+
+Cash isn't free, of course. In 2025, 12% of urban adults said they had recently given up on a purchase because nobody had change. But for many people, these costs feel smaller and more familiar than the risks of going digital.
 
 ## OXXO: the cash toll booth of the digital economy
 
@@ -370,11 +414,15 @@ Nationally, remittances reached a record **US$64.7 billion in 2024**, then fell 
 
 ### From cash pickup to bank accounts
 
-How the money arrives is changing fast. Families used to collect remittances in cash at agencies, banks and stores. In 2024, 44.4% were paid directly into accounts instead. In 2025, it was **50.4%: the first time account deposits overtook cash pickup.** In early 2026, 52.7%, according to the Center for Latin American Monetary Studies.
+How the money arrives is changing fast. To see why, follow the son in California as he decides how to send US$350 home this month. He has two options.
 
-Price is one reason. In 2024, sending money cash-to-cash through a store cost about US$8–12; sending through an app or into a bank account, about US$5.
+**Option one: cash at an agent.** He takes cash to a money transfer shop. Since 1 January 2026, the United States charges a **1% tax on remittances paid for with cash**, money orders or cashier's checks, so he pays an extra US$3.50 on top of the transfer fee, which for cash-to-cash transfers through stores ran about US$8–12 in 2024. In Zamora, his mother walks to a store such as Elektra, shows her ID and collects the pesos in cash.
 
-Two policy changes push the same way. Since **1 January 2026, the United States has charged a 1% tax on remittances paid for with cash**, money orders or cashier's checks; transfers paid from a bank account or card are exempt. On a US$350 cash-funded transfer, that's US$3.50, a big surcharge when a digital transfer costs about US$5 in total. And since 84% of Mexican migrants in the US already have bank accounts, many can avoid it simply by paying differently. Meanwhile, **Directo a México**, the public link run by Banxico and the US Federal Reserve since 2003, takes its last transfers on 20 November 2026 after a drastic fall in use.
+**Option two: from his bank account.** He opens a money transfer app and pays from his US bank account or debit card. There's no US tax, because the transfer isn't funded with cash, and the fee for this kind of transfer was about US$5 in 2024. The pesos are then deposited in his mother's bank account, typically through SPEI.
+
+The second option is cheaper and faster, and more families are choosing it. In 2024, 44.4% of remittances were paid directly into accounts. In 2025, it was **50.4%: the first time account deposits overtook cash pickup.** In the first quarter of 2026, it reached 52.7%, according to the Center for Latin American Monetary Studies. And the new US tax pushes in the same direction: since 84% of Mexican migrants in the US already have bank accounts, many can avoid it simply by changing how they pay.
+
+At the same time, the only public payment link between the two countries is closing. **Directo a México**, a service run by Banxico and the US Federal Reserve since 2003, takes its last transfers on 20 November 2026, after a drastic fall in the number of transfers. Private companies have taken over.
 
 ### Where stablecoins fit in
 
@@ -386,53 +434,107 @@ Whatever happens upstream, the journey usually ends the same way: a five-second 
 
 ## What other countries teach, and what they don't
 
-Mexico is often told to copy Brazil or India. It's worth looking at what each actually did, because some of it could work in Mexico and some depended on conditions Mexico doesn't share.
+Mexico is often told to copy Brazil or India. That advice is easy to give and hard to use, because it skips the details. So let's look at what paying actually looks like in each country, what rules made it work, and which of those rules Mexico could realistically adopt.
 
-**Brazil's Pix** launched in November 2020. Like Banxico with SPEI, Brazil's central bank designed it, runs it and writes its rules. The crucial differences were in those rules. Brazil made participation **mandatory for large banks**, so every major bank had to offer Pix, and it let non-banks join, so digital wallets could compete to offer it. Merchants pay a small fee, about 0.22% per payment, compared with 1.1% for debit cards and 2.2% for credit, according to the Bank for International Settlements. That fee is low enough to attract shops but high enough that someone earns money signing them up.
+### Brazil: the regulator made everyone show up
 
-Pix reportedly handled about 80 billion transactions in 2025. And, contrary to many predictions, cards didn't disappear: Brazilian credit card transactions more than doubled between 2020 and 2025. Pix seems to have mostly taken the place of cash, debit card payments and older forms of bank transfer.
+Picture a street vendor selling açaí on a beach in Rio de Janeiro. Next to the cart hangs a printed QR code. A customer opens her banking app, whatever bank she uses, scans the code, confirms, and the vendor's phone shows the payment a few seconds later. No card reader, no cash, no change. That's **Pix**, the instant payment system Brazil's central bank launched in November 2020.
 
-**India's UPI**, launched in 2016, took a different route. It lets technology companies like PhonePe and Google Pay build payment apps on a shared system, and charges merchants nothing. It handled 24 billion transactions in September 2026 alone. But zero fees depend on a shrinking government subsidy, two apps now control 79% of the market, and India had two shocks Mexico can't easily recreate: the overnight cancellation of most banknotes in 2016, which forced millions to find alternatives to cash, and a national digital ID that made opening accounts much easier.
+Technically, Pix isn't very different from Mexico's SPEI. Both are run by the central bank, both move money between accounts in seconds, at any hour. The difference lies in the rules Brazil wrote around it.
 
-**The Netherlands' iDEAL** handles 71% of Dutch online purchases without any regulator requiring it. But three banks serve most Dutch consumers, so agreement was relatively easy, and low informality means few businesses fear being visible. In Mexico, banks earn interchange on cards and have little reason to push a free alternative, and many businesses prefer to stay invisible.
+**Every large institution had to offer it.** Banks and fintechs with more than 500,000 accounts were required to join. So the customer in Rio doesn't need to wonder whether her bank supports Pix; every major one does.
 
-**Colombia's Bre-B** is the closest parallel to what Mexico is doing now. Colombia's central bank launched it fully in October 2025, and a law requires both banks *and* digital wallets to connect. In its first year, Colombians registered 116 million aliases (phone numbers, ID numbers and other easy keys linked to accounts) for 36 million customers. There were launch problems, including money sent to the wrong place and refunds that took weeks. Most revealingly, Colombia's central bank now says technology is no longer what holds Bre-B back; habits, merchant acceptance and fraud are. And 78.6% of Colombian adults still prefer cash.
+**It's free for people.** Under the central bank's rules, individuals don't pay to send or receive Pix transfers or to pay in shops, apart from a few exceptions. So customers had no reason not to use it.
+
+**Non-banks were let in.** Digital wallets and fintech apps could offer Pix directly, and compete with banks to attract users with it.
+
+**And merchants pay something, but not much.** According to the Bank for International Settlements (BIS), merchants pay on average about 0.22% of each payment, against 1.1% for debit cards and 2.2% for credit cards. On a MXN 100 sale, that would be 22 centavos with Pix, against MXN 1.10 for debit and MXN 2.20 for credit. That small fee matters. It's low enough to make the vendor prefer Pix, and high enough that the bank or fintech that signs up the vendor earns some money doing it. That's the incentive CoDi never had.
+
+The result is huge. Pix reportedly handled about 80 billion transactions in 2025, and it's now Brazil's most used way to pay by number of transactions. And, contrary to many predictions, cards didn't disappear: credit card transactions in Brazil more than doubled between 2020 and 2025. Pix seems to have mostly taken the place of cash, debit card payments and older forms of bank transfer. The most likely reason is that people still turn to credit cards when they want credit or installments.
+
+### India: apps did the selling, and the government paid the bill
+
+Now picture a tea seller at a train station in Mumbai. Taped to his stall is a small QR code. A customer scans it with Google Pay; the next customer uses PhonePe; a third uses his bank's own app. They all work, because they all run on the same shared system, **UPI**, operated since 2016 by an organization owned by India's banks.
+
+India's model differs from Brazil's in two important ways.
+
+First, **technology companies do most of the work of attracting customers.** Apps like PhonePe and Google Pay build the payment experience on top of UPI and compete for users. That brought huge marketing budgets into the effort. But it also led to concentration: those two apps now handle 79% of the market.
+
+Second, **merchants pay nothing.** The government decided in 2020 that merchants shouldn't be charged for UPI payments, and it pays a subsidy to the banks and apps instead. That's great for the tea seller. But the subsidy has been shrinking, and the industry has been pushing to let larger merchants be charged a small fee.
+
+UPI's scale is staggering: 24 billion transactions in September 2026 alone. But India also had two shocks that Mexico can't easily recreate. In November 2016, the government suddenly declared India's two largest banknotes, the 500 and 1,000 rupee notes, no longer valid, which forced millions of people to look for alternatives to cash almost overnight. And a national biometric ID system made it much easier for people to open bank accounts in the first place.
+
+### The Netherlands: a merchant problem solved, no mandate needed
+
+Recall the Netherlands episode. A Dutch shopper buying shoes online picks **iDEAL** at checkout. The webshop sends her to her own banking app, she approves the payment with her fingerprint, and she's sent back to the shop with the order confirmed. The shop gets a guaranteed payment for a small fixed fee.
+
+iDEAL handles 71% of Dutch online purchases, and no regulator required it. The banks built it because it solved a real merchant problem: cheap, guaranteed payment from customers who already trusted their bank's app.
+
+But the conditions were very different from Mexico's. Three large banks serve most Dutch consumers, so getting the whole market on board took a handful of agreements. Informality is low, so few businesses worry about leaving a record of their sales. In Mexico, banks earn interchange on cards and have little reason to push a free alternative, and many small businesses prefer to stay invisible.
+
+### Colombia: the closest parallel to Mexico
+
+Colombia offers the most useful comparison, because it's doing almost exactly what Mexico is about to do.
+
+In October 2025, Colombia's central bank fully launched **Bre-B**, a system that lets people send money instantly between any bank or digital wallet using a simple "key": a phone number, an ID number, an email or a short code. Unlike CoDi, it isn't optional: a law requires banks and digital wallets to connect. So a customer of a traditional bank can send money to a friend who only uses a wallet app, just by typing the friend's phone number.
+
+Adoption was fast. In its first year, Colombians registered 116 million keys for 36 million customers, and moved transactions at a pace of up to about 5 million a day.
+
+The launch also shows what can go wrong. In the first days, some interbank transfers were rejected, and some money sent to customers of one digital bank, Lulo Bank, was credited at other banks instead, because some institutions hadn't fully finished connecting. Refunds for failed transactions were reported to take weeks.
+
+Most revealing is what Colombia's central bank concluded afterwards: technology is no longer what holds Bre-B back. Habits, merchant acceptance and fraud are. And 78.6% of Colombian adults still say they prefer cash. In other words, even with a mandate and a working system, the shop counter is still the hardest place to win.
 
 ### The lessons that travel
 
-Put side by side, these experiences suggest five lessons for Mexico:
+Put these four experiences side by side, and five lessons stand out for Mexico. For each, it helps to picture what it would mean in practice.
 
-1. **Require participation, don't just allow it.** Brazil and Colombia didn't leave it to banks to decide whether the new system was worth promoting.
-2. **One brand, one QR code, one directory of aliases**, so customers and shops see the same thing everywhere. Mexico today has CoDi, DiMo and each bank's own "transfer" button.
-3. **A small merchant fee, below card rates but above zero**, so someone earns money by visiting shops and signing them up. That's exactly what CoDi lacked.
-4. **A way to recover money from fraud**, built before the system grows rather than after.
-5. **Expect cards and instant payments to grow together**, rather than one replacing the other.
+**1. Require participation, don't just allow it.** In Brazil, a customer never has to wonder whether her bank offers Pix. In Mexico, whether you can pay a shop by QR depends on whether your bank chose to make CoDi easy to find. A requirement removes that doubt.
 
-What doesn't transfer easily: a national digital ID used in everyday payments, a sudden shock like India's, a large government subsidy, or the low informality of a country like the Netherlands.
+**2. One brand, one QR code, one directory of aliases.** Imagine a single sticker on Don Ramón's counter that every customer recognizes, whatever bank or wallet they use. Today, Mexico has CoDi, DiMo and each bank's own "transfer" button, which is confusing for customers and shops alike.
+
+**3. A small merchant fee, below card rates but above zero.** Return to our café. If a QR payment cost it 0.25% instead of 3.6%, it would pay about MXN 125 a month on MXN 50,000 instead of about MXN 2,000. And the company that signed the café up would still earn something for doing it. That's exactly what CoDi lacked. (The 0.25% is a hypothetical, chosen to be close to Brazil's average.)
+
+**4. A way to get money back when fraud happens, built before the system grows.** Remember Carlos and his MXN 20,000. Brazil had to add its recovery process after Pix was already huge, and still recovers only a small fraction. Mexico can design one before QR payments spread.
+
+**5. Expect cards and instant payments to grow together.** Brazil's experience suggests that instant payments mainly replace cash, debit and old-style transfers. They don't make credit cards disappear, most likely because people still want credit and installments.
+
+Some things don't transfer easily. Mexico has no national ID that people use in everyday payments, the way Brazilians use their tax number as a Pix key. It's unlikely to experience a shock like India's banknote withdrawal. It hasn't decided to fund a large subsidy. And it has far more informality than the Netherlands. Those differences don't make change impossible, but they mean Mexico has to rely more on design and incentives than on luck.
 
 ## 14 December 2026: Mexico's bet
 
-Instead of launching a new brand like Pix, Banxico is changing SPEI from the inside, through regulation. Most of the changes are due by **14 December 2026**.
+So what is Mexico doing about it? Instead of launching a new brand like Pix, Banxico is changing SPEI from the inside, through regulation. Most of the changes are due by **14 December 2026**. The easiest way to understand them is to go back to the people we've met.
 
-The most visible is **one standard way to pay**. Under a rule called Circular 9/2026, every bank and fintech app must present transfers, CoDi payment requests and DiMo phone payments with the same screens and steps. Paying should feel the same in any app, and typing an 18-digit CLABE will no longer be required.
+**For Lucía, paying should look the same in every app.** Under a rule called Circular 9/2026, every bank and fintech app must present transfers, CoDi payment requests and DiMo phone payments with the same screens and steps. Today, sending money looks different in the BBVA app, the Banorte app and a fintech app. After the deadline, the steps should feel the same wherever she banks, and typing an 18-digit CLABE will no longer be required.
 
-The second turns **your phone number into an account address**. Banxico has told institutions to link a customer's phone number to their account on request, so people can receive money by sharing a number they already know by heart. The third is technical: a revamped "SPEI 2.0" is due to process transfers in parallel, so a quick transfer doesn't wait behind a slow one.
+**Her landlord's phone number becomes his account address.** Banxico has told institutions to link a customer's phone number to their account on request. So after the deadline, instead of keeping the landlord's CLABE saved in her contacts, Lucía could simply type his mobile number, see his name on the screen, and confirm.
 
-Separately, on 20 October 2026 the Senate approved a digital payments law, the **Ley de Economía Digital**. It would let Banxico require card terminals to accept QR payments, and let the finance ministry name sectors where digital payment is required. It takes effect once it's published in the official gazette, and the list of sectors comes after that.
+**Behind the scenes, transfers should move more smoothly.** A revamped "SPEI 2.0" is due to process transfers in parallel, so a quick transfer doesn't have to wait in line behind a slower one.
+
+Separately, on 20 October 2026, the Senate approved a new digital payments law, the **Ley de Economía Digital**. It would let Banxico require card terminals to accept QR payments, and let the finance ministry name sectors where digital payment is required. It takes effect once it's published in the official gazette, and the list of sectors comes after that.
+
+Here's what that could mean for our café. The Clip reader on its counter could, one day, also display a QR code. A customer without a card, or one who prefers to pay from her bank account, would scan it with any banking app, and the money would arrive through SPEI in seconds. There are already 4.6 million aggregator terminals in shops across Mexico, so no one would need to buy new equipment.
 
 ### What the plan fixes, and what it doesn't
 
-On paper, this fixes CoDi's technical weaknesses: inconsistent apps, hard-to-type account numbers, no presence at the counter. The 4.6 million aggregator terminals already in shops could start accepting QR payments without new equipment.
+On paper, these changes fix CoDi's technical weaknesses: inconsistent apps, account numbers that are hard to type, and no presence at the counter.
 
-But it leaves CoDi's central question unanswered: **who earns money by bringing merchants on board?**
+But they leave CoDi's central question unanswered: **who earns money by bringing merchants on board?**
 
-Look at it from an aggregator's side. Clip and Mercado Pago earn around 3.5–3.6% when a customer pays by card. If the same customer pays by free QR transfer on the same terminal, they earn nothing, and may lose a card payment they'd otherwise have processed. Unless someone is paid to promote QR payments, or the law forces them to, the option may sit unused on terminals the way CoDi sat unused in banking apps. And nothing in the December package creates a way to get your money back when a transfer goes wrong.
+Look at it from Clip's side. When a customer pays the café by card, Clip earns around 3.6% of the sale. If the same customer pays by a free QR transfer on the same reader, Clip earns nothing, and it may lose a card payment it would otherwise have processed. Unless someone is paid to promote QR payments, or the new law forces aggregators to switch them on and show them prominently, the option may sit unused on the reader, just as CoDi sat unused inside banking apps.
 
-Colombia's experience suggests what to expect: the technology can be ready on time, while changing the habits of merchants and customers takes years.
+And nothing in the December package helps Carlos. If he's tricked into sending a transfer after 14 December, there's still no formal process to get his money back.
+
+Colombia's experience suggests what to expect next. The technology can be ready on time. Changing the habits of merchants and customers takes years.
 
 ### What to watch
 
-Three signals will show which way Mexico is heading. If SPEI overtakes cards in the number of transactions (Banxico has reportedly said this could happen by the end of 2026) and QR payments start appearing on aggregator terminals, Mexico is accelerating. If CoDi and DiMo stay tiny and the fee caps stall, it isn't. And a real transformation would need what Mexico hasn't done yet: one brand that banks and wallets must offer, a small merchant fee that pays someone to sign up shops, and a legal process for recovering money lost to fraud.
+Three signals will show which way Mexico is heading.
+
+The first is whether **SPEI overtakes cards in the number of transactions**. Banxico has reportedly said this could happen by the end of 2026. If it does, it will mean transfers have become Mexico's most common digital way to pay.
+
+The second is whether **QR payments actually appear on aggregator terminals**, and whether shops like our café start using them.
+
+The third is what Mexico does about the missing pieces: a single brand that banks and wallets must offer, a small merchant fee that pays someone to sign up shops, and a legal process for recovering money lost to fraud. Without them, Mexico will have modernized the technology without changing the incentives, which is exactly what happened with CoDi.
 
 ## What it means for each player
 
@@ -496,6 +598,7 @@ The video version of this episode is coming to the [Payment Systems, Explained p
 - [Vanguardia: Fraud complaints rise 31.5% in early 2026](https://vanguardia.com.mx/noticias/mexico/quejas-por-fraudes-bancarios-repuntan-315-por-ciento-al-iniciar-2026-II21926394)
 - [Sovos: SAT access to digital platform data](https://sovos.com/mx/blog/iva/sat-acceso-informacion-plataformas-digitales/)
 - [BBVA: Point-of-sale terminal fact sheet](https://www.bbva.mx/content/dam/public-web/mexico/documents/empresas/cobros-y-pagos/TCR_21.5X28_FichaTerminalPuntodeVenta_V4.pdf)
+- [Agência Sebrae: Pix free for individuals under the central bank's rules (Oct 2020)](https://agenciasebrae.com.br/?p=4197)
 - [Banco de la República: Bre-B working paper (March 2026)](https://d1b4gd4m8561gs.cloudfront.net/sites/default/files/publicaciones/archivos/bre-b-working-paper-march-2026.pdf)
 - [EPI: Next steps in the iDEAL to Wero migration](https://epicompany.eu/media-insights/successful-first-phase-marks-major-next-steps-in-ideal-to-wero-migration/)
 - [Crónica: OXXO deposit fees and limits by bank (Jul 2026)](https://www.cronica.com.mx/tendencias/2026/07/09/vas-a-depositar-en-oxxo-lista-de-bancos-que-acepta-horarios-comision-y-monto-limite/)
