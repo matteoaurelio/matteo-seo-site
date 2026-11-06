@@ -16,6 +16,29 @@ export type PaymentGuide = {
 
 export const paymentGuides: PaymentGuide[] = [
   {
+    slug: "mercado-pago-mexico-explained",
+    title: "How Mercado Pago works in Mexico: payment methods, real costs and integration options",
+    summary:
+      "How Mexican shoppers pay online, what Mercado Pago is, what it really costs a store (with full fee and interest tables), where Mercado Pago makes its money, and the four ways to integrate it.",
+    audience: "Managers, product and payment teams",
+    published: "2026-11-05",
+    readingMinutes: 25,
+    tags: [
+      "Mercado Pago",
+      "Mexico",
+      "Meses sin intereses",
+      "Mercado Crédito",
+      "Payment costs",
+      "OXXO",
+      "SPEI",
+      "Checkout Pro",
+      "Checkout API",
+      "Payment facilitator",
+      "Webhooks",
+      "Latin America",
+    ],
+  },
+  {
     slug: "dlocal-integration-step-by-step",
     title: "How to integrate dLocal: a step-by-step guide for managers, with real API examples",
     summary:

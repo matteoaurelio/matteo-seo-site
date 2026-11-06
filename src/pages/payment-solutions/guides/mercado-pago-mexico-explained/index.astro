@@ -1,0 +1,1446 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import Header from "../../../../components/Header.astro";
+import Footer from "../../../../components/Footer.astro";
+import CaseStudyHero from "../../../../components/CaseStudyHero.astro";
+import { getPaymentGuide } from "../../../../data/paymentGuides";
+import "../../../../styles/growth-platform.css";
+import "../../../../styles/case-studies.css";
+
+const slug = "mercado-pago-mexico-explained";
+const guide = getPaymentGuide(slug);
+if (!guide) throw new Error(`Guide not found: ${slug}`);
+
+const site = "https://matteoarellano.com";
+const canonical = `${site}/payment-solutions/guides/${slug}/`;
+const title = "How Mercado Pago Works in Mexico: Payment Methods, Real Costs and Integration | Guide";
+const description = guide.summary;
+
+const publishedLabel = new Date(`${guide.published}T00:00:00Z`).toLocaleDateString("en-GB", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+});
+
+/* ---------- Key facts ---------- */
+
+const facts = [
+  { label: "What it is", value: "The payments and financial services company of Mercado Libre" },
+  { label: "Founded", value: "2004, as a way to pay safely on the Mercado Libre marketplace" },
+  { label: "Open to other online stores", value: "Brazil in 2010, Mexico in 2011" },
+  { label: "Monthly active users", value: "88 million across Latin America (second quarter of 2026)" },
+  { label: "Payments processed for merchants", value: "US$188 billion in 2025 (acquiring payment volume)" },
+  { label: "Card readers in Mexico", value: "1.4 million active devices (second quarter of 2026)" },
+  { label: "Banking licence in Mexico", value: "Applied for in September 2024; still pending in November 2026" },
+];
+
+/* ---------- How Mexico pays online ---------- */
+
+const methods = [
+  {
+    method: "Debit card",
+    how: "The money comes straight out of the shopper's bank account.",
+    note: "The most common card in Mexico. The shopper can dispute the payment with their bank.",
+  },
+  {
+    method: "Credit card",
+    how: "The bank pays now; the shopper pays the bank later.",
+    note: "About 28% of card payments in Mexico in 2025. Can be disputed.",
+  },
+  {
+    method: "Credit card in interest-free months (MSI)",
+    how: "The same price, split into equal monthly payments, with no interest for the shopper.",
+    note: "Expected for larger purchases. The store usually pays the cost of the wait.",
+  },
+  {
+    method: "Cash at a convenience store",
+    how: "The shopper receives a payment code and pays in cash at a store such as OXXO.",
+    note: "The order stays pending until the shopper pays. The code expires.",
+  },
+  {
+    method: "Bank transfer (SPEI)",
+    how: "The shopper sends the money from their banking app; it arrives in seconds.",
+    note: "Final once sent. There is no card dispute to fall back on.",
+  },
+  {
+    method: "Wallet balance or app credit line",
+    how: "The shopper pays from a balance in an app, or with a credit line in the app, with no card.",
+    note: "Growing fast. Mercado Pago offers both.",
+  },
+];
+
+/* ---------- History ---------- */
+
+const timeline = [
+  {
+    year: "1999",
+    text: "Mercado Libre starts in Argentina as an online marketplace where people buy and sell almost anything.",
+  },
+  {
+    year: "2004",
+    text: "Mercado Libre launches Mercado Pago to solve a trust problem between strangers. It works as escrow: it holds the buyer's money and releases it to the seller once the deal is done.",
+  },
+  {
+    year: "2010",
+    text: "On 30 March 2010, Mercado Pago starts processing payments for websites outside the marketplace, beginning in Brazil.",
+  },
+  {
+    year: "2011",
+    text: "In February 2011, any online store in Mexico can add Mercado Pago to its own checkout.",
+  },
+  {
+    year: "2024",
+    text: "On 25 September 2024, Mercado Pago applies to Mexico's banking regulator (CNBV) for a licence to operate as a full bank.",
+  },
+  {
+    year: "2025",
+    text: "Mercado Pago's revenue reaches US$12.6 billion, 44% of Mercado Libre's total, and it processes US$188 billion in payments for merchants.",
+  },
+  {
+    year: "2026",
+    text: "In the second quarter, 88 million people use Mercado Pago every month, more than US$100 billion moves through it in a single quarter, and its credit portfolio reaches US$16.4 billion.",
+  },
+];
+
+/* ---------- Terms ---------- */
+
+const terms = [
+  {
+    term: "Payment facilitator (aggregator)",
+    meaning: "A company that holds the contracts with banks and card networks, and lets many small merchants accept payments under its own contract.",
+    example: "Daniel never signs a contract with a bank. He opens a Mercado Pago account and starts selling the same day.",
+  },
+  {
+    term: "Afiliación",
+    meaning: "The direct merchant contract that a Mexican bank gives a store so it can accept cards.",
+    example: "A large retailer has an afiliación with its bank and negotiates its own rate. A small shop usually does not qualify, or does not want the paperwork.",
+  },
+  {
+    term: "Checkout",
+    meaning: "The page or screen where the shopper chooses how to pay and confirms the payment.",
+    example: "With Checkout Pro, Sofía pays on a Mercado Pago page. With Checkout Bricks or the Checkout API, she pays on Daniel's own site.",
+  },
+  {
+    term: "Release time",
+    meaning: "How long the merchant waits before the money from a sale becomes available. With Mercado Pago, a shorter wait costs a higher fee.",
+    example: "Daniel can receive the money immediately for 3.49% plus tax, or in 30 days for 2.95% plus tax.",
+  },
+  {
+    term: "IVA",
+    meaning: "Mexico's value added tax. Mercado Pago adds 16% IVA on top of every fee.",
+    example: "A fee of MXN 34.90 becomes MXN 40.48 after IVA.",
+  },
+  {
+    term: "Meses sin intereses (MSI)",
+    meaning: "Interest-free months on a bank credit card. The shopper pays the same price in equal monthly parts; the store usually pays an extra fee for the wait.",
+    example: "Sofía pays MXN 1,000 in 12 payments of MXN 83.33. Daniel pays an extra 12.89% plus tax on the sale.",
+  },
+  {
+    term: "Meses sin tarjeta (Mercado Crédito)",
+    meaning: "Mercado Pago's own credit line inside its app. The shopper can pay in monthly parts without a credit card, and pays interest to Mercado Pago.",
+    example: "Sofía has no credit card but has a credit line in her app. Daniel receives the full sale; Sofía pays the interest.",
+  },
+  {
+    term: "Interest rate and CAT",
+    meaning: "The interest rate is the price of the borrowed money. The CAT (Costo Anual Total) is Mexico's standard measure of the total yearly cost of a loan, including interest and fees, before tax.",
+    example: "Mercado Crédito publishes an average interest rate of 82.7% a year. A 2025 Mercado Pago page gave its average CAT as 121.3%.",
+  },
+  {
+    term: "Chargeback",
+    meaning: "When a cardholder tells their bank they did not make or receive a purchase, and the bank takes the money back while it investigates.",
+    example: "Sofía's card is stolen and used at Daniel's store. Her bank reverses the payment, and Mercado Pago holds the amount in Daniel's account.",
+  },
+  {
+    term: "Preference",
+    meaning: "In Mercado Pago's Checkout Pro, the message a store's server sends to describe an order: items, amount and where to send the shopper afterwards.",
+    example: "Daniel's server sends a preference for one lamp at MXN 1,000 and receives a payment page in return.",
+  },
+  {
+    term: "Webhook",
+    meaning: "A message that Mercado Pago sends to the store's server when a payment changes status. It is the reliable signal that a payment was approved.",
+    example: "Seconds after Sofía pays, Daniel's server receives a notification and checks that the payment is approved.",
+  },
+  {
+    term: "Token",
+    meaning: "A one-time code that replaces the card number, so the real number never reaches the store's server.",
+    example: "In the Checkout API, Mercado Pago's code in Sofía's browser turns her card number into a token before anything is sent.",
+  },
+];
+
+/* ---------- When to use ---------- */
+
+const fit = [
+  "The store is small or medium-sized and does not have its own contract with a bank.",
+  "The store wants cards, interest-free months, cash and transfers through one connection.",
+  "Many of its customers already use Mercado Libre, so they have a balance, saved cards or a credit line ready to use.",
+  "The store wants to reach shoppers without a credit card.",
+];
+
+const compare = [
+  "The store is large enough to negotiate lower rates directly with a bank.",
+  "The store needs more than one provider, to keep selling if one has a problem and to send each payment where it is most likely to be approved.",
+  "The store competes directly with Mercado Libre. Sending all its payments through a competitor is a business decision, not only a technical one.",
+];
+
+/* ---------- Costs ---------- */
+
+const releaseCosts = [
+  { when: "Immediately", fee: "3.49%", total: "40.48", keeps: "959.52" },
+  { when: "In 14 days", fee: "3.19%", total: "37.00", keeps: "963.00" },
+  { when: "In 30 days", fee: "2.95%", total: "34.22", keeps: "965.78" },
+  { when: "Cash, OXXO or transfer (3 days)", fee: "3.19% + MXN 4", total: "41.64", keeps: "958.36" },
+];
+
+const msiCosts = [
+  { term: "1 payment", extraRate: "—", normal: "34.90", extra: "0.00", iva: "5.58", total: "40.48", keeps: "959.52" },
+  { term: "3 months", extraRate: "4.69%", normal: "34.90", extra: "46.90", iva: "13.09", total: "94.89", keeps: "905.11" },
+  { term: "6 months", extraRate: "7.69%", normal: "34.90", extra: "76.90", iva: "17.89", total: "129.69", keeps: "870.31" },
+  { term: "9 months", extraRate: "11.19%", normal: "34.90", extra: "111.90", iva: "23.49", total: "170.29", keeps: "829.71" },
+  { term: "12 months", extraRate: "12.89%", normal: "34.90", extra: "128.90", iva: "26.21", total: "190.01", keeps: "809.99" },
+];
+
+const amortisation = [
+  { month: 1, start: "1,000.00", interest: "68.92", iva: "11.03", principal: "52.71", end: "947.29" },
+  { month: 2, start: "947.29", interest: "65.28", iva: "10.45", principal: "56.93", end: "890.36" },
+  { month: 3, start: "890.36", interest: "61.36", iva: "9.82", principal: "61.48", end: "828.88" },
+  { month: 4, start: "828.88", interest: "57.12", iva: "9.14", principal: "66.39", end: "762.49" },
+  { month: 5, start: "762.49", interest: "52.55", iva: "8.41", principal: "71.70", end: "690.79" },
+  { month: 6, start: "690.79", interest: "47.61", iva: "7.62", principal: "77.43", end: "613.36" },
+  { month: 7, start: "613.36", interest: "42.27", iva: "6.76", principal: "83.62", end: "529.74" },
+  { month: 8, start: "529.74", interest: "36.51", iva: "5.84", principal: "90.31", end: "439.43" },
+  { month: 9, start: "439.43", interest: "30.28", iva: "4.85", principal: "97.53", end: "341.90" },
+  { month: 10, start: "341.90", interest: "23.56", iva: "3.77", principal: "105.32", end: "236.58" },
+  { month: 11, start: "236.58", interest: "16.30", iva: "2.61", principal: "113.74", end: "122.84" },
+  { month: 12, start: "122.84", interest: "8.47", iva: "1.35", principal: "122.84", end: "0.00" },
+];
+
+const creditContext = [
+  { product: "Bank credit cards, system average (customers who carry a balance)", cat: "52.4%", date: "June 2025" },
+  { product: "Mercado Crédito credit line (meses sin tarjeta), average", cat: "121.3%", date: "2025" },
+  { product: "Mercado Pago credit card", cat: "144.9%", date: "October 2026 (as reported)" },
+  { product: "Nu México credit card", cat: "150.1%", date: "October 2026 (as reported)" },
+  { product: "Ualá credit card", cat: "143% to 235%", date: "October 2026 (as reported)" },
+  { product: "Stori credit card", cat: "180% to 202%", date: "October 2026 (as reported)" },
+];
+
+const threeWays = [
+  { how: "All at once", keeps: "≈ 960", pays: "1,000", who: "Nobody" },
+  { how: "12 interest-free months (bank card)", keeps: "≈ 810", pays: "1,000", who: "The store (≈ 190)" },
+  { how: "12 months without a card (Mercado Crédito)", keeps: "≈ 960", pays: "≈ 1,592", who: "The shopper (≈ 592)" },
+];
+
+/* ---------- Business model ---------- */
+
+const revenue2025 = [
+  { line: "Commerce services", what: "Marketplace commissions, shipping, advertising", amount: "12,750", share: "44%" },
+  { line: "Commerce product sales", what: "Products Mercado Libre sells from its own stock", amount: "3,544", share: "12%" },
+  { line: "Fintech: financial services and income", what: "Commissions on payments outside the marketplace, interest on cash and investments, installments, debit card and insurance fees", amount: "6,678", share: "23%" },
+  { line: "Fintech: credit revenues", what: "Interest on loans and on the Mercado Pago credit card", amount: "5,858", share: "20%" },
+  { line: "Fintech: product sales", what: "Sales of Point card readers", amount: "63", share: "<1%" },
+];
+
+const mexicoFintech = [
+  { line: "Financial services and income", amount: "897", share: "39%" },
+  { line: "Credit revenues", amount: "1,370", share: "60%" },
+  { line: "Card reader sales", amount: "23", share: "1%" },
+];
+
+const contribution = [
+  { country: "Brazil", revenue: "15,201", contribution: "2,075", margin: "13.7%" },
+  { country: "Mexico", revenue: "6,475", contribution: "1,171", margin: "18.1%" },
+  { country: "Argentina", revenue: "5,962", contribution: "2,481", margin: "41.6%" },
+  { country: "Other countries", revenue: "1,255", contribution: "176", margin: "14.0%" },
+];
+
+/* ---------- Integration ---------- */
+
+const options = [
+  {
+    name: "Payment link or plugin",
+    where: "Mercado Pago's page",
+    effort: "Minutes; no code",
+    control: "Low",
+    bestFor: "Social media sellers, and stores on Shopify, WooCommerce, Tiendanube or VTEX",
+  },
+  {
+    name: "Checkout Pro",
+    where: "Mercado Pago's page, then back to the store",
+    effort: "Low; one developer",
+    control: "Medium",
+    bestFor: "Stores with their own website that want to launch fast",
+  },
+  {
+    name: "Checkout Bricks",
+    where: "The store's own page, with ready-made components",
+    effort: "Medium",
+    control: "High",
+    bestFor: "Stores that want their own design without building every screen",
+  },
+  {
+    name: "Checkout API",
+    where: "The store's own page, built by the store",
+    effort: "High",
+    control: "Full",
+    bestFor: "Larger teams that need full control of the experience and the data",
+  },
+];
+
+const codePreference = `POST /checkout/preferences     (Mercado Pago, simplified)
+
+{
+  "items": [
+    {
+      "title": "Ceramic lamp",
+      "quantity": 1,
+      "unit_price": 1000,
+      "currency_id": "MXN"
+    }
+  ],
+  "external_reference": "ORDER-2026-004512",
+  "back_urls": {
+    "success": "https://www.example.com/order/4512/thanks",
+    "failure": "https://www.example.com/order/4512/retry",
+    "pending": "https://www.example.com/order/4512/pending"
+  },
+  "notification_url": "https://www.example.com/webhooks/mercadopago"
+}`;
+
+const buildingBlocks = [
+  {
+    title: "Keys",
+    text: "The account gives the store two keys. The public key can be used in the browser. The access token is secret, stays on the store's server and works like the key to the cash register.",
+  },
+  {
+    title: "The order (preference)",
+    text: "When the shopper clicks \"Pay\", the store's server sends Mercado Pago the order: what is being bought, the amount, the store's own order number and where to send the shopper afterwards. Mercado Pago answers with a payment page for that order.",
+  },
+  {
+    title: "The return",
+    text: "After paying, the shopper is sent back to the store's success, failure or pending page. This page is only for the shopper. It does not prove that the payment was approved.",
+  },
+  {
+    title: "The notification (webhook)",
+    text: "Separately, Mercado Pago sends a message to the store's server when the payment changes. The server then asks Mercado Pago for the payment's status: approved, pending or rejected. Only an approved status should release the order.",
+  },
+];
+
+const decisions = [
+  {
+    title: "When do you want your money?",
+    text: "Immediately, in 14 days or in 30 days. It is a setting in the Mercado Pago account, and it changes the fee on every sale.",
+  },
+  {
+    title: "Which interest-free months will you offer, and who pays for them?",
+    text: "Choose the terms (3, 6, 9 or 12 months), the minimum amount and the products. In the account, under \"Tu negocio\" and then \"Costos\", decide whether the store or the shopper absorbs the cost.",
+  },
+  {
+    title: "How will your systems handle pending orders?",
+    text: "A cash payment code has an expiry date, and the order waits until the shopper pays. Stock, emails and customer service all need to understand this state, and release the stock when the code expires.",
+  },
+  {
+    title: "Who in your team owns disputes?",
+    text: "Keep proof of every delivery. When a chargeback arrives, evidence is what releases the money held in your account.",
+  },
+  {
+    title: "How will you test?",
+    text: "Mercado Pago gives test credentials and test cards. Test every payment method you plan to offer, especially cash, transfers and monthly payments, before going live.",
+  },
+];
+
+/* ---------- What people ask ---------- */
+
+const faqs = [
+  {
+    question: "Is Mercado Pago a bank in Mexico?",
+    answer:
+      "Not yet. Mercado Pago applied to Mexico's banking regulator, the CNBV, for a banking licence in September 2024. As of November 2026, the decision is still pending.",
+  },
+  {
+    question: "Which payment methods can a Mexican online store accept with Mercado Pago?",
+    answer:
+      "Debit and credit cards (including Carnet), interest-free months, cash at convenience stores and banks (such as OXXO), SPEI bank transfers, the shopper's Mercado Pago balance and Mercado Pago's own credit line. The exact list depends on the checkout option the store uses.",
+  },
+  {
+    question: "How much does Mercado Pago charge an online store in Mexico?",
+    answer:
+      "Mercado Pago's public prices in November 2026 were 3.49% plus IVA to receive the money immediately, 3.19% plus IVA in 14 days and 2.95% plus IVA in 30 days. Cash, OXXO and transfer payments were listed at 3.19% plus MXN 4, plus IVA, with the money in 3 days. Check the current prices in your own account.",
+  },
+  {
+    question: "What is the difference between meses sin intereses and meses sin tarjeta?",
+    answer:
+      "Meses sin intereses are interest-free months on a bank credit card: the shopper pays no interest and the store usually pays an extra fee. Meses sin tarjeta use Mercado Pago's own credit line, with no card: the store pays only its normal fee, and the shopper pays interest to Mercado Pago.",
+  },
+  {
+    question: "Does the store have to wait for the shopper to finish paying the instalments?",
+    answer:
+      "No. With both options, Mercado Pago pays the store without waiting for the shopper's monthly payments, minus the fees that apply.",
+  },
+  {
+    question: "Can Mercado Pago hold a merchant's money?",
+    answer:
+      "Yes. When a shopper disputes a card payment, Mercado Pago freezes the amount in the merchant's account until the merchant shows that the product or service was delivered. Mercado Pago says a hold can last from a few days to several weeks, and in serious cases an account can be suspended.",
+  },
+  {
+    question: "Does a shopper need a Mercado Pago account to pay?",
+    answer:
+      "No. In Checkout Pro, shoppers can pay as guests. Shoppers with an account can pay faster with their saved cards, their balance or their credit line.",
+  },
+  {
+    question: "Which integration should a store choose?",
+    answer:
+      "A payment link or a plugin if the store sells through social media or a platform such as Shopify. Checkout Pro for a fast launch on the store's own website. Checkout Bricks or the Checkout API when the store wants the payment to happen on its own pages, with more control and more development work.",
+  },
+];
+
+const sources = [
+  { name: "Mercado Libre — Form 10-K for 2025 (revenue streams, segments, provisions)", url: "https://www.sec.gov/Archives/edgar/data/1099590/000109959026000006/meli-20251231.htm" },
+  { name: "Mercado Libre — Fourth quarter and full year 2025 results (Business Wire)", url: "https://www.businesswire.com/news/home/20260224265595/en/Mercado-Libre-Caps-Stellar-2025-Performance-with-45-YoY-Revenue-Growth-in-Q4-as-Strategic-Investments-Accelerate-Market-Share-Gains" },
+  { name: "Mercado Libre — 2011 quarterly report (2004 launch, 2010–2011 expansion)", url: "https://www.sec.gov/Archives/edgar/data/0001099590/000095012311095331/c21958e10vq.htm" },
+  { name: "Infobae — Mercado Libre second quarter 2026 results", url: "https://www.infobae.com/economia/2026/08/05/mercado-libre-supero-los-usd-10000-millones-en-ingresos-por-primera-vez-y-crecio-en-la-argentina-pese-al-consumo-desafiante/" },
+  { name: "Líder Empresarial — Mercado Pago applies for a banking licence in Mexico (September 2024)", url: "https://www.liderempresarial.com/mercado-pago-busca-licencia-para-operar-como-banco-digital-en-mexico/" },
+  { name: "El CEO — Mercado Pago still waiting for its banking licence (2026)", url: "https://elceo.com/negocios/mercado-pago-konfio-bunq-esperan-licencia-bancaria-tras-aprobacion-nu/" },
+  { name: "Mercado Pago México — Seller fees and payment methods", url: "https://www.mercadopago.com.mx/herramientas-para-vender/cobrar" },
+  { name: "Mercado Pago México — Payment link and interest-free month fees", url: "https://www.mercadopago.com.mx/herramientas-para-vender/link-de-pago-plugins-y-plataformas-checkout/link-de-pago" },
+  { name: "Mercado Pago México — Activating interest-free months in the checkout", url: "https://www.mercadopago.com.mx/blog/activar-meses-sin-intereses-checkout-mercado-pago" },
+  { name: "Mercado Pago México — Meses sin tarjeta vs. meses sin intereses", url: "https://www.mercadopago.com.mx/blog/meses-sin-tarjeta-vs-meses-sin-intereses" },
+  { name: "Mercado Pago México — How to offer meses sin tarjeta", url: "https://www.mercadopago.com.mx/blog/como-ofrecer-meses-sin-tarjeta" },
+  { name: "Mercado Pago México — Money held in your account", url: "https://www.mercadopago.com.mx/blog/que-significa-dinero-retenido" },
+  { name: "Mercado Pago México — What the CAT is", url: "https://www.mercadopago.com.mx/blog/que-es-el-cat" },
+  { name: "Mercado Pago México — Buying in monthly payments without a credit card (CAT 121.3%)", url: "https://www.mercadopago.com.mx/blog/como-comprar-a-meses-sin-tarjeta-de-credito" },
+  { name: "Mercado Libre México — Mercado Crédito (average interest rate)", url: "https://www.mercadolibre.com.mx/mercado-credito" },
+  { name: "Mercado Pago Developers — Checkout Pro (Mexico)", url: "https://www.mercadopago.com.mx/developers/en/docs/checkout-pro/landing" },
+  { name: "Mercado Pago Developers — Other payment methods in the Checkout API", url: "https://www.mercadopago.com.mx/developers/es/docs/checkout-api-orders/payment-integration/other-payment-methods" },
+  { name: "Mercado Pago Developers — Shopify integration", url: "https://www.mercadopago.com.br/developers/en/docs/shopify/integration-configuration/checkout-pro" },
+  { name: "Mercado Pago Developers — Meses sin Tarjeta in Shopify", url: "https://www.mercadopago.com.mx/developers/es/docs/shopify/integration-configuration/credits" },
+  { name: "INEGI and CNBV — National Financial Inclusion Survey (ENIF) 2024", url: "https://www.inegi.org.mx/contenidos/saladeprensa/boletines/2025/enif/ENIF2024_CP.pdf" },
+  { name: "Banco de México — Annual report on financial market infrastructures (SPEI)", url: "https://www.banxico.org.mx/publicaciones-y-prensa/informe-anual-sobre-las-infraestructuras-de-los-me/%7BDF8FE964-F97C-1B2D-777B-B026EF74C9CF%7D.pdf" },
+  { name: "Expansión — Card payments in Mexico in 2025 (Banxico data)", url: "https://expansion.mx/economia/2026/02/26/tarjetas-bancarias-mueven-record-de-6-4-billones-de-pesos-en-2025-bajo-la-lupa-regulatoria" },
+  { name: "El Tiempo — Bank credit card CAT in June 2025 (Banxico data)", url: "https://www.tiempo.com.mx/economia/mantienen-creditos-tasas-pese-recortes-beneficia-ahorradores-diciembre-2025/" },
+  { name: "Quadratín Chihuahua — Rates and CAT of digital credit cards (October 2026)", url: "https://chihuahua.quadratin.com.mx/economia/alertan-por-intereses-de-hasta-100-y-cat-superior-al-500-en-tarjetas-de-credito-digitales/" },
+  { name: "Gr4vy — Payment methods in Mexico", url: "https://gr4vy.com/posts/payment-methods-in-mexico-a-complete-guide/" },
+];
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": `${canonical}#article`,
+      headline: guide.title,
+      description,
+      url: canonical,
+      mainEntityOfPage: canonical,
+      inLanguage: "en",
+      datePublished: guide.published,
+      dateModified: guide.updated ?? guide.published,
+      author: { "@id": `${site}/#person` },
+      publisher: { "@id": `${site}/#person` },
+      image: `${site}/images/case-studies/lofoten-coast-og.jpg`,
+      audience: { "@type": "BusinessAudience", audienceType: guide.audience },
+      proficiencyLevel: "Beginner",
+      about: [
+        { "@type": "Organization", name: "Mercado Pago" },
+        { "@type": "Country", name: "Mexico" },
+        { "@type": "Thing", name: "Online payment methods" },
+        { "@type": "Thing", name: "Payment costs" },
+      ],
+      keywords: guide.tags.join(", "),
+      citation: sources.map((source) => source.url),
+    },
+    {
+      "@type": "DefinedTermSet",
+      "@id": `${canonical}#terms`,
+      name: "Mercado Pago and Mexican payments: terms explained",
+      hasDefinedTerm: terms.map((item) => ({
+        "@type": "DefinedTerm",
+        name: item.term,
+        description: item.meaning,
+      })),
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
+      mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: { "@type": "Answer", text: faq.answer },
+      })),
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${canonical}#breadcrumb`,
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${site}/` },
+        { "@type": "ListItem", position: 2, name: "Payment solutions", item: `${site}/payment-solutions/` },
+        { "@type": "ListItem", position: 3, name: "Case studies", item: `${site}/payment-solutions/case-studies/` },
+        { "@type": "ListItem", position: 4, name: guide.title, item: canonical },
+      ],
+    },
+  ],
+};
+
+const emailHref = `mailto:matteo.visibility@gmail.com?subject=${encodeURIComponent("Mercado Pago payments")}`;
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} image="/images/case-studies/lofoten-coast-og.jpg">
+  <Header />
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+  <main class="cs-page">
+    <CaseStudyHero
+      crumbLabel="Guides"
+      crumbHref="/payment-solutions/case-studies/#guides"
+      title={guide.title}
+      titleId="article-title"
+      variant="article"
+    >
+      Guide · Mexico · <time datetime={guide.published}>{publishedLabel}</time> · {guide.readingMinutes} min read
+    </CaseStudyHero>
+
+    <article class="cs-article" aria-labelledby="article-title">
+      <p class="cs-dek">
+        In Mexico, you can buy something online and pay for it later, in cash,
+        at a convenience store. That is one of at least six ways to pay. For an
+        online store, each one has a different cost, a different risk and a
+        different moment when the money arrives. Many stores handle all of them
+        with one company: Mercado Pago. This guide explains how it works, what
+        it really costs, and when it makes sense to use it.
+      </p>
+
+      <dl class="cs-facts-line">
+        <div><dt>For</dt><dd>{guide.audience}</dd></div>
+        <div><dt>Market</dt><dd>Mexico (MXN)</dd></div>
+        <div><dt>Level</dt><dd>From zero</dd></div>
+      </dl>
+
+      <aside class="cs-note" aria-label="About this guide">
+        <strong>About this guide</strong>
+        <p>
+          This guide is for educational purposes only and is not financial,
+          legal or business advice. The figures come from public sources:
+          Mercado Pago's price pages and developer documentation, Mercado
+          Libre's annual report, Banco de México and national surveys. They
+          were checked in November 2026. Fees, interest rates and rules change
+          often, and errors are possible, so check the current numbers in your
+          own account before making a decision. The people and the store in the
+          examples are illustrations; the fees and rates are real. I am not
+          affiliated with Mercado Pago or Mercado Libre.
+        </p>
+      </aside>
+
+      <section class="cs-summary" aria-labelledby="summary-title">
+        <h2 id="summary-title">Summary</h2>
+        <ul>
+          <li>Mexican shoppers pay online with debit cards, credit cards, interest-free months, cash at convenience stores, bank transfers and app credit. A good checkout needs most of them.</li>
+          <li>Mercado Pago gives a store all of these through one connection, without a direct contract with a bank. It also gives shoppers an account with a balance, saved cards and credit.</li>
+          <li>The fee for a single payment depends on when the store wants its money: from 2.95% to 3.49% plus IVA.</li>
+          <li>Twelve interest-free months on a bank card cost the store about MXN 190 on a MXN 1,000 sale. Twelve months on Mercado Pago's own credit line cost the store nothing extra, but cost the shopper about MXN 592.</li>
+          <li>The main risks are price, money held during disputes, dependence on one provider and the extra step in the shopper's journey.</li>
+          <li>Integration ranges from a payment link (no code) to a fully custom checkout. The most important part is the webhook, not the payment page.</li>
+          <li>In 2025, 60% of Mercado Pago's revenue in Mexico came from credit, not from payments.</li>
+        </ul>
+      </section>
+
+      <nav class="cs-toc" aria-labelledby="toc-title">
+        <h2 id="toc-title">In this guide</h2>
+        <ol>
+          <li><a href="#mexico">How Mexico pays online</a></li>
+          <li><a href="#what">What Mercado Pago is and where it came from</a></li>
+          <li><a href="#terms">Twelve terms, with examples</a></li>
+          <li><a href="#when">When a store should use Mercado Pago</a></li>
+          <li><a href="#why-risks">Why stores connect to it, and the risks</a></li>
+          <li><a href="#costs">What it really costs: four scenarios</a></li>
+          <li><a href="#business">Where Mercado Pago makes its money</a></li>
+          <li><a href="#integration">How to connect a store: the options</a></li>
+          <li><a href="#conclusions">Conclusions</a></li>
+          <li><a href="#faq">What people ask about Mercado Pago</a></li>
+        </ol>
+      </nav>
+
+      <!-- 1. Mexico -->
+      <section id="mexico" aria-labelledby="mexico-title">
+        <h2 id="mexico-title">How Mexico pays online</h2>
+        <p>
+          To follow the costs and the decisions in this guide, we will use one
+          purchase from start to finish. Sofía lives in Guadalajara. She wants
+          a ceramic lamp from Luz de Barro, a small online store run by Daniel.
+          The lamp costs MXN 1,000.
+        </p>
+        <p>
+          Before Sofía reaches the checkout, some context. In person, Mexico
+          still pays mostly in cash: in the 2024 national financial inclusion
+          survey, 85% of adults said cash is how they usually pay for anything
+          under MXN 500. At the same time, Mexico has a bank transfer system,
+          SPEI, that moves money between banks in seconds. In 2025, it carried
+          more than 7 billion transfers. Cards sit in the middle: about 11
+          billion card payments were made in Mexico in 2025, and only 28% of
+          them were with credit cards.
+        </p>
+        <p>
+          The result is a checkout with more options than in many other
+          markets. These are the ways Sofía might want to pay:
+        </p>
+
+        <figure class="cs-compare">
+          <figcaption>How shoppers pay online in Mexico</figcaption>
+          <div class="cs-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Method</th>
+                  <th scope="col">How it works</th>
+                  <th scope="col">What the store should know</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  methods.map((row) => (
+                    <tr>
+                      <th scope="row">{row.method}</th>
+                      <td>{row.how}</td>
+                      <td>{row.note}</td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        </figure>
+
+        <p>
+          A store that only accepts cards loses everyone who wants to pay in
+          cash or by transfer. A store that sells expensive items without
+          monthly payments loses many card customers too. In Mexico, a good
+          checkout needs most of these methods, and each one behaves
+          differently after the shopper clicks "Pay". I explain why so much of
+          Mexico still pays in cash, despite its fast transfer system, in
+          <a href="/journal/2026-11-03-mexico-built-the-rails-so-why-does-it-still-pay-in-cash/">Mexico built the rails. So why does it still pay in cash?</a>
+        </p>
+
+        <p class="cs-bridge">Accepting all of these methods used to mean several contracts with several companies. This is the problem Mercado Pago solves.</p>
+      </section>
+
+      <!-- 2. What -->
+      <section id="what" aria-labelledby="what-title">
+        <h2 id="what-title">What Mercado Pago is and where it came from</h2>
+        <p>
+          Mercado Pago is the payments and financial services company of
+          Mercado Libre, the largest online marketplace in Latin America. It
+          was not created for other stores. It was created to make strangers
+          trust each other.
+        </p>
+
+        <figure class="cs-facts" aria-labelledby="facts-title">
+          <figcaption id="facts-title">Mercado Pago: key facts</figcaption>
+          <dl>
+            {
+              facts.map((fact) => (
+                <div>
+                  <dt>{fact.label}</dt>
+                  <dd>{fact.value}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </figure>
+
+        <p>
+          In the early years of Mercado Libre, buying from a stranger had a
+          simple problem. Picture someone selling a used camera. If you pay
+          first, the seller might never ship it. If the seller ships first, you
+          might never pay. Mercado Pago solved this by standing in the middle.
+        </p>
+
+        <ol class="cs-timeline">
+          {
+            timeline.map((item) => (
+              <li>
+                <span class="cs-timeline-year">{item.year}</span>
+                <p>{item.text}</p>
+              </li>
+            ))
+          }
+        </ol>
+
+        <p>
+          Today, Mercado Pago has two sides, and this is what makes it
+          different from most payment companies.
+        </p>
+        <ul class="cs-plain-list">
+          <li>
+            <strong>For stores</strong>, it collects payments: online, with
+            small card readers called Point, with QR codes and with payment
+            links that can be sent by WhatsApp.
+          </li>
+          <li>
+            <strong>For people</strong>, it is an account. Sofía can keep a
+            balance in it, save her cards, get a debit or credit card, and
+            borrow.
+          </li>
+        </ul>
+        <p>
+          Most payment companies only work for the store. Mercado Pago works
+          for both sides of the payment at once. If Sofía already has a Mercado
+          Pago account, paying Daniel does not mean typing sixteen digits. It
+          means logging in and choosing what she has already saved. When both
+          Sofía and Daniel use Mercado Pago and she pays from her balance, the
+          money never leaves the company: one record goes down and another
+          goes up.
+        </p>
+
+        <p class="cs-bridge">Before we look at costs and risks, here are the terms that appear in every conversation about Mercado Pago.</p>
+      </section>
+
+      <!-- 3. Terms -->
+      <section id="terms" aria-labelledby="terms-title">
+        <h2 id="terms-title">Twelve terms, with examples</h2>
+        <dl class="cs-terms">
+          {
+            terms.map((item) => (
+              <div>
+                <dt>{item.term}</dt>
+                <dd>
+                  <p>{item.meaning}</p>
+                  <p class="cs-term-example"><span>Example</span>{item.example}</p>
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+
+        <p class="cs-bridge">With these terms in place, the first business question is simple: should a store in Mexico use Mercado Pago at all?</p>
+      </section>
+
+      <!-- 4. When -->
+      <section id="when" aria-labelledby="when-title">
+        <h2 id="when-title">When a store should use Mercado Pago</h2>
+        <div class="cs-point">
+          <h3><span class="cs-point-number">Strong fit</span> Mercado Pago is a strong choice when:</h3>
+          <ul class="cs-plain-list">
+            {fit.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+        <div class="cs-point">
+          <h3><span class="cs-point-number">Compare first</span> It is worth comparing other options when:</h3>
+          <ul class="cs-plain-list">
+            {compare.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+        <p>
+          The last point is my own view, not something Mercado Pago says. For
+          a small or medium store, Mercado Pago can be the whole checkout. For
+          a large retailer, it is usually one option among several, there
+          because so many shoppers already have a balance, saved cards or
+          credit inside it.
+        </p>
+
+        <p class="cs-bridge">For a store like Daniel's, the reasons to connect are clear. So are the risks.</p>
+      </section>
+
+      <!-- 5. Why and risks -->
+      <section id="why-risks" aria-labelledby="why-risks-title">
+        <h2 id="why-risks-title">Why stores connect to it, and the risks</h2>
+        <p>
+          Normally, to accept cards, a store signs a contract with a bank, an
+          <em>afiliación</em>. It means paperwork, sometimes a minimum amount of
+          sales and sometimes a monthly fee. Mercado Pago removes that step. It
+          already has the contracts with the card networks and the banks, and
+          Daniel's store becomes one of many small merchants under its
+          umbrella. Daniel opens an account, connects his store and starts
+          selling. The money from his sales arrives in his Mercado Pago
+          account, and from there he can send it to his bank.
+        </p>
+
+        <h3>Three reasons to connect</h3>
+        <ol class="cs-steps">
+          <li>
+            <h3>One connection, every method</h3>
+            <p>
+              Cards (including Carnet, Mexico's local card brand), interest-free
+              months, cash at OXXO and other stores, SPEI transfers, the
+              shopper's Mercado Pago balance and Mercado Pago's own credit
+              line.
+            </p>
+          </li>
+          <li>
+            <h3>Security handled by the provider</h3>
+            <p>
+              Mercado Pago runs the fraud checks and the extra identity step
+              called 3D Secure, the moment when Sofía's bank may ask her to
+              approve the payment in its app. It also has a team that reviews
+              payments that look risky.
+            </p>
+          </li>
+          <li>
+            <h3>A faster checkout for existing users</h3>
+            <p>
+              Shoppers with an account pay with what they have already saved.
+              Shoppers without an account can still pay as guests.
+            </p>
+          </li>
+        </ol>
+
+        <h3>Four risks to plan for</h3>
+        <div class="cs-point">
+          <h3><span class="cs-point-number">Risk 1</span> The price</h3>
+          <p>
+            Mercado Pago is easy to set up, but it is not the cheapest option.
+            A large store with its own bank contract can usually negotiate a
+            lower rate. The next section shows the real numbers.
+          </p>
+        </div>
+        <div class="cs-point">
+          <h3><span class="cs-point-number">Risk 2</span> Money that gets held</h3>
+          <p>
+            Imagine Sofía tells her bank: "I did not make this purchase." That
+            is a chargeback, and the bank takes the money back while it checks.
+            Mercado Pago then freezes the same amount in Daniel's account until
+            he proves he delivered the lamp. Mercado Pago says a hold like this
+            can last from a few days to several weeks, and in serious cases the
+            account itself can be suspended.
+          </p>
+        </div>
+        <div class="cs-point">
+          <h3><span class="cs-point-number">Risk 3</span> Depending on one company</h3>
+          <p>
+            If all of Daniel's payments go through one provider, any problem
+            with that account stops his sales. That is why larger stores often
+            connect two or three payment providers, and send each payment to
+            the one most likely to approve it.
+          </p>
+        </div>
+        <div class="cs-point">
+          <h3><span class="cs-point-number">Risk 4</span> The shopper's journey</h3>
+          <p>
+            In the simplest version, Sofía leaves Daniel's website, pays on a
+            Mercado Pago page and comes back. Every extra screen is a moment
+            when a shopper can give up. Shoppers who already have an account,
+            however, may finish faster there. The balance depends on how many
+            of your customers already use Mercado Pago.
+          </p>
+        </div>
+
+        <p class="cs-bridge">The first risk deserves numbers. Here is what Daniel actually keeps from Sofía's MXN 1,000 lamp.</p>
+      </section>
+
+      <!-- 6. Costs -->
+      <section id="costs" aria-labelledby="costs-title">
+        <h2 id="costs-title">What it really costs: four scenarios</h2>
+        <p>
+          All prices below are Mercado Pago's public prices for online sales in
+          Mexico, checked in November 2026. A 16% tax, IVA, is added to every
+          fee. All amounts are in Mexican pesos, and your own account may show
+          slightly different rates.
+        </p>
+
+        <div class="cs-point" id="scenario-1">
+          <h3><span class="cs-point-number">Scenario 1</span> Sofía pays at once, and Daniel chooses when he gets the money</h3>
+          <p>
+            With Mercado Pago, the price of a single payment depends on how
+            fast the store wants its money.
+          </p>
+          <figure class="cs-compare">
+            <figcaption>A MXN 1,000 sale paid in one go</figcaption>
+            <div class="cs-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Daniel receives the money</th>
+                    <th scope="col">Fee</th>
+                    <th scope="col">Fee + IVA (MXN)</th>
+                    <th scope="col">Daniel keeps (MXN)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    releaseCosts.map((row) => (
+                      <tr>
+                        <th scope="row">{row.when}</th>
+                        <td>{row.fee}</td>
+                        <td>{row.total}</td>
+                        <td>{row.keeps}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+            </div>
+          </figure>
+          <p>
+            Waiting a month instead of being paid immediately saves Daniel
+            about MXN 6 on every MXN 1,000. That sounds small. But imagine his
+            store sells MXN 200,000 a month online. Waiting 30 days saves him
+            about MXN 1,250 a month, or about MXN 15,000 a year (an
+            illustration). The question is real for every store: is having the
+            money today worth that much?
+          </p>
+          <p class="cs-bridge">Now Sofía wants to spread the payment over a year, using her bank credit card.</p>
+        </div>
+
+        <div class="cs-point" id="scenario-2">
+          <h3><span class="cs-point-number">Scenario 2</span> Sofía pays in interest-free months on a bank card</h3>
+          <p>
+            Sofía chooses 12 <em>meses sin intereses</em>. She pays MXN 83.33 a
+            month for a year: MXN 1,000 in total, with no interest. But
+            Mercado Pago pays Daniel without waiting for Sofía's monthly
+            payments, and that service has a price. With interest-free months,
+            the store pays it, as an extra fee on top of the normal one.
+          </p>
+          <figure class="cs-compare">
+            <figcaption>The same MXN 1,000 sale, with interest-free months (amounts in MXN)</figcaption>
+            <div class="cs-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Sofía pays in</th>
+                    <th scope="col">Extra fee</th>
+                    <th scope="col">Normal fee</th>
+                    <th scope="col">Extra fee amount</th>
+                    <th scope="col">IVA</th>
+                    <th scope="col">Total cost</th>
+                    <th scope="col">Daniel keeps</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    msiCosts.map((row) => (
+                      <tr>
+                        <th scope="row">{row.term}</th>
+                        <td>{row.extraRate}</td>
+                        <td>{row.normal}</td>
+                        <td>{row.extra}</td>
+                        <td>{row.iva}</td>
+                        <td>{row.total}</td>
+                        <td>{row.keeps}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+            </div>
+          </figure>
+          <p>
+            Twelve interest-free months cost Daniel about MXN 190 on a MXN
+            1,000 sale: almost one peso in every five. If his profit on the
+            lamp is 10%, an assumption, offering 12 months wipes it out
+            completely. That is why many stores offer long interest-free
+            periods only on expensive items, set a minimum amount, or include
+            the cost in the price.
+          </p>
+          <p>
+            Two notes on these rates. They are the surcharges Mercado Pago
+            publishes for interest-free months on its payment link page, and
+            the checkout dashboard shows its own rate for each term. In the
+            dashboard, the store also decides whether it absorbs the cost or
+            passes it to the shopper.
+          </p>
+          <p class="cs-bridge">But what if Sofía has no credit card at all?</p>
+        </div>
+
+        <div class="cs-point" id="scenario-3">
+          <h3><span class="cs-point-number">Scenario 3</span> Sofía uses Mercado Pago's credit line instead</h3>
+          <p>
+            Sofía has no credit card, but her Mercado Pago app offers her a
+            credit line. Mercado Pago calls this <em>meses sin tarjeta</em>,
+            months without a card.
+          </p>
+          <p>
+            For Daniel, this is simple. He pays only his normal fee and keeps
+            MXN 959.52, the same as if Sofía had paid at once. Mercado Pago pays
+            him the full amount, and Sofía pays Mercado Pago back over time.
+          </p>
+          <p>
+            This time, however, Sofía pays interest. Mercado Pago publishes an
+            average interest rate of 82.7% a year for this credit line, before
+            tax. Divided by 12, that is about 6.9% a month: every month, Sofía
+            pays about MXN 7 for every MXN 100 she still owes, plus 16% IVA on
+            that interest. Over 12 equal payments, the table looks like this:
+          </p>
+          <figure class="cs-compare">
+            <figcaption>12 monthly payments of MXN 132.66 at the average rate (amounts in MXN)</figcaption>
+            <div class="cs-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Month</th>
+                    <th scope="col">Owes at start</th>
+                    <th scope="col">Interest (6.89%)</th>
+                    <th scope="col">IVA on interest</th>
+                    <th scope="col">Pays off the lamp</th>
+                    <th scope="col">Owes at end</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    amortisation.map((row) => (
+                      <tr>
+                        <th scope="row">{row.month}</th>
+                        <td>{row.start}</td>
+                        <td>{row.interest}</td>
+                        <td>{row.iva}</td>
+                        <td>{row.principal}</td>
+                        <td>{row.end}</td>
+                      </tr>
+                    ))
+                  }
+                  <tr>
+                    <th scope="row"><strong>Total</strong></th>
+                    <td></td>
+                    <td><strong>510.24</strong></td>
+                    <td><strong>81.64</strong></td>
+                    <td><strong>1,000.00</strong></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </figure>
+          <p>
+            In total, Sofía pays MXN 1,591.87 for a MXN 1,000 lamp: MXN 510.24
+            of interest and MXN 81.64 of tax on that interest. The payment
+            never changes, but its content does. In the first month, only MXN
+            52.71 of her MXN 132.66 pays off the lamp; by the last month,
+            almost all of it does.
+          </p>
+          <p>
+            Three things to keep in mind. First, 82.7% is an average: some
+            people get lower rates and some higher ones, and the app shows the
+            exact amount before the shopper confirms. Second, the calculation
+            assumes 12 equal payments, made on time. Third, this price is
+            similar to other digital lenders in Mexico, but much higher than
+            the average bank credit card:
+          </p>
+          <figure class="cs-compare">
+            <figcaption>Total annual cost (CAT, before tax) of consumer credit in Mexico</figcaption>
+            <div class="cs-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">CAT</th>
+                    <th scope="col">Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    creditContext.map((row) => (
+                      <tr>
+                        <th scope="row">{row.product}</th>
+                        <td>{row.cat}</td>
+                        <td>{row.date}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+            </div>
+          </figure>
+          <p>
+            Higher prices for digital credit partly reflect who borrows: many
+            users have no credit history and would not get a bank card. Even
+            so, the difference matters for anyone deciding how to pay.
+          </p>
+          <p class="cs-bridge">Put the three ways of paying side by side, and the pattern becomes clear.</p>
+        </div>
+
+        <div class="cs-point" id="scenario-4">
+          <h3><span class="cs-point-number">Scenario 4</span> The same lamp, three ways</h3>
+          <figure class="cs-compare">
+            <figcaption>One MXN 1,000 lamp, three ways to pay (amounts in MXN)</figcaption>
+            <div class="cs-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">How Sofía pays</th>
+                    <th scope="col">Daniel keeps</th>
+                    <th scope="col">Sofía pays in total</th>
+                    <th scope="col">Who pays for the wait</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    threeWays.map((row) => (
+                      <tr>
+                        <th scope="row">{row.how}</th>
+                        <td>{row.keeps}</td>
+                        <td>{row.pays}</td>
+                        <td>{row.who}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+            </div>
+          </figure>
+          <p class="cs-takeaway">
+            The same lamp, sold in 12 months, can cost the store MXN 190 or
+            cost the shopper almost MXN 600. Someone always pays for the wait,
+            and Mercado Pago earns in every column.
+          </p>
+        </div>
+
+        <p class="cs-bridge">That last observation leads to a bigger question: where does Mercado Pago actually make its money?</p>
+      </section>
+
+      <!-- 7. Business model -->
+      <section id="business" aria-labelledby="business-title">
+        <h2 id="business-title">Where Mercado Pago makes its money</h2>
+        <p>
+          Mercado Libre's annual report for 2025 shows the company's revenue in
+          five lines. The fintech business, Mercado Pago, brought in US$12.6
+          billion, 44% of the total, and grew 46% in the year.
+        </p>
+        <figure class="cs-compare">
+          <figcaption>Mercado Libre revenue by line, 2025 (US$ millions)</figcaption>
+          <div class="cs-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Line</th>
+                  <th scope="col">What it includes</th>
+                  <th scope="col">Revenue</th>
+                  <th scope="col">Share</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  revenue2025.map((row) => (
+                    <tr>
+                      <th scope="row">{row.line}</th>
+                      <td>{row.what}</td>
+                      <td>{row.amount}</td>
+                      <td>{row.share}</td>
+                    </tr>
+                  ))
+                }
+                <tr>
+                  <th scope="row"><strong>Total</strong></th>
+                  <td></td>
+                  <td><strong>28,893</strong></td>
+                  <td><strong>100%</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </figure>
+
+        <h3>How much comes from checkout?</h3>
+        <p>
+          The report does not say. Payment fees are split across two places,
+          and neither is shown separately:
+        </p>
+        <ul class="cs-plain-list">
+          <li>
+            <strong>Payments on the Mercado Libre marketplace</strong> count as
+            commerce revenue: the report says the marketplace's final value
+            fees include the use of the payment solution.
+          </li>
+          <li>
+            <strong>Payments at other stores</strong> (online checkout, card
+            readers and QR codes) are part of "financial services and income",
+            together with interest on cash and investments, installments and
+            insurance.
+          </li>
+        </ul>
+        <p>
+          What the report does show is volume: Mercado Pago processed US$188.1
+          billion in payments for merchants in 2025, on and off the
+          marketplace. How much of that it kept as revenue is not disclosed.
+        </p>
+
+        <h3>In Mexico, credit is already the larger business</h3>
+        <figure class="cs-compare">
+          <figcaption>Mercado Pago revenue in Mexico, 2025 (US$ millions)</figcaption>
+          <div class="cs-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Line</th>
+                  <th scope="col">Revenue</th>
+                  <th scope="col">Share</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  mexicoFintech.map((row) => (
+                    <tr>
+                      <th scope="row">{row.line}</th>
+                      <td>{row.amount}</td>
+                      <td>{row.share}</td>
+                    </tr>
+                  ))
+                }
+                <tr>
+                  <th scope="row"><strong>Total</strong></th>
+                  <td><strong>2,290</strong></td>
+                  <td><strong>100%</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </figure>
+        <p>
+          In Mexico, Mercado Pago already earns more from lending than from
+          payments. Credit also has a cost. Across the company, the provision
+          for doubtful accounts, the money set aside for loans that may not be
+          repaid, was US$3,091 million in 2025, compared with US$5,858 million
+          of credit revenue. About 53 cents of every dollar earned from credit
+          was set aside for expected losses.
+        </p>
+
+        <h3>Profit is reported by country, not by product</h3>
+        <p>
+          Mercado Libre does not report the profit of checkout, credit or the
+          marketplace separately. Management judges each country by its
+          "direct contribution": revenue minus the country's direct costs,
+          before head-office costs. The report explains that this view
+          considers all business lines in a country as a whole.
+        </p>
+        <figure class="cs-compare">
+          <figcaption>Direct contribution by country, 2025 (US$ millions)</figcaption>
+          <div class="cs-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Country</th>
+                  <th scope="col">Revenue</th>
+                  <th scope="col">Direct contribution</th>
+                  <th scope="col">Margin</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  contribution.map((row) => (
+                    <tr>
+                      <th scope="row">{row.country}</th>
+                      <td>{row.revenue}</td>
+                      <td>{row.contribution}</td>
+                      <td>{row.margin}</td>
+                    </tr>
+                  ))
+                }
+                <tr>
+                  <th scope="row"><strong>Total</strong></th>
+                  <td><strong>28,893</strong></td>
+                  <td><strong>5,903</strong></td>
+                  <td><strong>20.4%</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </figure>
+        <p>
+          After head-office costs, income from operations was US$3.2 billion
+          in 2025, an 11.1% margin.
+        </p>
+        <p class="cs-takeaway">
+          My reading: Mercado Pago does not need checkout to be very
+          profitable on its own. Checkout brings shoppers and merchants into
+          the system. Once inside, they keep balances, borrow and buy on the
+          marketplace. Payments bring people in; credit is where much of the
+          money is made.
+        </p>
+
+        <p class="cs-bridge">For a store that decides to use Mercado Pago, the next question is practical: how much work is the integration?</p>
+      </section>
+
+      <!-- 8. Integration -->
+      <section id="integration" aria-labelledby="integration-title">
+        <h2 id="integration-title">How to connect a store: the options</h2>
+        <p>
+          There are four ways to connect a store to Mercado Pago. They go from
+          no code at all to building everything yourself. The more you build,
+          the more control you have over the experience, and the more work it
+          takes.
+        </p>
+        <figure class="cs-compare">
+          <figcaption>Four ways to connect a store to Mercado Pago</figcaption>
+          <div class="cs-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Option</th>
+                  <th scope="col">Where the shopper pays</th>
+                  <th scope="col">Effort</th>
+                  <th scope="col">Control</th>
+                  <th scope="col">Best for</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  options.map((row) => (
+                    <tr>
+                      <th scope="row">{row.name}</th>
+                      <td>{row.where}</td>
+                      <td>{row.effort}</td>
+                      <td>{row.control}</td>
+                      <td>{row.bestFor}</td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        </figure>
+
+        <div class="cs-point">
+          <h3><span class="cs-point-number">Option 1</span> Payment link or plugin</h3>
+          <p>
+            Daniel can create a payment link in his account and send it by
+            WhatsApp. If his store runs on Shopify, WooCommerce, Tiendanube or
+            VTEX, he installs Mercado Pago's plugin and enters his account
+            credentials. The checkout looks the way Mercado Pago designed it.
+          </p>
+        </div>
+        <div class="cs-point">
+          <h3><span class="cs-point-number">Option 2</span> Checkout Pro</h3>
+          <p>
+            For a store with its own website and a developer. Sofía goes to a
+            Mercado Pago payment page and comes back. Mercado Pago runs the
+            payment page; the developer connects four building blocks, which
+            matter for every option.
+          </p>
+          <ol class="cs-steps">
+            {
+              buildingBlocks.map((block) => (
+                <li>
+                  <h3>{block.title}</h3>
+                  <p>{block.text}</p>
+                </li>
+              ))
+            }
+          </ol>
+          <figure class="cs-code">
+            <figcaption>The order Daniel's server sends to Mercado Pago</figcaption>
+            <pre><code>{codePreference}</code></pre>
+          </figure>
+          <p>
+            Two details matter. The <code>external_reference</code> is the
+            store's own order number, so every notification can be matched to
+            the right order. And the <code>notification_url</code> is where
+            Mercado Pago sends the webhook. Never ship because a shopper
+            reached the "thank you" page; wait for the webhook and check the
+            status.
+          </p>
+        </div>
+        <div class="cs-point">
+          <h3><span class="cs-point-number">Option 3</span> Checkout Bricks</h3>
+          <p>
+            Ready-made components, such as a card form, a list of payment
+            methods or a payment status screen, placed on the store's own
+            pages. Sofía never leaves Daniel's site. It is more work than
+            Checkout Pro, but much less than building everything.
+          </p>
+        </div>
+        <div class="cs-point">
+          <h3><span class="cs-point-number">Option 4</span> Checkout API</h3>
+          <p>
+            Daniel's team builds every screen. When Sofía types her card
+            number, Mercado Pago's code in her browser turns it into a token,
+            so the real number never reaches Daniel's server. That keeps the
+            store out of most of the strict card-security requirements. Cash
+            methods work differently: through the Checkout API, the store can
+            offer OXXO, Paycash, Banamex and BBVA Bancomer, and the payment
+            stays pending, with an expiry date, until Sofía pays.
+          </p>
+        </div>
+
+        <h3>Five decisions that matter more than the code</h3>
+        <p>For product managers and business teams, these decisions shape the result more than the choice of integration.</p>
+        <ol class="cs-steps">
+          {
+            decisions.map((decision) => (
+              <li>
+                <h3>{decision.title}</h3>
+                <p>{decision.text}</p>
+              </li>
+            ))
+          }
+        </ol>
+
+        <p class="cs-bridge">With the costs, the risks and the effort on the table, we can return to the original question.</p>
+      </section>
+
+      <!-- 9. Conclusions -->
+      <section id="conclusions" aria-labelledby="conclusions-title">
+        <h2 id="conclusions-title">Conclusions</h2>
+        <p>
+          Mercado Pago is not just a "Pay" button. It is one account that
+          works on both sides of a payment. For Daniel, it is a cash register
+          that takes almost every way Mexicans pay online. For Sofía, it is
+          where her balance, her cards and her credit are already saved.
+        </p>
+        <p>
+          For a small or medium store in Mexico, it can be the whole checkout:
+          fast to set up, with every major payment method, at a price that
+          depends on how quickly the store wants its money. For a large store,
+          it is usually one option among several, and the risks of holds,
+          dependence and price deserve a plan.
+        </p>
+        <p>
+          Every way of paying has a price, and someone always pays it. With a
+          single payment, the store pays a fee, and the faster it wants its
+          money, the more it pays. With interest-free months, the store pays
+          for the wait. With Mercado Pago's credit line, the shopper pays for
+          the wait.
+        </p>
+        <p class="cs-takeaway">
+          Next time you see "pay in 12 months" at a Mexican checkout, ask one
+          question: who is paying for the wait, the store or the shopper?
+        </p>
+        <p class="cs-bridge">These are the questions that merchants and shoppers ask most often.</p>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq" class="cs-faq" aria-labelledby="faq-title">
+        <h2 id="faq-title">What people ask about Mercado Pago</h2>
+        {
+          faqs.map((faq) => (
+            <details>
+              <summary>{faq.question}</summary>
+              <p>{faq.answer}</p>
+            </details>
+          ))
+        }
+      </section>
+
+      <section class="cs-topics" aria-labelledby="topics-title">
+        <h2 id="topics-title">Topics</h2>
+        <ul class="cs-item-tags">
+          {guide.tags.map((tag) => <li>{tag}</li>)}
+        </ul>
+      </section>
+
+      <section class="cs-contact" aria-label="Contact">
+        <p>
+          Are you choosing a payment setup for Mexico, or trying to understand
+          what your checkout really costs? I can help your team compare the
+          options, read the numbers and plan the integration.
+        </p>
+        <div class="cs-closing-links">
+          <a href={emailHref}>matteo.visibility@gmail.com</a>
+          <a href="/payment-solutions/guides/adyen-vs-checkout-com-vs-dlocal/">Next guide: Adyen vs Checkout.com vs dLocal →</a>
+        </div>
+      </section>
+
+      <section class="cs-sources" aria-labelledby="sources-title">
+        <h2 id="sources-title">Sources</h2>
+        <ol>
+          {
+            sources.map((source) => (
+              <li>
+                <a href={source.url} target="_blank" rel="noopener noreferrer">{source.name}</a>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <a class="cs-back" href="/payment-solutions/case-studies/">← All case studies and guides</a>
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
