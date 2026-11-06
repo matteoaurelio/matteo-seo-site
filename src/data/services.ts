@@ -7,7 +7,8 @@
  * - Every sentence is a full sentence in international (British) English.
  * - Every number is a real result or a count of published work. Client
  *   names, markets and figures stay anonymous unless already public.
- * - Quotes are copied verbatim from src/data/achievements.ts.
+ * - Quotes are copied verbatim from src/data/achievements.ts. Use " […] "
+ *   to join two verbatim passages; the service page checks this at build time.
  */
 
 export type ServiceSlug =
@@ -574,8 +575,8 @@ export const services: Service[] = [
     firstDeliverable:
       "The first deliverable is a market and pipeline brief: the segments to target, the first companies to approach and the message for each.",
     quote: {
-      recommendationId: "oscar-flores",
-      text: "What sets Matteo apart is his diagnostic ability and communication. He breaks up a messy problem into its key parts and explain it so everyone understands the issue and its impact.",
+      recommendationId: "stefanie-behrendt",
+      text: "Matteo helped us rebuild the WeGoZero website, turning a jungle of disconnected messages into a focused site that actually helps us convert clients. […] I'd recommend Matteo to anyone who wants to scale an impact business.",
     },
     evidence: [
       { type: "Field note", title: "Making Complex Business Problems Simpler: My Collaboration with WeGoZero", href: "/journal/2026-10-29-making-complex-business-problems-simpler-my-collaboration-with-wegozero/" },

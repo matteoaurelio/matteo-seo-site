@@ -35,6 +35,13 @@ const url = `${site}${service.path}`;
 const email = "matteo.visibility@gmail.com";
 
 const recommender = recommendations.find((item) => item.id === service.quote.recommendationId);
+// Fail the build if a quote is not copied exactly ("[…]" may join two passages).
+if (!recommender) throw new Error(`Unknown recommendation for the ${service.slug} quote.`);
+for (const part of service.quote.text.split(" […] ")) {
+  if (!recommender.quote.includes(part)) {
+    throw new Error(`The ${service.slug} quote is not an exact excerpt of ${recommender.name}'s recommendation.`);
+  }
+}
 const otherServices = getServices(lang).filter((item) => item.slug !== service.slug);
 const engagementFormats = engagementFormatsByLang[lang];
 
