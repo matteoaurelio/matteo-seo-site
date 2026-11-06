@@ -6,6 +6,15 @@
 import type { RecommendationTranslation } from "./recommendationsI18n";
 
 export const recommendationsEs: Record<string, RecommendationTranslation> = {
+  "stefanie-behrendt": {
+    quote: `Matteo nos ayudó a rehacer la web de WeGoZero y convirtió una maraña de mensajes inconexos en un sitio centrado que de verdad nos ayuda a convertir clientes.
+
+Pero su impacto fue más allá de la web. A través de los elementos visuales y los mensajes, aportó una claridad real a nuestra propuesta de valor, lo que ha mejorado la forma en que hablamos de nuestro trabajo en todas partes.
+
+Matteo tiene una combinación poco común: es técnicamente muy sólido y rápido en la entrega, pero también escucha de verdad, entiende lo que necesitas y lo pone en práctica. Es fiable y es muy fácil hablar con él, algo que no siempre ocurre con los perfiles técnicos. Sobre todo, le mueven unos valores que coinciden con los nuestros como empresa circular, y eso se nota en el cuidado que pone en su trabajo. Recomendaría a Matteo a cualquiera que quiera hacer crecer un negocio de impacto.`,
+    highlight:
+      "Matteo nos ayudó a rehacer la web de WeGoZero y convirtió una maraña de mensajes inconexos en un sitio centrado que de verdad nos ayuda a convertir clientes.",
+  },
   "oscar-flores": {
     quote: `Trabajé de cerca con Matteo en nuestra cuenta de cliente más exigente y lo recomiendo sin dudarlo. Matteo es la persona que quieres tener en los problemas que nadie ha logrado resolver todavía.
 

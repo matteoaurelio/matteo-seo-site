@@ -34,6 +34,7 @@ const relationships: Record<Exclude<Lang, "en">, Record<string, string>> = {
       "Ocupaba un puesto superior, sin supervisar directamente a Matteo",
     "Professional recommendation": "Recomendación profesional",
     "Worked with Matteo": "Trabajó con Matteo",
+    "Was Matteo's client": "Fue cliente de Matteo",
   },
   nl: {
     "Worked with Matteo on the same team": "Werkte met Matteo in hetzelfde team",
@@ -46,6 +47,7 @@ const relationships: Record<Exclude<Lang, "en">, Record<string, string>> = {
       "Had een hogere functie, zonder Matteo direct aan te sturen",
     "Professional recommendation": "Professionele aanbeveling",
     "Worked with Matteo": "Werkte met Matteo",
+    "Was Matteo's client": "Was klant van Matteo",
   },
 };
 
@@ -201,7 +203,7 @@ export const recommendationsUi: Record<Lang, RecommendationsUi> = {
   en: {
     title: "Recommendations, Experience & Education | Matteo Arellano",
     description:
-      "18 recommendations for Matteo Arellano from colleagues and partners in growth marketing, payments, product, data engineering and finance, published in full, plus reference letters, outcomes, experience and education.",
+      "19 recommendations for Matteo Arellano from colleagues and partners in growth marketing, payments, product, data engineering and finance, published in full, plus reference letters, outcomes, experience and education.",
     kicker: "Recommendations",
     h1: "Recommendations from the people I have worked with.",
     lede: (n) =>
@@ -233,7 +235,7 @@ export const recommendationsUi: Record<Lang, RecommendationsUi> = {
   es: {
     title: "Recomendaciones de colegas y socios | Matteo Arellano",
     description:
-      "18 recomendaciones para Matteo Arellano de colegas y socios en growth marketing, pagos, producto, ingeniería de datos y finanzas, traducidas del inglés y publicadas íntegras.",
+      "19 recomendaciones para Matteo Arellano de colegas y socios en growth marketing, pagos, producto, ingeniería de datos y finanzas, traducidas del inglés y publicadas íntegras.",
     kicker: "Recomendaciones",
     h1: "Recomendaciones de las personas con las que he trabajado.",
     lede: (n) =>
@@ -278,7 +280,7 @@ export const recommendationsUi: Record<Lang, RecommendationsUi> = {
   nl: {
     title: "Aanbevelingen van collega's en partners | Matteo Arellano",
     description:
-      "18 aanbevelingen voor Matteo Arellano van collega's en partners in growth marketing, betalingen, product, data engineering en finance, vertaald uit het Engels en volledig gepubliceerd.",
+      "19 aanbevelingen voor Matteo Arellano van collega's en partners in growth marketing, betalingen, product, data engineering en finance, vertaald uit het Engels en volledig gepubliceerd.",
     kicker: "Aanbevelingen",
     h1: "Aanbevelingen van de mensen met wie ik heb gewerkt.",
     lede: (n) =>

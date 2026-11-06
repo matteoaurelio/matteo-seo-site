@@ -93,6 +93,23 @@ I look forward to collaborating with him further at Distribusion, and I am confi
     organisation: "Distribusion Technologies",
   },
   {
+    id: "stefanie-behrendt",
+    name: "Stefanie Behrendt",
+    headline: "Co-Founder & CEO @ WeGoZero | Turning Waste into Value",
+    date: "6 November 2026",
+    relationship: "Was Matteo's client",
+    source: "LinkedIn",
+    organisation: "WeGoZero",
+    quote: `Matteo helped us rebuild the WeGoZero website, turning a jungle of disconnected messages into a focused site that actually helps us convert clients.
+
+But his impact went beyond the website. Through visuals and messaging, he brought real clarity to our value proposition, which has sharpened how we talk about our work everywhere.
+
+Matteo has a rare combination: he's technically very strong and quick to deliver, yet he also truly listens, understands what you need, and puts it into practice. He's reliable and very easy to talk to, which isn't always a given with tech people. Above all, he's driven by values that align with ours as a circular business, and that shows in the care he puts into his work. I'd recommend Matteo to anyone who wants to scale an impact business.`,
+    highlight:
+      "Matteo helped us rebuild the WeGoZero website, turning a jungle of disconnected messages into a focused site that actually helps us convert clients.",
+    areas: ["growth", "product", "partners"],
+  },
+  {
     id: "abhishek-agarwal",
     name: "Abhishek Agarwal",
     headline:

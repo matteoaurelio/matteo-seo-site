@@ -6,6 +6,15 @@
 import type { RecommendationTranslation } from "./recommendationsI18n";
 
 export const recommendationsNl: Record<string, RecommendationTranslation> = {
+  "stefanie-behrendt": {
+    quote: `Matteo hielp ons de website van WeGoZero opnieuw op te bouwen en maakte van een wirwar aan losse boodschappen een gerichte site die ons echt helpt klanten binnen te halen.
+
+Maar zijn impact ging verder dan de website. Met beeld en boodschap bracht hij echte helderheid in onze waardepropositie, waardoor we overal scherper over ons werk vertellen.
+
+Matteo heeft een zeldzame combinatie: hij is technisch heel sterk en levert snel, maar hij luistert ook echt, begrijpt wat je nodig hebt en brengt het in de praktijk. Hij is betrouwbaar en je praat heel makkelijk met hem, wat bij techmensen niet altijd vanzelfsprekend is. Bovenal wordt hij gedreven door waarden die aansluiten bij die van ons als circulair bedrijf, en dat zie je terug in de zorg die hij in zijn werk legt. Ik zou Matteo aanraden aan iedereen die een impactbedrijf wil laten groeien.`,
+    highlight:
+      "Matteo hielp ons de website van WeGoZero opnieuw op te bouwen en maakte van een wirwar aan losse boodschappen een gerichte site die ons echt helpt klanten binnen te halen.",
+  },
   "oscar-flores": {
     quote: `Ik heb nauw met Matteo samengewerkt aan ons meest veeleisende klantaccount, en ik beveel hem zonder aarzeling aan. Matteo is degene die je wilt hebben bij de problemen die nog niemand heeft weten op te lossen.
 
